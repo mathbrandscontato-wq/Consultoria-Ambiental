@@ -1,3 +1,4 @@
+import { renderHeroA } from "./hero-a.mjs";
 import { project, routes, routeHref } from "../site.mjs";
 
 export const escapeHtml = (input) => String(input).replace(/[&<>"']/g, (char) => ({
@@ -28,7 +29,7 @@ export const renderPage = (route) => {
   if (!routes.some((r) => r.slug === route.slug)) throw new Error("Rota não prevista");
   const prefix = route.slug ? "../" : "./";
   const pageTitle = route.slug ? `${route.label} | ${project.name}` : project.name;
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="${project.locale}">
 <head>
   <meta charset="utf-8">
@@ -39,6 +40,8 @@ export const renderPage = (route) => {
   <title>${escapeHtml(pageTitle)}</title>
   <link rel="stylesheet" href="${prefix}styles/tokens.css">
   <link rel="stylesheet" href="${prefix}styles/base.css">
+  <link rel="stylesheet" href="${prefix}styles/hero-a.css">
+  ${route.slug ? "" : '<script type="module" src="./scripts/mobile-menu.mjs"></script>'}
 </head>
 <body data-stage="pr-01-foundation">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -49,10 +52,12 @@ export const renderPage = (route) => {
       <a class="cta" href="${prefix}contato/">${escapeHtml(project.cta)}</a>
     </div>
   </header>
-  ${main(route)}
+  ${route.slug ? main(route) : renderHeroA()}
   <footer class="site-footer">
     <div class="site-footer__inner"><span>${escapeHtml(project.name)}</span><small>Fundação técnica sem publicação · Layout não homologado</small></div>
   </footer>
 </body>
 </html>\n`;
+  // Na Home o cabeçalho aprovado está integrado ao Hero A.
+  return route.slug ? html : html.replace(/<header class="site-header">[\s\S]*?<\/header>/, "");
 };
