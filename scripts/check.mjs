@@ -17,7 +17,13 @@ for (const route of routes) {
   assert.ok(html.includes('href="' + prefix + 'styles/tokens.css"'));
   assert.ok(html.includes('href="' + prefix + 'styles/base.css"'));
   assert.ok(html.includes('href="' + prefix + 'contato/"'));
-  assert.ok(!/<form\b|<script\b|type="submit"|enviado com sucesso/gi.test(html), "Não deve haver envio falso");
+  assert.ok(!/<form\b|type="submit"|enviado com sucesso/gi.test(html), "Não deve haver envio falso");
+  if (!route.slug) {
+    assert.match(html, /data-design="G2V5-HERO-A"/);
+    assert.match(html, /hero-a\.css/);
+    assert.match(html, /mobile-menu\.mjs/);
+    assert.match(html, /ÁREA FOTOGRÁFICA PENDENTE/);
+  }
   for (const target of routes) {
     const link = prefix + (target.slug ? target.slug + "/" : "");
     assert.ok(html.includes('href="' + link + '"'), `Falta link para ${target.slug || "home"}`);
