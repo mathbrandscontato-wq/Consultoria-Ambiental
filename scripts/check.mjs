@@ -1,0 +1,30 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { routes } from "../src/site.mjs";
+const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+for (const route of routes) {
+  const prefix = route.slug ? "../" : "./";
+  const path = join(root, "dist", route.slug, "index.html");
+  const html = await readFile(path, "utf8");
+  assert.match(html, /<html lang="pt-BR">/);
+  assert.match(html, /<meta name="viewport"/);
+  assert.match(html, /<meta name="robots" content="noindex,nofollow"/);
+  assert.match(html, /<a class="skip-link" href="#conteudo">/);
+  assert.match(html, /<main id="conteudo" tabindex="-1">/);
+  assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
+  assert.ok(html.includes('href="' + prefix + 'styles/tokens.css"'));
+  assert.ok(html.includes('href="' + prefix + 'styles/base.css"'));
+  assert.ok(html.includes('href="' + prefix + 'contato/"'));
+  assert.ok(!/<form\b|<script\b|type="submit"|enviado com sucesso/gi.test(html), "Não deve haver envio falso");
+  for (const target of routes) {
+    const link = prefix + (target.slug ? target.slug + "/" : "");
+    assert.ok(html.includes('href="' + link + '"'), `Falta link para ${target.slug || "home"}`);
+  }
+}
+const css = await readFile(join(root, "dist/styles/base.css"), "utf8");
+assert.match(css, /prefers-reduced-motion/);
+assert.match(css, /focus-visible/);
+assert.match(css, /max-width: 48rem/);
+console.info(`Inspeção estática OK: ${routes.length} rotas, links, HTML acessível básico e sem envio simulado.`);

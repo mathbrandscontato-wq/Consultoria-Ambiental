@@ -1,0 +1,34 @@
+/* Apenas estrutura técnica. O Hero A real não é representado neste CSS. */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--color-text); background: var(--color-surface); font-family: var(--font-interface); line-height: 1.6; }
+a { color: inherit; text-underline-offset: 0.18em; }
+a:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 4px; }
+.skip-link { position: absolute; top: -10rem; left: 1rem; background: white; color: #111; padding: .7rem; z-index: 20; }
+.skip-link:focus { top: 1rem; }
+.site-header { background: var(--color-primary); color: var(--color-on-primary); }
+.site-header__inner, .site-footer__inner { max-width: var(--content-max); margin-inline: auto; padding: 1rem var(--space-layout); }
+.site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; }
+.brand-placeholder { font-weight: 750; text-decoration: none; letter-spacing: .01em; }
+.brand-placeholder span { display: block; font-size: .7em; font-weight: 400; }
+.site-nav { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; padding: 0; margin: 0; }
+.site-nav a { text-decoration: none; display: inline-block; min-height: 2.75rem; padding-block: .55rem; }
+.site-nav a[aria-current="page"] { text-decoration: underline; }
+.cta { display: inline-flex; align-items: center; justify-content: center; text-align: center; background: var(--color-on-primary); color: var(--color-primary); border-radius: .15rem; padding: .55rem 1rem; min-height: 2.75rem; font-weight: 600; text-decoration: none; }
+main { min-height: 55vh; }
+.foundation-slot { padding: clamp(3rem, 9vw, 6rem) var(--space-layout); }
+.foundation-slot__content { max-width: min(var(--content-max), 65ch); margin-inline: auto; overflow-wrap: anywhere; }
+.foundation-slot__eyebrow { text-transform: uppercase; font-size: .8rem; letter-spacing: .06em; }
+.foundation-slot h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.15; text-wrap: balance; }
+.foundation-slot__notice { padding: .75rem 1rem; border-inline-start: .2rem solid var(--color-secondary); background: white; }
+.site-footer { border-top: 1px solid #ccc; }
+.site-footer__inner { display: flex; flex-wrap: wrap; gap: .25rem 2rem; justify-content: space-between; }
+.site-footer small { opacity: .8; }
+@media (max-width: 48rem) {
+  .site-header__inner { align-items: start; flex-direction: column; }
+  .site-nav { gap: .2rem 1rem; }
+  .foundation-slot { padding-block: 3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

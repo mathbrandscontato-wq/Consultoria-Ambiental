@@ -1,0 +1,34 @@
+name: PR Validation (no deploy)
+
+on:
+  pull_request:
+    branches: [main, docs/pr-00-consolidacao-g4]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-foundation:
+    name: Lint, build, tests and static checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax checks
+        run: npm run lint
+      - name: Static export
+        run: npm run build
+      - name: Tests
+        run: npm test
+      - name: Accessibility and route invariants
+        run: npm run check
+      # Deliberadamente sem upload ou publicação de dist/.
