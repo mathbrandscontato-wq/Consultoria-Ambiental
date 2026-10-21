@@ -14,7 +14,7 @@ export function renderHeroA() {
     '<main id="conteudo" tabindex="-1">',
     '<section class="ha" data-design="G2V5-HERO-A" aria-labelledby="titulo-pagina">',
     '<header class="ha-header">',
-      '<a class="ha-logo" data-status="logo-oficial-nao-publicado" href="./" aria-label="Ykeizumi Consultoria Ambiental, início">',
+      '<a class="ha-logo" data-status="logo-oficial-nao-publicado" href="./" aria-current="page" aria-label="Ykeizumi Consultoria Ambiental, início">',
         '<span class="ha-symbol" aria-hidden="true">YK</span><span class="ha-wordmark" aria-hidden="true">Y K E I Z U M I<small>CONSULTORIA AMBIENTAL</small></span>',
       '</a>',
       '<nav class="ha-nav" aria-label="Navegação principal"><a href="./servicos/">Serviços</a><a href="./sobre/">Sobre</a><a href="./contato/">Contato</a>',
