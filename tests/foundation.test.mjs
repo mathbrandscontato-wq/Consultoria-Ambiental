@@ -12,7 +12,7 @@ test("rotas internas únicas e restritas ao escopo", () => {
   assert.equal(new Set(routes.map((r) => r.slug)).size, routes.length);
 });
 test("escapamento de conteúdo e navegação com página atual", () => {
-  assert.equal(escapeHtml(`<teste a="&">'\`), "&lt;teste a=&quot;&amp;&quot;&gt;&#39;");
+  assert.equal(escapeHtml(`<teste a="&">'`), "&lt;teste a=&quot;&amp;&quot;&gt;&#39;");
   for (const route of routes) {
     const html = renderPage(route);
     assert.match(html, /aria-current="page"/);
