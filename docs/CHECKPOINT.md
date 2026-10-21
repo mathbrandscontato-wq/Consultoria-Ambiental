@@ -1,5 +1,5 @@
 # CHECKPOINT | Ykeizumi
-Atualizado em: 2026-10-21. Fase: **G4 vinculada ao G2 V5; PR-01 CI aprovada; preparação de PR-02 em andamento, sem deploy**.
+Atualizado em: 2026-10-21. Fase: **G5 / PR-02 implementação inicial Hero A em draft, CI aprovada, QA visual pendente**.
 
 ## Estado verificado
 - GitHub correto: `mathbrandscontato-wq/Consultoria-Ambiental`. Repositório público e originalmente vazio; `main` inicializada somente com README de operação.
@@ -24,3 +24,11 @@ Atualizado em: 2026-10-21. Fase: **G4 vinculada ao G2 V5; PR-01 CI aprovada; pre
 ZIP consolidado: teste de integridade + manifesto 84/84 (PASS).
 Correção: SHA-256 igual ao adendo do consolidado (PASS).
 QA de UI, testes de build/CI e responsividade: **NÃO EXECUTADOS** (sem aplicação).
+
+## PR-02 (21/10/2026)
+- Branch `feat/pr-02-hero-a-visual`, base `feat/pr-01-fundacao-estatica`.
+- Implementação inicial Home H02 Hero A, topo conceitual, CTA e menu responsivo; demais rotas continuam scaffold.
+- [GitHub Actions #39688934366](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/39688934366): sucesso no SHA `a3717e2a116db8b38f3518bb02b996d910ac26b9`: 7/7 testes, lint/build/check PASS. Confirmar nova CI para o head final após edição documental.
+- G2 V5 e handoff **PRESENTES** e rastreados por hash; status antigos "ausente" referem-se a revisões históricas.
+- Pendências: verificação visual 1440/390/768/360; autorização assets da marca em repo público; fonte Inter local; foto com licença; texto Vic; design completo Sobre/Contato; backend.
+- Publicação explicitamente não autorizada; nenhuma configuração de hospedagem ou DNS.
