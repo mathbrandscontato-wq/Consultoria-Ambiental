@@ -2,8 +2,8 @@
 
 | ID | Pendência | Responsável | Gate |
 | --- | --- | --- | --- |
-| P01 | Localizar/inspecionar pacote original `Ykeizumi_G2_V5_Pacote_Completo.zip`, com pranchas Hero A/Home/Serviços e hashes | Math Brands | PR-00 completo / PR-02 |
-| P02 | Localizar handoff original Codex e reconciliar matriz, medidas e QA sem substituição silenciosa | Math Brands | PR-00 completo / PR-02 |
+| P01 | **CONCLUÍDO EM 21/10:** G2 V5 localizado no handoff, 50/50 hashes corretos, Hero A 1440/390/768/360 vinculado | Math Brands | PR-00 |
+| P02 | **CONCLUÍDO EM 21/10:** Handoff original localizado, 23/23 hashes corretos; decisões 21/10 prevalecem sobre os estados históricos do documento de 19/10 | Math Brands | PR-00 |
 | P03 | Validar ADR-001 provisória antes de escrever fundação técnica | Matheus / engenharia | PR-01 |
 | P04 | Autorizar privacidade/armazenamento de assets internos, pois repo atual é público | Matheus / Vic | importação de assets |
 | P05 | Confirmar dados oficiais, conteúdo institucional e claims profissionais com Vic | Vic | UI editorial / publicação |
@@ -16,10 +16,10 @@
 | P12 | Autorizar publicação em etapa própria, jamais derivar autorização de merge | Vic / Matheus | produção |
 
 ## Critérios de saída
-**PR-00:** inventário das fontes, hashes, decisão Hero A + Inter, pendências, ADR proposta e checkpoint versionados. Estado documental **parcial** enquanto P01/P02 abertos.
+**PR-00:** inventário das fontes, hashes, decisão Hero A + Inter, pendências, ADR proposta e checkpoint versionados. **P01 e P02 concluídos**, referências agora vinculadas por caminho e hash; revisão editorial, fotografia e desenho de Sobre/Contato ainda pendentes.
 
 **PR-01:** autorização da ADR-001 documentada; depois scaffold, tokens e componentes comparáveis, testes e CI. Nada iniciado neste ciclo.
 
-**PR-02:** PR-01 aceito e fonte G2 V5 real vinculada por nome/hash à rota e ao viewport; screenshots lado a lado, QA executado com evidências, correções de fidelidade.
+**PR-02:** PR-01 aceito e fonte G2 V5 real **agora vinculada** por nome/hash à rota e ao viewport; screenshots lado a lado, QA executado com evidências, correções de fidelidade.
 
 **Produção:** autorização específica posterior; não executar neste ciclo.
