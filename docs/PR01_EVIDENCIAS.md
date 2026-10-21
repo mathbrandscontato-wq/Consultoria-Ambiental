@@ -11,12 +11,18 @@
 ## Checklist de automação
 | Verificação | Comando | Estado |
 | --- | --- | --- |
-| Sintaxe JavaScript e zero dependências | `npm run lint` | A confirmar em execução |
-| Geração `dist/` | `npm run build` | A confirmar em execução |
-| Testes nativos | `npm test` | A confirmar em execução |
-| Rotas, semântica e formulários inativos | `npm run check` | A confirmar em execução |
-| GitHub Actions | validação automática ao abrir PR | A confirmar por run |
+| Sintaxe JavaScript e zero dependências | `npm run lint` | **PASS no GitHub Actions #39686722009** |
+| Geração `dist/` | `npm run build` | **PASS no GitHub Actions #39686722009** |
+| Testes nativos | `npm test` | **PASS no GitHub Actions #39686722009** |
+| Rotas, semântica e formulários inativos | `npm run check` | **PASS no GitHub Actions #39686722009** |
+| GitHub Actions | validação automática ao abrir PR | **PASS, execução concluída em 21/10/2026** |
 | Fidelidade G2 V5 e screenshots 1440/390/768/360 | não iniciar sem design | **NÃO EXECUTADO** |
 | Lighthouse e testes de navegador | PR-02 | **NÃO EXECUTADO** |
 
-Não atribuir PASS a nenhuma linha antes de coletar saída observável. Este documento registra critérios e deve ser atualizado com evidências de CI.
+## Evidência observada
+- Commit verificado: `ff85528af14a76d36ff0306755474fff8e81e657`.
+- [GitHub Actions #39686722009](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/39686722009): `completed`, `success`.
+- Logs: lint de sintaxe em 6 módulos, **zero dependências**; build de **4 rotas**; Node Test Runner: **4 testes, 4 aprovados, 0 falhas**; inspeção estrutural de 4 rotas aprovada.
+- Esta evidência antecede a atualização apenas documental das linhas de relatório e checkpoint; nova execução do CI deve validar o head final da PR.
+
+**Não declarados:** testes de navegador e acessibilidade assistiva, QA visual ou performance Lighthouse. Não houve deploy.
