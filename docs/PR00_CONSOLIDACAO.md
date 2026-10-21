@@ -1,34 +1,31 @@
-# PR-00 | Consolidação documental G4 e transição G5
-Data: 2026-10-21. Estado: **parcial, bloqueado para UI fiel**.
+# PR-00 | Consolidação G4 e vínculo G2 V5
+Atualizado: 21/10/2026. **Fonte visual documental encontrada; arte final do Hero A aprovada anteriormente; demais módulos ainda precisam de revisão.**
 
-## Evidências efetivamente inspecionadas
-- `Ykeizumi_Pacote_Consolidado_G2_G4_Planejamento_KitMarca_2026-10-21(1).zip`: SHA-256 `187b1170e7881c6217576404080c3b8186da9f2f4cf7a1cb66f18957a7365b49`. ZIP legível, 85 arquivos, manifesto interno de 84 itens, **84/84 hashes e tamanhos conferidos**.
-- `Ykeizumi_G4_Correcao_Vinculo_G2V5_Documentacao(1).zip`: SHA-256 `b26d7ca267f8b5f6735fc6df1249d7e412030d50a7184b5d684ba12cbc3f21c1`. 9 arquivos. Comparação byte a byte com a cópia embutida no consolidado: **idêntico**. Este ZIP é documentação técnica; **não contém pranchas G2 V5**.
-- Preparação Técnica G4 GitHub First V1.0: PDF incluído no primeiro ZIP.
-- Adendo G4 V1.1 de vínculo G2 V5: PDF e matriz/verificador presentes.
-- Planejamento Estrutural V1.2 (18/10/2026): PDF e documento editável original: https://docs.google.com/document/d/1ejNMG4NPSun5DPJSw_Jpgd8LYGvQAGxFqZPFFX7Eyww/edit
-- Kit de Marca Ykeizumi e Brandbook V2: incluídos no consolidado; arquivos NÃO enviados a este repositório público sem liberação.
-- Conteúdos finais da Vic: validação editorial adicional pendente.
+## Pacotes
+- Primeiro ZIP de consolidação G2/G4: SHA-256 `187b1170e7881c6217576404080c3b8186da9f2f4cf7a1cb66f18957a7365b49`; 84/84 itens do manifesto íntegros. Não incluía pranchas G2.
+- Adendo G4 V1.1: SHA `b26d7ca267f8b5f6735fc6df1249d7e412030d50a7184b5d684ba12cbc3f21c1`; documentação já duplicada.
+- **Novo handoff original:** `Ykeizumi_Handoff_Codex_GitHub_First(1).zip`, SHA `abd38454f26166b460d64df863bd97f01b4e7301e0dd4f92bfe05ff2ebe63113`, 23/23 entradas do manifesto corretas.
+- **Pacote original G2 V5 presente como ZIP aninhado**, SHA `4968b1a66fbcd37b972dc3372cbdae1922eea81cf6d72173ed8954d2fffc95b1`, 50/50 entradas do manifesto interno corretas e 51 entradas totais.
+- Kit de marca dentro do handoff: ZIP legível, 76 entradas. Não replicado no GitHub público.
+- Planejamento Estrutural V1.2, marca oficial e conteúdo de Vic: aplicam-se as fontes documentais e validações identificadas; textos técnicos e dados de contato ainda pendentes de revisão.
 
-## Ausências comprovadas nos arquivos recebidos
-- `Ykeizumi_G2_V5_Pacote_Completo.zip`: **não presente**. Histórico do adendo registra 51 arquivos reportados, não verificados; não tratar essa contagem como resultado técnico.
-- `Ykeizumi_Handoff_Codex_GitHub_First.zip`: **não presente**. Matriz original do handoff não pode ser substituída ficticiamente.
-- Capturas aprovadas Hero A/Home/Serviços 1440 e 390: sem arquivos para confronto visual.
-- Fotos definitivas, licenças e aprovações de cases: sem validação.
+## Decisões posteriores à data do handoff (precedência máxima)
+- Hero A escolhido como **único aprovado**, Hero B apenas alternativa histórica.
+- Inter escolhida para tipografia do site. Não substituir marca/wordmark oficial.
+- Monumentalidade, profundidade verde, topografia, CTA Solicitar proposta, equivalência desktop/mobile.
+- Uso de fotografia provisória condicionado a licença verificável e sem atribuição falsa a cases.
+- Stack final/deploy não decididos. PR-01 autorizada somente como fundação estática reversível. Hospedagem, domínio/DNS e publicação fora do escopo.
+- O documento de 19/10 que solicita aprovação de Hero A / reavaliação de Jost/Poppins está **superado** pela instrução formal posterior de 21/10.
 
-## Decisões supervenientes aprovadas pelo diretor criativo
-- **Hero A** selecionado expressamente; Hero B não autorizado.
-- **Inter** para textos do website; preservar grafia do logotipo oficial.
-- Abertura monumental, editorial, com grafismo topográfico e CTA **Solicitar proposta**.
-- Fotografias provisórias ambientalmente pertinentes somente com fonte/licença rastreáveis e sem atribuir a empresa projetos fictícios.
-- Adaptações mobile de mesmo impacto, `prefers-reduced-motion`, mídia otimizada.
-- Sem hosting audit como pré-condição para preparar docs/repo; stack definitiva e deploy permanecem em aberto.
-- Sem publicação, mudanças de domínio/DNS ou configuração de hospedagem.
+## Escopo verificável
+- Home H01-H09; H08 condicional (cases reais e consentimento).
+- Serviços S01-S11, SRV-01 a SRV-07, S10 FAQ condicional.
+- Sobre A01-A06 e Contato C01-C05: sem estudos finais homologados.
+- `/privacidade` somente com formulário ativo e conteúdo aprovado.
+- Não adicionar CMS, CRM, analytics, carrossel, blog, login, chat ou coleta de dados sem gate.
 
-## Ordem de precedência
-Design real G2 V5 e decisão explícita atual > G4 V1.1/V1.0 sobre questões corrigidas > Planejamento V1.2 para funcionalidade e conteúdo condicionado > Brandbook V2 para elementos institucionais > propostas antigas não aprovadas.
-**Não presumir desenho final a partir de texto.**
-
-## Estado de aceite
-PR-00: **documentação preparada parcialmente**, mas falta vincular a fonte visual e o handoff originais. PR-01: **NO-GO até aprovação explícita da ADR provisória**. PR-02: **NO-GO até vincular o G2 V5 real e confirmar referências das telas**.
-Esta PR não implica execução de QA visual, merge ou autorização de deploy.
+## Evidências e gates
+- Inspeção de integrantes ZIP; hashes **PASS**, não equivalem a QA de UI.
+- Visual: Hero A localizado em 1440/390/768/360; geometrias disponíveis e vinculadas em `docs/G2_V5_BINDING.md`. Telas Home/Serviços são wireframes, não UI final.
+- Repositório GitHub **público**; nenhuma imagem ou fonte proprietária adicional será importada sem liberação.
+- PR-00 ainda em rascunho (checkpoint técnico, evidência de insumos resolvida); PR-01 independente de hospedagem e CI aprovado; PR-02 somente Hero A e partes expressamente aprovadas, sem alargar escopo nem publicar.
