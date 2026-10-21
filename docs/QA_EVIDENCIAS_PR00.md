@@ -1,17 +1,18 @@
-# Evidências verificadas | PR-00, 21/10/2026
+# Evidências | PR-00 (21/10/2026)
 
-| Verificação | Procedimento | Resultado |
+## Insumos (verificados por conteúdo, SHA-256 e ZIP testzip)
+| Pacote | Integridade | Interpretação |
 | --- | --- | --- |
-| Integridade do consolidado | `zipfile.testzip()` | PASS: sem arquivo corrompido |
-| Manifesto SHA-256 e tamanho | comparar 84 linhas de `SHA256_MANIFEST.csv` com conteúdo real | PASS: 84/84 |
-| Correspondência do novo anexo | SHA-256 + comparação integral de bytes com ZIP embutido | PASS: conteúdo idêntico |
-| Correção enviada como G2 visual | `verify_g2_v5.py --zip Ykeizumi_G4_Correcao_Vinculo_G2V5_Documentacao(1).zip` | NEGATIVO ESPERADO: status `NOT_VERIFIED`, exit 2; faltam indicadores G2 |
-| ZIP G2 ausente | `verify_g2_v5.py --zip arquivo_g2_v5_nao_existe.zip` | NEGATIVO ESPERADO: `NOT_VERIFIED`, exit 2 |
-| UI / screenshots / Lighthouse / testes E2E | não há aplicação nem pranchas originais | NÃO EXECUTADOS |
-| CI / lint / build de front-end | etapa PR-01 não iniciada | NÃO EXECUTADOS |
+| Consolidado G2/G4 anterior | PASS 84/84 | Só documentação G4/Brandbook/Planejamento; não era o G2 visual |
+| Correção documental G4 | PASS e byte a byte idêntico | Não era o ZIP de design |
+| Handoff GitHub First `(1).zip` | **PASS 23/23** | Contém as fontes originais |
+| ZIP visual G2 V5 aninhado | **PASS 50/50** | Hero A e B, Home/Serviços, Projetos e estudos 360/768 |
+| ZIP do Kit de Marca | ZIP legível, 76 entradas | Não publicado no repositório público |
 
-O teste negativo impede confundir a documentação com o design. **Nenhum resultado negativo foi classificado como aprovação de projeto.**
-Para repetir o teste com o ZIP genuíno: `python scripts/verify_g2_v5.py --zip CAMINHO/DO/Ykeizumi_G2_V5_Pacote_Completo.zip --output docs/G2_V5_VERIFICATION.json`.
-O estado máximo produzido pelo script é `INVENTORIED_ONLY`, não homologação visual.
+- Principais pranchas Hero A: `05_Hero_A_1440.svg`, `06_Hero_A_390.svg`, `Hero_A_768.svg`, `Hero_A_360.svg`; todas identificadas por hash em `G2_V5_BINDING.md`.
+- Briefing e handoff originais de 19/10 trazem estado criativo anterior. Instruções do diretor criativo de 21/10 aprovam Hero A e Inter.
+- **Ainda não é QA de website:** PNGs são protótipos gráficos. Navegação real, teclados, imagens licenciadas, performance, browser 1440/390/768/360 requerem execução futura.
+- Repositório público: apenas manifesto e documentação saneada; não foram copiadas imagens, PDFs internos, retratos, ZIPs de referência ou segredos.
 
-Repositório GitHub: público. Evidências com detalhes de material privado permanecem fora do Git.
+## Testes que não ocorreram na PR-00
+Build de website, Lighthouse, screenshots do navegador e testes de formulário pertencem às PRs posteriores. Não declarar aprovação visual da implementação até comparar efetivamente com a prancha.
