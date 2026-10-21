@@ -4,12 +4,16 @@
   "private": true,
   "type": "module",
   "description": "Fundação técnica reversível G5, sem publicação",
-  "engines": {"node": ">=20"},
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "lint": "node scripts/lint.mjs",
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
     "check": "node scripts/check.mjs",
-    "qa": "npm run lint && npm run build && npm test && npm run check"
+    "qa": "npm run lint && npm run build && npm test && npm run check",
+    "qa:browser": "node scripts/qa-browser.mjs",
+    "check:release": "node scripts/release-gate.mjs --release"
   }
 }
