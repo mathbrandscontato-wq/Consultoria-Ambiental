@@ -1,5 +1,5 @@
 # CHECKPOINT | Ykeizumi
-Atualizado em: 2026-10-21. Fase: **G4 / PR-00 em rascunho; PR-01 autorizada de forma reversível**.
+Atualizado em: 2026-10-21. Fase: **G4 / PR-00 documentada com G2 V5 real; PR-01 em draft no GitHub**.
 
 ## Estado verificado
 - GitHub correto: `mathbrandscontato-wq/Consultoria-Ambiental`. Repositório público e originalmente vazio; `main` inicializada somente com README de operação.
@@ -11,14 +11,14 @@ Atualizado em: 2026-10-21. Fase: **G4 / PR-00 em rascunho; PR-01 autorizada de f
 - Nenhum código da aplicação, alteração de domínio, hospedagem, produção ou publicação.
 
 ## Bloqueios ativos
-Fonte visual original `Ykeizumi_G2_V5_Pacote_Completo.zip` ausente. Handoff original ausente. ADR-001 aceita exclusivamente para PR-01; hospedagem/stack definitivas continuam pendentes. Repositório público exige cautela com ativos internos. Contato/backend e direitos fotográficos pendentes.
+**INSUMOS RECUPERADOS:** handoff SHA `abd38454f26166b460d64df863bd97f01b4e7301e0dd4f92bfe05ff2ebe63113` (23/23); G2 ZIP SHA `4968b1a66fbcd37b972dc3372cbdae1922eea81cf6d72173ed8954d2fffc95b1` (50/50). Hero A e Inter aprovados expressamente. Home/Serviços têm wireframes, não UI final. Sobre/Contato sem estudos finais. ADR-001 aceita exclusivamente para PR-01; hospedagem/stack definitivas continuam pendentes. Repositório público exige cautela com ativos internos. Contato/backend e direitos fotográficos pendentes.
 
 ## Próxima execução
-1. Ler apenas este checkpoint + diff da PR-00.
-2. Quando chegar o G2 V5 original: validar ZIP/integridade/hashes, reconhecer pranchas Hero A/Home/Serviços 1440/390, atualizar `docs/G2_V5_BINDING.md` e o manifesto na **mesma PR**. Não inferir medidas.
-3. Recuperar handoff original e reconciliar matriz sem reduzir escopo.
+1. Ler apenas este checkpoint + diferenças desde o último commit; não reabrir auditoria integral sem evidência.
+2. **CONCLUÍDO:** pacote visual G2 V5 recebido no handoff e vinculado na `docs/G2_V5_BINDING.md` com hashes e medidas originais.
+3. **CONCLUÍDO:** handoff original recuperado, confrontado com V1.2 e decisões posteriores. Hero A e Inter prevalecem; Hero B não autorizado.
 4. Aceite da ADR-001 registrado em 21/10/2026: executar PR-01 em branch derivada desta PR documental, como PR encadeada; manter ambas draft até verificações. Sem autorizar PR-02.
-5. Sem PR-02, merge ou deploy enquanto faltarem evidências e autorizações.
+5. PR-02 pode usar somente Hero A aprovado e especificação de engenharia; faltam revisão visual de demais telas, liberação de assets no repo público, fotografia licenciada e conteúdo Vic. Sem merge/deploy/publicação.
 
 ## QA deste ciclo
 ZIP consolidado: teste de integridade + manifesto 84/84 (PASS).
