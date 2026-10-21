@@ -1,0 +1,17 @@
+/*
+ * Tokens semânticos provisionais: valores da identidade já registrada na PR-00.
+ * Não são medidas ou composição da prancha G2 V5. Não criar estilos visuais definitivos aqui.
+ * Inter: selecionada para interface, mas fontes oficiais/licenciadas ainda não incluídas.
+ */
+:root {
+  color-scheme: light;
+  --color-primary: #1e3b2d;
+  --color-secondary: #7f9962;
+  --color-surface: #f8f6f2;
+  --color-text: #2f3133;
+  --color-on-primary: #ffffff;
+  --color-focus: #b87320;
+  --font-interface: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --content-max: 75rem; /* técnico; a geometria final depende do design */
+  --space-layout: clamp(1rem, 4vw, 2.5rem);
+}

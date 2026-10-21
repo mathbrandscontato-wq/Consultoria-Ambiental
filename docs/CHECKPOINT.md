@@ -1,5 +1,5 @@
 # CHECKPOINT | Ykeizumi
-Atualizado em: 2026-10-21. Fase: **G4 / PR-00 documentada com G2 V5 real; PR-01 em draft no GitHub**.
+Atualizado em: 2026-10-21. Fase: **G4 vinculada ao G2 V5; PR-01 CI aprovada; preparação de PR-02 em andamento, sem deploy**.
 
 ## Estado verificado
 - GitHub correto: `mathbrandscontato-wq/Consultoria-Ambiental`. Repositório público e originalmente vazio; `main` inicializada somente com README de operação.

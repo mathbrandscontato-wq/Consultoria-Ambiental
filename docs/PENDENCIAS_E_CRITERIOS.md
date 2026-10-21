@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | P01 | **CONCLUÍDO EM 21/10:** G2 V5 localizado no handoff, 50/50 hashes corretos, Hero A 1440/390/768/360 vinculado | Math Brands | PR-00 |
 | P02 | **CONCLUÍDO EM 21/10:** Handoff original localizado, 23/23 hashes corretos; decisões 21/10 prevalecem sobre os estados históricos do documento de 19/10 | Math Brands | PR-00 |
-| P03 | Validar ADR-001 provisória antes de escrever fundação técnica | Matheus / engenharia | PR-01 |
+| P03 | **CONCLUÍDO PARA PR-01:** ADR-001 autorizada para arquitetura estática reversível; stack/deploy definitivos pendentes | Matheus / engenharia | PR-01 |
 | P04 | Autorizar privacidade/armazenamento de assets internos, pois repo atual é público | Matheus / Vic | importação de assets |
 | P05 | Confirmar dados oficiais, conteúdo institucional e claims profissionais com Vic | Vic | UI editorial / publicação |
 | P06 | Definir backend, destinatário e política de tratamento de dados antes do formulário real | Vic / engenharia | envio / publicação |
