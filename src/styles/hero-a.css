@@ -126,3 +126,10 @@
   .ha-lines--phone { display: none; }
   .ha-lines--small { display: block; }
 }
+
+/* A prancha G2 V5 tem textos editoriais provisórios próprios por breakpoint. */
+.ha-description--phone { display: none; }
+@media (max-width: 480px) {
+  .ha-description--desktop { display: none; }
+  .ha-description--phone { display: inline; }
+}
