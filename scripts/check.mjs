@@ -16,6 +16,9 @@ for (const route of routes) {
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
   assert.ok(html.includes('href="' + prefix + 'styles/tokens.css"'));
   assert.ok(html.includes('href="' + prefix + 'styles/base.css"'));
+  assert.ok(html.includes('href="' + prefix + 'styles/sections.css"'));
+  assert.ok(html.includes('Conteúdo e composição em revisão'));
+  assert.ok(!/em preparação<\/h1>/.test(html), 'Página não deve usar heading vazio de scaffold');
   assert.ok(html.includes('href="' + prefix + 'contato/"'));
   assert.ok(!/<form\b|type="submit"|enviado com sucesso/gi.test(html), "Não deve haver envio falso");
   if (!route.slug) {
