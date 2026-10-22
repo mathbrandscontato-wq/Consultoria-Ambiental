@@ -3,10 +3,10 @@
 **Tipo:** protótipo técnico de baixo risco, sem implementação do Hero A.
 
 ## Gates
-- PR-00: mantém-se draft, documentação parcial até localizar os arquivos G2 V5 originais.
+- PR-00: permanece draft; o pacote G2 V5 foi localizado e verificado depois, em 21/10/2026 (50/50), ver `docs/QA_EVIDENCIAS_PR00.md`.
 - ADR-001: autorização verbal "Pode seguir pra proxima etapa" interpretada **apenas como aceite para preparar a fundação reversível**, não como decisão de stack/deploy final.
 - PR-01: branch empilhada sobre PR-00, alvo do PR é `docs/pr-00-consolidacao-g4`. Nada mesclado.
-- PR-02: **bloqueada** pelo pacote G2 V5 ausente e por aprovação de visuais adaptados.
+- **Registro histórico da PR-01:** PR-02 posteriormente iniciada com Hero A autorizado. No estado atual, ela também permanece em draft e sem deploy.
 
 ## Checklist de automação
 | Verificação | Comando | Estado |
@@ -25,4 +25,4 @@
 - Logs: lint de sintaxe em 6 módulos, **zero dependências**; build de **4 rotas**; Node Test Runner: **4 testes, 4 aprovados, 0 falhas**; inspeção estrutural de 4 rotas aprovada.
 - Esta evidência antecede a atualização apenas documental das linhas de relatório e checkpoint; nova execução do CI deve validar o head final da PR.
 
-**Não declarados:** testes de navegador e acessibilidade assistiva, QA visual ou performance Lighthouse. Não houve deploy.
+**Nota cronológica:** este arquivo descreve exclusivamente a PR-01; teste real de navegador só foi introduzido depois na PR-04. Nenhum deploy foi realizado.

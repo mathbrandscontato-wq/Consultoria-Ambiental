@@ -1,33 +1,28 @@
-# G5 | Como executar a fundação PR-01
+# Desenvolvimento G5 | Estado real em PR-04
 
-## Estado
-Somente **fundação estática**. Não é o Hero A aprovado, não contém conteúdo editorial validado, não envia formulários e não está autorizada para publicação.
+Fundação estática PR-01 e Hero A inicial PR-02 concluídos; PR-04 contém contratos de conteúdo, verificador de release e QA Chrome. Todos os branches são rascunhos. **Sem publicação.**
 
-## Ambiente de desenvolvimento
-Node.js 20+ apenas **em máquina local e CI**; não exige Node no servidor definitivo nem instala dependências de terceiros.
-
-```bash
-npm run qa
-python3 -m http.server 4173 -d dist
+## Executar
+Com Node.js 22 e Chrome/Chromium instalados localmente:
+```sh
+npm run lint
+npm run build
+npm test
+npm run check
+npm run qa:browser
 ```
-
-Abrir `http://localhost:4173/`; verificar rotas `/`, `/servicos/`, `/sobre/`, `/contato/`. Não expor a porta na internet nem confundir com publicação.
+Para conferir manualmente, executar servidor HTTP local: `python3 -m http.server 4173 -d dist` e abrir `http://localhost:4173/`. Não expor porta na internet.
 
 ## Arquitetura
-- `src/site.mjs`: catálogo de rotas e metadados provisórios.
-- `src/lib/render.mjs`: cabeçalho, navegação, rodapé e slot textual explicitamente não homologado.
-- `src/styles/tokens.css`: cores da marca registradas e fonte Inter como família aprovada; **woff2 ausentes**.
-- `src/styles/base.css`: estrutura acessível mínima, sem a composição Hero A.
-- `scripts/build.mjs`: gera `dist/` exportável como arquivos estáticos.
-- `scripts/lint.mjs`: checa sintaxe dos módulos sem bibliotecas externas.
-- `scripts/check.mjs`: asserções sobre rotas, metadados, links, landmarks e ausência de formulário fictício.
-- `tests/foundation.test.mjs`: testes Node nativos.
-- `.github/workflows/ci.yml`: apenas validação em PR; nenhuma etapa de deploy.
+- `src/site.mjs`, `src/lib/render.mjs`: rotas e HTML estático compartilhado
+- `src/lib/hero-a.mjs`, `src/styles/hero-a.css`: Home Hero A, topografia por breakpoint e mídia provisória
+- `src/scripts/mobile-menu.mjs`: navegação acessível por teclado
+- `src/content/contracts.mjs`: 31 módulos estruturais e sete serviços, ainda não copy final
+- `scripts/build.mjs`: saída estática `dist/`; não demanda Node em produção
+- `scripts/check.mjs`, `scripts/lint.mjs`, `tests/`: invariantes e testes nativos
+- `scripts/qa-browser.mjs`: quatro viewports reais, rotas e recursos HTTP 200, captura de evidências
+- `scripts/release-gate.mjs`, `docs/GATES.json`: bloqueio de publicação
+- `.github/workflows/ci.yml`: lint/build/testes/Chrome/artefatos, jamais deploy
 
-## Limites e riscos
-- A compilação é reversível. Isso não confirma adequação à hospedagem da Vic.
-- URLs e metadados SEO definitivos dependem de domínio/conteúdo aprovados.
-- Testes sintáticos e estruturais não substituem auditoria WCAG, E2E e screenshots.
-- A navegação apenas testa estrutura; composições do header/menu mobile seguem pendentes da prancha G2 V5.
-- Nenhuma API, banco de dados, provedor de formulários ou serviço externo obrigatório.
-- PR-02 somente após pacote G2 V5 real, vínculo e QA visual com 1440/390/768/360.
+## Etapas posteriores
+A fidelidade visual final depende da comparação de screenshots com G2 V5 e aceite Matheus; demais seções dependem de layout UI aprovado e conteúdo Vic. Logo, fontes e fotografia definitiva ainda não integradas. Ver `docs/CONTENT_GAPS.md`.

@@ -10,7 +10,9 @@
     "hero_a_direction": true,
     "inter_font_choice": true,
     "static_export_foundation": true,
-    "ci_automated_structure": true
+    "ci_automated_structure": true,
+    "browser_structural_1440_390_768_360": true,
+    "all_routes_assets_http_200": true
   },
   "pending": {
     "final_ui_home_below_hero": "Matheus: falta UI de H03–H09 em alta fidelidade",
@@ -24,8 +26,8 @@
     "contact_channels": "Vic: confirmar email/telefone/WhatsApp/LinkedIn que serão públicos",
     "form_backend_privacy": "Vic/Engenharia: aprovar campos, destino real, anti-spam, erro, consentimento/política",
     "case_studies": "Vic: decisão editorial e autorização individual de cases ou omissão explícita",
-    "browser_visual_qa": "QA: screenshots e comparação 1440, 390, 768, 360 com execução",
     "hosting_compatibility": "Vic/Engenharia: infraestrutura conhecida para stack/deploy finais",
-    "release_authorization": "Vic/Matheus: aprovação explícita, separada de merge"
+    "release_authorization": "Vic/Matheus: aprovação explícita, separada de merge",
+    "browser_visual_approval": "Matheus: execução Chrome passou nos 4 viewports; diferenças visuais e substituição de assets ainda precisam de homologação"
   }
 }

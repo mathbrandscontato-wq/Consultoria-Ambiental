@@ -37,3 +37,6 @@ Cadeia de PRs: PR-00 (G4 documental) → PR-01 (G5 estático) → PR-02 (Hero A)
 - `docs/CHECKPOINT.md`: ponto de continuidade; atualizar a cada PR.
 
 **Definição de pronto para implementar:** repositório e arquitetura reversível existentes, fontes verificadas, código modular e critérios de aceite versionados. **Definição de pronto para publicar:** completamente diferente e ainda NÃO atingida.
+
+## Atualização de continuidade (21/10/2026)
+As pranchas G2 V5 reais foram recuperadas; a PR-04 agora possui quatro capturas de viewport em Chrome, mapas de rotas e topografia programática diferenciada por breakpoint. O próximo engenheiro deve consultar `docs/QA_VISUAL_G2V5.md` e executar o CI na cabeça da PR antes de reabrir trabalhos visuais. NÃO alterar a identidade aprovada nem declarar o site completo só porque o CI passou.
