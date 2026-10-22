@@ -43,3 +43,9 @@ Ler este checkpoint, `docs/CODEX_HANDOFF_G5.md`, `docs/QA_VISUAL_G2V5.md`, `docs
 - Tratamento de profundidade, contraste, recorte mobile, microinterações reversíveis e fonte Inter via stylesheet oficial opcional; auto-hospedagem ainda pendente.
 - Mantidas apenas as rotas, Hero A, hierarquia e conteúdo de revisão aprovados; sem implementar seções posteriores ou alterar domínio/hospedagem.
 - Executar GitHub Actions no commit final antes de declarar testes aprovados; capturas devem ser revisadas em 1440/768/390/360 por Matheus.
+
+## Evidências do primeiro CI PR-05
+- [Actions #39701526155](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/39701526155), SHA `40aa5354b97f7cd159963b7d374483caaa60ec8e`: **SUCCESS**, 12/12 testes, 4/4 Chrome, HTTP 200 nas 8 URLs; 4/4 fotos renderizadas em navegador, crédito visível no DOM.
+- Screenshots completos + por viewport no [artefato #12393170768](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/39701526155/artifacts/12393170768).
+- Alterações documentais posteriores exigem CI no head da PR. Nenhum merge, deploy, alteração DNS/host, backend ou formulário.
+- A fotografia e a Inter continuam vinculadas a serviços externos no **ambiente de revisão**; auto-hospedagem e autorização visual continuam gates para G6/G7.
