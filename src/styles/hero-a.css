@@ -99,3 +99,30 @@
 @media (prefers-reduced-motion: reduce) {
   .ha *, .ha *::before, .ha *::after { animation: none !important; transition: none !important; }
 }
+
+
+/* G2 V5: contornos finos paramétricos por formato, sem repetir a mesma
+   ilustração desktop como imagem escalada no celular. */
+.ha-lines { pointer-events: none; }
+.ha-lines--tablet,.ha-lines--phone,.ha-lines--small { display: none; }
+.ha-crop {
+  position: absolute; z-index: 2; width: 16px; height: 16px;
+  border-color: rgba(224,238,226,.46); border-style: solid; border-width: 0;
+  pointer-events: none;
+}
+.ha-crop--tl { left: 20px; top: 20px; border-left-width: 1px; border-top-width: 1px; }
+.ha-crop--tr { right: 20px; top: 20px; border-right-width: 1px; border-top-width: 1px; }
+.ha-crop--bl { left: 20px; bottom: 20px; border-left-width: 1px; border-bottom-width: 1px; }
+.ha-crop--br { right: 20px; bottom: 20px; border-right-width: 1px; border-bottom-width: 1px; }
+@media (max-width: 820px) {
+  .ha-lines--desktop { display: none; }
+  .ha-lines--tablet { display: block; }
+}
+@media (max-width: 480px) {
+  .ha-lines--tablet { display: none; }
+  .ha-lines--phone { display: block; }
+}
+@media (max-width: 374px) {
+  .ha-lines--phone { display: none; }
+  .ha-lines--small { display: block; }
+}
