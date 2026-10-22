@@ -83,7 +83,7 @@
  .editorial-link { width:100%; justify-content:space-between; }
  .editorial-segments p { margin:2rem 0; font-size:1rem; }
  .editorial-region { display:block; }
- .editorial-region-shape { margin:2rem 0 0 auto; width:58vw; }
+ .editorial-region-shape { margin:2rem 1.5rem 0 auto; width:58vw; }
  .page-banner { padding:5rem 1.1rem; border-radius:0 0 1.2rem 1.2rem; }
  .page-head h1 { font-size:clamp(3.35rem,13vw,5rem); }
  .service-row { grid-template-columns:1fr; gap:1rem; padding:2.2rem 0; }
