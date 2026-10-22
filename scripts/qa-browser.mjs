@@ -84,7 +84,7 @@ try{
   }
   results.push({width,height,result:"PASS",...metrics,links,topography:expectedTopo});
   // Revalidar também as páginas novas nos breakpoints de referência.
-  if(width===1440||width===390){
+  if([1440,768,390,360].includes(width)){
     for(const slug of ["servicos","sobre","contato"]){
       await send("Page.navigate",{url:"http://127.0.0.1:"+port+"/"+slug+"/"});
       let readyPage=false;
