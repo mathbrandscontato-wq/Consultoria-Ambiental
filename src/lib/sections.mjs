@@ -38,7 +38,7 @@ export function renderHomeSections(){
 const intro = (index,title,description)=>
   '<div class="page-head"><span class="editorial-kicker">'+index+'</span><h1 id="titulo-pagina">'+title+'</h1><p>'+description+'</p></div>';
 const section = (className,body)=>'<section class="'+className+'"><div class="editorial-container">'+body+'</div></section>';
-const contactNote = '<p class="contact-unavailable" role="status">Os canais oficiais e o envio do formulário estão em preparação. Esta versão de revisão não coleta dados nem envia mensagens.</p>';
+const contactNote = '<p class="contact-unavailable" role="status">Os canais oficiais e o envio do formulário estão em preparação. Esta versão de revisão não coleta dados nem envia mensagens. Nenhum dado é coletado.</p>';
 export function renderInnerPage(route){
  if(route.slug==="servicos"){
   return '<main id="conteudo" tabindex="-1" class="inner-page">'+
