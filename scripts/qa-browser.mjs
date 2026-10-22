@@ -8,7 +8,7 @@ import {fileURLToPath} from "node:url";
 import assert from "node:assert/strict";
 // Development-only Chrome CDP QA. Zero npm dependencies; visual approval remains manual.
 const root=resolve(fileURLToPath(new URL("..",import.meta.url))),dist=join(root,"dist"),out=join(root,"artifacts/qa-browser");
-const chromePath=[process.env.CHROME_PATH,"google-chrome","google-chrome-stable","chromium"].filter(Boolean).find(n=>spawnSync("which",[n]).status===0);
+const chromePath=[process.env.CHROME_PATH,"google-chrome","google-chrome-stable","chromium"].filter(Boolean).find(n=>spawnSync(process.platform==="win32"?"where":"which",[n]).status===0);
 if(!chromePath)throw Error("Chrome not found: QA cannot be skipped");
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 await mkdir(out,{recursive:true});
@@ -43,7 +43,7 @@ try{
  let id=0;const pending=new Map();
  ws.addEventListener("message",e=>{const o=JSON.parse(e.data),p=pending.get(o.id);if(!p)return;pending.delete(o.id);o.error?p.j(Error(JSON.stringify(o.error))):p.r(o.result);});
  const send=(method,params={})=>new Promise((r,j)=>{const k=++id;pending.set(k,{r,j});ws.send(JSON.stringify({id:k,method,params}));setTimeout(()=>{if(pending.has(k)){pending.delete(k);j(Error("CDP timeout "+method));}},15000);});
- const run=async expression=>{const result=await send("Runtime.evaluate",{expression,returnByValue:true});if(result.exceptionDetails)throw Error(JSON.stringify(result.exceptionDetails));return result.result.value;};
+ const run=async expression=>{const result=await send("Runtime.evaluate",{expression,returnByValue:true,awaitPromise:true});if(result.exceptionDetails)throw Error(JSON.stringify(result.exceptionDetails));return result.result.value;};
  await send("Page.enable");await send("Runtime.enable");
  const results=[];
  for(const [width,height] of [[1440,900],[390,860],[768,870],[360,780]]){
@@ -57,15 +57,29 @@ try{
   assert.equal(metrics.href,"./contato/");
   assert.equal(metrics.forms,0);
   assert.ok(metrics.visible&&metrics.media);
+  const links = await run('Promise.all(["/","/servicos/","/sobre/","/contato/","/styles/tokens.css","/styles/base.css","/styles/hero-a.css","/scripts/mobile-menu.mjs"].map(async path=>({path,status:(await fetch(path)).status})))');
+  assert.deepEqual(links.map(x=>x.status),Array(8).fill(200),
+    "Broken internal route or asset: "+JSON.stringify(links));
   assert.ok(metrics.scroll<=width+1,"horizontal overflow at "+width+": "+metrics.scroll);
   assert.ok(metrics.left>=-1&&metrics.right<=width+1,"CTA clipped at "+width);
+  const expectedTopo = width===1440?"desktop":width===768?"tablet":width===390?"phone":"small";
+  const topo = await run('(()=>Object.fromEntries(["desktop","tablet","phone","small"].map(k=>[k,getComputedStyle(document.querySelector(".ha-lines--"+k)).display])))()');
+  assert.notEqual(topo[expectedTopo],"none","Missing topographic layer at "+width);
+  for(const [name,value] of Object.entries(topo)){
+    if(name!==expectedTopo)assert.equal(value,"none","Wrong topographic layer "+name+" at "+width);
+  }
   const shot=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:true});
   await writeFile(join(out,"home-"+width+".png"),Buffer.from(shot.data,"base64"));
+  const viewportShot=await send("Page.captureScreenshot",{
+    format:"png",captureBeyondViewport:true,
+    clip:{x:0,y:0,width,height,scale:1}
+  });
+  await writeFile(join(out,"viewport-"+width+".png"),Buffer.from(viewportShot.data,"base64"));
   if(width===390){
    const escape=await run('(()=>{const m=document.querySelector(".ha-mobile-menu"),s=m.querySelector("summary");m.open=true;m.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}));return !m.open&&document.activeElement===s;})()');
    assert.ok(escape,"menu Escape/focus");
   }
-  results.push({width,height,result:"PASS",...metrics});
+  results.push({width,height,result:"PASS",...metrics,links,topography:expectedTopo});
  }
  await writeFile(join(out,"results.json"),JSON.stringify({browser:chromePath,results},null,2));
  console.log("Browser tests passed at 1440/390/768/360; not a visual design approval.");
