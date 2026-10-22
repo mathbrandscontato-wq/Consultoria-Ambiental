@@ -36,3 +36,10 @@
 
 ## Próxima execução
 Ler este checkpoint, `docs/CODEX_HANDOFF_G5.md`, `docs/QA_VISUAL_G2V5.md`, `docs/GATES.json` e apenas diff da PR. Rodar `npm run lint && npm run build && npm test && npm run check && npm run qa:browser`; comparar 4 screenshots com referências. Não abrir PR de publicação, não mesclar sem autorização. Decisões visuais novas ou conteúdo não confirmado → revisão com Matheus/Vic.
+
+## PR-05 (21/10/2026) | Refinamento editorial
+- Branch `feat/pr-05-refinamento-hero-editorial` baseada na PR-04, revisão em rascunho.
+- Fotografia aérea provisória com licença Unsplash documentada; crédito ao fotógrafo e aviso explícito de não representar projeto executado. URL remota de preview não aprovada para produção.
+- Tratamento de profundidade, contraste, recorte mobile, microinterações reversíveis e fonte Inter via stylesheet oficial opcional; auto-hospedagem ainda pendente.
+- Mantidas apenas as rotas, Hero A, hierarquia e conteúdo de revisão aprovados; sem implementar seções posteriores ou alterar domínio/hospedagem.
+- Executar GitHub Actions no commit final antes de declarar testes aprovados; capturas devem ser revisadas em 1440/768/390/360 por Matheus.
