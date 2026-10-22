@@ -26,7 +26,7 @@ test("build exporta quatro páginas estáticas independentes", async () => {
   for (const route of routes) {
     const html = await readFile(join(root, "dist", route.slug, "index.html"), "utf8");
     assert.match(html, /<main id="conteudo"/);
-    assert.match(html, /Layout não homologado/);
+    assert.match(html, /Conteúdo e composição em revisão/);
     assert.doesNotMatch(html, /<form\b/);
   }
 });
