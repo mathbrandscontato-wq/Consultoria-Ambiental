@@ -9,7 +9,9 @@ test("Hero A é a única variação autorizada na Home", () => {
   assert.match(html, /data-design="G2V5-HERO-A"/);
   assert.doesNotMatch(html, /Hero B/);
   assert.match(html, /AMBIENTAL\./);
-  assert.match(html, /VISÃO TÉCNICA SOBRE/);
+  assert.match(html, /VISÃO TÉCNICA/);
+  assert.match(html, /ha-subtitle--tablet/);
+  assert.match(html, /ha-subtitle--phone/);
   assert.match(html, /ÁREA FOTOGRÁFICA PENDENTE/);
   assert.match(html, /data-status="logo-oficial-nao-publicado"/);
 });
