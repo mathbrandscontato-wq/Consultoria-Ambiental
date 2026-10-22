@@ -84,13 +84,16 @@ export function renderHeroA() {
     '<span class="ha-subtitle--tablet" aria-hidden="true">VISÃO TÉCNICA.<br> SOBRE O TERRITÓRIO.</span>',
     '<span class="ha-subtitle--phone" aria-hidden="true">VISÃO TÉCNICA<br> SOBRE O<br> TERRITÓRIO.</span>',
     '</h2>',
-    '<div class="ha-media" role="img" aria-label="Campo fotográfico provisório com grafismo topográfico conceitual">',
+    '<div class="ha-media" aria-label="Fotografia editorial ilustrativa com grafismo topográfico">',
+    '<img class="ha-photo" src="https://images.unsplash.com/photo-1654361700413-b4db34d37fc8?auto=format&amp;fit=crop&amp;w=1000&amp;q=78" srcset="https://images.unsplash.com/photo-1654361700413-b4db34d37fc8?auto=format&amp;fit=crop&amp;w=720&amp;q=76 720w, https://images.unsplash.com/photo-1654361700413-b4db34d37fc8?auto=format&amp;fit=crop&amp;w=1200&amp;q=80 1200w" sizes="(max-width: 480px) 100vw, (max-width: 820px) 92vw, 704px" width="1000" height="1200" decoding="async" fetchpriority="high" alt="Vista aérea ilustrativa de vale florestado e relevo montanhoso, sem relação com projetos realizados pela Ykeizumi">',
+    '<div class="ha-photo-shade" aria-hidden="true"></div>',
     ...topoModels.map(renderContours),
     '<span class="ha-crop ha-crop--tl" aria-hidden="true"></span>',
     '<span class="ha-crop ha-crop--tr" aria-hidden="true"></span>',
     '<span class="ha-crop ha-crop--bl" aria-hidden="true"></span>',
     '<span class="ha-crop ha-crop--br" aria-hidden="true"></span>',
-    '<span class="ha-media-label">ÁREA FOTOGRÁFICA PENDENTE</span>',
+    '<span class="ha-media-label">FOTOGRAFIA EDITORIAL · PROVISÓRIA</span>',
+    '<a class="ha-photo-credit" href="https://unsplash.com/pt-br/fotografias/uma-vista-aerea-de-um-vale-verde-exuberante-YPN2ChAUM_k" target="_blank" rel="noopener noreferrer">Foto: Bleron Salihi / Unsplash</a>',
     '</div>',
     '<p class="ha-description">',
     '<span class="ha-description--desktop">Atuação em licenciamento, estudos e demandas ambientais de diferentes setores.</span>',
@@ -98,7 +101,7 @@ export function renderHeroA() {
     '</p>',
     cta("ha-cta--main"),
     '<div class="ha-location"><small>ATUAÇÃO DOCUMENTADA</small><strong>Joinville</strong><span>Norte e Litoral de SC</span></div>',
-    '<p class="ha-provisional">TEXTO E FOTOGRAFIA PROVISÓRIOS</p>',
+    '<p class="ha-provisional">IMAGEM ILUSTRATIVA · NÃO REPRESENTA PROJETO EXECUTADO</p>',
     '</div></section></main>'
   ].join("\n");
 }
