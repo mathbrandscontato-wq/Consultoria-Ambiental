@@ -12,7 +12,7 @@ test("Hero A é a única variação autorizada na Home", () => {
   assert.match(html, /VISÃO TÉCNICA/);
   assert.match(html, /ha-subtitle--tablet/);
   assert.match(html, /ha-subtitle--phone/);
-  assert.match(html, /ÁREA FOTOGRÁFICA PENDENTE/);
+  assert.match(html, /FOTOGRAFIA EDITORIAL · PROVISÓRIA/);
   assert.match(html, /data-status="logo-oficial-nao-publicado"/);
 });
 test("Home possui Hero e não duplica o header estrutural", () => {
@@ -38,4 +38,6 @@ test("topografia usa geometrias individuais e copy das pranchas G2", () => {
   assert.match(html, /Licenciamento, estudos e demandas ambientais com atuação no Norte e Litoral catarinense/);
   assert.equal((html.match(/<svg /g) ?? []).length, 4);
   assert.doesNotMatch(html, /data:image\//);
+  assert.match(html, /Bleron Salihi \/ Unsplash/);
+  assert.match(html, /não representa projeto/i);
 });

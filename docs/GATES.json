@@ -12,7 +12,9 @@
     "static_export_foundation": true,
     "ci_automated_structure": true,
     "browser_structural_1440_390_768_360": true,
-    "all_routes_assets_http_200": true
+    "all_routes_assets_http_200": true,
+    "provisional_photo_license_source_documented": true,
+    "provisional_photo_rendered_in_chrome_4_breakpoints": true
   },
   "pending": {
     "final_ui_home_below_hero": "Matheus: falta UI de H03–H09 em alta fidelidade",
@@ -21,8 +23,8 @@
     "final_ui_contact": "Matheus: C01–C05 sem layout aprovado",
     "institution_copy": "Vic e revisão técnica: textos, afirmações e credenciais",
     "client_logo_public_repo": "Vic: autorização de distribuir logo no repositório público (ou tornar privado)",
-    "inter_font_files": "Engenharia: integrar arquivos oficiais/licença Inter com teste de carregamento",
-    "licensed_photography": "Vic/Math Brands: escolher foto, licença, fonte, eventual crédito e enquadramento",
+    "inter_font_files": "Engenharia: fonte Inter carregada de CDN oficial como aprimoramento opcional G5; auto-hospedar WOFF2 + licença e validar desempenho antes de G7",
+    "licensed_photography": "Math Brands/Vic: foto editorial provisória Unsplash licenciada e creditada; confirmar aprovação visual, carregamento real e auto-hospedagem antes do release",
     "contact_channels": "Vic: confirmar email/telefone/WhatsApp/LinkedIn que serão públicos",
     "form_backend_privacy": "Vic/Engenharia: aprovar campos, destino real, anti-spam, erro, consentimento/política",
     "case_studies": "Vic: decisão editorial e autorização individual de cases ou omissão explícita",
