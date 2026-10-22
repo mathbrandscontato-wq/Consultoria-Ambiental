@@ -5,7 +5,7 @@ const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const gates = JSON.parse(await readFile(join(root,"docs/GATES.json"),"utf8"));
 const unsatisfied = Object.entries(gates.pending).map(([key,owner])=>({key,owner}));
 if (gates.site_publication_allowed !== false) throw new Error("Gate doc inconsistent: publication unexpectedly allowed.");
-if (!gates.verified.hero_a_direction || !gates.verified.inter_font_choice) throw new Error("Previously approved art direction missing.");
+if (!gates.verified.hero_a_direction || !gates.verified.avenir_font_choice) throw new Error("Previously approved art direction missing.");
 const releaseMode = process.argv.includes("--release");
 console.log(JSON.stringify({
  scope: releaseMode ? "release" : "development",

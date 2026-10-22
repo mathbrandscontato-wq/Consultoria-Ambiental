@@ -8,13 +8,14 @@
     "sha_manifest_g2v5": true,
     "sha_manifest_handoff": true,
     "hero_a_direction": true,
-    "inter_font_choice": true,
     "static_export_foundation": true,
     "ci_automated_structure": true,
     "browser_structural_1440_390_768_360": true,
     "all_routes_assets_http_200": true,
     "provisional_photo_license_source_documented": true,
-    "provisional_photo_rendered_in_chrome_4_breakpoints": true
+    "provisional_photo_rendered_in_chrome_4_breakpoints": true,
+    "avenir_font_choice": true,
+    "proprietary_font_not_distributed": true
   },
   "pending": {
     "final_ui_home_below_hero": "Matheus: falta UI de H03–H09 em alta fidelidade",
@@ -23,13 +24,13 @@
     "final_ui_contact": "Matheus: C01–C05 sem layout aprovado",
     "institution_copy": "Vic e revisão técnica: textos, afirmações e credenciais",
     "client_logo_public_repo": "Vic: autorização de distribuir logo no repositório público (ou tornar privado)",
-    "inter_font_files": "Engenharia: fonte Inter carregada de CDN oficial como aprimoramento opcional G5; auto-hospedar WOFF2 + licença e validar desempenho antes de G7",
     "licensed_photography": "Math Brands/Vic: foto editorial provisória Unsplash licenciada e creditada; confirmar aprovação visual, carregamento real e auto-hospedagem antes do release",
     "contact_channels": "Vic: confirmar email/telefone/WhatsApp/LinkedIn que serão públicos",
     "form_backend_privacy": "Vic/Engenharia: aprovar campos, destino real, anti-spam, erro, consentimento/política",
     "case_studies": "Vic: decisão editorial e autorização individual de cases ou omissão explícita",
     "hosting_compatibility": "Vic/Engenharia: infraestrutura conhecida para stack/deploy finais",
     "release_authorization": "Vic/Matheus: aprovação explícita, separada de merge",
-    "browser_visual_approval": "Matheus: execução Chrome passou nos 4 viewports; diferenças visuais e substituição de assets ainda precisam de homologação"
+    "browser_visual_approval": "Matheus: execução Chrome passou nos 4 viewports; diferenças visuais e substituição de assets ainda precisam de homologação",
+    "avenir_webfont_rights_and_delivery": "Avenir enviada com metadados proprietários Monotype sem licença de embedding web. CSS local-first implementado; confirmar licença webfont para servir a todos os usuários e validar reflow 1440/768/390/360 com fonte realmente carregada."
   }
 }

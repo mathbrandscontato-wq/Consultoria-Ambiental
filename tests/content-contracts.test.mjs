@@ -14,9 +14,9 @@ test("sete serviços reais, IDs únicos e sem promessas jurídicas inventadas",(
   assert.equal(SERVICES[3].review,"legal-boundary");
   assert.deepEqual(CONDITIONAL_MODULES,["H08","S10"]);
 });
-test("só Hero A e Inter estão formalmente selecionados",()=>{
+test("só Hero A e Avenir estão formalmente selecionados",()=>{
   assert.equal(APPROVED_ART_DIRECTION.hero,"A");
-  assert.equal(APPROVED_ART_DIRECTION.fontFamily,"Inter");
+  assert.equal(APPROVED_ART_DIRECTION.fontFamily,"Avenir");
   assert.equal(APPROVED_ART_DIRECTION.ctaHref,"/contato");
   assert.ok(Object.values(EDITORIAL_STATUS).every(v=>v===false));
 });

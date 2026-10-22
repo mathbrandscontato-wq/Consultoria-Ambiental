@@ -24,10 +24,12 @@ npm run qa:browser
 O build gera `dist/` com `/`, `/servicos/`, `/sobre/`, `/contato/`. Hero A aparece somente na Home; demais rotas permanecem scaffolds técnicos. As capturas estão em `artifacts/qa-browser/` e no artefato do GitHub Actions.
 
 ## Aprovações e restrições
-- Hero A e Inter aprovados; Hero B não autorizado. SVGs e medidas reais vinculados em `docs/G2_V5_BINDING.md`.
+- Hero A e Avenir aprovados; Hero B não autorizado. SVGs e medidas reais vinculados em `docs/G2_V5_BINDING.md`.
 - H03–H09 e Serviços possuem wireframes, mas não layouts UI finais. Sobre/Contato também carecem arte final aprovada.
 - Conteúdo definitivo, contatos da Vic, foto/licença, logotipo oficial e arquivos de fonte estão pendentes.
 - Nenhum formulário ativo, backend, hosting, domínio, DNS, CI de deploy, release ou site público.
 - O repositório é PÚBLICO: jamais commitar segredos ou materiais privados sem liberação.
+
+**Tipografia:** Avenir configurada com fontes locais quando disponíveis; os arquivos comerciais enviados não foram republicados. Licença de uso web e webfont legalmente distribuível pendentes. Consulte `docs/TYPOGRAPHY_AVENIR.md`.
 
 **Leia primeiro:** `docs/CHECKPOINT.md`, `docs/CODEX_HANDOFF_G5.md`, `docs/GATES.json`, `docs/QA_VISUAL_G2V5.md`.

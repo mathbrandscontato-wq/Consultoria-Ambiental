@@ -10,7 +10,7 @@
 - **Todas abertas em DRAFT, não mescladas. Main não é o aplicativo. Nenhum deploy.**
 
 ## Decisões e fontes
-- Hero A definitivamente aprovado; Hero B proibido; tipografia de interface Inter aprovada.
+- Hero A definitivamente aprovado; Hero B proibido; **Avenir agora aprovada**, substituindo a antiga escolha Inter.
 - Handoff original SHA256 `abd38454f26166b460d64df863bd97f01b4e7301e0dd4f92bfe05ff2ebe63113`, manifesto 23/23.
 - G2 V5 aninhado SHA256 `4968b1a66fbcd37b972dc3372cbdae1922eea81cf6d72173ed8954d2fffc95b1`, manifesto 50/50. Referências 1440/390/768/360 versionadas como hashes/caminhos em `docs/G2_V5_BINDING.md`, sem divulgar os arquivos internos.
 - G4/Brandbook V2/Planejamento Estrutural V1.2 documentados. Cores oficiais e token semântico no código.
@@ -49,3 +49,10 @@ Ler este checkpoint, `docs/CODEX_HANDOFF_G5.md`, `docs/QA_VISUAL_G2V5.md`, `docs
 - Screenshots completos + por viewport no [artefato #12393170768](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/39701526155/artifacts/12393170768).
 - Alterações documentais posteriores exigem CI no head da PR. Nenhum merge, deploy, alteração DNS/host, backend ou formulário.
 - A fotografia e a Inter continuam vinculadas a serviços externos no **ambiente de revisão**; auto-hospedagem e autorização visual continuam gates para G6/G7.
+
+## PR-06 — Mudança tipográfica solicitada (21/10/2026)
+- Avenir Light, Book, Regular, Medium, Heavy, Black fornecidas no arquivo `avenir.zip`, íntegro. Metadados declaram propriedade da Monotype e o ZIP não contém licença que permita distribuir webfont.
+- CSS define Avenir por pesos usando `local()` e fallback de sistema, sem subir arquivos de fonte comerciais ao GitHub público. Stylesheet externo Inter removido em todas as rotas.
+- `src/content/contracts.mjs` e testes atualizados para `fontFamily=Avenir`.
+- Testes em Chrome Linux medem responsividade com fallback se Avenir não estiver instalada: não representam homologação com arquivos comerciais carregados. Bloqueio para licença webfont e reflow real permanece em `docs/GATES.json`.
+- Não fazer merge ou deploy. Nenhuma mudança na identidade oficial/logotipo, nas fotos ou na infraestrutura.

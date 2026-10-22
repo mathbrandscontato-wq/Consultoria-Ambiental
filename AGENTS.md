@@ -1,7 +1,7 @@
 # Ykeizumi | Regras para agentes e engenharia
 
 1. Preserve o G2 V5 REAL, verificado 50/50 hashes, e seu **Hero A aprovado**. Hero B é proibido. Leia `docs/G2_V5_BINDING.md` e `docs/CHECKPOINT.md` antes do diff.
-2. Inter aprovada para textos. Preservar assinatura oficial da marca, sem redesenhar lettering; a inclusão dos arquivos de fonte e logo depende de direitos no repositório público.
+2. **Avenir substitui Inter** para textos do site, por decisão atual do diretor criativo. Configuração local por pesos, sem redistribuição dos TTF proprietários. Exibição universal depende de licença webfont Monotype. Preservar assinatura oficial da marca sem redesenhar lettering.
 3. Brandbook V2: #1E3B2D, #7F9962, #F8F6F2, #2F3133. Hero A tem variações de composição medidas para 1440/390/768/360.
 4. Planejamento Estrutural V1.2 para arquitetura e serviços SRV-01 a SRV-07; dados e claims técnicos dependem de aprovação Vic.
 5. Não assumir que wireframe de Home/Serviços ou estudo de Projetos sejam UI final homologada. Sobre e Contato carecem telas finais.

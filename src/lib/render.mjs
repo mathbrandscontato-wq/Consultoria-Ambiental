@@ -38,8 +38,6 @@ export const renderPage = (route) => {
   <meta name="description" content="Protótipo técnico interno de ${escapeHtml(project.name)}. Sem publicação ou formulário ativo.">
   <meta name="color-scheme" content="light">
   <title>${escapeHtml(pageTitle)}</title>
-  <link rel="preconnect" href="https://rsms.me" crossorigin>
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <link rel="stylesheet" href="${prefix}styles/tokens.css">
   <link rel="stylesheet" href="${prefix}styles/base.css">
   <link rel="stylesheet" href="${prefix}styles/hero-a.css">

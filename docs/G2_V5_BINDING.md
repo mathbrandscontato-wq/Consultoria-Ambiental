@@ -1,3 +1,5 @@
+> **Atualização superveniente (PR-06, 21/10/2026):** Avenir substitui Inter como tipografia do site. Menções históricas à aprovação de Inter abaixo descrevem o estado anterior, não uma autorização vigente. Ver `docs/TYPOGRAPHY_AVENIR.md`.
+
 # Matriz vinculante | G2 V5 → G5 | 21/10/2026
 
 **Fonte visual ORIGINAL LOCALIZADA E VERIFICADA** no pacote `Ykeizumi_Handoff_Codex_GitHub_First(1).zip`.
