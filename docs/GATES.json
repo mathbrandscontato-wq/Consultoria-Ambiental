@@ -13,7 +13,8 @@
     "ci_automated_structure": true,
     "browser_structural_1440_390_768_360": true,
     "all_routes_assets_http_200": true,
-    "provisional_photo_license_source_documented": true
+    "provisional_photo_license_source_documented": true,
+    "provisional_photo_rendered_in_chrome_4_breakpoints": true
   },
   "pending": {
     "final_ui_home_below_hero": "Matheus: falta UI de H03–H09 em alta fidelidade",
