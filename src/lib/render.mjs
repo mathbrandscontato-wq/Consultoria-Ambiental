@@ -1,3 +1,4 @@
+import { renderHomeSections, renderInnerPage } from "./sections.mjs";
 import { renderHeroA } from "./hero-a.mjs";
 import { project, routes, routeHref } from "../site.mjs";
 
@@ -41,6 +42,7 @@ export const renderPage = (route) => {
   <link rel="stylesheet" href="${prefix}styles/tokens.css">
   <link rel="stylesheet" href="${prefix}styles/base.css">
   <link rel="stylesheet" href="${prefix}styles/hero-a.css">
+  <link rel="stylesheet" href="${prefix}styles/sections.css">
   ${route.slug ? "" : '<script type="module" src="./scripts/mobile-menu.mjs"></script>'}
 </head>
 <body data-stage="g5-design-review">
@@ -52,9 +54,9 @@ export const renderPage = (route) => {
       <a class="cta" href="${prefix}contato/">${escapeHtml(project.cta)}</a>
     </div>
   </header>
-  ${route.slug ? main(route) : renderHeroA()}
+  ${route.slug ? renderInnerPage(route) : renderHeroA().replace("</main>",renderHomeSections()+"</main>")}
   <footer class="site-footer">
-    <div class="site-footer__inner"><span>${escapeHtml(project.name)}</span><small>Fundação técnica sem publicação · Layout não homologado</small></div>
+    <div class="site-footer__inner"><span>${escapeHtml(project.name)}</span><small>Prévia de desenvolvimento · Conteúdo e composição em revisão</small></div>
   </footer>
 </body>
 </html>\n`;

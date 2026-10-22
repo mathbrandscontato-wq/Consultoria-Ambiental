@@ -56,3 +56,10 @@ Ler este checkpoint, `docs/CODEX_HANDOFF_G5.md`, `docs/QA_VISUAL_G2V5.md`, `docs
 - `src/content/contracts.mjs` e testes atualizados para `fontFamily=Avenir`.
 - Testes em Chrome Linux medem responsividade com fallback se Avenir não estiver instalada: não representam homologação com arquivos comerciais carregados. Bloqueio para licença webfont e reflow real permanece em `docs/GATES.json`.
 - Não fazer merge ou deploy. Nenhuma mudança na identidade oficial/logotipo, nas fotos ou na infraestrutura.
+
+## PR-07 — Candidata G6.1 + runbook Cloudflare (21/10/2026)
+- Branch `feat/pr-07-complete-pages-cloudflare-ready` após PR-06; Home abaixo Hero, Serviços 7 grupos, Sobre e Contato receberam propostas HTML/CSS de layout responsivo para aprovação. NÃO é design homologado.
+- Contato permanece não operacional por falta de dados oficiais/backend/privacidade. Fonte Avenir ainda precisa de licença webfont para servir a todos.
+- Destino futuro: **yekeizumi.mathbrands.com.br** (grafia exata solicitada), Cloudflare Pages GitHub `main`, build `npm run build`, output `dist`, Node 22. Runbook em `docs/CLOUDFLARE_PAGES_DEPLOY.md` e prompt em `docs/AI_CLOUDFLARE_EXECUTION_PROMPT.md`.
+- Sem acesso Cloudflare associado, nenhuma alteração DNS e nenhuma publicação. Requer gate visual, editorial e operacional antes de merge/release.
+- Executar CI no HEAD final; não declarar QA aprovado sem conclusão do workflow.
