@@ -20,3 +20,9 @@ Capturas reais Chrome de 1440×900, 390×860, 768×870 e 360×780 comparadas com
 
 ## Aceite exigido antes de avançar a telas não aprovadas
 Matheus valida equivalência visual e adaptações; Vic valida textos, serviço, contato, logo e uso de imagens. Somente então novos componentes além de H02 podem ser implementados como UI final. A homologação requer QA de navegação, contraste WCAG com ferramentas e inspeção manual, imagens, performance Lighthouse, formulário real com backend e erros, e política de dados.
+
+## PR-05 — atualização de refinamento (revisão pendente)
+- Hero com fotografia aérea ilustrativa Unsplash e contraste protegido por gradientes; versão G2 V5, sem alterar estrutura aprovada.
+- Topografia vetorial preservada nas versões 1440/768/390/360; navegação e CTA com feedback de hover/reduced motion.
+- Inter ativada via CSS oficial somente no preview, sob licença OFL; assets autohospedados ainda pendentes.
+- **Não presumir aumento da nota sem screenshots reais e reavaliação de Matheus.** As demais telas seguem dependentes de aprovação visual.
