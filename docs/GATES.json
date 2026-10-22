@@ -15,13 +15,14 @@
     "provisional_photo_license_source_documented": true,
     "provisional_photo_rendered_in_chrome_4_breakpoints": true,
     "avenir_font_choice": true,
-    "proprietary_font_not_distributed": true
+    "proprietary_font_not_distributed": true,
+    "draft_four_pages_in_feature_branch": true
   },
   "pending": {
-    "final_ui_home_below_hero": "Matheus: falta UI de H03–H09 em alta fidelidade",
-    "final_ui_services": "Matheus: S01–S11 tem wireframe apenas",
-    "final_ui_about": "Matheus: A01–A06 sem layout aprovado",
-    "final_ui_contact": "Matheus: C01–C05 sem layout aprovado",
+    "final_ui_home_below_hero": "Matheus: PR-07 implementa proposta de UI para H03-H09, ainda não aprovada visualmente",
+    "final_ui_services": "Matheus/Vic: PR-07 propõe sete grupos SRV-01 a 07; conferir serviço/copy/layout, ainda não aprovado",
+    "final_ui_about": "Matheus/Vic: PR-07 propõe layout Sobre sem credenciais inventadas; ainda não aprovado",
+    "final_ui_contact": "Matheus/Vic: PR-07 propõe layout Contato, mas nenhum canal está habilitado; bloquear publicação até contato real",
     "institution_copy": "Vic e revisão técnica: textos, afirmações e credenciais",
     "client_logo_public_repo": "Vic: autorização de distribuir logo no repositório público (ou tornar privado)",
     "licensed_photography": "Math Brands/Vic: foto editorial provisória Unsplash licenciada e creditada; confirmar aprovação visual, carregamento real e auto-hospedagem antes do release",
@@ -29,8 +30,9 @@
     "form_backend_privacy": "Vic/Engenharia: aprovar campos, destino real, anti-spam, erro, consentimento/política",
     "case_studies": "Vic: decisão editorial e autorização individual de cases ou omissão explícita",
     "hosting_compatibility": "Vic/Engenharia: infraestrutura conhecida para stack/deploy finais",
-    "release_authorization": "Vic/Matheus: aprovação explícita, separada de merge",
+    "release_authorization": "Intenção geral de publicação foi concedida pelo usuário em 21/10/2026 para yekeizumi.mathbrands.com.br; execução permanece condicionada a aceite visual, editorial, licenças, contato e Cloudflare delegada",
     "browser_visual_approval": "Matheus: execução Chrome passou nos 4 viewports; diferenças visuais e substituição de assets ainda precisam de homologação",
-    "avenir_webfont_rights_and_delivery": "Avenir enviada com metadados proprietários Monotype sem licença de embedding web. CSS local-first implementado; confirmar licença webfont para servir a todos os usuários e validar reflow 1440/768/390/360 com fonte realmente carregada."
+    "avenir_webfont_rights_and_delivery": "Avenir enviada com metadados proprietários Monotype sem licença de embedding web. CSS local-first implementado; confirmar licença webfont para servir a todos os usuários e validar reflow 1440/768/390/360 com fonte realmente carregada.",
+    "cloudflare_access": "Math Brands: acesso delegado Cloudflare e verificação da zona mathbrands.com.br e DNS yekeizumi ainda não realizados"
   }
 }
