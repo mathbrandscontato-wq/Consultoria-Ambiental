@@ -52,8 +52,9 @@ try{
   let ready=false;
   for(let n=0;n<45;n++){try{ready=await run("document.readyState==='complete'&&!!document.querySelector('.ha-cta--main')");}catch{}if(ready)break;await sleep(100);}
   assert.ok(ready,"page not loaded "+width);
-  const metrics=await run('(()=>{const c=document.querySelector(".ha-cta--main"),r=c.getBoundingClientRect();return {vw:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector("h1")?.textContent,href:c.getAttribute("href"),left:r.left,right:r.right,visible:getComputedStyle(c).display!=="none",forms:document.querySelectorAll("form").length,media:!!document.querySelector(".ha-media-label"),photoLoaded:!!document.querySelector(".ha-photo")?.naturalWidth,photoCredit:!!document.querySelector(".ha-photo-credit")};})()');
+  const metrics=await run('(()=>{const c=document.querySelector(".ha-cta--main"),r=c.getBoundingClientRect();return {vw:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector("h1")?.textContent,href:c.getAttribute("href"),left:r.left,right:r.right,visible:getComputedStyle(c).display!=="none",forms:document.querySelectorAll("form").length,media:!!document.querySelector(".ha-media-label"),fontStack:getComputedStyle(document.body).fontFamily,photoLoaded:!!document.querySelector(".ha-photo")?.naturalWidth,photoCredit:!!document.querySelector(".ha-photo-credit")};})()');
   assert.equal(metrics.h1,"AMBIENTAL.");
+  assert.ok(metrics.fontStack.includes("Ykeizumi Avenir"),"Avenir missing from computed font-family");
   assert.equal(metrics.href,"./contato/");
   assert.equal(metrics.forms,0);
   assert.ok(metrics.visible&&metrics.media);

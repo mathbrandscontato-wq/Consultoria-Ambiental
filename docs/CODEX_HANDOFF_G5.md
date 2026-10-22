@@ -8,7 +8,7 @@ Trabalhe em `mathbrandscontato-wq/Consultoria-Ambiental`. Primeiro leia `docs/CH
 Cadeia de PRs: PR-00 (G4 documental) → PR-01 (G5 estático) → PR-02 (Hero A) → PR-03 (prontidão/QA). Sem merge, sem deploy. Para continuar, crie branch derivada do último checkpoint aprovado e PR em rascunho com base na PR imediatamente anterior. CI não pode publicar.
 
 ## Decisões não negociáveis
-- **Hero A** único aprovado; sem Hero B. Inter aprovada para UI, preservar wordmark oficial sem recriação.
+- **Hero A** único aprovado; sem Hero B. **Avenir substitui Inter na UI** por decisão superveniente da PR-06. A licença webfont ainda precisa de verificação; preservar wordmark oficial sem recriação.
 - Cores oficiais: #1E3B2D, #7F9962, #F8F6F2, #2F3133. Variações de profundidade presentes na prancha podem ser propostas e verificadas, não reinterpretadas livremente.
 - Hero 1440/390 e adaptações 768/360: SVGs de origem e hashes em `docs/G2_V5_BINDING.md`. Não publicar os SVGs e fotos de referência neste repositório público sem direito/liberação.
 - Página Serviços e módulos Home além de H02: wireframes estruturais **não são layout UI final aprovado**. Sobre e Contato não têm design final. Necessitam revisão visual do diretor criativo.
@@ -21,7 +21,7 @@ Cadeia de PRs: PR-00 (G4 documental) → PR-01 (G5 estático) → PR-02 (Hero A)
 1. Validar as telas em Chrome local (Node22 + Chrome): `npm run lint && npm run build && npm test && npm run check && npm run qa:browser`.
 2. Revisar capturas locais `artifacts/qa-browser/home-{1440,390,768,360}.png` contra os SVGs/PNGs aprovados guardados fora do repo. Corrigir transbordamentos, hierarquia e alinhamento com evidência.
 3. Substituir o **placeholder** por logo oficial somente depois da autorização de sua distribuição ou mudança controlada para repo privado. Usar assinatura oficial como imagem, largura mínima 120px, sem redesenhar lettering.
-4. Carregar Inter webfont oficial com licença conferida e fallback seguro; medir reflow e evitar CLS.
+4. Carregar Avenir webfont somente com licença de distribuição comprovada, respeitando os seis pesos fornecidos e sem publicar TTF proprietário. Medir reflow e CLS.
 5. Selecionar fotografia ambiental provisória com licença verificável; documentar fonte, direitos, crédito, finalidade, prazo de substituição; jamais apresentar como projeto da Ykeizumi.
 6. Propor as adaptações e telas de Home restante, Serviços, Sobre e Contato para aprovação, preservando wireframes e conteúdo. **Não instalar a implementação visual final antes do aceite**.
 7. Validar texto e credenciais com Vic/revisor técnico; aprovar contatos/campos e destino antes de formular backend e privacidade.

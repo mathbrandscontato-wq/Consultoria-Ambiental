@@ -23,7 +23,7 @@ export const APPROVED_ART_DIRECTION = Object.freeze({
   hero:"A",
   heroDesktop:"03_Estudos_Visuais/05_Hero_A_1440.svg",
   heroMobile:"03_Estudos_Visuais/06_Hero_A_390.svg",
-  fontFamily:"Inter",
+  fontFamily:"Avenir",
   ctaText:"Solicitar proposta",
   ctaHref:"/contato"
 });

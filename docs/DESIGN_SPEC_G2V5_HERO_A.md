@@ -1,3 +1,5 @@
+> **Atualização superveniente (PR-06, 21/10/2026):** Avenir substitui Inter como tipografia do site. Menções históricas à aprovação de Inter abaixo descrevem o estado anterior, não uma autorização vigente. Ver `docs/TYPOGRAPHY_AVENIR.md`.
+
 # PR-02 | Design-to-code | Hero A G2 V5 (21/10/2026)
 
 Status: IMPLEMENTAÇÃO EM REVISÃO. Nenhuma publicação nem homologação visual declarada.

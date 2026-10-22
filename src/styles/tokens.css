@@ -1,8 +1,62 @@
-/*
- * Tokens semânticos provisionais: valores da identidade já registrada na PR-00.
- * Não são medidas ou composição da prancha G2 V5. Não criar estilos visuais definitivos aqui.
- * Inter: selecionada para interface, mas fontes oficiais/licenciadas ainda não incluídas.
- */
+/* Ykeizumi G5 PR-06 | Avenir local somente, sem redistribuir TTF proprietário.
+   Funciona com fonte instalada no dispositivo. Webfont para todos usuários
+   depende de licença de distribuição apropriada da Monotype. */
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Light"), local("Avenir Light");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Book"), local("Avenir Book");
+  font-style: normal;
+  font-weight: 350;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Regular"), local("Avenir Regular"), local("Avenir");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Medium"), local("Avenir Medium");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Medium"), local("Avenir Medium");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Heavy"), local("Avenir Heavy");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Heavy"), local("Avenir Heavy");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ykeizumi Avenir";
+  src: local("Avenir-Black"), local("Avenir Black");
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
 :root {
   color-scheme: light;
   --color-primary: #1e3b2d;
@@ -11,7 +65,7 @@
   --color-text: #2f3133;
   --color-on-primary: #ffffff;
   --color-focus: #b87320;
-  --font-interface: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --content-max: 75rem; /* técnico; a geometria final depende do design */
+  --font-interface: "Ykeizumi Avenir", "Avenir", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --content-max: 75rem;
   --space-layout: clamp(1rem, 4vw, 2.5rem);
 }
