@@ -26,3 +26,13 @@ Matheus valida equivalência visual e adaptações; Vic valida textos, serviço,
 - Topografia vetorial preservada nas versões 1440/768/390/360; navegação e CTA com feedback de hover/reduced motion.
 - Inter ativada via CSS oficial somente no preview, sob licença OFL; assets autohospedados ainda pendentes.
 - **Não presumir aumento da nota sem screenshots reais e reavaliação de Matheus.** As demais telas seguem dependentes de aprovação visual.
+
+## PR-05 | Revisão real de capturas (21/10/2026)
+- [CI #39701526155](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/39701526155), SHA `40aa5354b97f7cd159963b7d374483caaa60ec8e`: **12/12 testes Node**, build 4 rotas, QA Chrome nos quatro tamanhos.
+- Resultado `results.json`: `photoLoaded=true` e `photoCredit=true` em **1440, 390, 768 e 360px**. Oito rotas/assets com HTTP 200; ausência de overflow e CTA dentro da viewport.
+- Capturas `viewport-1440.png`, `viewport-390.png`, `viewport-768.png`, `viewport-360.png` revisadas: há fotografia real, gradientes de leitura, topo preservado, CTA legível e navegação mobile.
+- **Ainda não homologado:** assinatura YK provisória, Inter ainda via CDN e não WOFF2 local, foto servida por URL externa e necessidade de aprovação fina dos recortes/espaçamentos.
+- Não há modificação dos módulos posteriores ao Hero A; ritmo editorial de Home/Serviços/Sobre/Contato ainda depende de layouts finais aprovados.
+- Evidências: https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/39701526155/artifacts/12393170768
+
+Esta é uma revisão de engenharia e UX; Matheus mantém a aprovação criativa formal.
