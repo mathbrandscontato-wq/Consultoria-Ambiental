@@ -1,0 +1,33 @@
+{
+  "version": "2026-10-21",
+  "project": "Ykeizumi Consultoria Ambiental",
+  "gate_scope": "development-only",
+  "site_publication_allowed": false,
+  "verified": {
+    "repository": true,
+    "sha_manifest_g2v5": true,
+    "sha_manifest_handoff": true,
+    "hero_a_direction": true,
+    "inter_font_choice": true,
+    "static_export_foundation": true,
+    "ci_automated_structure": true,
+    "browser_structural_1440_390_768_360": true,
+    "all_routes_assets_http_200": true
+  },
+  "pending": {
+    "final_ui_home_below_hero": "Matheus: falta UI de H03–H09 em alta fidelidade",
+    "final_ui_services": "Matheus: S01–S11 tem wireframe apenas",
+    "final_ui_about": "Matheus: A01–A06 sem layout aprovado",
+    "final_ui_contact": "Matheus: C01–C05 sem layout aprovado",
+    "institution_copy": "Vic e revisão técnica: textos, afirmações e credenciais",
+    "client_logo_public_repo": "Vic: autorização de distribuir logo no repositório público (ou tornar privado)",
+    "inter_font_files": "Engenharia: integrar arquivos oficiais/licença Inter com teste de carregamento",
+    "licensed_photography": "Vic/Math Brands: escolher foto, licença, fonte, eventual crédito e enquadramento",
+    "contact_channels": "Vic: confirmar email/telefone/WhatsApp/LinkedIn que serão públicos",
+    "form_backend_privacy": "Vic/Engenharia: aprovar campos, destino real, anti-spam, erro, consentimento/política",
+    "case_studies": "Vic: decisão editorial e autorização individual de cases ou omissão explícita",
+    "hosting_compatibility": "Vic/Engenharia: infraestrutura conhecida para stack/deploy finais",
+    "release_authorization": "Vic/Matheus: aprovação explícita, separada de merge",
+    "browser_visual_approval": "Matheus: execução Chrome passou nos 4 viewports; diferenças visuais e substituição de assets ainda precisam de homologação"
+  }
+}

@@ -2,7 +2,7 @@ name: PR Validation (no deploy)
 
 on:
   pull_request:
-    branches: [main, docs/pr-00-consolidacao-g4, feat/pr-01-fundacao-estatica]
+    branches: [main, docs/pr-00-consolidacao-g4, feat/pr-01-fundacao-estatica, feat/pr-02-hero-a-visual]
   workflow_dispatch:
 
 permissions:
@@ -31,4 +31,13 @@ jobs:
         run: npm test
       - name: Accessibility and route invariants
         run: npm run check
-      # Deliberadamente sem upload ou publicação de dist/.
+      - name: Real browser QA at 1440/390/768/360
+        run: npm run qa:browser
+      - name: Attach browser evidence, not site deployment
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: responsive-browser-evidence
+          path: artifacts/qa-browser/
+          if-no-files-found: warn
+      # No hosting, pages, or dist/ deployment.

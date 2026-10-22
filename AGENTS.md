@@ -1,14 +1,14 @@
-# Ykeizumi | Regras de engenharia
+# Ykeizumi | Regras para agentes e engenharia
 
-1. Fonte visual exclusiva: G2 V5 efetivamente aprovado, com **Hero A**. Não interpretar Hero B como aprovado, nem recriar pranchas não localizadas.
-2. Tipografia de interface aprovada: **Inter**. Não alterar lettering do logotipo oficial (Avenir Next faz parte do ativo de marca).
-3. Paleta oficial do Brandbook V2: verde #1E3B2D, secundário #7F9962, fundo #F8F6F2, grafite #2F3133. Proporções, recortes, efeitos e medidas definitivas dependem das pranchas G2 V5.
-4. Referência funcional: Planejamento Estrutural V1.2, respeitando decisões posteriores de Vic/Matheus e seus diferentes graus de aprovação.
-5. Repositório atualmente **público**: nunca commitar senhas, dados pessoais, documentos internos, conteúdo não liberado, fontes comerciais ou fotografias sem direitos verificados.
-6. Hospedagem e DNS: não acessar, configurar, contratar ou alterar. Publicação e merge: não autorizados.
-7. GitHub First: ler `docs/CHECKPOINT.md` e diferenças do Git antes de executar; PR-00 docs, PR-01 fundação somente após validação ADR, PR-02 UI somente após vínculo real do design.
-8. Até vincular o ZIP visual original, limitar-se a documentação e automações de inventário reversíveis. Não alegar QA visual.
-9. Propor fundamento compatível com exportação estática, mas não consolidar stack ou backend sem validação. Formulário não pode fingir sucesso.
-10. QA futuro: 1440, 390, 768 e 360px; contraste, navegação, focos, movimento reduzido, mídia, responsividade, sem overflow; anexar evidências executadas.
-11. Animações e interações adicionais significativas requerem revisão do diretor criativo.
-12. Priorizar testes determinísticos, leitura de checkpoints e diffs; Codex apenas quando a tarefa justificar.
+1. Preserve o G2 V5 REAL, verificado 50/50 hashes, e seu **Hero A aprovado**. Hero B é proibido. Leia `docs/G2_V5_BINDING.md` e `docs/CHECKPOINT.md` antes do diff.
+2. Inter aprovada para textos. Preservar assinatura oficial da marca, sem redesenhar lettering; a inclusão dos arquivos de fonte e logo depende de direitos no repositório público.
+3. Brandbook V2: #1E3B2D, #7F9962, #F8F6F2, #2F3133. Hero A tem variações de composição medidas para 1440/390/768/360.
+4. Planejamento Estrutural V1.2 para arquitetura e serviços SRV-01 a SRV-07; dados e claims técnicos dependem de aprovação Vic.
+5. Não assumir que wireframe de Home/Serviços ou estudo de Projetos sejam UI final homologada. Sobre e Contato carecem telas finais.
+6. Repositório PÚBLICO: não incluir arquivos privados, senhas, fotos sem licença, dados pessoais ou kit interno sem autorização.
+7. GitHub First: PR-00 → PR-01 → PR-02 → PR-04; evitar reauditorias sem diff material; novas mudanças em branch/PR revisáveis.
+8. Atualizar `docs/CHECKPOINT.md` ao fim de cada execução com testes efetivamente observados e bloqueios. Não declarar pixel-perfect sem revisão humana.
+9. Testes: `npm run lint`, `npm run build`, `npm test`, `npm run check`, `npm run qa:browser`. QA cobre 1440/390/768/360; comparar captures com referências, não apenas PASS estrutural.
+10. Nunca criar release, deploy, GitHub Pages, domínio, DNS, hosting ou backend não aprovado. `npm run check:release` DEVE falhar enquanto o gate estiver fechado.
+11. Formulário não pode registrar coleta nem sucesso fictício. Só integrar após aprovar backend/destinatário, política de dados e estados de erro.
+12. Animações relevantes, redesenho e novos elementos visuais exigem aprovação Matheus; adaptações pequenas e reversíveis seguem pranchas aprovadas.

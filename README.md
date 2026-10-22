@@ -1,18 +1,33 @@
-# Ykeizumi Consultoria Ambiental
+# Ykeizumi Consultoria Ambiental | GitHub First
 
-Repositório de trabalho da Math Brands para o website institucional Ykeizumi.
+**Status em 21/10/2026:** código de fundação e primeira implementação do Hero A disponíveis para continuidade técnica, SEM site final homologado ou publicação autorizada.
 
-**Estado:** preparação documental G4 → G5; nenhuma implementação ou publicação autorizada.
+## Roteiro de revisão
+- [PR-00](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/pull/1): fontes, hashes e documentação G2 V5 conferidos
+- [PR-01](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/pull/2): arquitetura estática provisória e 4 rotas
+- [PR-02](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/pull/3): implementação inicial da Home Hero A
+- [PR-04](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/pull/4): handoff, critérios de aceite, QA em navegador, documentação de bloqueios
 
-- Fonte visual definitiva: **G2 V5, Hero A** (pranchas originais ainda pendentes de vínculo).
-- Tipografia do website: **Inter**, preservando os arquivos oficiais do logotipo.
-- Documento funcional: Planejamento Estrutural V1.2 (18/10/2026).
-- Identidade: Kit de Marca Ykeizumi / Brandbook V2.
-- Fluxo: GitHub First, mudanças em Pull Requests e QA baseado em evidências.
-- Escopo de rotas: `/`, `/servicos`, `/sobre`, `/contato`; `/privacidade` condicionado a formulário ativo e conteúdo aprovado.
+**As PRs são encadeadas, estão em rascunho e NÃO foram mescladas.** A branch main não contém o site pronto.
 
-**Restrições:** sem deploy, hospedagem, DNS, serviços externos obrigatórios, cases fictícios ou confirmação simulada de formulário.
+## Execução em máquina de desenvolvimento
+Node.js 22 e Chrome/Chromium para QA em navegador. Não há dependências npm externas.
 
-Este README inicializa um repositório anteriormente vazio para permitir PR-00. A branch `main` permanece como ponto de partida documental; alterações subsequentes seguem por PR.
+```sh
+npm run lint
+npm run build
+npm test
+npm run check
+npm run qa:browser
+```
 
-**Importante:** este repositório está configurado como público. Não adicionar arquivos internos, conteúdo não liberado pela cliente, credenciais ou fotografias sem liberação explícita. Veja a consolidação G4 na PR-00.
+O build gera `dist/` com `/`, `/servicos/`, `/sobre/`, `/contato/`. Hero A aparece somente na Home; demais rotas permanecem scaffolds técnicos. As capturas estão em `artifacts/qa-browser/` e no artefato do GitHub Actions.
+
+## Aprovações e restrições
+- Hero A e Inter aprovados; Hero B não autorizado. SVGs e medidas reais vinculados em `docs/G2_V5_BINDING.md`.
+- H03–H09 e Serviços possuem wireframes, mas não layouts UI finais. Sobre/Contato também carecem arte final aprovada.
+- Conteúdo definitivo, contatos da Vic, foto/licença, logotipo oficial e arquivos de fonte estão pendentes.
+- Nenhum formulário ativo, backend, hosting, domínio, DNS, CI de deploy, release ou site público.
+- O repositório é PÚBLICO: jamais commitar segredos ou materiais privados sem liberação.
+
+**Leia primeiro:** `docs/CHECKPOINT.md`, `docs/CODEX_HANDOFF_G5.md`, `docs/GATES.json`, `docs/QA_VISUAL_G2V5.md`.
