@@ -52,11 +52,13 @@ try{
   let ready=false;
   for(let n=0;n<45;n++){try{ready=await run("document.readyState==='complete'&&!!document.querySelector('.ha-cta--main')");}catch{}if(ready)break;await sleep(100);}
   assert.ok(ready,"page not loaded "+width);
-  const metrics=await run('(()=>{const c=document.querySelector(".ha-cta--main"),r=c.getBoundingClientRect();return {vw:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector("h1")?.textContent,href:c.getAttribute("href"),left:r.left,right:r.right,visible:getComputedStyle(c).display!=="none",forms:document.querySelectorAll("form").length,media:!!document.querySelector(".ha-media-label")};})()');
+  const metrics=await run('(()=>{const c=document.querySelector(".ha-cta--main"),r=c.getBoundingClientRect();return {vw:innerWidth,scroll:document.documentElement.scrollWidth,h1:document.querySelector("h1")?.textContent,href:c.getAttribute("href"),left:r.left,right:r.right,visible:getComputedStyle(c).display!=="none",forms:document.querySelectorAll("form").length,media:!!document.querySelector(".ha-media-label"),photoLoaded:!!document.querySelector(".ha-photo")?.naturalWidth,photoCredit:!!document.querySelector(".ha-photo-credit")};})()');
   assert.equal(metrics.h1,"AMBIENTAL.");
   assert.equal(metrics.href,"./contato/");
   assert.equal(metrics.forms,0);
   assert.ok(metrics.visible&&metrics.media);
+  assert.ok(metrics.photoCredit,"provisional photographer credit missing");
+  if(!metrics.photoLoaded)console.warn("Photography remote unavailable in Chrome at "+width+"px; inspect screenshots and keep image gate pending.");
   const links = await run('Promise.all(["/","/servicos/","/sobre/","/contato/","/styles/tokens.css","/styles/base.css","/styles/hero-a.css","/scripts/mobile-menu.mjs"].map(async path=>({path,status:(await fetch(path)).status})))');
   assert.deepEqual(links.map(x=>x.status),Array(8).fill(200),
     "Broken internal route or asset: "+JSON.stringify(links));
