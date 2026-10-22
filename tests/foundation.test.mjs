@@ -35,6 +35,6 @@ test("interações não representam backend ou publicação", async () => {
   assert.match(html, /Nenhum dado é coletado/);
   assert.doesNotMatch(html, /<input\b|<form\b|fetch\(/);
   const tokens = await readFile(join(root, "dist", "styles", "tokens.css"), "utf8");
-  assert.match(tokens, /"Inter"/);
+  assert.match(tokens, /"Ykeizumi Avenir"/);
   assert.match(tokens, /#1e3b2d/);
 });
