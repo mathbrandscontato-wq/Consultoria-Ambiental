@@ -33,3 +33,9 @@ O build gera `dist/` com `/`, `/servicos/`, `/sobre/`, `/contato/`. Hero A apare
 **Tipografia:** Avenir configurada com fontes locais quando disponíveis; os arquivos comerciais enviados não foram republicados. Licença de uso web e webfont legalmente distribuível pendentes. Consulte `docs/TYPOGRAPHY_AVENIR.md`.
 
 **Leia primeiro:** `docs/CHECKPOINT.md`, `docs/CODEX_HANDOFF_G5.md`, `docs/GATES.json`, `docs/QA_VISUAL_G2V5.md`.
+
+## Aprovação visual G6 (25/10/2026)
+- Matheus aprovou a apresentação das quatro telas da PR-07, solicitando duas alterações: **Sobre: Lara imediatamente após Hero**; **Projetos: galeria de projetos**.
+- PR-08 implementa a nova ordem de Sobre e adiciona a rota `/projetos/` e a chamada de galeria na Home, com cards editoriais **claramente vazios** até receber projetos reais autorizados pela Vic.
+- O build da branch PR-08 agora gera **cinco rotas** (`/`, `/servicos/`, `/sobre/`, `/projetos/`, `/contato/`), preservando o restante da identidade aprovada.
+- Nenhum projeto ou imagem de cliente foi inventado. O bloqueio de release segue ativo enquanto faltarem mídia de projetos, licenciamento Avenir, contatos e homologação editorial.
