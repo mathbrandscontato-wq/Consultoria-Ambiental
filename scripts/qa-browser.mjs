@@ -83,6 +83,28 @@ try{
    assert.ok(escape,"menu Escape/focus");
   }
   results.push({width,height,result:"PASS",...metrics,links,topography:expectedTopo});
+  // Revalidar também as páginas novas nos breakpoints de referência.
+  if([1440,768,390,360].includes(width)){
+    for(const slug of ["servicos","sobre","contato"]){
+      await send("Page.navigate",{url:"http://127.0.0.1:"+port+"/"+slug+"/"});
+      let readyPage=false;
+      for(let i=0;i<50;i++){
+        try{readyPage=await run("document.readyState==='complete'&&!!document.querySelector('main h1')");}catch{}
+        if(readyPage)break;
+        await sleep(100);
+      }
+      assert.ok(readyPage,"Internal page did not load: "+slug+"/"+width);
+      const page=await run('(()=>({h1Count:document.querySelectorAll("main h1").length,overflow:document.documentElement.scrollWidth>innerWidth+1,heading:document.querySelector("main h1")?.textContent,hasForm:!!document.querySelector("form"),stage:document.querySelector("footer")?.textContent||""}))()');
+      assert.equal(page.h1Count,1,"Exactly one H1 on "+slug);
+      assert.equal(page.overflow,false,"Horizontal overflow on "+slug+"/"+width);
+      assert.equal(page.hasForm,false,"Contact must not fake submission");
+      assert.ok(page.stage.includes("revisão"),"Review-only disclosure missing");
+      const sc=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:true});
+      await writeFile(join(out,slug+"-"+width+".png"),Buffer.from(sc.data,"base64"));
+      results.push({width,height,route:slug,result:"PASS",...page});
+    }
+  }
+
  }
  await writeFile(join(out,"results.json"),JSON.stringify({browser:chromePath,results},null,2));
  console.log("Browser tests passed at 1440/390/768/360; not a visual design approval.");
