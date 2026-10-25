@@ -2,7 +2,7 @@ name: PR Validation (no deploy)
 
 on:
   pull_request:
-    branches: [main, docs/pr-00-consolidacao-g4, feat/pr-01-fundacao-estatica, feat/pr-02-hero-a-visual, chore/pr-03-implementation-readiness, feat/pr-05-refinamento-hero-editorial, feat/pr-06-avenir-typography]
+    branches: [main, docs/pr-00-consolidacao-g4, feat/pr-01-fundacao-estatica, feat/pr-02-hero-a-visual, chore/pr-03-implementation-readiness, feat/pr-05-refinamento-hero-editorial, feat/pr-06-avenir-typography, feat/pr-07-complete-pages-cloudflare-ready]
   workflow_dispatch:
 
 permissions:

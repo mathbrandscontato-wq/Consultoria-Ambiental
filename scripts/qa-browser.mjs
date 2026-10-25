@@ -60,8 +60,8 @@ try{
   assert.ok(metrics.visible&&metrics.media);
   assert.ok(metrics.photoCredit,"provisional photographer credit missing");
   if(!metrics.photoLoaded)console.warn("Photography remote unavailable in Chrome at "+width+"px; inspect screenshots and keep image gate pending.");
-  const links = await run('Promise.all(["/","/servicos/","/sobre/","/contato/","/styles/tokens.css","/styles/base.css","/styles/hero-a.css","/scripts/mobile-menu.mjs"].map(async path=>({path,status:(await fetch(path)).status})))');
-  assert.deepEqual(links.map(x=>x.status),Array(8).fill(200),
+  const links = await run('Promise.all(["/","/servicos/","/sobre/","/projetos/","/contato/","/styles/tokens.css","/styles/base.css","/styles/hero-a.css","/scripts/mobile-menu.mjs"].map(async path=>({path,status:(await fetch(path)).status})))');
+  assert.deepEqual(links.map(x=>x.status),Array(9).fill(200),
     "Broken internal route or asset: "+JSON.stringify(links));
   assert.ok(metrics.scroll<=width+1,"horizontal overflow at "+width+": "+metrics.scroll);
   assert.ok(metrics.left>=-1&&metrics.right<=width+1,"CTA clipped at "+width);
@@ -85,7 +85,7 @@ try{
   results.push({width,height,result:"PASS",...metrics,links,topography:expectedTopo});
   // Revalidar também as páginas novas nos breakpoints de referência.
   if([1440,768,390,360].includes(width)){
-    for(const slug of ["servicos","sobre","contato"]){
+    for(const slug of ["servicos","sobre","projetos","contato"]){
       await send("Page.navigate",{url:"http://127.0.0.1:"+port+"/"+slug+"/"});
       let readyPage=false;
       for(let i=0;i<50;i++){

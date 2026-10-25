@@ -1,3 +1,4 @@
+import { renderProjectGallery } from "./projects.mjs";
 /**
  * G6 — UI editorial REVISIONAL: estrutura de V1.2, sem promessas e sem
  * assumir a aprovação final de layout/contato/credenciais pela Vic.
@@ -29,6 +30,11 @@ export function renderHomeSections(){
       '<ul><li>Incorporação e construção</li><li>Indústria e empreendimentos</li><li>Prefeituras e consórcios públicos</li><li>Escritórios de advocacia, em demandas técnicas</li></ul></div></div>',"editorial-section--forest"),
     wrap("abordagem","Nossa abordagem",
       '<div class="editorial-split"><div><p class="editorial-kicker">03 / Perspectiva técnica</p><h2>Compreender o processo.<br><em>Interpretar o contexto.</em></h2></div><div class="editorial-copy"><p>A Ykeizumi reúne experiência nos processos de elaboração e análise de demandas ambientais. Uma perspectiva que contribui para estudar cada situação com responsabilidade técnica.</p>'+cta("./sobre/","Sobre a consultoria")+'</div></div>',"editorial-section--cream"),
+    wrap("projetos","Galeria de projetos",
+      '<div class="project-section-head"><div><p class="editorial-kicker">04 / Projetos</p><h2>Um olhar sobre<br><em>cada território.</em></h2></div>'+
+      '<div><p>Galeria preparada para receber registros reais de projetos, mediante autorização de imagens e informações.</p>'+
+      '<a class="project-section-link" href="./projetos/">Explorar galeria <span aria-hidden="true">↗</span></a></div></div>'+
+      renderProjectGallery({ compact:true }),"editorial-section--projects"),
     wrap("regiao","Região atendida",
       '<div class="editorial-region"><div><p class="editorial-kicker">04 / Onde estamos</p><h2>Joinville.<br>Norte e Litoral<br><em>catarinense.</em></h2></div><div class="editorial-region-shape" aria-hidden="true"><span>SC</span><span class="editorial-region-dot"></span></div></div>',"editorial-section--sage"),
     wrap("conversa","Solicitar proposta",
@@ -51,9 +57,16 @@ export function renderInnerPage(route){
  if(route.slug==="sobre"){
   return '<main id="conteudo" tabindex="-1" class="inner-page">'+
    section("page-banner page-banner--cream",intro("02 / Institucional","Uma perspectiva técnica sobre o ambiente.","A Ykeizumi é uma consultoria ambiental sediada em Joinville, com atuação principalmente no Norte e Litoral catarinense."))+
-   section("page-body",'<div class="editorial-split"><div><p class="editorial-kicker">Nossa atuação</p><h2>Experiência na elaboração e na análise.</h2></div><div class="editorial-copy"><p>A atuação reúne conhecimento das diferentes etapas que envolvem estudos e processos ambientais, incluindo vivência no setor público e privado, conforme informações institucionais em revisão.</p><p>Essa perspectiva orienta o olhar técnico sobre as particularidades de cada demanda.</p></div></div>')+
    section("page-profile",'<div class="editorial-split"><div><p class="editorial-kicker">Responsável técnica</p><h2>Lara Yumi</h2></div><div class="editorial-copy"><p>A apresentação detalhada da trajetória, formações e registros profissionais será publicada após validação da responsável pelo projeto.</p><p>Atendimento com base em Joinville, contemplando atividades técnicas e reuniões conforme a necessidade e a viabilidade de cada demanda.</p></div></div>')+
+   section("page-body",'<div class="editorial-split"><div><p class="editorial-kicker">Nossa atuação</p><h2>Experiência na elaboração e na análise.</h2></div><div class="editorial-copy"><p>A atuação reúne conhecimento das diferentes etapas que envolvem estudos e processos ambientais, incluindo vivência no setor público e privado, conforme informações institucionais em revisão.</p><p>Essa perspectiva orienta o olhar técnico sobre as particularidades de cada demanda.</p></div></div>')+
    section("page-outro",'<p class="editorial-kicker">Contato</p><h2>Conte sobre seu projeto.</h2>'+cta("../contato/"))+'</main>';
+ }
+
+ if(route.slug==="projetos"){
+  return '<main id="conteudo" tabindex="-1" class="inner-page">'+
+   section("page-banner page-banner--cream",intro("04 / Portfólio","Projetos.","Uma galeria editorial preparada para documentar iniciativas ambientais. As imagens e informações reais serão incluídas após aprovação e autorização das partes envolvidas."))+
+   section("page-project-gallery",'<div class="project-gallery-intro"><p class="editorial-kicker">Galeria / em preparação</p><p>Ainda não há projetos publicados. Os quadros abaixo demonstram a composição aprovada para a galeria, sem atribuir trabalhos não documentados à Ykeizumi.</p></div>'+renderProjectGallery())+
+   section("page-outro",'<p class="editorial-kicker">Contato</p><h2>Um novo projeto começa pela conversa.</h2>'+cta("../contato/"))+'</main>';
  }
  if(route.slug==="contato"){
   return '<main id="conteudo" tabindex="-1" class="inner-page">'+

@@ -2,11 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { SERVICES, ROUTE_MODULES, CONDITIONAL_MODULES, APPROVED_ART_DIRECTION, EDITORIAL_STATUS } from "../src/content/contracts.mjs";
-test("matriz V1.2 mantém exatamente 31 módulos nas quatro rotas",()=>{
+test("matriz V1.2 mantém 31 módulos e acrescenta 2 módulos da galeria aprovada",()=>{
   const ids=Object.values(ROUTE_MODULES).flat();
-  assert.equal(ids.length,31);
+  assert.equal(ids.length,33);
   assert.equal(new Set(ids).size,31);
-  assert.deepEqual(Object.keys(ROUTE_MODULES),["/","/servicos","/sobre","/contato"]);
+  assert.deepEqual(Object.keys(ROUTE_MODULES),["/","/servicos","/sobre","/contato","/projetos"]);
 });
 test("sete serviços reais, IDs únicos e sem promessas jurídicas inventadas",()=>{
   assert.deepEqual(SERVICES.map(s=>s.id),["SRV-01","SRV-02","SRV-03","SRV-04","SRV-05","SRV-06","SRV-07"]);
