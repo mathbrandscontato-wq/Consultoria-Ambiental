@@ -125,7 +125,7 @@
 .project-card:nth-child(5) { grid-column:span 4; }
 .project-card:nth-child(6) { grid-column:span 3; }
 .project-card__art {
-  min-height:18rem; aspect-ratio:5/4;
+  flex:1 1 auto; min-height:18rem; aspect-ratio:5/4;
   position:relative; overflow:hidden; isolation:isolate;
   background:linear-gradient(135deg,#294936,#607e63 65%,#a0b59d);
 }
