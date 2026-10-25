@@ -2,12 +2,14 @@
  * V1.2 → dados de implementação. Referência de estrutura, NÃO copy aprovada.
  * Fatos/serviços descritos no briefing devem receber texto final validado pela Vic.
  */
-export const CONTRACT_VERSION = "G5-2026-10-21";
+export const CONTRACT_VERSION = "G6-2026-10-25";
 export const ROUTE_MODULES = Object.freeze({
   "/": Object.freeze(["H01","H02","H03","H04","H05","H06","H07","H08","H09"]),
   "/servicos": Object.freeze(["S01","S02","S03","S04","S05","S06","S07","S08","S09","S10","S11"]),
   "/sobre": Object.freeze(["A01","A02","A03","A04","A05","A06"]),
-  "/contato": Object.freeze(["C01","C02","C03","C04","C05"])
+  "/contato": Object.freeze(["C01","C02","C03","C04","C05"]),
+  // Extensão autorizada em 25/10/2026, não presente como rota no escopo V1.2.
+  "/projetos": Object.freeze(["P01","P02"])
 });
 export const SERVICES = Object.freeze([
   { id:"SRV-01", module:"S02", title:"Licenciamento ambiental", review:"technical" },

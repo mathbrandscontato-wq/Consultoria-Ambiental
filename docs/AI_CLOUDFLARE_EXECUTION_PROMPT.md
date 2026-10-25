@@ -19,3 +19,5 @@ Hospedagem: Cloudflare Pages via integração nativa GitHub, Node 22 no build, c
 10. Entregar URL verificada, PR/commit, evidência de QA e documentação de custo, atualização e rollback. Não dizer que publicou até verificação real.
 
 REGRAS: sem segredos em texto, repo ou chat. site_publication_allowed=false significa BLOQUEADO. Não mesclar nem publicar sem gate concluído, apesar da intenção de publicação já autorizada pelo usuário.
+## Atualização de 25/10/2026
+Use a PR-08 `feat/pr-08-sobre-lara-galeria-projetos` como referência mais recente. A direção criativa aprovou as telas anteriores, solicitando Lara imediatamente após o Hero em Sobre e uma galeria de Projetos. O site possui **cinco rotas**, incluindo `/projetos/`. Não tratar placeholders da galeria como trabalhos concluídos nem publicar cases sem autorização individual. Validar as cinco rotas na Cloudflare somente após a liberação dos gates.

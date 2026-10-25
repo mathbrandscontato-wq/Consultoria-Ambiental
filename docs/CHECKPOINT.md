@@ -63,3 +63,9 @@ Ler este checkpoint, `docs/CODEX_HANDOFF_G5.md`, `docs/QA_VISUAL_G2V5.md`, `docs
 - Destino futuro: **yekeizumi.mathbrands.com.br** (grafia exata solicitada), Cloudflare Pages GitHub `main`, build `npm run build`, output `dist`, Node 22. Runbook em `docs/CLOUDFLARE_PAGES_DEPLOY.md` e prompt em `docs/AI_CLOUDFLARE_EXECUTION_PROMPT.md`.
 - Sem acesso Cloudflare associado, nenhuma alteração DNS e nenhuma publicação. Requer gate visual, editorial e operacional antes de merge/release.
 - Executar CI no HEAD final; não declarar QA aprovado sem conclusão do workflow.
+
+## PR-08 | 25/10/2026 — Aprovação visual parcial e galeria
+- Diretor criativo aprovou o design das quatro telas G6 da PR-07, condicionando a aprovação total a (1) **Lara Yumi como primeira seção de Sobre após Hero**, (2) inclusão de **galeria de projetos**. Nenhum outro redesenho autorizado.
+- Branch `feat/pr-08-sobre-lara-galeria-projetos` encadeada à PR-07, com nova rota `/projetos/`, galeria de seis posições editoriais e chamada na Home; cards vazios com indicação de conteúdo pendente. Fonte real de projetos/fotos e licenças ainda não fornecida.
+- Atualizar testes para cinco rotas, rodar 1440/768/390/360 e capturar páginas novas. Não declarar QA aprovado sem GitHub Actions observado.
+- Demais gates permanecem: Avenir webfont licenciada, assinatura oficial, conteúdo Vic, canal de contato real, eventuais imagens, Cloudflare delegada e autorização operacional. `site_publication_allowed=false`. Sem merge e sem deploy.

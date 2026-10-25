@@ -8,7 +8,7 @@ import { renderPage, escapeHtml } from "../src/lib/render.mjs";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 
 test("rotas internas únicas e restritas ao escopo", () => {
-  assert.deepEqual(routes.map((r) => r.slug), ["", "servicos", "sobre", "contato"]);
+  assert.deepEqual(routes.map((r) => r.slug), ["", "servicos", "sobre", "projetos", "contato"]);
   assert.equal(new Set(routes.map((r) => r.slug)).size, routes.length);
 });
 test("escapamento de conteúdo e navegação com página atual", () => {
@@ -22,7 +22,7 @@ test("escapamento de conteúdo e navegação com página atual", () => {
     assert.equal((html.match(/aria-current="page"/g) ?? []).length, 1);
   }
 });
-test("build exporta quatro páginas estáticas independentes", async () => {
+test("build exporta cinco páginas estáticas independentes", async () => {
   for (const route of routes) {
     const html = await readFile(join(root, "dist", route.slug, "index.html"), "utf8");
     assert.match(html, /<main id="conteudo"/);

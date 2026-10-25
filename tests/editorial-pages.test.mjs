@@ -10,7 +10,7 @@ test("sete serviços, navegação interna e sem cases inventados",()=>{
  for(const path of ["./servicos/","./contato/","./sobre/"])assert.ok(html.includes(path));
  assert.doesNotMatch(html,/clientes atendidos|projetos realizados|10\+ anos|1000\+/i);
 });
-test("quatro páginas completas semanticamente sem antiga mensagem de scaffold",()=>{
+test("cinco páginas de revisão semanticamente completas e sem scaffold",()=>{
  for(const r of routes){
   const html=renderPage(r);
   assert.equal((html.match(/<h1\b/g)??[]).length,1);

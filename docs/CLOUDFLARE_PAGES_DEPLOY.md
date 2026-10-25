@@ -37,3 +37,5 @@ Nome da empresa: Ykeizumi. O usuário solicitou HOST yekeizumi (com e adicional)
 
 ## Operação e entrega
 Documentar versão, SHA, URL real, configurações utilizadas, limite/custo Cloudflare, responsáveis, treinamento de atualização, rollback e remoção de permissões desnecessárias. Não armazenar credenciais.
+## Atualização de escopo de 25/10/2026
+A galeria de projetos foi solicitada e aprovada como tipo de página: agora são **cinco rotas**: `/`, `/servicos/`, `/sobre/`, `/projetos/`, `/contato/`. Atualizar validação HTTP/HTTPS e screenshot pós-publicação para incluir `/projetos/`. **Não liberar deploy de slots vazios como portfólio definitivo**; aguardar autorização dos conteúdos reais ou uma decisão editorial explícita de lançamento sem projetos.
