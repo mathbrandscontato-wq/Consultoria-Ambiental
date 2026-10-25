@@ -40,3 +40,6 @@ Cadeia de PRs: PR-00 (G4 documental) → PR-01 (G5 estático) → PR-02 (Hero A)
 
 ## Atualização de continuidade (21/10/2026)
 As pranchas G2 V5 reais foram recuperadas; a PR-04 agora possui quatro capturas de viewport em Chrome, mapas de rotas e topografia programática diferenciada por breakpoint. O próximo engenheiro deve consultar `docs/QA_VISUAL_G2V5.md` e executar o CI na cabeça da PR antes de reabrir trabalhos visuais. NÃO alterar a identidade aprovada nem declarar o site completo só porque o CI passou.
+
+## Decisão de 25/10/2026 — prevalece sobre G6 anterior
+Matheus aprovou visualmente as telas existentes com duas exceções: Sobre deve iniciar o conteúdo com **Lara Yumi após o Hero**; Projetos deve ser uma **galeria visual**, implementada em PR-08 como rota `/projetos/` e chamada em Home. Não redesenhar o restante. Slots são placeholders transparentes até Vic fornecer projetos reais aprovados. A nova arquitetura passa a cinco rotas, e o Cloudflare runbook deve considerar a rota extra. Site segue não publicado.
