@@ -72,7 +72,7 @@ export function renderHeroA() {
     '<nav class="ha-nav" aria-label="Navegação principal"><a href="./servicos/">Serviços</a><a href="./sobre/">Sobre</a><a href="./projetos/">Projetos</a><a href="./contato/">Contato</a>',
     cta("ha-cta--top"),'</nav>',
     '<details class="ha-mobile-menu"><summary aria-label="Abrir menu de navegação"><span aria-hidden="true">☰</span></summary>',
-    '<nav aria-label="Menu de celular"><a href="./">Início</a><a href="./servicos/">Serviços</a><a href="./sobre/">Sobre</a><a href="./contato/">Contato</a></nav>',
+    '<nav aria-label="Menu de celular"><a href="./">Início</a><a href="./servicos/">Serviços</a><a href="./sobre/">Sobre</a><a href="./projetos/">Projetos</a><a href="./contato/">Contato</a></nav>',
     '</details>',
     '</header>',
     '<div class="ha-main">',
