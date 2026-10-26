@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "updated": "2026-10-26",
+  "purpose": "Homologação privada do site estático, não release público",
+  "custom_domain": "yekeizumi.mathbrands.com.br",
+  "git_branch": "preview/yekeizumi-homologacao",
+  "wordpress_phase": "later",
+  "preview_intent_authorized": true,
+  "preview_code_ready": false,
+  "cloudflare_account_connected": false,
+  "cloudflare_pages_created": false,
+  "cloudflare_access_custom_domain_verified": false,
+  "cloudflare_access_pages_dev_verified": false,
+  "custom_domain_active": false,
+  "external_https_verified": false,
+  "qa_browser_live_verified": false,
+  "preview_url_shared": false,
+  "site_production_authorized": false,
+  "remaining": [
+    "Acesso delegado à Cloudflare para configurar Pages e DNS",
+    "Proteger custom domain e pages.dev por Cloudflare Access antes de divulgar",
+    "Criar Pages de preview a partir da branch dedicada",
+    "Confirmar TLS e 5 rotas no domínio real",
+    "Aprovação visual com revisão em celulares e desktops",
+    "WordPress Headless em Fase 2, somente depois da homologação"
+  ]
+}
