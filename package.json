@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Fundação técnica reversível G5, sem publicação",
+  "description": "Site Ykeizumi: aprovação estática separada da produção, WordPress somente fase 2",
   "engines": {
     "node": ">=20"
   },
@@ -14,6 +14,9 @@
     "check": "node scripts/check.mjs",
     "qa": "npm run lint && npm run build && npm test && npm run check",
     "qa:browser": "node scripts/qa-browser.mjs",
-    "check:release": "node scripts/release-gate.mjs --release"
+    "check:release": "node scripts/release-gate.mjs --release",
+    "build:preview": "node scripts/build.mjs --preview",
+    "check:preview": "node scripts/check-preview.mjs",
+    "qa:preview": "npm run qa && npm run build:preview && npm run check:preview"
   }
 }
