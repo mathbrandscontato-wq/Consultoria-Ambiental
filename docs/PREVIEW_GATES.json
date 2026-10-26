@@ -6,7 +6,7 @@
   "git_branch": "preview/yekeizumi-homologacao",
   "wordpress_phase": "later",
   "preview_intent_authorized": true,
-  "preview_code_ready": false,
+  "preview_code_ready": true,
   "cloudflare_account_connected": false,
   "cloudflare_pages_created": false,
   "cloudflare_access_custom_domain_verified": false,
@@ -23,5 +23,7 @@
     "Confirmar TLS e 5 rotas no domínio real",
     "Aprovação visual com revisão em celulares e desktops",
     "WordPress Headless em Fase 2, somente depois da homologação"
-  ]
+  ],
+  "qa_browser_local_verified": true,
+  "github_ci_last_success_run": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/40355098572"
 }
