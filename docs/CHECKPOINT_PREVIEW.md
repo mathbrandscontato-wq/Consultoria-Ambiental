@@ -12,3 +12,7 @@
 - Pendente para versão pública institucional: aprovação Vic de conteúdo/contato/projetos, licença Avenir webfont, logo final e QA pós-publicação.
 
 Próximo passo: CI no GitHub, depois acesso seguro à conta Cloudflare para configurar um projeto Pages separado de homologação, registrar URL real, validar domínio e controle de acesso.
+## CI observada em 26/10/2026
+- GitHub Actions #40355098572 concluída com sucesso no SHA 4845bd34303ec421d5a1506709c89571bbc88827.
+- Lint 22 módulos, 24 testes Node aprovados, 5 rotas geradas, Chrome QA em 1440/768/390/360, headers e robots de prévia validados. Sem deploy.
+- O gate preview_code_ready está marcado como true com base nas evidências. Os gates de acesso Cloudflare/DNS/HTTPS e produção continuam false.
