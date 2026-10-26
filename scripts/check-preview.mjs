@@ -1,0 +1,33 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { resolve, join } from "node:path";
+import { routes } from "../src/site.mjs";
+const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+const dist = join(root,"dist");
+const gates = JSON.parse(await readFile(join(root,"docs/GATES.json"),"utf8"));
+const preview = JSON.parse(await readFile(join(root,"docs/PREVIEW_GATES.json"),"utf8"));
+assert.equal(gates.site_publication_allowed,false,"Gate de produção deve permanecer bloqueado");
+assert.equal(preview.preview_intent_authorized,true);
+assert.equal(preview.wordpress_phase,"later");
+assert.equal(preview.custom_domain,"yekeizumi.mathbrands.com.br");
+assert.equal(preview.site_production_authorized,false);
+const robots=await readFile(join(dist,"robots.txt"),"utf8");
+const headers=await readFile(join(dist,"_headers"),"utf8");
+assert.match(robots,/User-agent: \*/);
+assert.match(robots,/Disallow: \//);
+assert.match(headers,/X-Robots-Tag: noindex, nofollow, noarchive/);
+assert.match(headers,/X-Frame-Options: DENY/);
+for(const route of routes){
+ const html=await readFile(join(dist,route.slug,"index.html"),"utf8");
+ assert.match(html,/<meta name="robots" content="noindex,nofollow">/);
+ assert.doesNotMatch(html,/<form\b|type="submit"|enviado com sucesso/i);
+ assert.match(html,/Conteúdo e composição em revisão/);
+}
+const contact=await readFile(join(dist,"contato","index.html"),"utf8");
+assert.match(contact,/não coleta dados/i);
+const projects=await readFile(join(dist,"projetos","index.html"),"utf8");
+assert.match(projects,/Ainda não há projetos publicados/);
+assert.equal(routes.length,5);
+console.info("PREVIEW PASS: 5 rotas, noindex, formulário inativo e bloqueio de produção preservado.");
+console.info("Cloudflare Access é obrigatório; robots/noindex não protegem privacidade.");

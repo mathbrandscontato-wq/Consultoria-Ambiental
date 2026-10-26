@@ -40,4 +40,8 @@ jobs:
           name: responsive-browser-evidence
           path: artifacts/qa-browser/
           if-no-files-found: warn
+      - name: Build noindex Cloudflare preview (no deploy)
+        run: npm run build:preview
+      - name: Assert preview restrictions
+        run: npm run check:preview
       # No hosting, pages, or dist/ deployment.

@@ -39,3 +39,9 @@ O build gera `dist/` com `/`, `/servicos/`, `/sobre/`, `/contato/`. Hero A apare
 - PR-08 implementa a nova ordem de Sobre e adiciona a rota `/projetos/` e a chamada de galeria na Home, com cards editoriais **claramente vazios** até receber projetos reais autorizados pela Vic.
 - O build da branch PR-08 agora gera **cinco rotas** (`/`, `/servicos/`, `/sobre/`, `/projetos/`, `/contato/`), preservando o restante da identidade aprovada.
 - Nenhum projeto ou imagem de cliente foi inventado. O bloqueio de release segue ativo enquanto faltarem mídia de projetos, licenciamento Avenir, contatos e homologação editorial.
+
+## Cloudflare Pages — homologação estática (26/10/2026)
+Foi escolhida uma prévia do site estático no subdomínio yekeizumi.mathbrands.com.br, antes da migração WordPress Headless. A branch preview/yekeizumi-homologacao é isolada e não modifica main.
+Comandos: npm run build:preview e npm run check:preview. Esses comandos geram noindex/robots e verificam a ausência de formulário, mas **não publicam**.
+Cloudflare Access é obrigatório no domínio personalizado **e** no pages.dev antes de disponibilizar a prévia. A conta Cloudflare ainda não foi conectada.
+Consulte docs/CLOUDFLARE_HOMOLOGACAO.md, docs/PREVIEW_GATES.json e docs/WORDPRESS_FASE_2.md. Produção institucional permanece bloqueada.

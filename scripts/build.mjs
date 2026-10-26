@@ -22,4 +22,12 @@ for (const route of routes) {
   await mkdir(out, { recursive: true });
   await writeFile(join(out, "index.html"), renderPage(route), "utf8");
 }
+if (process.argv.includes("--preview")) {
+  // Header e robots protegem indexação, mas Cloudflare Access é obrigatório.
+  await writeFile(join(dist, "robots.txt"), "User-agent: *\nDisallow: /\n", "utf8");
+  await writeFile(join(dist, "_headers"),
+    "/*\n  X-Robots-Tag: noindex, nofollow, noarchive\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n", "utf8");
+  console.info("Build de homologação sem deploy: robots.txt e _headers gerados");
+}
+
 console.info(`Arquivos estáticos gerados: ${routes.length} rotas, sem deploy.`);
