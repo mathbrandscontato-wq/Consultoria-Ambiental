@@ -8,7 +8,7 @@ import { renderPage, escapeHtml } from "../src/lib/render.mjs";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 
 test("rotas internas únicas e restritas ao escopo", () => {
-  assert.deepEqual(routes.map((r) => r.slug), ["", "servicos", "sobre", "projetos", "contato"]);
+  assert.deepEqual(routes.map((r) => r.slug), ["", "sobre", "servicos", "projetos", "contato"]);
   assert.equal(new Set(routes.map((r) => r.slug)).size, routes.length);
 });
 test("escapamento de conteúdo e navegação com página atual", () => {
@@ -17,9 +17,9 @@ test("escapamento de conteúdo e navegação com página atual", () => {
     const html = renderPage(route);
     assert.match(html, /aria-current="page"/);
     assert.match(html, /lang="pt-BR"/);
-    assert.match(html, /Solicitar proposta/);
+    assert.match(html, /Solicitar proposta/i);
     assert.match(html, /Pular para o conteúdo/);
-    assert.equal((html.match(/aria-current="page"/g) ?? []).length, 1);
+    assert.equal((html.match(/aria-current="page"/g) ?? []).length, route.slug ? 2 : 1);
   }
 });
 test("build exporta cinco páginas estáticas independentes", async () => {

@@ -69,3 +69,33 @@ Ler este checkpoint, `docs/CODEX_HANDOFF_G5.md`, `docs/QA_VISUAL_G2V5.md`, `docs
 - Branch `feat/pr-08-sobre-lara-galeria-projetos` encadeada à PR-07, com nova rota `/projetos/`, galeria de seis posições editoriais e chamada na Home; cards vazios com indicação de conteúdo pendente. Fonte real de projetos/fotos e licenças ainda não fornecida.
 - Atualizar testes para cinco rotas, rodar 1440/768/390/360 e capturar páginas novas. Não declarar QA aprovado sem GitHub Actions observado.
 - Demais gates permanecem: Avenir webfont licenciada, assinatura oficial, conteúdo Vic, canal de contato real, eventuais imagens, Cloudflare delegada e autorização operacional. `site_publication_allowed=false`. Sem merge e sem deploy.
+
+
+## 26/10/2026 | Prévia autorizada em ChatGPT Sites
+- Matheus autorizou hospedar a versão atual no ChatGPT Sites com endereço chatgpt.site, após indisponibilidade de acesso à zona DNS.
+- Escopo: prévia para revisão, cinco páginas preservadas; sem habilitar canais de contato, sem publicar cases fictícios, sem redistribuir fontes proprietárias.
+- Build, lint, 22 testes e inspeção estática aprovados nesta execução. Noindex e avisos de revisão preservados.
+- QA de navegador não reexecutado nesta migração de hospedagem; evidências anteriores não equivalem a nova inspeção visual.
+- O gate histórico de lançamento definitivo permanece fechado; esta autorização é específica para a prévia em Sites. Domínio personalizado e entrega definitiva continuam pendentes.
+
+## 26/10/2026 | G7.1 UX Motion
+Matheus forneceu plano e autorização expressa para implementar e publicar efeitos no Site existente. CSS/JS nativos, sem novas dependências. Ver `docs/UX_MOTION_G71.md` para escopo, QA, limitações e rollback V1. Preservar audiência privada, conteúdo provisório, contato não operacional, Hero A e galeria sem cases inventados. GitHub original não está automaticamente sincronizado ao repositório de fontes do Site.
+
+## 26/10/2026 | Revisão de emojis
+Revisados textos das cinco páginas, títulos, metadados, navegação e lightbox. Substituídos caracteres pictográficos das setas/menu por SVGs monocromáticos, preservando controles, nomes acessíveis e destinos. Removido símbolo de fechamento do texto do botão. Sem reescrita de conteúdo ou mudanças de audiência.
+
+## 26/10/2026 | Mídias fornecidas pelo diretor criativo
+Matheus autorizou vídeo na hero, Retrato.jpg no perfil da Lara e distribuição das demais fotos. Integrados vídeo 8,68s em H.264 sem áudio (1280/720, aproximadamente 2,4MB/647KB), poster WebP, retrato e seis fotografias únicas com srcset WebP. A duplicata de Teofilo não foi repetida. Mantidos textos/topografia da hero; substituídos crédito/aviso antigos de Unsplash pela identificação de vídeo ilustrativo. Galeria usa fotografias editoriais fornecidas, claramente identificadas como ilustrativas, sem afirmar cases reais. Reprodução respeita movimento reduzido/saveData, pausa manual, página oculta e saída do campo de visão. Retrato não retocado.
+QA: lint, build, 24 testes e check estático aprovados; Chrome confirmou vídeo readyState4/1280x720, reprodução/pausa, retrato carregado e lightbox com imagem real fornecida. Home/Sobre/Projetos em 1440/768/390/360/320 sem overflow. As imagens lazy fora da tela não foram forçadas a carregar; modal fechado tem imagem sem tamanho por definição. Conta privada e restrição de validação autenticada em produção preservadas.
+
+## 26/10/2026 | Hero com vídeo integral
+Solicitação do Matheus: vídeo cobre toda a hero com texto sobreposto; feito com poster, overlay de legibilidade, responsividade e controle de pausa existentes. A referência Pinterest do menu não pôde ser acessada e o menu não foi redesenhado por falta de conteúdo verificável da referência.
+
+## 26/10/2026 | Hero compacta
+Por solicitação do Matheus: removido CTA inferior e controle do vídeo; vídeo de fundo automático silencioso, respeitando movimento reduzido e economia de dados. Textura topográfica substituída por pontilhado com maior opacidade na base e transparência progressiva em direção ao centro. Altura da seção reduzida, mantendo navegação existente.
+
+## 27/10/2026 — Redesign integrado autorizado pelo prompt mestre
+
+O proprietário aprovou e solicitou execução autônoma do redesign de cinco páginas e publicação. Esta ordem recente prevalece sobre as antigas restrições visuais/operacionais de PRs históricos para o escopo especificado. Stack estática, marca, Avenir local-first, header/footer e assets preservados. Quatro páginas candidatas completas; novo Contato preparado somente em desenvolvimento, por ausência verificada de backend/destinatário e privacidade. Página pública Contato preservada.
+
+Baseline26testes; candidata38testes aprovados. Matriz real via navegador suportado: cinco rotas em oito larguras, sem overflow. Interações críticas de galeria, mapa, serviços, FAQ e lightbox verificadas. Sem Lighthouse/CWV medidos. Fontes públicas oficiais recuperadas pela pesquisa web; código original/Copy prompts não importados, adaptações declaradas. Registro central e relatório em docs/ykeizumi-component-registry.md e docs/ykeizumi-site-release.md. Gates históricos de lançamento integral não equivalem à publicação parcial autorizada. Ver relatório para versão publicada, rollback e bloqueios comprovados.

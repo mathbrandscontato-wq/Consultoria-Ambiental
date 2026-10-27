@@ -9,20 +9,20 @@ test("galeria contempla layout de projetos sem alegações de cases", () => {
   assert.equal(reviewSlots.length,6);
   assert.equal(hasApprovedProjects(),false);
   const html=renderProjectGallery();
-  assert.equal((html.match(/class="project-card project-card--placeholder/g)||[]).length,6);
-  assert.doesNotMatch(html,/<a\b|<img\b|clientes atendidos|cases reais/);
-  assert.match(html,/Conteúdo pendente/);
+  assert.equal((html.match(/class="project-image-link/g)||[]).length,6);
+  assert.doesNotMatch(html,/clientes atendidos|cases reais/);
+  assert.match(html,/Imagem ilustrativa/);
 });
 test("chamada Home usa somente três espaços e leva a galeria", () => {
   const html=renderPage(routes.find(x=>!x.slug));
   assert.ok(html.includes('href="./projetos/"'));
   assert.ok(html.includes('id="projetos"'));
   const gallery=renderProjectGallery({compact:true});
-  assert.equal((gallery.match(/project-card--placeholder/g)||[]).length,3);
+  assert.equal((gallery.match(/project-image-link/g)||[]).length,3);
 });
 test("ordem da página Sobre é abertura, Lara, experiência, contato", () => {
   const html=renderPage(routes.find(x=>x.slug==="sobre"));
-  const pos=["page-banner","page-profile","page-body","page-outro"].map(x=>html.indexOf('class="'+x));
+  const pos=['aria-labelledby="titulo-pagina"','id="lara-yumi"','id="visao"','id="conversa"'].map(x=>html.indexOf(x));
   assert.ok(pos.every(x=>x>=0),JSON.stringify(pos));
   assert.ok(pos.every((x,i)=>!i||x>pos[i-1]),"Lara deve ser a primeira seção após Hero");
   assert.match(html,/Lara Yumi/);

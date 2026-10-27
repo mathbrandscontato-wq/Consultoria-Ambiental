@@ -8,12 +8,10 @@ test("Hero A é a única variação autorizada na Home", () => {
   const html = renderHeroA();
   assert.match(html, /data-design="G2V5-HERO-A"/);
   assert.doesNotMatch(html, /Hero B/);
-  assert.match(html, /AMBIENTAL\./);
-  assert.match(html, /VISÃO TÉCNICA/);
-  assert.match(html, /ha-subtitle--tablet/);
-  assert.match(html, /ha-subtitle--phone/);
-  assert.match(html, /FOTOGRAFIA EDITORIAL · PROVISÓRIA/);
-  assert.match(html, /data-status="logo-oficial-nao-publicado"/);
+  assert.match(html, /Consultoria Ambiental<\/h1>/);
+  assert.match(html, /Visão Técnica sobre o território/);
+  assert.doesNotMatch(html, /ha-location|ha-provisional|VÍDEO ILUSTRATIVO/);
+  assert.match(html, /data-status="logo-oficial"/);
 });
 test("Home possui Hero e não duplica o header estrutural", () => {
   const html = renderPage(routes[0]);
@@ -30,14 +28,12 @@ test("Contato permanece como página técnica sem envio", () => {
   assert.match(html, /Nenhum dado é coletado/);
 });
 
-test("topografia usa geometrias individuais e copy das pranchas G2", () => {
+test("Hero usa pontilhado e vídeo, sem CTA inferior ou controles", () => {
   const html = renderHeroA();
-  for (const viewport of ["desktop","tablet","phone","small"]) {
-    assert.match(html, new RegExp('ha-lines--'+viewport));
-  }
-  assert.match(html, /Licenciamento, estudos e demandas ambientais com atuação no Norte e Litoral catarinense/);
-  assert.equal((html.match(/<svg /g) ?? []).length, 4);
-  assert.doesNotMatch(html, /data:image\//);
-  assert.match(html, /Bleron Salihi \/ Unsplash/);
-  assert.match(html, /não representa projeto/i);
+  assert.match(html, /class="ha-dots"/);
+  assert.match(html, /<video class="ha-video"/);
+  assert.doesNotMatch(html, /hero-video-toggle|ha-cta--main|ha-lines--/);
+  assert.match(html, /hero-poster\.webp/);
+  assert.match(html, /ha-cta--services" href=".\/servicos\//);
+  assert.match(html, /Joinville e Litoral de Santa Catarina/);
 });

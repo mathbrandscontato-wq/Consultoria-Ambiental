@@ -25,8 +25,8 @@ for (const route of routes) {
     assert.match(html, /data-design="G2V5-HERO-A"/);
     assert.match(html, /hero-a\.css/);
     assert.match(html, /mobile-menu\.mjs/);
-    assert.match(html, /images\.unsplash\.com\/photo-1654361700413-b4db34d37fc8/);
-    assert.match(html, /FOTOGRAFIA EDITORIAL · PROVISÓRIA/);
+    assert.match(html, /media\/hero-desktop\.mp4/);
+    assert.doesNotMatch(html, /VÍDEO ILUSTRATIVO|ha-location/);
   }
   for (const target of routes) {
     const link = prefix + (target.slug ? target.slug + "/" : "");

@@ -1,3 +1,4 @@
+import { serviceCards } from './services.mjs';
 /**
  * V1.2 → dados de implementação. Referência de estrutura, NÃO copy aprovada.
  * Fatos/serviços descritos no briefing devem receber texto final validado pela Vic.
@@ -11,15 +12,8 @@ export const ROUTE_MODULES = Object.freeze({
   // Extensão autorizada em 25/10/2026, não presente como rota no escopo V1.2.
   "/projetos": Object.freeze(["P01","P02"])
 });
-export const SERVICES = Object.freeze([
-  { id:"SRV-01", module:"S02", title:"Licenciamento ambiental", review:"technical" },
-  { id:"SRV-02", module:"S03", title:"Estudos ambientais", review:"technical" },
-  { id:"SRV-03", module:"S04", title:"Laudos", review:"technical" },
-  { id:"SRV-04", module:"S05", title:"Defesas administrativas e assistência técnica", review:"legal-boundary" },
-  { id:"SRV-05", module:"S06", title:"Áreas contaminadas e due diligence ambiental", review:"technical" },
-  { id:"SRV-06", module:"S07", title:"Assessoria técnica a prefeituras e consórcios intermunicipais", review:"technical" },
-  { id:"SRV-07", module:"S08", title:"Apoio em audiências públicas e relacionamento com órgãos ambientais", review:"technical" }
-].map(Object.freeze));
+// Legacy module IDs retained; public service names derive from the current single registry.
+export const SERVICES = Object.freeze(serviceCards.map((service,index)=>Object.freeze({id:'SRV-'+service.num,module:'S'+String(index+2).padStart(2,'0'),title:service.title,review:index===3?'legal-boundary':'technical'})));
 export const CONDITIONAL_MODULES = Object.freeze(["H08","S10"]);
 export const APPROVED_ART_DIRECTION = Object.freeze({
   hero:"A",
