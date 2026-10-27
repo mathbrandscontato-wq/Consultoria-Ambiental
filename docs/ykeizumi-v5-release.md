@@ -86,3 +86,20 @@ Candidata validada para publicação no ambiente existente. O registro final da 
 A inspeção do primeiro arquivo tar detectou6 páginas temporárias de QA. A versão24 foi apenas salva, não recebeu deploy, e não deve ser publicada. O preview foi encerrado e o build refeito limpo. A causa operacional foi a permanência/restauração de arquivos temporários no diretório sincronizado enquanto o preview estava aberto; não se atribui um defeito de código sem evidência adicional. O check agora rejeita qualquer HTML além das cinco rotas aprovadas e módulos de contato de desenvolvimento. A candidata limpa é empacotada com build+checks ordenados depois de encerrar o preview e tem inspeção explícita do tar antes de salvar.
 
 CI GitHub do commit930d60c6634f846f988adbf58f89278cabb127b7: run40582374354, job122464860316, SUCCESS incluindo46 testes e qa:browser remoto. A adição posterior do gate de pacote será verificada no head correspondente.
+
+## Registro final de publicação
+
+**Status: parcialmente publicado nos termos do V5.** Todas as melhorias visuais/editoriais/SEO independentes estão publicadas. O envio real do formulário permanece bloqueado pela integração e pelos dados de tratamento pendentes; a página pública Contato continua transparente e sem coleta.
+
+- URL: https://ykeizumi-consultoria-ambiental.mthsdoliveira.chatgpt.site
+- Ambiente: Sites existente, público, com noindex,nofollow preservado; sem DNS/domínio/hosting alterados.
+- Versão publicada:25, ID `appgprj_6adf8696a404819180e8bf53b4757b4b~appgver_ea9d9a91a4588191945455329d34bc66`.
+- Fonte publicada: `36beae03e7c63840b4a845b3eebe62045fdb460c`.
+- Deploy: `appgdep_6ae11079900c819197c195b2fa71431e`, **succeeded**, 27/10/2026 às17:58:49 (America/Sao_Paulo).
+- Pacote verificado:55 arquivos incluindo manifest de hosting; cinco HTML, zero páginas de QA ou scripts de Contato em desenvolvimento.
+- CI GitHub head de código `0ddd2492734aa8f8667f8baa816f6856ae7656e1`, run40582667114, job122465902564: **SUCCESS** incluindo testes e navegador remoto. PR10 mantida draft, sem merge.
+- Verificação pública: cinco rotas acessadas no CUA; titles/description/OG próprios, umH1, noindex, zero links fictícios no footer, sem overflow, imagens com src carregadas e zero forms públicos. FAQ expandiu; mapa abriu e zoom respondeu; `#s07` abriu serviço correspondente; galeria abriu, avançou por teclado e fechou por Escape; túnel público observado com progresso0,5237, stage fixo no topo e retrato carregado.
+- Evidência de produção: `docs/evidence/v5-about-published.jpg`. Comparação anterior: `v5-about-before.jpg`; demais evidências: hero desktop, quadro do túnel e hero mobile em viewport de teste.
+- Nenhuma regressão crítica observada, sem rollback. A versão24 foi apenas salva e excluída da publicação pelo gate de pacote.
+
+O registro final é documentação posterior à versão publicada. Sua sincronização de fonte não implica novo deploy de runtime; a versão25 permanece vinculada ao SHA exato acima.
