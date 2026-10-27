@@ -109,3 +109,10 @@ CI GitHub posterior: run40536820905 no commit9f6a59e062d1d719cadfc40200f6a30d3e3
 Revisadas as cinco páginas e o Contato em desenvolvimento. Setas e símbolos dos controles substituídos por SVG ou desenho CSS, incluindo navegação da galeria, links, reset do mapa e pausa/reprodução. Ícones vetoriais institucionais preservados. Sem alteração de textos, dados ou destinos.
 
 Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco rotas e varredura dos HTML/CSS/JS gerados sem Emoji_Presentation, seletor de apresentação emoji ou keycaps.
+
+## 27/10/2026 — Introdução compacta e retirada dos sobretítulos
+- Removidos os elementos visuais editorial-kicker de Home, Sobre, Serviços, Projetos, Contato e CTAs compartilhados. Títulos e descrições mantidos.
+- Introdução da Home em duas colunas no desktop: título à esquerda, apoio e link agrupados à direita; uma coluna em telas menores. Espaçamento vertical reduzido.
+- Grade introdutória de Projetos ajustada para não deixar coluna vazia após a remoção do sobretítulo.
+- npm run qa: lint, build, 38 testes e inspeção estática aprovados. QA pelo navegador em 1440/768/390/360 na Home e nas cinco rotas em 390: sem overflow horizontal, zero sobretítulos. Inspeção visual desktop concluída.
+- A rotina qa:browser será executada pelo CI da PR revisável; verificação responsiva local feita via navegador suportado.
