@@ -9,7 +9,7 @@ const dist = join(root, "dist");
 await rm(dist, { recursive: true, force: true });
 await mkdir(join(dist, "styles"), { recursive: true });
 
-for (const style of ["tokens.css", "base.css", "hero-a.css", "sections.css", "motion.css", "refinement.css", "footer.css", "unified.css", "about.css", "services.css", "atlas.css", "about-tunnel.css", "v5-editorial.css"]) {
+for (const style of ["tokens.css", "base.css", "hero-a.css", "sections.css", "motion.css", "refinement.css", "footer.css", "unified.css", "about.css", "services.css", "atlas.css", "about-tunnel.css", "v5-editorial.css", "responsive-type.css"]) {
   const content = await readFile(join(root, "src/styles", style), "utf8");
   await writeFile(join(dist, "styles", style), content, "utf8");
 }

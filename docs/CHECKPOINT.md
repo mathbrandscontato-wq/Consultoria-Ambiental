@@ -126,3 +126,9 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Envio de contato não publicado: endpoint/destinatário e informações de tratamento de dados ausentes. Sem medição CWV de campo ou alegação WCAG integral.
 
 - Publicação V5 concluída: versão25, fonte36beae03e7c63840b4a845b3eebe62045fdb460c, deploy appgdep_6ae11079900c819197c195b2fa71431e succeeded. Versão24 salva com QA temporário não publicada; pacote limpo validado com5HTML/zeroQA. Gate negativo de export comprovado. CI0ddd249 SUCCESS, run40582667114. Cinco rotas públicas e interações fundamentais verificadas no CUA. Detalhes/evidência em docs/ykeizumi-v5-release.md.
+
+## 27/10/2026 — Hotfix V5.4
+- Instrução definitiva superveniente: túnel apenas na terceira seção Sobre #visao. Seção02 #lara-yumi recuperada seletivamente de1d838a0, componente e about.css comparados byte a byte, sem wrappers/transformações residuais.
+- Textos do túnel centralizados e escalados com titleState, fotos em primeiro plano; stage ocupa viewport inteira e recorta só na borda externa. Sem scroll hijacking; transição para seção04 e reversão verificadas.
+- Títulos sem br artificial e com quebra natural/wrap; metadados/SEO, HeroA, serviços, footer e CSS dos heros preservados. SVG do Bento conserva suas definições.
+- QA46 testes e inspeção estática PASS. CUA40 combinações (5rotas×8larguras320–1920 incluindo1280) sem overflow, headings cortados, quebras manuais ou imagens com src quebrado. Evidências e detalhes docs/ykeizumi-v54-hotfix.md.

@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { renderPage } from '../src/lib/render.mjs';
 import { routes } from '../src/site.mjs';
-import { clamp, cardState } from '../src/scripts/tunnel-model.mjs';
+import { clamp, cardState, titleState } from '../src/scripts/tunnel-model.mjs';
 
 const source = relative => readFile(new URL('../'+relative, import.meta.url), 'utf8');
 const page = slug => renderPage(routes.find(route => route.slug === slug));
@@ -45,17 +45,21 @@ test('V5 heros internos fotográficos contêm texto, fotografia e um único CTA 
   assert.match(sections(page(''))[0],/class="ha-video"/,'Home mantém hero em vídeo');
 });
 
-test('V5 Perspective Tunnel pertence apenas à seção 02 de Sobre e preserva Lara',()=>{
+test('V5.4 restaura Lara na seção 02 e mantém Perspective Tunnel só na seção 03',()=>{
   const about=sections(page('sobre'));
   assert.equal(about.length,6,'Seis seções de Sobre devem ser preservadas');
   assert.match(about[1],/id="lara-yumi"/);
-  assert.match(about[1],/\babout-tunnel\b/);
+  assert.doesNotMatch(about[1],/\babout-tunnel\b|translateZ|tunnel-card/);
+  assert.match(about[2],/id="visao"/);
+  assert.match(about[2],/\babout-tunnel\b/);
+  assert.match(about[2],/Cada território apresenta desafios próprios/);
+  assert.doesNotMatch(about[2],/data-scroll-reveal|data-reveal|data-image-reveal/);
   assert.match(about[1],/<h2[^>]*>Lara Yumi<\/h2>/);
   assert.match(about[1],/src="\.\.\/media\/lara-yumi-640.webp"/);
   assert.match(about[1],/alt="Retrato de Lara Yumi"/);
   assert.match(about[1],/Joinville/);
   assert.doesNotMatch(about[1],/<canvas\b|class="[^"]*is-enhanced/,'Conteúdo é estático antes do aprimoramento JS');
-  for(const [i,section] of about.entries())if(i!==1)assert.doesNotMatch(section,/\babout-tunnel\b/,'Tunnel fora da seção 02');
+  for(const [i,section] of about.entries())if(i!==2)assert.doesNotMatch(section,/\babout-tunnel\b/,'Tunnel fora da seção 03');
   for(const slug of ['','servicos','projetos','contato'])assert.doesNotMatch(page(slug),/class="[^"]*\babout-tunnel\b/,slug);
 });
 
@@ -78,7 +82,7 @@ function tunnelHarness(script,{reduce=false}={}){
   const stage={clientWidth:1100,clientHeight:900,offsetHeight:900};
   const section={style:style(),offsetHeight:1800,getBoundingClientRect:()=>({top}),classList:{toggle(key,on){if(on)classes.add(key);else classes.delete(key);}},querySelector(selector){return selector==='.about-tunnel-stage'?stage:anchor;},querySelectorAll(){return cards;}};
   const media={matches:reduce,addEventListener(type,fn){listeners.push({target:'media',type,fn});}};
-  const context={document:{querySelector:()=>section},window:{},innerWidth:1440,matchMedia:()=>media,clamp,cardState,Math,requestAnimationFrame(fn){const id=++nextFrame;frames.set(id,fn);return id;},cancelAnimationFrame(id){frames.delete(id);},addEventListener(type,fn,options){listeners.push({target:'window',type,fn,options});}};
+  const context={document:{querySelector:()=>section},window:{},innerWidth:1440,matchMedia:()=>media,clamp,cardState,titleState,Math,requestAnimationFrame(fn){const id=++nextFrame;frames.set(id,fn);return id;},cancelAnimationFrame(id){frames.delete(id);},addEventListener(type,fn,options){listeners.push({target:'window',type,fn,options});}};
   vm.runInNewContext(script.replace(/^import[^\n]*\n/,''),context);
   let time=0;
   const settle=()=>{for(let i=0;i<110&&frames.size;i++){time+=16;const pending=[...frames.values()];frames.clear();for(const fn of pending)fn(time);}};
@@ -89,10 +93,13 @@ test('V5 tunnel acompanha rolagem real reversível, sem interceptar wheel ou tou
   const script=await source('src/scripts/about-tunnel.mjs');
   const harness=tunnelHarness(script);harness.settle();
   const initial=harness.cards[0].style.transform;
+  const initialTitle=harness.anchor.style.transform;
   harness.scroll(-700);const progressed=harness.cards[0].style.transform;
   assert.notEqual(progressed,initial,'A posição no eixo Z deve mudar com scroll');
+  assert.notEqual(harness.anchor.style.transform,initialTitle,'Texto cresce junto com as imagens');
   for(const card of harness.cards)assert.equal(Number.parseFloat(card.style.height)/Number.parseFloat(card.style.width),1.25,'Cards preservam enquadramento 4:5 independente do CSS de perfil');
   harness.scroll(0);assert.equal(harness.cards[0].style.transform,initial,'Voltar na página reverte o estado');
+  assert.equal(harness.anchor.style.transform,initialTitle,'O texto também reverte a escala ao subir');
   assert.equal(harness.frames.size,0,'O loop deve parar quando o estado estável é alcançado');
   assert.ok(harness.listeners.some(entry=>entry.type==='scroll'&&entry.options?.passive===true));
   assert.ok(harness.listeners.every(entry=>!['wheel','touchmove','touchstart'].includes(entry.type)),'Tunnel não pode capturar navegação vertical');

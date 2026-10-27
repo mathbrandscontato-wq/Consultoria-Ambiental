@@ -1,4 +1,4 @@
-import { clamp, cardState } from './tunnel-model.mjs';
+import { clamp, cardState, titleState } from './tunnel-model.mjs';
 // Supplied 21st.dev geometry adapted to the existing static stack and native scroll.
 // No wheel/touch handler, lock, animation framework, tracker or external asset.
 const section=document.querySelector('.about-tunnel');
@@ -12,7 +12,8 @@ if(section){
  function paint(){
   const {width,height,mobile}=dimensions;
   const selected=mobile?cards.slice(0,4):cards;
-  anchor.style.transform=`translateZ(${-100+160*current}px)`;
+  const typography=titleState(current);
+  anchor.style.transform=`scale(${typography.scale})`;anchor.style.opacity=typography.opacity;
   cards.forEach((image,index)=>{
    if(index>=selected.length){image.style.opacity=0;return;}
    const state=cardState(current,index,selected.length,mobile);
@@ -35,7 +36,7 @@ if(section){
  function configure(){
   cancelAnimationFrame(frame);frame=0;
   section.classList.toggle('is-enhanced',!reduced.matches);
-  if(reduced.matches){anchor.style.removeProperty('transform');cards.forEach(i=>i.style.removeProperty('transform'));return;}
+  if(reduced.matches){anchor.style.removeProperty('transform');anchor.style.removeProperty('opacity');cards.forEach(i=>i.style.removeProperty('transform'));return;}
   measure();schedule();
  }
  if('IntersectionObserver'in window){new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible)schedule();else{cancelAnimationFrame(frame);frame=0;}},{rootMargin:'100px'}).observe(section);}else visible=true;

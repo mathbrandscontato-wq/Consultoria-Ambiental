@@ -72,6 +72,7 @@ export const renderPage = (route) => {
   <link rel="stylesheet" href="${prefix}styles/unified.css">
   ${(pageStyles[route.slug]||[]).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}">`).join("\n  ")}
   <link rel="stylesheet" href="${prefix}styles/v5-editorial.css">
+  <link rel="stylesheet" href="${prefix}styles/responsive-type.css">
   <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
   <script type="module" src="${prefix}scripts/motion.mjs"></script>
   <script type="module" src="${prefix}scripts/unified.mjs"></script>
