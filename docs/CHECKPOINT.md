@@ -134,3 +134,8 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - QA46 testes e inspeção estática PASS. CUA40 combinações (5rotas×8larguras320–1920 incluindo1280) sem overflow, headings cortados, quebras manuais ou imagens com src quebrado. Evidências e detalhes docs/ykeizumi-v54-hotfix.md.
 
 - Hotfix V5.4 publicado: versão26, fonte93fb4abfc1e798783710f9c11ebf38b9ede3e15f; deploy appgdep_6ae1175187148191b820f4e834788324 succeeded. CI5a2ea134 SUCCESS(run40586730366). CUA público confirmou5 rotas sem regressão, perfil semtúnel e instância única terceira seção#visao com escala central/fotos em primeiro plano. Relatório final docs/ykeizumi-v54-hotfix.md.
+
+## 27/10/2026 — Título da seção Conhecimento aplicado / Projetos
+- Causa real: .atlas-context-heading mantinha grid com duas colunas .7fr/1.3fr, mas só havia o H2 na primeira e a segunda vazia. O hotfix anterior retirou max-width do texto, mas não essa limitação do pai.
+- Removido grid vazio; cabeçalho passa a bloco de largura integral. H2 ocupa100% do container, com mesma fonte, tamanho e redação. Removida regra mobile redundante de grid. Só src/styles/atlas.css alterado no runtime.
+- npm run qa46 testes PASS. CUA320/390/768/1024/1440/1920 sem overflow, largura do H2 igual ao container em todos; desktop1440/1920 com2 linhas em1200px. Publicação pelo mesmo Site, sem mudar indexação, SEO, conteúdo ou demais seções.
