@@ -1,0 +1,11 @@
+/* V5.4 — text uses its existing grid column, with native line wrapping. */
+main :is(h1,h2,h3,h4,h5,h6) { text-wrap:wrap;white-space:normal;overflow-wrap:break-word; }
+/* Existing hero columns, type sizes and component rhythm are preserved. */
+.unified-hero .editorial-hero-grid .page-head h1,
+.about-page .about-hero .page-head h1,
+.about-page .about-section-head h2,
+.services-page .services-section-heading h2,
+.atlas-introduction h2,.atlas-section-heading h2,.atlas-context-heading h2,
+.home-introduction h2,.home-services-head h2,.project-section-head h2,
+.region-heading h2,.gradient-cta h2,.inner-page .page-head h1 { max-width:100%; }
+@media(min-width:768px){.segment-cloud h2 { white-space:normal; }}

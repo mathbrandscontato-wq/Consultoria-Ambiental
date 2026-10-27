@@ -8,7 +8,7 @@ import { renderPage, escapeHtml } from "../src/lib/render.mjs";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 
 test("rotas internas únicas e restritas ao escopo", () => {
-  assert.deepEqual(routes.map((r) => r.slug), ["", "servicos", "sobre", "projetos", "contato"]);
+  assert.deepEqual(routes.map((r) => r.slug), ["", "sobre", "servicos", "projetos", "contato"]);
   assert.equal(new Set(routes.map((r) => r.slug)).size, routes.length);
 });
 test("escapamento de conteúdo e navegação com página atual", () => {
@@ -17,16 +17,19 @@ test("escapamento de conteúdo e navegação com página atual", () => {
     const html = renderPage(route);
     assert.match(html, /aria-current="page"/);
     assert.match(html, /lang="pt-BR"/);
-    assert.match(html, /Solicitar proposta/);
+    assert.match(html, /Solicitar proposta/i);
     assert.match(html, /Pular para o conteúdo/);
-    assert.equal((html.match(/aria-current="page"/g) ?? []).length, 1);
+    assert.equal((html.match(/aria-current="page"/g) ?? []).length, route.slug ? 2 : 1);
   }
 });
 test("build exporta cinco páginas estáticas independentes", async () => {
   for (const route of routes) {
     const html = await readFile(join(root, "dist", route.slug, "index.html"), "utf8");
     assert.match(html, /<main id="conteudo"/);
-    assert.match(html, /Conteúdo e composição em revisão/);
+    assert.match(html, /<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
+    assert.match(html, /<nav[^>]*aria-label="Institucional"/);
+    assert.match(html,/© \d{4} Ykeizumi Consultoria Ambiental/);
+    assert.match(html, /<meta name="robots" content="noindex,nofollow">/);
     assert.doesNotMatch(html, /<form\b/);
   }
 });

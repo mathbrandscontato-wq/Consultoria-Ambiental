@@ -7,20 +7,24 @@ test("sete serviços, navegação interna e sem cases inventados",()=>{
  assert.equal(serviceCards.length,7);
  assert.equal(new Set(serviceCards.map(x=>x.slug)).size,7);
  const html=renderHomeSections();
- for(const path of ["./servicos/","./contato/","./sobre/"])assert.ok(html.includes(path));
- assert.doesNotMatch(html,/clientes atendidos|projetos realizados|10\+ anos|1000\+/i);
+ for(const path of ["./servicos/","./projetos/"])assert.ok(html.includes(path));
+ assert.match(html,/As imagens são ilustrativas/);
+ assert.doesNotMatch(html,/clientes atendidos|10\+ anos|1000\+/i);
 });
-test("cinco páginas de revisão semanticamente completas e sem scaffold",()=>{
+test("cinco páginas semanticamente completas e sem scaffold",()=>{
  for(const r of routes){
   const html=renderPage(r);
   assert.equal((html.match(/<h1\b/g)??[]).length,1);
   assert.doesNotMatch(html,/em preparação<\/h1>/);
-  assert.match(html,/Conteúdo e composição em revisão/);
+  assert.match(html,/<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
+  assert.match(html,/<nav[^>]*aria-label="Institucional"/);
+  assert.match(html,/© \d{4} Ykeizumi Consultoria Ambiental/);
+  assert.match(html,/<meta name="robots" content="noindex,nofollow">/);
  }
 });
 test("contato ainda bloqueado, sem coleta ou sucesso falso",()=>{
  const html=renderPage(routes.find(r=>r.slug==="contato"));
- assert.match(html,/não coleta dados/i);
+ assert.match(html,/Nenhum dado é coletado/i);
  assert.doesNotMatch(html,/<form\b|type="submit"|enviado com sucesso/i);
 });
 test("sete grupos de serviço têm IDs de destino reais",()=>{

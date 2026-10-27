@@ -1,0 +1,64 @@
+/* Atlas Ambiental: illustrative media and authorized project records remain separate. */
+.atlas-page { background:#f8f6f2;color:#1e3b2d; }
+.atlas-introduction { display:grid;grid-template-columns:minmax(0,1fr); }
+.atlas-introduction h2 { max-width:21ch; }
+.atlas-introduction p:not(.editorial-kicker) { max-width:54ch;font-size:1.08rem;line-height:1.75;margin:2rem 0 0; }
+.atlas-introduction .atlas-editorial-note { font-size:.95rem;color:#62705c; }
+.atlas-archive { background:#e8ece3; }
+.atlas-section-heading { margin-bottom:3rem;max-width:54rem; }
+.atlas-section-heading h2 { font-size:clamp(2rem,4.3vw,4.2rem);max-width:23ch; }
+.atlas-section-heading>p:last-child:not(.editorial-kicker) { max-width:52ch;line-height:1.7;color:#62705c;margin-top:1.5rem; }
+.archive-empty { display:grid;grid-template-columns:minmax(0,.65fr) minmax(0,1fr);align-items:center;gap:clamp(2rem,6vw,6rem);border-top:1px solid #bdc8b7;padding:3rem 0 0; }
+.archive-empty-mark { max-width:260px;opacity:.58; }
+.archive-empty-mark svg { width:100%;stroke:#7f9962;stroke-width:1; }
+.archive-status { font-size:.78rem;letter-spacing:.04em;color:#53684d; }
+.archive-empty h3 { font-size:clamp(1.6rem,3vw,2.6rem);font-weight:400;line-height:1.15;letter-spacing:-.035em;margin:1rem 0; }
+.archive-empty p:last-child { max-width:45ch;line-height:1.7;color:#52634b; }
+.atlas-visual { background:#f8f6f2; }
+.atlas-masonry .project-gallery { display:block;columns:3;column-gap:1.4rem; }
+.atlas-masonry .project-gallery .project-card { display:inline-block;width:100%;break-inside:avoid;margin:0 0 1.4rem;grid-column:auto!important;grid-row:auto;background:transparent;border-radius:0;overflow:visible;vertical-align:top; }
+.atlas-masonry .project-card__art { display:block;min-height:0;aspect-ratio:auto;height:auto;background:#dce3d5;border-radius:4px;overflow:hidden; }
+.atlas-masonry .project-image-link { display:block;position:relative;overflow:hidden; }
+.atlas-masonry .project-card:nth-child(3n+1) img { aspect-ratio:4/5; }
+.atlas-masonry .project-card:nth-child(3n+2) img { aspect-ratio:5/4; }
+.atlas-masonry .project-card:nth-child(3n) img { aspect-ratio:1; }
+.atlas-masonry .project-card__art img { display:block;width:100%;height:auto;object-fit:cover;transition:transform .55s cubic-bezier(.2,.7,.2,1); }
+.atlas-masonry .project-image-link:hover img { transform:scale(1.025); }
+.atlas-masonry .project-image-link:focus-visible { outline:3px solid #7f9962;outline-offset:4px; }
+.atlas-masonry .project-card__footer { display:block;padding:1rem 0 .35rem;background:none; }
+.atlas-masonry .project-card__footer span { display:block; }
+.atlas-masonry .project-card__footer span:first-child { font-size:1.05rem;font-weight:500;margin-bottom:.35rem; }
+.atlas-masonry .project-card__footer span:last-child { font-size:.63rem;letter-spacing:.1em; }
+.atlas-expand { display:grid;place-items:center;position:absolute;right:.8rem;bottom:.8rem;width:2rem;height:2rem;border-radius:50%;background:#f8f6f2eb;color:#1e3b2d;font-size:1.15rem;transition:transform .2s; }
+.atlas-masonry .project-image-link:hover .atlas-expand { transform:translate(2px,-2px); }
+.atlas-context { background:#e8ece3; }
+.atlas-context-heading { margin-bottom:3rem; }
+.atlas-context-heading h2 { font-size:clamp(2rem,3.7vw,3.6rem);max-width:100%; }
+.atlas-context-links a { display:grid;grid-template-columns:4rem minmax(0,1fr) 2rem;align-items:start;gap:1rem;border-top:1px solid #bdc8b7;padding:1.8rem 0;color:inherit;text-decoration:none; }
+.atlas-context-links a:last-child { border-bottom:1px solid #bdc8b7; }
+.atlas-context-number { font-size:.75rem;padding-top:.4rem;color:#62705c; }
+.atlas-context-links h3 { margin:0;font-size:clamp(1.35rem,2.4vw,2rem);font-weight:500;letter-spacing:-.025em; }
+.atlas-context-links p { line-height:1.6;color:#52634b;max-width:62ch;margin:.6rem 0 0;font-size:.95rem; }
+.atlas-context-arrow { font-size:1.8rem;transition:transform .2s; }
+.atlas-context-links a:hover .atlas-context-arrow { transform:translate(4px,-4px); }
+.atlas-context-links a:focus-visible { outline:3px solid #7f9962;outline-offset:4px; }
+.verified-projects { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem; }
+.verified-project { min-width:0; }
+.verified-project img { width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:6px; }
+.verified-project h3 { font-size:1.7rem;line-height:1.2; }
+.verified-project p { line-height:1.6; }
+@media(max-width:1023px){.atlas-masonry .project-gallery{columns:2}.atlas-introduction{grid-template-columns:1fr;gap:1rem}.atlas-introduction .editorial-kicker{margin-bottom:.5rem}}
+@media(max-width:600px){
+ .atlas-masonry .project-gallery { columns:1; }
+ .atlas-masonry .project-card:nth-child(n) img { aspect-ratio:5/4; }
+ .atlas-masonry .project-card:first-child img { aspect-ratio:4/5; }
+ .atlas-section-heading { margin-bottom:2rem; }
+ .archive-empty { grid-template-columns:1fr;gap:1.5rem;padding-top:2rem; }
+ .archive-empty-mark { max-width:130px; }
+ .atlas-context-heading .editorial-kicker { margin-bottom:1rem; }
+ .atlas-context-links a { grid-template-columns:1.5rem minmax(0,1fr) 1.5rem;gap:.5rem; }
+ .atlas-context-arrow { font-size:1.4rem; }
+ .atlas-introduction p:not(.editorial-kicker) { font-size:1rem; }
+ .verified-projects { grid-template-columns:1fr; }
+}
+@media(prefers-reduced-motion:reduce){.atlas-masonry .project-card__art img,.atlas-expand,.atlas-context-arrow{transition:none}.atlas-masonry .project-image-link:hover img,.atlas-masonry .project-image-link:hover .atlas-expand,.atlas-context-links a:hover .atlas-context-arrow{transform:none}}

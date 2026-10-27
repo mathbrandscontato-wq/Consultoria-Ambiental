@@ -69,3 +69,75 @@ Ler este checkpoint, `docs/CODEX_HANDOFF_G5.md`, `docs/QA_VISUAL_G2V5.md`, `docs
 - Branch `feat/pr-08-sobre-lara-galeria-projetos` encadeada à PR-07, com nova rota `/projetos/`, galeria de seis posições editoriais e chamada na Home; cards vazios com indicação de conteúdo pendente. Fonte real de projetos/fotos e licenças ainda não fornecida.
 - Atualizar testes para cinco rotas, rodar 1440/768/390/360 e capturar páginas novas. Não declarar QA aprovado sem GitHub Actions observado.
 - Demais gates permanecem: Avenir webfont licenciada, assinatura oficial, conteúdo Vic, canal de contato real, eventuais imagens, Cloudflare delegada e autorização operacional. `site_publication_allowed=false`. Sem merge e sem deploy.
+
+
+## 26/10/2026 | Prévia autorizada em ChatGPT Sites
+- Matheus autorizou hospedar a versão atual no ChatGPT Sites com endereço chatgpt.site, após indisponibilidade de acesso à zona DNS.
+- Escopo: prévia para revisão, cinco páginas preservadas; sem habilitar canais de contato, sem publicar cases fictícios, sem redistribuir fontes proprietárias.
+- Build, lint, 22 testes e inspeção estática aprovados nesta execução. Noindex e avisos de revisão preservados.
+- QA de navegador não reexecutado nesta migração de hospedagem; evidências anteriores não equivalem a nova inspeção visual.
+- O gate histórico de lançamento definitivo permanece fechado; esta autorização é específica para a prévia em Sites. Domínio personalizado e entrega definitiva continuam pendentes.
+
+## 26/10/2026 | G7.1 UX Motion
+Matheus forneceu plano e autorização expressa para implementar e publicar efeitos no Site existente. CSS/JS nativos, sem novas dependências. Ver `docs/UX_MOTION_G71.md` para escopo, QA, limitações e rollback V1. Preservar audiência privada, conteúdo provisório, contato não operacional, Hero A e galeria sem cases inventados. GitHub original não está automaticamente sincronizado ao repositório de fontes do Site.
+
+## 26/10/2026 | Revisão de emojis
+Revisados textos das cinco páginas, títulos, metadados, navegação e lightbox. Substituídos caracteres pictográficos das setas/menu por SVGs monocromáticos, preservando controles, nomes acessíveis e destinos. Removido símbolo de fechamento do texto do botão. Sem reescrita de conteúdo ou mudanças de audiência.
+
+## 26/10/2026 | Mídias fornecidas pelo diretor criativo
+Matheus autorizou vídeo na hero, Retrato.jpg no perfil da Lara e distribuição das demais fotos. Integrados vídeo 8,68s em H.264 sem áudio (1280/720, aproximadamente 2,4MB/647KB), poster WebP, retrato e seis fotografias únicas com srcset WebP. A duplicata de Teofilo não foi repetida. Mantidos textos/topografia da hero; substituídos crédito/aviso antigos de Unsplash pela identificação de vídeo ilustrativo. Galeria usa fotografias editoriais fornecidas, claramente identificadas como ilustrativas, sem afirmar cases reais. Reprodução respeita movimento reduzido/saveData, pausa manual, página oculta e saída do campo de visão. Retrato não retocado.
+QA: lint, build, 24 testes e check estático aprovados; Chrome confirmou vídeo readyState4/1280x720, reprodução/pausa, retrato carregado e lightbox com imagem real fornecida. Home/Sobre/Projetos em 1440/768/390/360/320 sem overflow. As imagens lazy fora da tela não foram forçadas a carregar; modal fechado tem imagem sem tamanho por definição. Conta privada e restrição de validação autenticada em produção preservadas.
+
+## 26/10/2026 | Hero com vídeo integral
+Solicitação do Matheus: vídeo cobre toda a hero com texto sobreposto; feito com poster, overlay de legibilidade, responsividade e controle de pausa existentes. A referência Pinterest do menu não pôde ser acessada e o menu não foi redesenhado por falta de conteúdo verificável da referência.
+
+## 26/10/2026 | Hero compacta
+Por solicitação do Matheus: removido CTA inferior e controle do vídeo; vídeo de fundo automático silencioso, respeitando movimento reduzido e economia de dados. Textura topográfica substituída por pontilhado com maior opacidade na base e transparência progressiva em direção ao centro. Altura da seção reduzida, mantendo navegação existente.
+
+## 27/10/2026 — Redesign integrado autorizado pelo prompt mestre
+
+O proprietário aprovou e solicitou execução autônoma do redesign de cinco páginas e publicação. Esta ordem recente prevalece sobre as antigas restrições visuais/operacionais de PRs históricos para o escopo especificado. Stack estática, marca, Avenir local-first, header/footer e assets preservados. Quatro páginas candidatas completas; novo Contato preparado somente em desenvolvimento, por ausência verificada de backend/destinatário e privacidade. Página pública Contato preservada.
+
+Baseline26testes; candidata38testes aprovados. Matriz real via navegador suportado: cinco rotas em oito larguras, sem overflow. Interações críticas de galeria, mapa, serviços, FAQ e lightbox verificadas. Sem Lighthouse/CWV medidos. Fontes públicas oficiais recuperadas pela pesquisa web; código original/Copy prompts não importados, adaptações declaradas. Registro central e relatório em docs/ykeizumi-component-registry.md e docs/ykeizumi-site-release.md. Gates históricos de lançamento integral não equivalem à publicação parcial autorizada. Ver relatório para versão publicada, rollback e bloqueios comprovados.
+
+Publicação observada: versão21 do Sites, source4ecadd5e48885cd547a1e170143fa7c208ad176f, deployappgdep_6ae0c9bb1d1481919f992db8f08c7e24 succeeded. Cinco URLs verificadas diretamente no navegador; quatro redesigns no ar e Contato anterior preservado. PR10 GitHub em draft, commit804447c9def36c16d61f20dbb03eb71e06f5cfd7, sem merge. Relatório de release atualizado com IDs, capturas, resultados e bloqueios.
+
+CI GitHub posterior: run40536820905 no commit9f6a59e062d1d719cadfc40200f6a30d3e364687 SUCCESS,38testes e navegador em oito larguras. A falha inicial era o seletor/título do Hero antigo no script legado; correção ampliou a cobertura sem desativar checks. Sem alteração do conteúdo publicado versão21.
+
+## Remoção de emojis e glifos — 27/10/2026
+
+Revisadas as cinco páginas e o Contato em desenvolvimento. Setas e símbolos dos controles substituídos por SVG ou desenho CSS, incluindo navegação da galeria, links, reset do mapa e pausa/reprodução. Ícones vetoriais institucionais preservados. Sem alteração de textos, dados ou destinos.
+
+Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco rotas e varredura dos HTML/CSS/JS gerados sem Emoji_Presentation, seletor de apresentação emoji ou keycaps.
+
+## 27/10/2026 — Introdução compacta e retirada dos sobretítulos
+- Removidos os elementos visuais editorial-kicker de Home, Sobre, Serviços, Projetos, Contato e CTAs compartilhados. Títulos e descrições mantidos.
+- Introdução da Home em duas colunas no desktop: título à esquerda, apoio e link agrupados à direita; uma coluna em telas menores. Espaçamento vertical reduzido.
+- Grade introdutória de Projetos ajustada para não deixar coluna vazia após a remoção do sobretítulo.
+- npm run qa: lint, build, 38 testes e inspeção estática aprovados. QA pelo navegador em 1440/768/390/360 na Home e nas cinco rotas em 390: sem overflow horizontal, zero sobretítulos. Inspeção visual desktop concluída.
+- A rotina qa:browser será executada pelo CI da PR revisável; verificação responsiva local feita via navegador suportado.
+
+## 27/10/2026 — Prompt Mestre V5
+- Heros internos editoriais, CTA compartilhado com Home, mobile sobre foto, header uma linha.
+- Perspective Tunnel só no segundo bloco Sobre #lara-yumi; código fornecido adaptado à stack nativa, scroll natural, retrato e textos preservados. Fallback reduced-motion e viewport curto.
+- Copy4 setores/5 caminhos/7 serviços, metadata5 rotas e OG; noindex mantido, sem novos serviços/trackers/canonical especulativo.
+- Footer sem links sociais fictícios nem aviso de revisão; ícones preservados. Lightbox com swipe, captura/ID/cancelamento.
+- QA completo:46 testes, lint, build e check PASS;35 combinações de viewport no CUA sem overflow/umH1/zero tags; galeria/menu/túnel verificados. Relatórios docs/ykeizumi-v5-*.md.
+- Envio de contato não publicado: endpoint/destinatário e informações de tratamento de dados ausentes. Sem medição CWV de campo ou alegação WCAG integral.
+
+- Publicação V5 concluída: versão25, fonte36beae03e7c63840b4a845b3eebe62045fdb460c, deploy appgdep_6ae11079900c819197c195b2fa71431e succeeded. Versão24 salva com QA temporário não publicada; pacote limpo validado com5HTML/zeroQA. Gate negativo de export comprovado. CI0ddd249 SUCCESS, run40582667114. Cinco rotas públicas e interações fundamentais verificadas no CUA. Detalhes/evidência em docs/ykeizumi-v5-release.md.
+
+## 27/10/2026 — Hotfix V5.4
+- Instrução definitiva superveniente: túnel apenas na terceira seção Sobre #visao. Seção02 #lara-yumi recuperada seletivamente de1d838a0, componente e about.css comparados byte a byte, sem wrappers/transformações residuais.
+- Textos do túnel centralizados e escalados com titleState, fotos em primeiro plano; stage ocupa viewport inteira e recorta só na borda externa. Sem scroll hijacking; transição para seção04 e reversão verificadas.
+- Títulos sem br artificial e com quebra natural/wrap; metadados/SEO, HeroA, serviços, footer e CSS dos heros preservados. SVG do Bento conserva suas definições.
+- QA46 testes e inspeção estática PASS. CUA40 combinações (5rotas×8larguras320–1920 incluindo1280) sem overflow, headings cortados, quebras manuais ou imagens com src quebrado. Evidências e detalhes docs/ykeizumi-v54-hotfix.md.
+
+- Hotfix V5.4 publicado: versão26, fonte93fb4abfc1e798783710f9c11ebf38b9ede3e15f; deploy appgdep_6ae1175187148191b820f4e834788324 succeeded. CI5a2ea134 SUCCESS(run40586730366). CUA público confirmou5 rotas sem regressão, perfil semtúnel e instância única terceira seção#visao com escala central/fotos em primeiro plano. Relatório final docs/ykeizumi-v54-hotfix.md.
+
+## 27/10/2026 — Título da seção Conhecimento aplicado / Projetos
+- Causa real: .atlas-context-heading mantinha grid com duas colunas .7fr/1.3fr, mas só havia o H2 na primeira e a segunda vazia. O hotfix anterior retirou max-width do texto, mas não essa limitação do pai.
+- Removido grid vazio; cabeçalho passa a bloco de largura integral. H2 ocupa100% do container, com mesma fonte, tamanho e redação. Removida regra mobile redundante de grid. Só src/styles/atlas.css alterado no runtime.
+- npm run qa46 testes PASS. CUA320/390/768/1024/1440/1920 sem overflow, largura do H2 igual ao container em todos; desktop1440/1920 com2 linhas em1200px. Publicação pelo mesmo Site, sem mudar indexação, SEO, conteúdo ou demais seções.
+
+- Publicado versão27 (fonte c41dfa3492de8ae8d421fbb631ab7eaf8d86e8f4), deploy appgdep_6ae11abf36f48191b6681bdf60881956 succeeded. CI112c068 SUCCESS, run40588829214. Conferência pública: cabeçalho block, H2 e container ambos1200px e2 linhas. Evidência docs/evidence/projects-context-title-published.jpg. Gate excluiu página temporária do QA antes do pacote final limpo; build/check46testes aprovados no helper de empacotamento.

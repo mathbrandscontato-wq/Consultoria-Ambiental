@@ -1,12 +1,14 @@
-import { approvedProjects, reviewSlots } from "../content/projects.mjs";
+import { publishableProjects } from '../content/project-registry.mjs';
+import { reviewSlots, editorialPhotos } from "../content/projects.mjs";
 import { escapeHtml } from "./escape.mjs";
 
 /**
  * Galeria visual aprovada como estrutura, não como portfólio com cases reais.
  * Slots explicitamente vazios não podem ser tratados como projetos realizados.
  */
-export function renderProjectGallery({ compact = false } = {}) {
-  const items = approvedProjects.length ? approvedProjects : reviewSlots;
+export function renderProjectGallery({ compact = false, prefix = "./" } = {}) {
+  const verified=publishableProjects().map(project=>({title:project.titulo,alt:project.titulo,image:project.imagemCapa,category:project.categoria||"Projeto documentado",state:"verified"}));
+  const items = verified.length ? verified : editorialPhotos.length ? editorialPhotos : reviewSlots;
   const visible = compact ? items.slice(0, 3) : items;
   const markup = visible.map((project, index) => {
     if (project.state === "awaiting-approval") {
@@ -24,13 +26,15 @@ export function renderProjectGallery({ compact = false } = {}) {
         '</li>';
     }
     // Para entradas futuras, exige imagem e consentimento previamente verificados.
-    return '<li class="project-card"><div class="project-card__art project-card__art--photo">'+
-      '<img loading="lazy" decoding="async" src="'+escapeHtml(project.image)+
-      '" alt="'+escapeHtml(project.alt)+'" width="800" height="600"></div>'+
+    const image = project.state === 'editorial' ? prefix+'media/'+project.id+'-1280.webp' : project.image;
+    const responsive = project.state === 'editorial' ? ' srcset="'+escapeHtml(prefix+'media/'+project.id+'-640.webp')+' 640w, '+escapeHtml(image)+' 1280w" sizes="(max-width:650px) 100vw, 60vw"' : '';
+    return '<li class="project-card '+(index === 0 ? 'project-card--feature' : '')+'"><div class="project-card__art project-card__art--photo">'+
+      '<a class="project-image-link" href="'+escapeHtml(image)+'" aria-label="Ampliar imagem: '+escapeHtml(project.title)+'"><img loading="lazy" decoding="async" src="'+escapeHtml(image)+
+      '"'+responsive+' alt="'+escapeHtml(project.alt)+'" width="800" height="600"></a></div>'+
       '<div class="project-card__footer"><span>'+escapeHtml(project.title)+
       '</span><span>'+escapeHtml(project.category)+'</span></div></li>';
   }).join("\n");
   return '<ul class="project-gallery '+(compact?'project-gallery--compact':'')+
-    '" aria-label="Galeria de projetos, materiais em revisão">'+markup+'</ul>';
+    '" aria-label="Galeria de imagens ilustrativas">'+markup+'</ul>';
 }
-export const hasApprovedProjects = () => approvedProjects.length > 0;
+export const hasApprovedProjects = () => publishableProjects().length > 0;

@@ -1,3 +1,4 @@
+import { routes, routeHref } from '../site.mjs';
 /**
  * Hero A | Ykeizumi G2 V5 | proposta de implementação.
  * Topografia geométrica redesenhada por parâmetros medidos nas pranchas da Math Brands,
@@ -57,51 +58,39 @@ function renderContours(model) {
     '</svg>';
 }
 
-const arrow='<span class="ha-arrow" aria-hidden="true">↗</span>';
-const cta = variant =>
-  '<a class="ha-cta '+variant+'" href="./contato/"><span>Solicitar proposta</span>'+arrow+'</a>';
+const arrow='<span class="ha-arrow" aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span>';
+export const heroCta = (variant, href="./contato/", label="Solicitar Proposta") =>
+  '<a class="ha-cta '+variant+'" href="'+href+'"><span class="hover-dot" aria-hidden="true"></span><span class="hover-label">'+label+'</span><span class="hover-reveal" aria-hidden="true">'+label+' '+arrow+'</span>'+'</a>';
 
 export function renderHeroA() {
   return [
     '<main id="conteudo" tabindex="-1">',
     '<section class="ha" data-design="G2V5-HERO-A" aria-labelledby="titulo-pagina">',
-    '<header class="ha-header">',
-    '<a class="ha-logo" data-status="logo-oficial-nao-publicado" href="./" aria-current="page" aria-label="Ykeizumi Consultoria Ambiental, início">',
-    '<span class="ha-symbol" aria-hidden="true">YK</span><span class="ha-wordmark" aria-hidden="true">Y K E I Z U M I<small>CONSULTORIA AMBIENTAL</small></span>',
-    '</a>',
-    '<nav class="ha-nav" aria-label="Navegação principal"><a href="./servicos/">Serviços</a><a href="./sobre/">Sobre</a><a href="./projetos/">Projetos</a><a href="./contato/">Contato</a>',
-    cta("ha-cta--top"),'</nav>',
-    '<details class="ha-mobile-menu"><summary aria-label="Abrir menu de navegação"><span aria-hidden="true">☰</span></summary>',
-    '<nav aria-label="Menu de celular"><a href="./">Início</a><a href="./servicos/">Serviços</a><a href="./sobre/">Sobre</a><a href="./projetos/">Projetos</a><a href="./contato/">Contato</a></nav>',
-    '</details>',
-    '</header>',
-    '<div class="ha-main">',
-    '<p class="ha-eyebrow">CONSULTORIA AMBIENTAL <span>· JOINVILLE / SC</span></p>',
-    '<h1 id="titulo-pagina" class="ha-title">AMBIENTAL.</h1>',
-    '<div class="ha-divider" aria-hidden="true"></div>',
-    '<h2 class="ha-subtitle" aria-label="Visão técnica sobre o território">',
-    '<span class="ha-subtitle--desktop" aria-hidden="true">VISÃO TÉCNICA SOBRE<br> O TERRITÓRIO.</span>',
-    '<span class="ha-subtitle--tablet" aria-hidden="true">VISÃO TÉCNICA.<br> SOBRE O TERRITÓRIO.</span>',
-    '<span class="ha-subtitle--phone" aria-hidden="true">VISÃO TÉCNICA<br> SOBRE O<br> TERRITÓRIO.</span>',
-    '</h2>',
-    '<div class="ha-media" aria-label="Fotografia editorial ilustrativa com grafismo topográfico">',
-    '<img class="ha-photo" src="https://images.unsplash.com/photo-1654361700413-b4db34d37fc8?auto=format&amp;fit=crop&amp;w=1000&amp;q=78" srcset="https://images.unsplash.com/photo-1654361700413-b4db34d37fc8?auto=format&amp;fit=crop&amp;w=720&amp;q=76 720w, https://images.unsplash.com/photo-1654361700413-b4db34d37fc8?auto=format&amp;fit=crop&amp;w=1200&amp;q=80 1200w" sizes="(max-width: 480px) 100vw, (max-width: 820px) 92vw, 704px" width="1000" height="1200" decoding="async" fetchpriority="high" alt="Vista aérea ilustrativa de vale florestado e relevo montanhoso, sem relação com projetos realizados pela Ykeizumi">',
+    '<div class="ha-media" aria-label="Paisagem natural">',
+    '<img class="ha-photo" src="./media/hero-poster.webp" width="1280" height="720" decoding="async" fetchpriority="high" alt="Paisagem natural">',
+    '<video class="ha-video" muted loop playsinline preload="none" poster="./media/hero-poster.webp" data-desktop="./media/hero-desktop.mp4" data-mobile="./media/hero-mobile.mp4" aria-hidden="true" tabindex="-1"></video>',
     '<div class="ha-photo-shade" aria-hidden="true"></div>',
-    ...topoModels.map(renderContours),
+    '<div class="ha-dots" aria-hidden="true"></div>',
     '<span class="ha-crop ha-crop--tl" aria-hidden="true"></span>',
     '<span class="ha-crop ha-crop--tr" aria-hidden="true"></span>',
     '<span class="ha-crop ha-crop--bl" aria-hidden="true"></span>',
     '<span class="ha-crop ha-crop--br" aria-hidden="true"></span>',
-    '<span class="ha-media-label">FOTOGRAFIA EDITORIAL · PROVISÓRIA</span>',
-    '<a class="ha-photo-credit" href="https://unsplash.com/pt-br/fotografias/uma-vista-aerea-de-um-vale-verde-exuberante-YPN2ChAUM_k" target="_blank" rel="noopener noreferrer">Foto: Bleron Salihi / Unsplash</a>',
     '</div>',
-    '<p class="ha-description">',
-    '<span class="ha-description--desktop">Atuação em licenciamento, estudos e demandas ambientais de diferentes setores.</span>',
-    '<span class="ha-description--phone">Licenciamento, estudos e demandas ambientais com atuação no Norte e Litoral catarinense.</span>',
-    '</p>',
-    cta("ha-cta--main"),
-    '<div class="ha-location"><small>ATUAÇÃO DOCUMENTADA</small><strong>Joinville</strong><span>Norte e Litoral de SC</span></div>',
-    '<p class="ha-provisional">IMAGEM ILUSTRATIVA · NÃO REPRESENTA PROJETO EXECUTADO</p>',
-    '</div></section></main>'
+    '<header class="ha-header">',
+    '<a class="ha-logo" data-status="logo-oficial" href="./" aria-current="page" aria-label="Ykeizumi Consultoria Ambiental, início">',
+    '<img class="brand-image" src="./media/logo-white.webp" width="1024" height="200" alt="Ykeizumi Consultoria Ambiental">',
+    '</a>',
+    '<nav class="ha-nav" aria-label="Navegação principal">'+routes.map(route=>'<a href="'+routeHref(route)+'">'+route.label+'</a>').join(''),
+    heroCta("ha-cta--top"),'</nav>',
+    '<details class="ha-mobile-menu"><summary aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mobile-navigation"><span aria-hidden="true"><svg class="ui-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span></summary>',
+    '<nav id="mobile-navigation" aria-label="Menu de celular">'+routes.map(route=>'<a href="'+routeHref(route)+'">'+route.label+'</a>').join('')+'</nav>',
+    '</details>',
+    '</header>',
+    '<div class="ha-main">',
+    '<h1 id="titulo-pagina" class="ha-title">Consultoria Ambiental</h1>',
+    '<h2 class="ha-subtitle">Visão Técnica sobre o território.</h2>',
+    '<h3 class="ha-description">Atuação em licenciamento, estudos e demandas ambientais de diferentes setores. Atuação em Joinville e Litoral de Santa Catarina.</h3>',
+    heroCta("ha-cta--services", "./servicos/", "Conheça nossos serviços"),
+    '</div><a class="ha-scroll-hint" href="#introducao">Explore o território</a><button class="video-pause" type="button" aria-label="Pausar vídeo de fundo" aria-pressed="false"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5v14M15 5v14"/></svg></button></section></main>'
   ].join("\n");
 }

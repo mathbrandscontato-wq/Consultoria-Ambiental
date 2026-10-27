@@ -1,78 +1,43 @@
-import { renderProjectGallery } from "./projects.mjs";
-/**
- * G6 — UI editorial REVISIONAL: estrutura de V1.2, sem promessas e sem
- * assumir a aprovação final de layout/contato/credenciais pela Vic.
- * Esta implementação não pode ir a produção antes do gate de homologação.
- */
-const cards = [
-  ["01","Licenciamento ambiental","Acompanhamento técnico das etapas e exigências do licenciamento ambiental, conforme o empreendimento."],
-  ["02","Estudos ambientais","Estudos e levantamentos que apoiam a compreensão do território e dos impactos de cada projeto."],
-  ["03","Laudos técnicos","Avaliação e caracterização de aspectos ambientais, geológicos e hidrogeológicos."],
-  ["04","Defesas e assistência técnica","Apoio técnico especializado em procedimentos administrativos e demandas periciais, dentro da competência profissional."],
-  ["05","Áreas contaminadas","Avaliações ambientais e apoio técnico em processos de identificação de passivos e due diligence."],
-  ["06","Assessoria ao poder público","Apoio técnico a prefeituras e consórcios intermunicipais em demandas ambientais."],
-  ["07","Audiências e órgãos ambientais","Apoio técnico em audiências públicas e na interlocução sobre requisitos ambientais."],
+import { serviceCards } from '../content/services.mjs';
+export { serviceCards } from '../content/services.mjs';
+import { editorialPhotos } from '../content/projects.mjs';
+import { section as wrap, photo, ctaBanner } from './components.mjs';
+import { renderAbout } from './pages/about.mjs';
+import { renderServices } from './pages/services.mjs';
+import { renderProjectsPage } from './pages/projects-page.mjs';
+export const faq=[['Como saber qual serviço meu projeto precisa?','O ponto de partida é entender o empreendimento, sua localização e a demanda ambiental. Com essas informações, a consultoria pode avaliar a frente de atuação adequada.'],['Qual é a região de atuação?','A Ykeizumi tem base em Joinville e atua no Norte e Litoral de Santa Catarina. A viabilidade do atendimento é avaliada conforme cada demanda.'],['Como é definida uma proposta?','A proposta é individualizada e considera o escopo técnico, as etapas e as informações disponíveis sobre o projeto.'],['Quais informações devo reunir?','Localização, tipo de atividade e uma descrição do que você precisa. Documentos ambientais existentes também podem ajudar na avaliação inicial.'],['As imagens da galeria são de projetos realizados?','As imagens são ilustrativas. Projetos realizados serão apresentados quando houver documentação e autorização para publicação.']];
+const segments=[
+ ['Incorporação e construção','Conhecer as condições ambientais da área ajuda a planejar o empreendimento. Estudos, laudos e licenciamento conforme cada necessidade.','litoral'],
+ ['Indústria e empreendimentos','Análise de exigências ambientais e acompanhamento técnico para implantação, operação ou regularização, conforme o empreendimento.','floresta'],
+ ['Prefeituras e consórcios públicos','Assessoria para analisar questões ambientais e orientar demandas técnicas de prefeituras e consórcios intermunicipais.','montanhas'],
+ ['Escritórios de advocacia','Análise de questões ambientais para apoiar procedimentos administrativos, respeitando os limites da atuação técnica.','paisagem']
 ];
-export const serviceCards = Object.freeze(cards.map(([num,title,description])=>Object.freeze({num,title,description,slug:"s"+num})));
-const cta = (href="./contato/",label="Solicitar proposta")=>'<a class="editorial-link" href="'+href+'">'+label+'<span aria-hidden="true">↗</span></a>';
-const wrap = (id,label,inner,extra="")=>'<section id="'+id+'" class="editorial-section '+extra+'" aria-label="'+label+'"><div class="editorial-container">'+inner+'</div></section>';
+const iconPaths=['M3 21V7l9-4 9 4v14h-7v-6h-4v6H3Zm4-11h2v2H7Zm8 0h2v2h-2Z','M2 21V10l7 4V8l7 4V3h4v18H2Zm3-5v2h3v-2Zm6 0v2h3v-2Z','M2 8l10-6 10 6v3H2Zm3 5h3v6H5Zm6 0h3v6h-3Zm6 0h3v6h-3ZM2 21h20v2H2Z','M11 2h2v3h7v2h-7v13h5v2H6v-2h5V7H4V5h7ZM4 8l4 7H0Zm16 0 4 7h-8Z'];
 export function renderHomeSections(){
-  return [
-    wrap("solucoes","Áreas de atuação",
-      '<div class="editorial-head"><p class="editorial-kicker">01 / O que fazemos</p><h2>Soluções para decisões sobre o <em>território.</em></h2>'+
-      '<p>Das primeiras análises às demandas de regularização, cada contexto exige uma leitura ambiental consistente.</p></div>'+
-      '<div class="editorial-services">'+
-      serviceCards.slice(0,3).map((s,i)=>'<article class="editorial-service '+(i===0?'is-lead':'')+'"><span class="editorial-index">'+s.num+'</span><h3>'+s.title+'</h3><p>'+s.description+'</p><a href="./servicos/#'+s.slug+'" aria-label="Conheça: '+s.title+'">Conheça a atuação <span aria-hidden="true">↗</span></a></article>').join('')+'</div>'+
-      '<div class="editorial-end">'+cta("./servicos/","Conhecer todos os serviços")+'</div>',"editorial-section--light"),
-    wrap("segmentos","Segmentos de atuação",
-      '<div class="editorial-split"><div><p class="editorial-kicker">02 / Para quem</p><h2>Projetos diferentes.<br><em>Demandas específicas.</em></h2></div>'+
-      '<div class="editorial-segments"><p>Atuação técnica voltada às necessidades ambientais de diferentes organizações e empreendimentos.</p>'+
-      '<ul><li>Incorporação e construção</li><li>Indústria e empreendimentos</li><li>Prefeituras e consórcios públicos</li><li>Escritórios de advocacia, em demandas técnicas</li></ul></div></div>',"editorial-section--forest"),
-    wrap("abordagem","Nossa abordagem",
-      '<div class="editorial-split"><div><p class="editorial-kicker">03 / Perspectiva técnica</p><h2>Compreender o processo.<br><em>Interpretar o contexto.</em></h2></div><div class="editorial-copy"><p>A Ykeizumi reúne experiência nos processos de elaboração e análise de demandas ambientais. Uma perspectiva que contribui para estudar cada situação com responsabilidade técnica.</p>'+cta("./sobre/","Sobre a consultoria")+'</div></div>',"editorial-section--cream"),
-    wrap("projetos","Galeria de projetos",
-      '<div class="project-section-head"><div><p class="editorial-kicker">04 / Projetos</p><h2>Um olhar sobre<br><em>cada território.</em></h2></div>'+
-      '<div><p>Galeria preparada para receber registros reais de projetos, mediante autorização de imagens e informações.</p>'+
-      '<a class="project-section-link" href="./projetos/">Explorar galeria <span aria-hidden="true">↗</span></a></div></div>'+
-      renderProjectGallery({ compact:true }),"editorial-section--projects"),
-    wrap("regiao","Região atendida",
-      '<div class="editorial-region"><div><p class="editorial-kicker">04 / Onde estamos</p><h2>Joinville.<br>Norte e Litoral<br><em>catarinense.</em></h2></div><div class="editorial-region-shape" aria-hidden="true"><span>SC</span><span class="editorial-region-dot"></span></div></div>',"editorial-section--sage"),
-    wrap("conversa","Solicitar proposta",
-      '<div class="editorial-last"><p class="editorial-kicker">05 / Próximo passo</p><h2>Seu projeto exige uma<br><em>conversa técnica.</em></h2><p>Apresente sua necessidade e receba orientação sobre os próximos passos para uma proposta personalizada.</p>'+cta("./contato/")+'</div>',"editorial-section--dark")
-  ].join("\n");
+ const services='<div class="home-services-head"><h2>Soluções para decisões sobre o território.</h2><p>Das primeiras análises às demandas de regularização, cada contexto exige uma leitura ambiental consistente.</p></div><div class="home-service-list">'+serviceCards.slice(0,3).map(s=>`<article class="home-service" data-reveal><span class="service-number">${s.num}</span><div><h3>${s.title}</h3><p>${s.description}</p><a class="minimal-link" href="./servicos/#${s.slug}">Conhecer a atuação <span aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></div>${photo(s.media,'./','Imagem ilustrativa','home-service-image')}</article>`).join('')+'</div><div class="editorial-end"><a class="minimal-link" href="./servicos/">Conheça todos os serviços</a></div>';
+ const showcase='<div class="segment-cloud"><h2>Conhecimento ambiental para diferentes setores.</h2></div><div class="sector-showcase"><div class="sector-options">'+segments.map(([title,desc,img],i)=>`<details class="sector-option" open><summary id="sector-label-${i}"><span class="sector-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="${iconPaths[i]}"/></svg></span><span>${title}</span><span class="sector-selection" aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></summary><div class="sector-description"><p>${desc}</p><figure>${photo(img,'./','Paisagem ilustrativa associada ao contexto')}<figcaption>Imagem ilustrativa</figcaption></figure></div></details>`).join('')+'</div><div class="sector-stage" aria-hidden="true">'+segments.map(([, ,img],i)=>photo(img,'./','',i?'':'is-active')).join('')+'<span>Imagens ilustrativas</span></div></div>';
+ const gallery='<div class="project-section-head" data-reveal><h2>Um olhar sobre cada território.</h2></div><div class="circular-gallery" aria-roledescription="carrossel" aria-label="Galeria territorial de imagens ilustrativas"><div class="circular-window"><ul class="circular-track">'+editorialPhotos.map((p,i)=>`<li class="project-card circular-card"><div class="project-card__art project-card__art--photo"><a class="project-image-link" href="./media/${p.id}-1280.webp" aria-label="Ampliar imagem: ${p.title}">${photo(p.id,'./',p.alt)}</a></div><div class="project-card__footer"><span>${p.title}</span><span>Imagem ilustrativa</span></div></li>`).join('')+'</ul></div><div class="gallery-bottom"><div class="carousel-controls"><button type="button" data-circular-prev aria-label="Imagem anterior"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button><button type="button" data-circular-next aria-label="Próxima imagem"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button></div><p class="circular-status" aria-live="polite">1 / 6</p><a class="minimal-link gallery-link" href="./projetos/">Explorar galeria</a></div><p class="gallery-instruction">Arraste para explorar</p></div>';
+ return wrap('introducao','Uma visão sobre o território','<div class="home-introduction"><h2 data-scroll-reveal>Compreender o contexto. Identificar caminhos. Orientar decisões.</h2><div class="intro-support"><p>Uma atuação ambiental que considera as características de cada demanda, seus requisitos técnicos e o território onde está inserida.</p><a class="minimal-link" href="./sobre/">Conheça a consultoria <span aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></div></div>','editorial-section--cream')+
+ wrap('servicos-home','Serviços',services,'editorial-section--light cinematic-services')+
+ wrap('segmentos','Segmentos de atuação',showcase,'editorial-section--forest')+
+ wrap('projetos','Galeria territorial',gallery,'editorial-section--projects')+
+ wrap('regiao','Região atendida','<div class="region-heading"><h2>Um olhar próximo. Uma atuação regional.</h2><h3>Com base em Joinville, atuamos no Norte e Litoral de Santa Catarina.</h3></div><div class="expand-map"><button class="expand-map-trigger" type="button" aria-expanded="false" aria-controls="region-map-panel"><img class="map-preview-image" src="./media/sc-geographic-map.svg" width="1024" height="768" alt=""><span class="expand-pin" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="expand-map-label"><strong>Joinville, Santa Catarina</strong><span data-expand-label>Explore nossa região de atuação</span></span><span class="expand-map-action" aria-hidden="true">+</span></button><div id="region-map-panel" class="expand-map-panel" hidden><div class="real-map"><div class="map-viewport" tabindex="0" role="region" aria-label="Mapa arrastável de Santa Catarina. Arraste para explorar ou use as setas do teclado." aria-describedby="map-pan-hint"><img draggable="false" src="./media/sc-geographic-map.svg" width="1024" height="768" alt="Mapa geográfico com estradas, cidades, limite de Santa Catarina e pins em Joinville, Norte e Litoral"></div><div class="map-controls" role="group" aria-label="Controles do mapa"><button type="button" data-map-zoom="in" aria-label="Ampliar mapa">+</button><button type="button" data-map-zoom="out" aria-label="Reduzir mapa">−</button><button type="button" data-map-reset aria-label="Restaurar enquadramento do mapa"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></svg></button></div><p class="map-pan-instruction" id="map-pan-hint">Arraste para explorar · Use as setas no teclado</p><a class="map-attribution" href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer" target="_blank" rel="noreferrer">Mapa: Esri e colaboradores · © OpenStreetMap</a></div></div></div>','editorial-section--region') +
+ wrap('faq','Perguntas frequentes','<div class="faq-layout"><div class="faq-heading"><h2>Perguntas Frequentes</h2><h3>Respostas para orientar os próximos passos do seu projeto.</h3></div><div class="faq-list">'+faq.map(([q,a],i)=>`<article class="faq-question"><h3><button type="button" class="faq-trigger" aria-expanded="true" aria-controls="faq-answer-${i}" id="faq-trigger-${i}"><span class="faq-number">0${i+1}</span><span>${q}</span><span class="faq-plus" aria-hidden="true">+</span></button></h3><div class="faq-panel" id="faq-answer-${i}" role="region" aria-labelledby="faq-trigger-${i}"><div><p>${a}</p></div></div></article>`).join('')+'</div></div>','editorial-section--cream')+
+ ctaBanner({label:'Fale com a Ykeizumi',title:'Todo projeto começa pela compreensão do contexto.',text:'Apresente sua demanda e converse sobre as possibilidades de acompanhamento técnico.',prefix:'./'});
 }
-const intro = (index,title,description)=>
-  '<div class="page-head"><span class="editorial-kicker">'+index+'</span><h1 id="titulo-pagina">'+title+'</h1><p>'+description+'</p></div>';
+const intro = (index,title,description)=>'<div class="page-head"><h1 id="titulo-pagina">'+title+'</h1><p>'+description+'</p></div>';
 const section = (className,body)=>'<section class="'+className+'"><div class="editorial-container">'+body+'</div></section>';
-const contactNote = '<p class="contact-unavailable" role="status">Os canais oficiais e o envio do formulário estão em preparação. Esta versão de revisão não coleta dados nem envia mensagens. Nenhum dado é coletado.</p>';
+const contactNote = '<p class="contact-unavailable" role="status">Os canais oficiais de contato estão em preparação. Nenhum dado é coletado nesta página.</p>';
 export function renderInnerPage(route){
- if(route.slug==="servicos"){
-  return '<main id="conteudo" tabindex="-1" class="inner-page">'+
-   section("page-banner page-banner--green",intro("01 / Áreas de atuação","Atuação ambiental com diferentes perspectivas.","Conheça as frentes técnicas apresentadas no planejamento institucional. As descrições abaixo permanecem em revisão técnica e editorial."))+
-   section("page-body",'<div class="service-list">'+serviceCards.map((s,i)=>
-      '<article class="service-row" id="'+s.slug+'"><span class="service-number">'+s.num+' / 07</span><div><h2>'+s.title+'</h2><p>'+s.description+'</p></div><a href="../contato/" class="service-row-link" aria-label="Solicitar proposta sobre '+s.title+'">Solicitar proposta ↗</a></article>').join('')+'</div>')+
-   section("page-outro",'<p class="editorial-kicker">Orientação</p><h2>Não sabe por onde começar?</h2><p>Apresentar o contexto da demanda é o primeiro passo para direcionar a conversa técnica.</p>'+cta("../contato/"))+
-   '</main>';
- }
- if(route.slug==="sobre"){
-  return '<main id="conteudo" tabindex="-1" class="inner-page">'+
-   section("page-banner page-banner--cream",intro("02 / Institucional","Uma perspectiva técnica sobre o ambiente.","A Ykeizumi é uma consultoria ambiental sediada em Joinville, com atuação principalmente no Norte e Litoral catarinense."))+
-   section("page-profile",'<div class="editorial-split"><div><p class="editorial-kicker">Responsável técnica</p><h2>Lara Yumi</h2></div><div class="editorial-copy"><p>A apresentação detalhada da trajetória, formações e registros profissionais será publicada após validação da responsável pelo projeto.</p><p>Atendimento com base em Joinville, contemplando atividades técnicas e reuniões conforme a necessidade e a viabilidade de cada demanda.</p></div></div>')+
-   section("page-body",'<div class="editorial-split"><div><p class="editorial-kicker">Nossa atuação</p><h2>Experiência na elaboração e na análise.</h2></div><div class="editorial-copy"><p>A atuação reúne conhecimento das diferentes etapas que envolvem estudos e processos ambientais, incluindo vivência no setor público e privado, conforme informações institucionais em revisão.</p><p>Essa perspectiva orienta o olhar técnico sobre as particularidades de cada demanda.</p></div></div>')+
-   section("page-outro",'<p class="editorial-kicker">Contato</p><h2>Conte sobre seu projeto.</h2>'+cta("../contato/"))+'</main>';
- }
-
- if(route.slug==="projetos"){
-  return '<main id="conteudo" tabindex="-1" class="inner-page">'+
-   section("page-banner page-banner--cream",intro("04 / Portfólio","Projetos.","Uma galeria editorial preparada para documentar iniciativas ambientais. As imagens e informações reais serão incluídas após aprovação e autorização das partes envolvidas."))+
-   section("page-project-gallery",'<div class="project-gallery-intro"><p class="editorial-kicker">Galeria / em preparação</p><p>Ainda não há projetos publicados. Os quadros abaixo demonstram a composição aprovada para a galeria, sem atribuir trabalhos não documentados à Ykeizumi.</p></div>'+renderProjectGallery())+
-   section("page-outro",'<p class="editorial-kicker">Contato</p><h2>Um novo projeto começa pela conversa.</h2>'+cta("../contato/"))+'</main>';
- }
+ if(route.slug==='sobre')return renderAbout();
+ if(route.slug==='servicos')return renderServices();
+ if(route.slug==='projetos')return renderProjectsPage();
  if(route.slug==="contato"){
   return '<main id="conteudo" tabindex="-1" class="inner-page">'+
    section("page-banner page-banner--green",intro("03 / Propostas","Vamos entender sua demanda.","A Ykeizumi avalia o contexto de cada solicitação para estruturar uma proposta técnico-comercial individualizada."))+
-   section("page-contact",'<div class="editorial-split"><div><p class="editorial-kicker">Entre em contato</p><h2>Uma conversa<br><em>é o começo.</em></h2></div><div class="editorial-copy">'+contactNote+
-   '<p>Os dados oficiais de contato, o destinatário e os requisitos de privacidade devem ser confirmados antes da ativação dos canais. Nenhum formulário fictício foi disponibilizado.</p><div class="contact-region">Joinville · Santa Catarina<br>Norte e Litoral catarinense</div></div></div>')+'</main>';
+   section("page-contact",'<div class="editorial-split"><div><h2>Uma conversa <em>é o começo.</em></h2></div><div class="editorial-copy">'+contactNote+
+   '<div class="contact-region">Joinville · Santa Catarina<br>Norte e Litoral catarinense</div></div></div>')+'</main>';
  }
- throw new Error("Unsupported route: "+route.slug);
+
+ throw new Error('Unsupported route: '+route.slug);
 }
