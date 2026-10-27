@@ -51,4 +51,22 @@ Comparação de escopo confirmou byte a byte: objetos de titles/descriptions de 
 
 ## Publicação
 
-Candidata em validação final. O resultado efetivo será registrado após deploy e checagem pública. As páginas temporárias de QA serão eliminadas com preview encerrado antes do build/empacotamento; check restringe HTML às cinco rotas aprovadas.
+Publicado conforme registro abaixo. As páginas temporárias de QA foram eliminadas com preview encerrado antes do build/empacotamento; o check restringe HTML às cinco rotas aprovadas.
+
+## Registro final de publicação
+
+**Status: publicado e validado no endereço público.**
+
+- URL: https://ykeizumi-consultoria-ambiental.mthsdoliveira.chatgpt.site/sobre/
+- Versão Sites26: `appgprj_6adf8696a404819180e8bf53b4757b4b~appgver_fa14b7906bf08191a0f256493f8e1662`.
+- Fonte publicada: `93fb4abfc1e798783710f9c11ebf38b9ede3e15f`.
+- Deploy `appgdep_6ae1175187148191b820f4e834788324`: succeeded em27/10/2026 às18:28:00 (America/Sao_Paulo).
+- GitHub código `5a2ea134d70c5f20c7ed34d354b2bbd6ab0fbf02`, CI run40586730366, job122480035684: SUCCESS; testes e QA de navegador remoto aprovados antes da publicação. PR10 continua draft, sem merge.
+- Pacote limpo inspecionado antes de salvar: cinco HTML e nenhum arquivo de QA ou Contato de desenvolvimento. Build+46 testes+check executados no próprio empacotamento.
+- Pós-publicação CUA: cinco rotas, umH1, zero quebras manuais de headings, zero overflow, zero imagens com src quebrado, títulos próprios e noindex,nofollow preservados.
+- Perfil público: classes originais, transform none e altura742.09375px no viewport observado; nenhum wrapper de túnel.
+- Túnel público: instância em#visao, stage1348×936px alinhado à viewport, texto center, progresso.5236 e escala1.01652. Fotografias na frente do texto confirmadas visualmente.
+- Evidências públicas: `docs/evidence/v54-profile-published.jpg` e `docs/evidence/v54-tunnel-published.jpg`.
+- Nenhuma regressão crítica observada. Não foi necessário rollback global nem seletivo posterior. Permanecem as pendências anteriores de Contato/indexação/licença de fonte, fora do escopo deste hotfix.
+
+Este registro documental foi completado após o deploy e não modifica o runtime vinculado à versão26.

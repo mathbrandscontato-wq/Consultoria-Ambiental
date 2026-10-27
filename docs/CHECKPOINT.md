@@ -132,3 +132,5 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Textos do túnel centralizados e escalados com titleState, fotos em primeiro plano; stage ocupa viewport inteira e recorta só na borda externa. Sem scroll hijacking; transição para seção04 e reversão verificadas.
 - Títulos sem br artificial e com quebra natural/wrap; metadados/SEO, HeroA, serviços, footer e CSS dos heros preservados. SVG do Bento conserva suas definições.
 - QA46 testes e inspeção estática PASS. CUA40 combinações (5rotas×8larguras320–1920 incluindo1280) sem overflow, headings cortados, quebras manuais ou imagens com src quebrado. Evidências e detalhes docs/ykeizumi-v54-hotfix.md.
+
+- Hotfix V5.4 publicado: versão26, fonte93fb4abfc1e798783710f9c11ebf38b9ede3e15f; deploy appgdep_6ae1175187148191b820f4e834788324 succeeded. CI5a2ea134 SUCCESS(run40586730366). CUA público confirmou5 rotas sem regressão, perfil semtúnel e instância única terceira seção#visao com escala central/fotos em primeiro plano. Relatório final docs/ykeizumi-v54-hotfix.md.
