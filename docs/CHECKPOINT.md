@@ -103,3 +103,9 @@ Baseline26testes; candidata38testes aprovados. Matriz real via navegador suporta
 Publicação observada: versão21 do Sites, source4ecadd5e48885cd547a1e170143fa7c208ad176f, deployappgdep_6ae0c9bb1d1481919f992db8f08c7e24 succeeded. Cinco URLs verificadas diretamente no navegador; quatro redesigns no ar e Contato anterior preservado. PR10 GitHub em draft, commit804447c9def36c16d61f20dbb03eb71e06f5cfd7, sem merge. Relatório de release atualizado com IDs, capturas, resultados e bloqueios.
 
 CI GitHub posterior: run40536820905 no commit9f6a59e062d1d719cadfc40200f6a30d3e364687 SUCCESS,38testes e navegador em oito larguras. A falha inicial era o seletor/título do Hero antigo no script legado; correção ampliou a cobertura sem desativar checks. Sem alteração do conteúdo publicado versão21.
+
+## Remoção de emojis e glifos — 27/10/2026
+
+Revisadas as cinco páginas e o Contato em desenvolvimento. Setas e símbolos dos controles substituídos por SVG ou desenho CSS, incluindo navegação da galeria, links, reset do mapa e pausa/reprodução. Ícones vetoriais institucionais preservados. Sem alteração de textos, dados ou destinos.
+
+Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco rotas e varredura dos HTML/CSS/JS gerados sem Emoji_Presentation, seletor de apresentação emoji ou keycaps.

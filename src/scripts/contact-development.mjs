@@ -33,7 +33,7 @@ export function initConversation(root, adapter=createSubmissionAdapter()) {
  }
  function choices(name,label,options) {
   const set=element('fieldset',{class:'conversation-choices'});set.append(element('legend',{class:'conversation-sr'},label));
-  for(const [value,text] of options){const choice=element('label',{class:'conversation-choice'}),radio=element('input',{type:'radio',name,value,'aria-describedby':'contact-error'});radio.checked=flow.snapshot.answers[name]===value;radio.addEventListener('change',()=>{flow.update({[name]:value});if(name==='channel'){flow.update({contact:drafts[value]||''});renderContactChannel();}error.textContent='';});choice.append(radio,element('span',{},text),element('span',{class:'conversation-choice-mark','aria-hidden':'true'},'↗'));set.append(choice);}return set;
+  for(const [value,text] of options){const choice=element('label',{class:'conversation-choice'}),radio=element('input',{type:'radio',name,value,'aria-describedby':'contact-error'});radio.checked=flow.snapshot.answers[name]===value;radio.addEventListener('change',()=>{flow.update({[name]:value});if(name==='channel'){flow.update({contact:drafts[value]||''});renderContactChannel();}error.textContent='';});choice.append(radio,element('span',{},text),element('span',{class:'conversation-choice-mark','aria-hidden':'true'},''));set.append(choice);}return set;
  }
  function renderContactChannel() {
   let slot=fields.querySelector('[data-channel-field]');if(!slot){slot=element('div',{'data-channel-field':''});fields.append(slot);}slot.replaceChildren();
@@ -55,7 +55,7 @@ export function initConversation(root, adapter=createSubmissionAdapter()) {
   counter.textContent=step===6?'Revisão':String(step+1).padStart(2,'0')+' / 06';progress.value=value;progressLabel.textContent=value.toLocaleString('pt-BR')+'%';
   progress.setAttribute('aria-valuetext',step===6?'Revisão das informações, preenchimento completo':'Pergunta '+(step+1)+' de 6');
   back.hidden=step===0&&!edit;back.textContent=edit?'Cancelar edição':'Voltar';next.disabled=false;
-  next.textContent=step===6?'Enviar solicitação':edit?'Salvar e voltar à revisão':step===5?'Revisar informações':'Continuar →';
+  next.textContent=step===6?'Enviar solicitação':edit?'Salvar e voltar à revisão':step===5?'Revisar informações':'Continuar';
   if(step===0)fields.append(input('name','Seu nome','text',{autocomplete:'name',maxlength:LIMITS.name,placeholder:'Como você prefere ser chamado?'}));
   if(step===1)fields.append(choices('profile',questions[step][0],PROFILES.map(value=>[value,value])));
   if(step===2)fields.append(choices('service',questions[step][0],[...serviceCards.map(service=>[service.slug,service.title]),['unknown','Não sei ainda']]));

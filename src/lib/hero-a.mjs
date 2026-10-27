@@ -91,6 +91,6 @@ export function renderHeroA() {
     '<h2 class="ha-subtitle">Visão Técnica sobre o território.</h2>',
     '<h3 class="ha-description">Atuação em licenciamento, estudos e demandas ambientais de diferentes setores. Atuação em Joinville e Litoral de Santa Catarina.</h3>',
     heroCta("ha-cta--services", "./servicos/", "Conheça nossos serviços"),
-    '</div><a class="ha-scroll-hint" href="#introducao">Explore o território</a><button class="video-pause" type="button" aria-label="Pausar vídeo de fundo" aria-pressed="false">Ⅱ</button></section></main>'
+    '</div><a class="ha-scroll-hint" href="#introducao">Explore o território</a><button class="video-pause" type="button" aria-label="Pausar vídeo de fundo" aria-pressed="false"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5v14M15 5v14"/></svg></button></section></main>'
   ].join("\n");
 }

@@ -4,7 +4,7 @@ import { escapeHtml as esc } from '../escape.mjs';
 
 const serviceLink = (slug) => {
   const item=serviceCards.find(s=>s.slug===slug);
-  return `<a href="#${slug}" class="context-service-link">${esc(item.title)} <span aria-hidden="true">↗</span></a>`;
+  return `<a href="#${slug}" class="context-service-link">${esc(item.title)} <span aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a>`;
 };
 const contexts = [
   ['Preciso iniciar ou regularizar um empreendimento.','Conheça a frente de acompanhamento técnico das etapas e exigências do licenciamento ambiental.',['s01']],
@@ -22,7 +22,7 @@ const steps=[
 function explorer(){
   const items=serviceCards.map(s=>`<details class="service-feature" id="${s.slug}" open>
     <summary aria-controls="content-${s.slug}"><span class="service-feature-number">${s.num}</span><h3>${esc(s.title)}</h3><span class="service-feature-indicator" aria-hidden="true">+</span></summary>
-    <div class="service-feature-content" id="content-${s.slug}"><p>${esc(s.description)}</p><figure class="service-mobile-media">${photo(s.media,'../',`${s.title}: imagem ilustrativa do território`)}<figcaption>Imagem ilustrativa</figcaption></figure><a class="service-proposal" href="../contato/" aria-label="Solicitar proposta sobre ${esc(s.title)}">Solicitar proposta <span aria-hidden="true">↗</span></a></div>
+    <div class="service-feature-content" id="content-${s.slug}"><p>${esc(s.description)}</p><figure class="service-mobile-media">${photo(s.media,'../',`${s.title}: imagem ilustrativa do território`)}<figcaption>Imagem ilustrativa</figcaption></figure><a class="service-proposal" href="../contato/" aria-label="Solicitar proposta sobre ${esc(s.title)}">Solicitar proposta <span aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></div>
   </details>`).join('');
   const media=serviceCards.map((s,i)=>`<figure class="service-feature-media ${i===0?'is-active':''}" data-service-media="${s.slug}" aria-hidden="true">${photo(s.media,'../','')}<figcaption><span>${s.num} / 07</span><span>Imagem ilustrativa</span></figcaption></figure>`).join('');
   return section('explorador','Explorador de serviços',`<div class="services-section-heading"><h2>Uma atuação.<br>Diferentes necessidades.</h2><p>Explore as áreas de atuação e conheça as possibilidades de acompanhamento técnico.</p></div><div class="service-explorer"><div class="service-feature-list">${items}</div><div class="service-media-stage">${media}</div></div>`,'services-explorer-section');

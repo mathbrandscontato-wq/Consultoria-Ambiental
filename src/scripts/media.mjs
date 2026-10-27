@@ -10,7 +10,7 @@ if(video){
   video.play().catch(()=>{});
  };
  const pause=document.querySelector('.video-pause');
- pause?.addEventListener('click',()=>{userPaused=!userPaused;pause.setAttribute('aria-pressed',String(userPaused));pause.setAttribute('aria-label',userPaused?'Reproduzir vídeo de fundo':'Pausar vídeo de fundo');pause.textContent=userPaused?'▶':'Ⅱ';update();});
+ pause?.addEventListener('click',()=>{userPaused=!userPaused;pause.setAttribute('aria-pressed',String(userPaused));pause.setAttribute('aria-label',userPaused?'Reproduzir vídeo de fundo':'Pausar vídeo de fundo');pause.innerHTML=userPaused?'<svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m8 5 11 7-11 7Z"/></svg>':'<svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5v14M15 5v14"/></svg>';update();});
  reduced.addEventListener('change',update);
  document.addEventListener('visibilitychange',update);
  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries){visible=entry.isIntersecting;update();}},{threshold:.01});observer.observe(video);}
