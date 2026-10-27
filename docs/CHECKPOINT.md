@@ -139,3 +139,5 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Causa real: .atlas-context-heading mantinha grid com duas colunas .7fr/1.3fr, mas só havia o H2 na primeira e a segunda vazia. O hotfix anterior retirou max-width do texto, mas não essa limitação do pai.
 - Removido grid vazio; cabeçalho passa a bloco de largura integral. H2 ocupa100% do container, com mesma fonte, tamanho e redação. Removida regra mobile redundante de grid. Só src/styles/atlas.css alterado no runtime.
 - npm run qa46 testes PASS. CUA320/390/768/1024/1440/1920 sem overflow, largura do H2 igual ao container em todos; desktop1440/1920 com2 linhas em1200px. Publicação pelo mesmo Site, sem mudar indexação, SEO, conteúdo ou demais seções.
+
+- Publicado versão27 (fonte c41dfa3492de8ae8d421fbb631ab7eaf8d86e8f4), deploy appgdep_6ae11abf36f48191b6681bdf60881956 succeeded. CI112c068 SUCCESS, run40588829214. Conferência pública: cabeçalho block, H2 e container ambos1200px e2 linhas. Evidência docs/evidence/projects-context-title-published.jpg. Gate excluiu página temporária do QA antes do pacote final limpo; build/check46testes aprovados no helper de empacotamento.
