@@ -57,7 +57,7 @@ Pendências: endpoint/destinatário e tratamento de dados para formulário; auto
 
 ## Performance e acessibilidade
 
-O build contém60 arquivos de runtime e9.569.124 bytes; soma de JavaScript43.377 bytes, soma dos arquivos comprimidos individualmente com gzip17.249 bytes; novo controlador de túnel2.874 bytes. São medidas estáticas locais, não tempos de rede nem CWV. Vídeo original: desktop2.425.547 bytes / mobile662.076 bytes; poster129.968 bytes. O carregamento condicional de vídeo, economia de dados e movimento reduzido foram preservados. Hero de imagem interno tem dimensões, srcset e fetchpriority high, sem lazy loading acima da dobra.
+O build contém54 arquivos de runtime e9.563.983 bytes; soma de JavaScript43.377 bytes, soma dos arquivos comprimidos individualmente com gzip17.249 bytes; novo controlador de túnel2.874 bytes. São medidas estáticas locais, não tempos de rede nem CWV. Vídeo original: desktop2.425.547 bytes / mobile662.076 bytes; poster129.968 bytes. O carregamento condicional de vídeo, economia de dados e movimento reduzido foram preservados. Hero de imagem interno tem dimensões, srcset e fetchpriority high, sem lazy loading acima da dobra.
 
 A API Performance não está disponível no avaliador read-only deste navegador, portanto não foram obtidos LCP/INP/CLS/FCP nem Lighthouse; sem dados de campo percentil75. Não atribuir nota de performance ou prometer metas atingidas. Inspeção semântica, foco/teclado e testes automatizados não substituem auditoria completa WCAG2.2AA, leitor de tela ou aparelhos físicos.
 
@@ -80,3 +80,9 @@ Avaliação qualitativa não foi convertida em uma pontuação fictícia para at
 ## Publicação
 
 Candidata validada para publicação no ambiente existente. O registro final da versão, deploy e checagem pública será anexado após o retorno efetivo do provedor. Contato com envio real permanece pendência isolada, conforme autorização de publicação parcial segura do V5.
+
+### Gate de empacotamento
+
+A inspeção do primeiro arquivo tar detectou6 páginas temporárias de QA. A versão24 foi apenas salva, não recebeu deploy, e não deve ser publicada. O preview foi encerrado e o build refeito limpo. A causa operacional foi a permanência/restauração de arquivos temporários no diretório sincronizado enquanto o preview estava aberto; não se atribui um defeito de código sem evidência adicional. O check agora rejeita qualquer HTML além das cinco rotas aprovadas e módulos de contato de desenvolvimento. A candidata limpa é empacotada com build+checks ordenados depois de encerrar o preview e tem inspeção explícita do tar antes de salvar.
+
+CI GitHub do commit930d60c6634f846f988adbf58f89278cabb127b7: run40582374354, job122464860316, SUCCESS incluindo46 testes e qa:browser remoto. A adição posterior do gate de pacote será verificada no head correspondente.

@@ -1,9 +1,16 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { routes } from "../src/site.mjs";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+// Production export must contain only the five approved HTML entrypoints.
+const exportedFiles=await readdir(join(root,'dist'),{recursive:true});
+const expectedHtml=new Set(routes.map(route=>(route.slug?route.slug+'/':'')+'index.html'));
+for(const name of exportedFiles){
+ if(name.endsWith('.html'))assert.ok(expectedHtml.has(name),'HTML de QA/desenvolvimento fora das cinco rotas: '+name);
+ assert.doesNotMatch(name,/contact-development|responsive-review|qa-v5/,'Arquivo de desenvolvimento não pode entrar no pacote');
+}
 for (const route of routes) {
   const prefix = route.slug ? "../" : "./";
   const path = join(root, "dist", route.slug, "index.html");
