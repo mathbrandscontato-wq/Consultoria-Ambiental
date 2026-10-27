@@ -26,7 +26,10 @@ test("build exporta cinco páginas estáticas independentes", async () => {
   for (const route of routes) {
     const html = await readFile(join(root, "dist", route.slug, "index.html"), "utf8");
     assert.match(html, /<main id="conteudo"/);
-    assert.match(html, /Conteúdo e composição em revisão/);
+    assert.match(html, /<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
+    assert.match(html, /<nav[^>]*aria-label="Institucional"/);
+    assert.match(html,/© \d{4} Ykeizumi Consultoria Ambiental/);
+    assert.match(html, /<meta name="robots" content="noindex,nofollow">/);
     assert.doesNotMatch(html, /<form\b/);
   }
 });

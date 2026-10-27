@@ -7,11 +7,11 @@ const serviceLink = (slug) => {
   return `<a href="#${slug}" class="context-service-link">${esc(item.title)} <span aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a>`;
 };
 const contexts = [
-  ['Preciso iniciar ou regularizar um empreendimento.','Conheça a frente de acompanhamento técnico das etapas e exigências do licenciamento ambiental.',['s01']],
-  ['Preciso compreender as condições ambientais de uma área.','Estudos e levantamentos apoiam a leitura do território. Conforme a situação, laudos técnicos podem contribuir para a avaliação.',['s02','s03']],
-  ['Estou lidando com uma exigência ou procedimento administrativo.','A natureza da demanda orienta as possibilidades de assistência técnica e de interlocução sobre requisitos ambientais.',['s04','s07']],
-  ['Preciso avaliar possíveis passivos ambientais.','Conheça as possibilidades de avaliação ambiental e apoio técnico na identificação de passivos.',['s05']],
-  ['Represento uma prefeitura ou consórcio público.','Conheça a frente de apoio técnico a prefeituras e consórcios intermunicipais em demandas ambientais.',['s06']]
+  ['Preciso iniciar ou regularizar um empreendimento.','O licenciamento ambiental envolve etapas e exigências próprias de cada empreendimento. Conheça o acompanhamento técnico dessa frente.',['s01']],
+  ['Preciso compreender as condições ambientais de uma área.','Antes de adquirir ou desenvolver uma área, conhecer suas condições ambientais apoia a decisão. Estudos e laudos podem contribuir, conforme a avaliação necessária.',['s02','s03']],
+  ['Estou lidando com uma exigência ou procedimento administrativo.','Uma exigência ambiental pede compreensão do que foi solicitado. A análise técnica ajuda a avaliar a questão e os requisitos envolvidos, dentro da competência profissional.',['s04','s07']],
+  ['Preciso avaliar possíveis passivos ambientais.','Conhecer as condições de uma área pode envolver a avaliação de possíveis passivos ambientais. O escopo do apoio técnico depende da situação e das informações disponíveis.',['s05']],
+  ['Represento uma prefeitura ou consórcio público.','Demandas ambientais de interesse público podem exigir análise especializada. Conheça a assessoria técnica a prefeituras e consórcios intermunicipais.',['s06']]
 ];
 const steps=[
   ['Entender','Compreender o contexto, a localização e as necessidades apresentadas.'],

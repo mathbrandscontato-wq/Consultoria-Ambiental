@@ -71,7 +71,11 @@ if(images.length && typeof HTMLDialogElement!=='undefined' && HTMLDialogElement.
   dialog.querySelector('[data-close]').onclick=()=>dialog.close();
   dialog.querySelector('[data-prev]').onclick=()=>show(current-1);dialog.querySelector('[data-next]').onclick=()=>show(current+1);
   if(images.length<2)for(const b of dialog.querySelectorAll('[data-prev],[data-next]'))b.hidden=true;
-  dialog.addEventListener('close',()=>{document.documentElement.style.overflow=oldOverflow;if(origin?.isConnected)origin.focus();});
+  let swipeStart;
+  photo.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'){swipeStart={x:e.clientX,y:e.clientY,id:e.pointerId};photo.setPointerCapture(e.pointerId);}},{passive:true});
+  photo.addEventListener('pointerup',e=>{if(!swipeStart||e.pointerId!==swipeStart.id)return;const dx=e.clientX-swipeStart.x,dy=e.clientY-swipeStart.y;swipeStart=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.3)show(current+(dx<0?1:-1));},{passive:true});
+  photo.addEventListener('pointercancel',()=>{swipeStart=null;});
+  dialog.addEventListener('close',()=>{swipeStart=null;document.documentElement.style.overflow=oldOverflow;if(origin?.isConnected)origin.focus();});
   dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
   dialog.addEventListener('keydown',event=>{
     if(event.key==='ArrowRight'){event.preventDefault();show(current+1);}if(event.key==='ArrowLeft'){event.preventDefault();show(current-1);}

@@ -11,12 +11,15 @@ test("sete serviços, navegação interna e sem cases inventados",()=>{
  assert.match(html,/As imagens são ilustrativas/);
  assert.doesNotMatch(html,/clientes atendidos|10\+ anos|1000\+/i);
 });
-test("cinco páginas de revisão semanticamente completas e sem scaffold",()=>{
+test("cinco páginas semanticamente completas e sem scaffold",()=>{
  for(const r of routes){
   const html=renderPage(r);
   assert.equal((html.match(/<h1\b/g)??[]).length,1);
   assert.doesNotMatch(html,/em preparação<\/h1>/);
-  assert.match(html,/Conteúdo e composição em revisão/);
+  assert.match(html,/<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
+  assert.match(html,/<nav[^>]*aria-label="Institucional"/);
+  assert.match(html,/© \d{4} Ykeizumi Consultoria Ambiental/);
+  assert.match(html,/<meta name="robots" content="noindex,nofollow">/);
  }
 });
 test("contato ainda bloqueado, sem coleta ou sucesso falso",()=>{

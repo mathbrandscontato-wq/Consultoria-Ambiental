@@ -55,3 +55,7 @@ button:focus-visible,summary:focus-visible{outline:3px solid #7f9962;outline-off
 @media(prefers-reduced-motion:reduce){.sector-stage img,.home-service,.home-service-image,.home-service:after,.faq-panel.is-enhanced{transition:none}.circular-window.is-enhanced .circular-card{will-change:auto}}
 
 .faq-trigger>span:nth-child(2){text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;transition:text-decoration-color .25s}.faq-trigger:is(:hover,:focus-visible)>span:nth-child(2){text-decoration-color:#7f9962}
+
+.project-lightbox>img { touch-action:pan-y pinch-zoom; }
+.bwf-soc[role="img"] { cursor:default; }
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){.ha-nav,.site-header{backdrop-filter:none;background:#1e3b2d;}}

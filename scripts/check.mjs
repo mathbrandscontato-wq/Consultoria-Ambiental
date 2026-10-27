@@ -17,7 +17,11 @@ for (const route of routes) {
   assert.ok(html.includes('href="' + prefix + 'styles/tokens.css"'));
   assert.ok(html.includes('href="' + prefix + 'styles/base.css"'));
   assert.ok(html.includes('href="' + prefix + 'styles/sections.css"'));
-  assert.ok(html.includes('Conteúdo e composição em revisão'));
+  assert.match(html, /<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
+  assert.match(html, /<nav[^>]*aria-label="Institucional"/);
+  assert.match(html, /© \d{4} Ykeizumi Consultoria Ambiental/);
+  const footer=html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0]||'';
+  assert.doesNotMatch(footer, /<a\b[^>]*href="(?:#|\s*)"/, 'Rodapé não deve conter destino vazio ou fictício');
   assert.ok(!/em preparação<\/h1>/.test(html), 'Página não deve usar heading vazio de scaffold');
   assert.ok(html.includes('href="' + prefix + 'contato/"'));
   assert.ok(!/<form\b|type="submit"|enviado com sucesso/gi.test(html), "Não deve haver envio falso");

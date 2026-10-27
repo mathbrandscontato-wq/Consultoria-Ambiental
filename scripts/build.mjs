@@ -9,7 +9,7 @@ const dist = join(root, "dist");
 await rm(dist, { recursive: true, force: true });
 await mkdir(join(dist, "styles"), { recursive: true });
 
-for (const style of ["tokens.css", "base.css", "hero-a.css", "sections.css", "motion.css", "refinement.css", "footer.css", "unified.css", "about.css", "services.css", "atlas.css"]) {
+for (const style of ["tokens.css", "base.css", "hero-a.css", "sections.css", "motion.css", "refinement.css", "footer.css", "unified.css", "about.css", "services.css", "atlas.css", "about-tunnel.css", "v5-editorial.css"]) {
   const content = await readFile(join(root, "src/styles", style), "utf8");
   await writeFile(join(dist, "styles", style), content, "utf8");
 }
@@ -36,4 +36,4 @@ await writeFile(join(dist,"scripts/footer.mjs"), await readFile(join(root,"src/s
 
 await writeFile(join(dist,"scripts/map-pan.mjs"), await readFile(join(root,"src/scripts/map-pan.mjs"),"utf8"));
 
-for(const name of ['unified.mjs','circular-gallery.mjs','about.mjs','services.mjs']) await cp(join(root,'src/scripts',name),join(dist,'scripts',name));
+for(const name of ['unified.mjs','circular-gallery.mjs','about.mjs','services.mjs','about-tunnel.mjs']) await cp(join(root,'src/scripts',name),join(dist,'scripts',name));

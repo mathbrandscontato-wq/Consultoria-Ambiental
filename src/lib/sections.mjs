@@ -7,10 +7,10 @@ import { renderServices } from './pages/services.mjs';
 import { renderProjectsPage } from './pages/projects-page.mjs';
 export const faq=[['Como saber qual serviço meu projeto precisa?','O ponto de partida é entender o empreendimento, sua localização e a demanda ambiental. Com essas informações, a consultoria pode avaliar a frente de atuação adequada.'],['Qual é a região de atuação?','A Ykeizumi tem base em Joinville e atua no Norte e Litoral de Santa Catarina. A viabilidade do atendimento é avaliada conforme cada demanda.'],['Como é definida uma proposta?','A proposta é individualizada e considera o escopo técnico, as etapas e as informações disponíveis sobre o projeto.'],['Quais informações devo reunir?','Localização, tipo de atividade e uma descrição do que você precisa. Documentos ambientais existentes também podem ajudar na avaliação inicial.'],['As imagens da galeria são de projetos realizados?','As imagens são ilustrativas. Projetos realizados serão apresentados quando houver documentação e autorização para publicação.']];
 const segments=[
- ['Incorporação e construção','Licenciamento, estudos e laudos conforme as características do empreendimento.','litoral'],
- ['Indústria e empreendimentos','Acompanhamento de demandas ambientais e avaliação de possíveis passivos.','floresta'],
- ['Prefeituras e consórcios públicos','Apoio técnico a demandas ambientais do poder público.','montanhas'],
- ['Escritórios de advocacia','Assistência técnica em procedimentos administrativos e demandas periciais, dentro da competência profissional.','paisagem']
+ ['Incorporação e construção','Conhecer as condições ambientais da área ajuda a planejar o empreendimento. Estudos, laudos e licenciamento conforme cada necessidade.','litoral'],
+ ['Indústria e empreendimentos','Análise de exigências ambientais e acompanhamento técnico para implantação, operação ou regularização, conforme o empreendimento.','floresta'],
+ ['Prefeituras e consórcios públicos','Assessoria para analisar questões ambientais e orientar demandas técnicas de prefeituras e consórcios intermunicipais.','montanhas'],
+ ['Escritórios de advocacia','Análise de questões ambientais para apoiar procedimentos administrativos, respeitando os limites da atuação técnica.','paisagem']
 ];
 const iconPaths=['M3 21V7l9-4 9 4v14h-7v-6h-4v6H3Zm4-11h2v2H7Zm8 0h2v2h-2Z','M2 21V10l7 4V8l7 4V3h4v18H2Zm3-5v2h3v-2Zm6 0v2h3v-2Z','M2 8l10-6 10 6v3H2Zm3 5h3v6H5Zm6 0h3v6h-3Zm6 0h3v6h-3ZM2 21h20v2H2Z','M11 2h2v3h7v2h-7v13h5v2H6v-2h5V7H4V5h7ZM4 8l4 7H0Zm16 0 4 7h-8Z'];
 export function renderHomeSections(){

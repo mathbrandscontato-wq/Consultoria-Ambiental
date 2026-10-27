@@ -116,3 +116,11 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Grade introdutória de Projetos ajustada para não deixar coluna vazia após a remoção do sobretítulo.
 - npm run qa: lint, build, 38 testes e inspeção estática aprovados. QA pelo navegador em 1440/768/390/360 na Home e nas cinco rotas em 390: sem overflow horizontal, zero sobretítulos. Inspeção visual desktop concluída.
 - A rotina qa:browser será executada pelo CI da PR revisável; verificação responsiva local feita via navegador suportado.
+
+## 27/10/2026 — Prompt Mestre V5
+- Heros internos editoriais, CTA compartilhado com Home, mobile sobre foto, header uma linha.
+- Perspective Tunnel só no segundo bloco Sobre #lara-yumi; código fornecido adaptado à stack nativa, scroll natural, retrato e textos preservados. Fallback reduced-motion e viewport curto.
+- Copy4 setores/5 caminhos/7 serviços, metadata5 rotas e OG; noindex mantido, sem novos serviços/trackers/canonical especulativo.
+- Footer sem links sociais fictícios nem aviso de revisão; ícones preservados. Lightbox com swipe, captura/ID/cancelamento.
+- QA completo:46 testes, lint, build e check PASS;35 combinações de viewport no CUA sem overflow/umH1/zero tags; galeria/menu/túnel verificados. Relatórios docs/ykeizumi-v5-*.md.
+- Envio de contato não publicado: endpoint/destinatário e informações de tratamento de dados ausentes. Sem medição CWV de campo ou alegação WCAG integral.

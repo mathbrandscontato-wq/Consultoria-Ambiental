@@ -90,11 +90,13 @@ try{
         await sleep(100);
       }
       assert.ok(readyPage,"Internal page did not load: "+slug+"/"+width);
-      const page=await run('(()=>({h1Count:document.querySelectorAll("main h1").length,overflow:document.documentElement.scrollWidth>innerWidth+1,heading:document.querySelector("main h1")?.textContent,hasForm:!!document.querySelector("form"),stage:document.querySelector("footer")?.textContent||""}))()');
+      const page=await run('(()=>({h1Count:document.querySelectorAll("main h1").length,overflow:document.documentElement.scrollWidth>innerWidth+1,heading:document.querySelector("main h1")?.textContent,hasForm:!!document.querySelector("form"),stage:document.querySelector("footer")?.textContent||"",noindex:document.querySelector("meta[name=robots]")?.content,deadFooterLinks:[...document.querySelectorAll("footer a")].filter(a=>!a.getAttribute("href")?.trim()||a.getAttribute("href")==="#").length}))()');
       assert.equal(page.h1Count,1,"Exactly one H1 on "+slug);
       assert.equal(page.overflow,false,"Horizontal overflow on "+slug+"/"+width);
       assert.equal(page.hasForm,false,"Contact must not fake submission");
-      assert.ok(page.stage.includes("revisão"),"Review-only disclosure missing");
+      assert.ok(page.stage.includes("Ykeizumi Consultoria Ambiental"),"Institutional footer missing");
+      assert.equal(page.noindex,"noindex,nofollow","Preview indexation policy changed");
+      assert.equal(page.deadFooterLinks,0,"Footer contains dead links");
       const sc=await send("Page.captureScreenshot",{format:"png",captureBeyondViewport:true});
       await writeFile(join(out,slug+"-"+width+".png"),Buffer.from(sc.data,"base64"));
       results.push({width,height,route:slug,result:"PASS",...page});
