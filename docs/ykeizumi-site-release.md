@@ -6,17 +6,18 @@ Data: 27/10/2026. Escopo autorizado pelo prompt mestre enviado pelo proprietári
 
 | Página | Implementação | QA | Publicação | Pós-publicação |
 |---|---|---|---|---|
-| Home | Oito seções; doze famílias de efeitos, galeria curva, quatro segmentos selecionáveis, mapa real com pan/zoom, FAQ e CTA | Build, testes,40layouts compartilhados e interações verificadas | Candidata aprovada para deploy | A registrar após deploy |
-| Sobre | Seis seções; retrato original, expansão por scroll, topografia, narrativa e Bento | Estrutura, mídia e layout verificados | Candidata aprovada para deploy | A registrar após deploy |
-| Serviços | Cinco seções; sete serviços, crossfade/accordion, contextos e timeline | Âncoras s01–07, seleção rápida e histórico verificados | Candidata aprovada para deploy | A registrar após deploy |
-| Projetos | Seis seções; acervo real vazio condicional, Atlas6fotos, Masonry e lightbox | Registro seguro4testes, foco/teclado/lightbox e layouts verificados | Candidata aprovada para deploy | A registrar após deploy |
+| Home | Oito seções; doze famílias de efeitos, galeria curva, quatro segmentos selecionáveis, mapa real com pan/zoom, FAQ e CTA | Build, testes,40layouts compartilhados e interações verificadas | Publicada na versão21 | URL verificada em produção |
+| Sobre | Seis seções; retrato original, expansão por scroll, topografia, narrativa e Bento | Estrutura, mídia e layout verificados | Publicada na versão21 | URL verificada em produção |
+| Serviços | Cinco seções; sete serviços, crossfade/accordion, contextos e timeline | Âncoras s01–07, seleção rápida e histórico verificados | Publicada na versão21 | URL verificada em produção |
+| Projetos | Seis seções; acervo real vazio condicional, Atlas6fotos, Masonry e lightbox | Registro seguro4testes, foco/teclado/lightbox e layouts verificados | Publicada na versão21 | URL verificada em produção |
 | Contato | Interface6perguntas, revisão/edição, validação e adaptador | 8testes de lógica; fluxo local até revisão, edição direta e bloqueio de envio verificados | Nova versão **bloqueada**; manter página pública anterior | Não testar envio real inexistente |
 
 ## Auditoria e baseline
 
 - Repositório existente: `https://github.com/mathbrandscontato-wq/Consultoria-Ambiental`.
 - Checkout local baseado em `feat/pr-08-sobre-lara-galeria-projetos`. A fonte de produção do Sites é um repositório `cloudflare_artifact`, branch `main`, separado do GitHub original. A busca GitHub encontrou PRs históricas1–9 abertas; não havia redesign equivalente a incorporar. Nenhum trabalho anterior foi mesclado ou sobrescrito.
-- Espelho de revisão GitHub preparado para branch nova `feat/ykeizumi-redesign-unificado-20261027`, baseada no head verificado `5a547b93602358363ee156255f9bb5a67577bd82` da PR08. Acesso de escrita Git CLI indisponível; usar conector GitHub para versionar, preservando a CI mais recente e main. Publicação segue o vínculo de fonte do Sites.
+- Espelho de revisão GitHub criado na branch nova `feat/ykeizumi-redesign-unificado-20261027`, baseada no head verificado `5a547b93602358363ee156255f9bb5a67577bd82` da PR08. Acesso de escrita Git CLI indisponível; usar conector GitHub para versionar, preservando a CI mais recente e main. Publicação segue o vínculo de fonte do Sites.
+- GitHub: commit `804447c9def36c16d61f20dbb03eb71e06f5cfd7`; [PR10](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/pull/10) aberta em draft, sem merge. CI corrigido e aprovado no commit `9f6a59e062d1d719cadfc40200f6a30d3e364687`, run [40536820905](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/40536820905).
 - Commit-base: `178d0cf518cd0fe9211f6faa3d800c4780b88144`.
 - Versão anterior:20; ID `appgprj_6adf8696a404819180e8bf53b4757b4b~appgver_41dfa21df9208191b4c49de9595da3a9`.
 - Deployment anterior: `appgdep_6ae0a498d22881918d726a03fc3621dc`, confirmado como versão de rollback.
@@ -44,7 +45,7 @@ Desvios explícitos: CircularGallery em DOM/CSS3D sem deformação WebGL; topogr
 - Contato dev: erro de obrigatório; nome/perfil/serviço pré-selecionado s04; textarea preserva Enter; cidade/UF; somente e-mail; revisão100%; edição de nome retorna diretamente à revisão; botãoEnviar bloqueado. Nenhum dado real transmitido.
 - Console observado: nenhum erro da origem da aplicação nas consultas realizadas; mensagens da extensão do navegador foram separadas e não atribuídas ao site.
 - JavaScript sem API de animação/observers: testes existentes aprovados. Reduced-motion previsto no código e nos testes unitários de fallback; não houve auditoria completa com emulação do sistema operacional.
-- `npm run qa:browser`: script legado de CDP com seletores antigos não executado; substituído pela matriz e interações na ferramenta de navegador suportada. Não foi instalado navegador alternativo.
+- `npm run qa:browser`: a primeira CI falhou porque o script histórico aguardava `.ha-cta--main` e o título antigo. Verificações atualizadas para o CTA de Serviços, título aprovado, vídeo original, poster e textura pontilhada, com as oito larguras exigidas. CI GitHub [40536820905](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/40536820905), commit9f6a59e062d1d719cadfc40200f6a30d3e364687: **SUCCESS**, incluindo lint/build/38testes/inspeção e QA real de navegador. Nenhum check foi desativado. Não foi executado navegador alternativo no executor local; a revisão interativa local usou a ferramenta suportada.
 - Lighthouse, LCP, CLS, INP e TBT: **não medidos**. Não há declaração de Core Web Vitals aprovado ou conformidade WCAG integral. Teclado virtual real de iOS/Android não medido.
 
 ## Peso dos recursos declarados
@@ -94,4 +95,16 @@ Usar o deploy suportado do Sites para a versão20 indicada acima; não reescreve
 
 ## Publicação
 
-Candidata aguardando resultado nativo. Este bloco será atualizado após confirmação do deploy e smoke tests das cinco URLs, sem alterar a versão de conteúdo já validada.
+Publicação confirmada pelo Sites, status **succeeded**, em27/10/2026 às12h57 (America/Sao_Paulo).
+
+- URL: https://ykeizumi-consultoria-ambiental.mthsdoliveira.chatgpt.site
+- Versão21: `appgprj_6adf8696a404819180e8bf53b4757b4b~appgver_eb9d435d13008191b47172eca1651c33`.
+- Commit exato do conteúdo no repositório de fonte Sites: `4ecadd5e48885cd547a1e170143fa7c208ad176f`.
+- Deploy: `appgdep_6ae0c9bb1d1481919f992db8f08c7e24`.
+- Pacote local: `ykeizumi-redesign-integrated-v1.tar.gz`; hash de arquivo retornado pelo Sites `sha256:b7097ad4ea0c3f2e607a76aea31a73e8bf7d3fdd1c349059aa33d0f5f6d4d349`.
+- Smoke tests pelo navegador diretamente nas cinco URLs públicas: Home8seções, Sobre6, Serviços5, Projetos6; Contato2seções anteriores. Títulos corretos, sem overflow no viewport desktop verificado, sem módulos dev e sem formulários de coleta. Âncora s05 e abertura/Escape da lightbox também confirmadas em produção.
+- Evidência real: [galeria publicada](evidence/production-gallery-20261027.jpg).
+- Merge GitHub: não executado; PR10 permanece em draft. O commit GitHub de revisão e o commit do Sites têm histórias próprias; o código funcional foi espelhado, sem afirmar que o deploy veio da main do GitHub.
+- Esta atualização documental pós-publicação é versionada separadamente; não altera o conteúdo da versão21 nem exige reconstruí-lo.
+
+Situação final: **parcialmente publicado**, pois Contato real continua bloqueado. Não declarar o projeto integralmente concluído enquanto faltar envio seguro e validado.
