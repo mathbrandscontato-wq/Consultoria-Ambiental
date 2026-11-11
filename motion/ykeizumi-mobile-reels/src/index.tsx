@@ -103,7 +103,7 @@ function NativeWords({f}:{f:number}){
  const lines=data.layers?.introHeading?.lines||[];
  return <>
  {Object.entries(timing).map(([id,[from,to]])=>{
-  if(id==='galleryFirstCard'&&f>=729)return null;
+  if(id==='galleryFirstCard'&&f>=744)return null;
   return <NativeLayer key={id} id={id} f={f} from={from} to={to} scroll={scroll}/>;
  })}
  {lines.slice(0,3).map((line,i)=><NativeLayer
