@@ -46,7 +46,7 @@ function sampleTrack(keys:readonly (readonly [number,number])[],frame:number):nu
 
 function CameraController(f:number,rect:Rect){
   if(f<=135){
-    const zoom=f<=18?1:f<=62?tw(f,18,62,1,13.5,out):
+    const zoom=f<=18?1:f<=62?tw(f,18,62,1,13.5,inOut):
       f<=95?13.5:tw(f,95,135,13.5,1,inOut);
     const cornerX=rect.x+rect.w,cornerY=rect.y;
     const focusX=f<=95?tw(f,18,62,645,603,standard):tw(f,95,135,603,995,inOut);
@@ -111,7 +111,7 @@ function YkeizumiCanvas(){
       }}>
         <Sequence from={110} durationInFrames={760}>
           <OffthreadVideo src={staticFile('mobile-capture-v3.mp4')} muted
-            style={{height:'100%',width:'100%',objectFit:'fill'}} />
+            style={{height:'100%',width:'100%',objectFit:'cover'}} />
         </Sequence>
         <TouchIndicator sourceFrame={frame-110} rect={rect}/>
       </div>}
