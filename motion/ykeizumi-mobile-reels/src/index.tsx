@@ -1,6 +1,6 @@
 /**
- * Ykeizumi | Directors Cut V5.1: measured Hero video and real source DOM layers.
- * One 840-frame composition at 30FPS. No site source files modified.
+ * Ykeizumi | Directors Cut V5.2: preserved V5.1 measured Hero video and real source DOM layers.
+ * One 1080-frame composition at 30FPS. No site source files modified.
  */
 import React from 'react';
 import {
@@ -8,7 +8,9 @@ import {
  OffthreadVideo, Sequence, registerRoot, staticFile, useCurrentFrame
 } from 'remotion';
 import manifest from '../public/v5-layer-manifest.json';
-const WIDTH=1080,HEIGHT=1920,FPS=30,FRAMES=840,START=135;
+import timeline from '../timeline-v5-2.json';
+const WIDTH=1080,HEIGHT=1920,FPS=timeline.fps,FRAMES=timeline.totalFrames,START=timeline.captureStart;
+if(FRAMES!==1080||FPS!==30||timeline.captureFrames!==945)throw Error('V5.2 timeline mismatch');
 const STAGE={x:85,y:-25,w:910,h:1970};
 const SX=STAGE.w/390,SY=STAGE.h/844,GREEN='#1e3b2d';
 const CLAMP={extrapolateLeft:'clamp' as const,extrapolateRight:'clamp' as const};
@@ -23,7 +25,7 @@ const round=(n:number)=>Number(n.toFixed(3));
 type Rect={x:number;y:number;w:number;h:number;r:number};
 type Layer={file:string;x:number;absY:number;w:number;h:number;text?:string;lines?:Array<{y:number;h:number}>};
 type Manifest={heroVideo?:{video:{x:number;y:number;w:number;h:number};effectiveRadius:number};
- layers?:Record<string,Layer>;scrollTrack?:number[]};
+ layers?:Record<string,Layer>;scrollTrack?:number[];galleryTitleYTrack?:number[]};
 const data=manifest as Manifest;
 function realHeroRect():Rect{
  const v=data.heroVideo?.video;
@@ -63,22 +65,18 @@ function track(keys:readonly (readonly[number,number])[],f:number):number{
 }
 function camera(f:number){
  return {
- scale:track([[135,1],[205,1.018],[275,1.028],[365,1.012],
-  [454,1.022],[545,1.034],[625,1.022],[720,1.018],[839,1.01]],f),
- x:track([[135,0],[225,-3],[330,3],[440,-4],[545,4],[650,-3],[839,0]],f),
- y:track([[135,0],[255,-8],[375,-12],[500,-16],[635,-10],[755,-15],[839,-8]],f)
+  scale:track([[135,1],[245,1.014],[345,1.025],[465,1.018],
+    [565,1.022],[680,1.018],[790,1.027],[910,1.017],[1015,1.012],[1079,1.008]],f),
+  x:track([[135,0],[265,-3],[425,3],[565,-4],[720,3],[870,-2],[1079,0]],f),
+  y:track([[135,0],[335,-8],[520,-12],[680,-11],[860,-10],[980,-13],[1079,-9]],f)
  };
 }
-const timing:Record<string,[number,number]>={
- heroLogo:[144,171],heroTitle:[161,194],heroSubtitle:[183,215],
- heroDescription:[203,235],heroCTA:[221,248],
- introParagraph:[321,342],introLink:[330,348],
- servicesHeading:[343,357],servicesIntro:[347,362],
- service1Number:[351,366],service1Body:[353,369],
- service2Number:[365,379],service2Body:[367,384],
- service3Number:[379,393],service3Body:[381,398],
- galleryTitle:[635,660],galleryFirstCard:[646,684]
-};
+// The same V5.2 timeline file controls text, browser capture and output.
+const timing:Record<string,[number,number]>=Object.fromEntries(
+ Object.entries(timeline.reveals).filter(([key,value])=>
+  !key.startsWith('introLine') && Array.isArray(value)
+ )
+) as Record<string,[number,number]>;
 function sourceScroll(f:number):number{
  const t=data.scrollTrack||[];
  return t[Math.max(0,Math.min(t.length-1,f-START))]||0;
@@ -87,12 +85,12 @@ function NativeLayer({id,f,scroll,from,to,line}:{
  id:string;f:number;scroll:number;from:number;to:number;line?:{y:number;h:number}
 }){
  const l=data.layers?.[id];if(!l||f<from)return null;
- const p=enter(f,from,to),y=l.absY-scroll+(line?.y||0);
- const fade=id==='galleryFirstCard'?1-smooth(729,746,f):1;
+ const dynamicY=id==='galleryTitle'?data.galleryTitleYTrack?.[Math.max(0,Math.min((data.galleryTitleYTrack?.length||1)-1,f-START))]:undefined;
+ const p=enter(f,from,to),y=(dynamicY??l.absY)-scroll+(line?.y||0);
  const lineY=Math.max(0,line?.y||0);
  const h=line?Math.min(l.h-lineY,line.h+2):l.h;
  return <div style={{position:'absolute',left:l.x,top:y,width:l.w,height:h,
-   overflow:'hidden',pointerEvents:'none',opacity:p*fade,
+   overflow:'hidden',pointerEvents:'none',opacity:p,
    transform:'translateY('+((1-p)*9)+'px)',
    clipPath:'inset(0 0 '+Math.max(0,(1-p)*100)+'% 0)'}}>
    <Img src={staticFile(l.file)} style={{position:'absolute',left:0,
@@ -104,12 +102,11 @@ function NativeWords({f}:{f:number}){
  const lines=data.layers?.introHeading?.lines||[];
  return <>
  {Object.entries(timing).map(([id,[from,to]])=>{
-  if(id==='galleryFirstCard'&&f>=746)return null;
   return <NativeLayer key={id} id={id} f={f} from={from} to={to} scroll={scroll}/>;
  })}
  {lines.slice(0,3).map((line,i)=><NativeLayer
    key={'original-line-'+i} id="introHeading" line={line}
-   f={f} scroll={scroll} from={291+i*12} to={311+i*12}/>)}
+   f={f} scroll={scroll} from={timeline.reveals.introLineStart+i*timeline.reveals.introLineStep} to={timeline.reveals.introLineStart+i*timeline.reveals.introLineStep+timeline.reveals.introLineDuration}/>)}
  </>;
 }
 function SiteViewport({f}:{f:number}){
