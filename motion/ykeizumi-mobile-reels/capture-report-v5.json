@@ -1,0 +1,217 @@
+{
+  "source": "http://127.0.0.1:4173/",
+  "sourceBranch": "feat/ykeizumi-mobile-reels-v4-directors-cut",
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "dpr": 3
+  },
+  "heroVideo": {
+    "video": {
+      "x": 12,
+      "y": 12,
+      "w": 366,
+      "h": 600
+    },
+    "container": {
+      "x": 12,
+      "y": 12,
+      "w": 366,
+      "h": 600
+    },
+    "hero": {
+      "x": 12,
+      "y": 12,
+      "w": 366,
+      "h": 600
+    },
+    "effectiveRadius": 15
+  },
+  "layers": [
+    "heroLogo",
+    "heroTitle",
+    "heroSubtitle",
+    "heroDescription",
+    "heroCTA",
+    "introHeading",
+    "introParagraph",
+    "introLink",
+    "servicesHeading",
+    "servicesIntro",
+    "service1Number",
+    "service1Body",
+    "service2Number",
+    "service2Body",
+    "service3Number",
+    "service3Body",
+    "galleryTitle",
+    "galleryFirstCard"
+  ],
+  "stateTrack": [
+    {
+      "frame": 354,
+      "scroll": 2185,
+      "sector": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "gallery": "3 / 6"
+    },
+    {
+      "frame": 356,
+      "scroll": 2185,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6"
+    },
+    {
+      "frame": 420,
+      "scroll": 2307,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6"
+    },
+    {
+      "frame": 422,
+      "scroll": 2307,
+      "sector": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "gallery": "3 / 6"
+    },
+    {
+      "frame": 610,
+      "scroll": 2941,
+      "sector": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "gallery": "3 / 6"
+    },
+    {
+      "frame": 650,
+      "scroll": 2941,
+      "sector": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "gallery": "4 / 6"
+    },
+    {
+      "frame": 680,
+      "scroll": 2941,
+      "sector": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "gallery": "5 / 6"
+    }
+  ],
+  "sourceComponents": {
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "dpr": 3
+    },
+    "heroTitle": "Consultoria Ambiental",
+    "services": 3,
+    "accordions": 4,
+    "gallery": 6,
+    "hiddenPhoto": true
+  },
+  "videoStatus": {
+    "src": "http://127.0.0.1:4173/media/hero-mobile.mp4",
+    "videoWidth": 720,
+    "videoHeight": 406,
+    "paused": false
+  },
+  "captures": 705,
+  "fps": 30,
+  "touches": [
+    {
+      "frame": 114,
+      "x": 340,
+      "y": 52,
+      "purpose": "menu-open"
+    },
+    {
+      "frame": 141,
+      "x": 340,
+      "y": 52,
+      "purpose": "menu-close"
+    },
+    {
+      "frame": 355,
+      "x": 195,
+      "y": 490,
+      "purpose": "sector-second"
+    },
+    {
+      "frame": 421,
+      "x": 195,
+      "y": 482,
+      "purpose": "sector-third"
+    },
+    {
+      "frame": 611,
+      "x": 96,
+      "y": 597,
+      "purpose": "gallery-next-1"
+    },
+    {
+      "frame": 665,
+      "x": 96,
+      "y": 597,
+      "purpose": "gallery-next-2"
+    }
+  ],
+  "waypoints": {
+    "introY": 549,
+    "servicesY": 985.046875,
+    "segmentY": 2256.078125,
+    "scrollPoints": [
+      [
+        126,
+        0
+      ],
+      [
+        189,
+        549
+      ],
+      [
+        223,
+        985.046875
+      ],
+      [
+        264,
+        1475.046875
+      ],
+      [
+        320,
+        2256.078125
+      ]
+    ],
+    "galleryY": 2941.25
+  },
+  "imageSuppressedOnlyInCapture": true,
+  "errors": []
+}
