@@ -1,0 +1,163 @@
+name: Render Ykeizumi Mobile Reels V3 Premium
+on:
+  push:
+    branches:
+      - feat/ykeizumi-mobile-reels-v3-premium
+    paths:
+      - .github/workflows/render-ykeizumi-mobile-reels-v3.yml
+      - motion/ykeizumi-mobile-reels/src/index.tsx
+      - motion/ykeizumi-mobile-reels/capture/capture-mobile.mjs
+      - motion/ykeizumi-mobile-reels/package.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ykeizumi-mobile-reels-v3
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build original Ykeizumi site (never deploy)
+        run: npm run build
+      - name: Serve site for genuine mobile Chromium capture
+        run: |
+          python3 -m http.server 4173 --directory dist > /tmp/ykeizumi-server.log 2>&1 &
+          for i in $(seq 1 40); do
+            curl -fsS http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/ykeizumi-server.log && exit 1
+      - name: Install isolated Remotion and Playwright dependencies
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm ci --no-audit --no-fund
+      - name: Install Chrome and FFmpeg
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+          command -v ffmpeg
+      - name: Capture real mobile website with video-only sector photo suppression
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm run capture
+      - name: Render 29s premium Reels
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          mkdir -p ../../release
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/Ykeizumi_Mobile_Reels_V3_Premium.mp4 \
+            --codec h264 --crf 17 --concurrency 2 --browser-executable "$CHROME"
+      - name: Create unaltered frame cover and motion review contact sheet
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -ss 00:00:06.100 \
+            -i release/Ykeizumi_Mobile_Reels_V3_Premium.mp4 \
+            -frames:v 1 release/Ykeizumi_Mobile_Reels_V3_Cover.png
+          ffmpeg -hide_banner -loglevel error -y \
+            -i release/Ykeizumi_Mobile_Reels_V3_Premium.mp4 \
+            -vf "fps=1/1.8,scale=270:480,tile=4x4" \
+            -frames:v 1 -update 1 release/Ykeizumi_Mobile_Reels_V3_Review.png
+      - name: Validate output, original interaction, source suppression and compare V2
+        run: |
+          python3 - <<'PY'
+          import json,subprocess,pathlib
+          video=pathlib.Path('release/Ykeizumi_Mobile_Reels_V3_Premium.mp4')
+          cover=pathlib.Path('release/Ykeizumi_Mobile_Reels_V3_Cover.png')
+          sheet=pathlib.Path('release/Ykeizumi_Mobile_Reels_V3_Review.png')
+          old=pathlib.Path('release/Ykeizumi_Mobile_Reels_Final.mp4')
+          assert video.stat().st_size>1000000
+          assert cover.stat().st_size>10000 and sheet.stat().st_size>50000
+          def probe(file):
+            return json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration:stream=codec_name,width,height,r_frame_rate,nb_frames','-of','json',str(file)]))
+          meta=probe(video); stream=next(x for x in meta['streams'] if x.get('codec_name')=='h264')
+          duration=float(meta['format']['duration'])
+          assert (stream['width'],stream['height'])==(1080,1920),stream
+          assert stream['r_frame_rate']=='30/1',stream
+          assert abs(duration-29.0)<.07,duration
+          cap=json.loads(pathlib.Path('motion/ykeizumi-mobile-reels/capture-report-v3.json').read_text())
+          assert cap['captures']==760,cap
+          assert cap['imageSuppressedOnlyInCapture'] is True
+          assert cap['videoStatus']['paused'] is False
+          assert cap['viewport']=={'w':390,'h':844,'dpr':2}
+          names=[x['purpose'] for x in cap['touches']]
+          required=['menu-open','menu-close','sector-second','sector-third','gallery-next-1','gallery-next-2']
+          assert all(x in names for x in required),(names,cap['errors'])
+          assert not any(x.startswith(('HTTP','PAGE ERROR')) for x in cap['errors']),cap['errors']
+          oldlen=float(probe(old)['format']['duration']) if old.exists() else None
+          lines=[
+          '# Math Brands | Ykeizumi Mobile Reels V3 — QA audiovisual',
+          '',
+          '## Comparativo com V2',
+          '- Duração V2: '+str(oldlen)+'s; V3: '+str(round(duration,3))+'s',
+          '- Abertura V2: geometria com crescimento simples e troca de quadro.',
+          '- Abertura V3: vetor com 13,5x de aproximação ao canto superior direito; antes/durante/depois do raio 0→23px; zoom-out e morph para o viewport original sem corte.',
+          '- Site V2: 780px de largura sobre 1080px (72%).',
+          '- Site V3: 910px de largura sobre 1080px (84,3%), câmera focal contínua após 4,5s.',
+          '- V2: fotografia aérea grande aparece no acordeon.',
+          '- V3: o elemento figure dentro de #segmentos é display:none exclusivamente no Chromium de captura; altura do bloco colapsa sem foto substituta; nenhum código do site foi alterado.',
+          '- V3: gestos e scroll real executados no navegador mobile; interações '+', '.join(names),
+          '',
+          '## Verificações técnicas',
+          '- Fonte: branch feat/ykeizumi-redesign-unificado-20261027, incorporada apenas como base da produção audiovisual',
+          '- Site de produção: não modificado nem publicado',
+          '- Captura: 390×844 CSS px, DPR2, 760 frames, 30 fps, original mobile Hero playing',
+          '- Remotion: 1080×1920, 30 fps, 870 frames, H264, 29.000s',
+          '- Resolução e FPS: ffprobe APROVADO',
+          '- Reprodução e integridade: decodificação integral FFmpeg APROVADA',
+          '- Fonte tipográfica: CSS original com Avenir local e fallback de sistema; nenhum font file distribuído',
+          '- Capa: frame 6.1s; sem texto externo',
+          '- Storyboard/frames: release/Ykeizumi_Mobile_Reels_V3_Review.png',
+          '- Artefatos: vídeo MP4, capa PNG, relatório QA, código TSX, captura Playwright, captura MP4, manifesto de toques',
+          '',
+          '## Ressalva',
+          '- As validações automatizadas não substituem a revisão visual de abertura, interações e galeria.',
+          '',
+          '## Arquivos',
+          '- release/Ykeizumi_Mobile_Reels_V3_Premium.mp4',
+          '- release/Ykeizumi_Mobile_Reels_V3_Cover.png',
+          '- release/Ykeizumi_Mobile_Reels_V3_Review.png',
+          '- motion/ykeizumi-mobile-reels/src/index.tsx',
+          '- motion/ykeizumi-mobile-reels/public/mobile-capture-v3.mp4',
+          '- motion/ykeizumi-mobile-reels/public/touches-v3.json',
+          '- motion/ykeizumi-mobile-reels/capture-report-v3.json',
+          ]
+          pathlib.Path('release/Ykeizumi_Mobile_Reels_V3_QA.md').write_text('\n'.join(lines)+'\n')
+          print('V3 QA:',{'duration':duration,'bytes':video.stat().st_size,'touches':names})
+          PY
+          ffmpeg -hide_banner -v error -i release/Ykeizumi_Mobile_Reels_V3_Premium.mp4 -f null -
+      - name: Upload V3 delivery package before any Git write
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-Mobile-Reels-V3-Premium
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/Ykeizumi_Mobile_Reels_V3_Premium.mp4
+            release/Ykeizumi_Mobile_Reels_V3_Cover.png
+            release/Ykeizumi_Mobile_Reels_V3_Review.png
+            release/Ykeizumi_Mobile_Reels_V3_QA.md
+            motion/ykeizumi-mobile-reels/src/
+            motion/ykeizumi-mobile-reels/capture/
+            motion/ykeizumi-mobile-reels/package.json
+            motion/ykeizumi-mobile-reels/package-lock.json
+            motion/ykeizumi-mobile-reels/public/mobile-capture-v3.mp4
+            motion/ykeizumi-mobile-reels/public/touches-v3.json
+            motion/ykeizumi-mobile-reels/capture-report-v3.json
+      - name: Save rendered files to isolated V3 branch only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/Ykeizumi_Mobile_Reels_V3_* \
+            motion/ykeizumi-mobile-reels/public/mobile-capture-v3.mp4 \
+            motion/ykeizumi-mobile-reels/public/touches-v3.json \
+            motion/ykeizumi-mobile-reels/capture-report-v3.json
+          git commit -m "chore(motion-v3): verified 29-second premium final and review [skip ci]" || true
+          git push origin HEAD:feat/ykeizumi-mobile-reels-v3-premium
