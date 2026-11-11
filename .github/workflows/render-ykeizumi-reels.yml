@@ -1,0 +1,94 @@
+name: Ykeizumi Reels - render isolado
+on:
+  push:
+    branches:
+      - motion/ykeizumi-reels-20261111
+    paths:
+      - 'motion/ykeizumi/**'
+      - '.github/workflows/render-ykeizumi-reels.yml'
+  pull_request:
+    branches:
+      - feat/ykeizumi-redesign-unificado-20261027
+    paths:
+      - 'motion/ykeizumi/**'
+      - '.github/workflows/render-ykeizumi-reels.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Checkout - versão de trabalho isolada
+        uses: actions/checkout@v4
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install render and browser dependencies
+        run: |
+          npm install --no-save --no-audit --no-fund --ignore-scripts remotion@4.0.370 @remotion/cli@4.0.370 react@19.1.1 react-dom@19.1.1 playwright-core@1.55.0
+          command -v google-chrome || true
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          command -v ffmpeg
+      - name: Build original static website
+        run: npm run build
+      - name: Start local website (never publish)
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 -d dist >/tmp/ykeizumi-local.log 2>&1 &
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          curl --fail http://127.0.0.1:4173/ >/dev/null
+      - name: Capture real DOM states and original interactions
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node motion/ykeizumi/scripts/capture.mjs
+      - name: Prepare Remotion renderer
+        run: npx remotion browser ensure
+      - name: Render MP4 H.264
+        run: |
+          mkdir -p motion/ykeizumi/out
+          npx remotion render motion/ykeizumi/src/index.tsx YkeizumiReels motion/ykeizumi/out/Ykeizumi_Consultoria_Ambiental_Reels_Final.mp4 --codec=h264 --crf=17 --concurrency=2
+      - name: Render cover from frame 275
+        run: npx remotion still motion/ykeizumi/src/index.tsx YkeizumiReels motion/ykeizumi/out/Ykeizumi_Capa_Reels.png --frame=275
+      - name: Validate actual render and write report
+        run: |
+          ffprobe -v error -show_entries stream=codec_name,width,height,avg_frame_rate,pix_fmt -of default=noprint_wrappers=1 motion/ykeizumi/out/Ykeizumi_Consultoria_Ambiental_Reels_Final.mp4 | tee motion/ykeizumi/out/ffprobe.txt
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 motion/ykeizumi/out/Ykeizumi_Consultoria_Ambiental_Reels_Final.mp4 | tee -a motion/ykeizumi/out/ffprobe.txt
+          grep -q 'codec_name=h264' motion/ykeizumi/out/ffprobe.txt
+          grep -q 'width=1080' motion/ykeizumi/out/ffprobe.txt
+          grep -q 'height=1920' motion/ykeizumi/out/ffprobe.txt
+          grep -q 'avg_frame_rate=30/1' motion/ykeizumi/out/ffprobe.txt
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          data=json.loads(Path('motion/ykeizumi/src/capture-data.json').read_text())
+          output=Path('motion/ykeizumi/out/RELATORIO_TECNICO.md')
+          output.write_text('# Relatório técnico | Ykeizumi Reels\n\n'
+            'Site: mathbrandscontato-wq/Consultoria-Ambiental\n\n'
+            'Branch base: feat/ykeizumi-redesign-unificado-20261027\n\n'
+            'Método: Playwright-core sobre HTML original; capturas reais de hover nos serviços, seleção dos setores e controles da galeria;'
+            ' movimentos determinísticos de câmera e cursor em Remotion.\n\n'
+            'Formato: 1080x1920; 30 FPS; H.264; 930 frames; 31 segundos.\n\n'
+            'Capturas: '+', '.join(data['screenCaptures'])+'\n\n'
+            'Verificação ffprobe:\n\n'+Path('motion/ykeizumi/out/ffprobe.txt').read_text()+'\n'
+            'Sem deploy, sem alteração do site publicado e sem fonte proprietária redistribuída.\n',
+            encoding='utf-8')
+          PY
+          zip -qr motion/ykeizumi/out/Ykeizumi_Projeto_Remotion_Editavel.zip motion/ykeizumi/src motion/ykeizumi/scripts motion/ykeizumi/README.md motion/ykeizumi/package.json public/motion/captures public/media
+          test -s motion/ykeizumi/out/Ykeizumi_Consultoria_Ambiental_Reels_Final.mp4
+          test -s motion/ykeizumi/out/Ykeizumi_Capa_Reels.png
+      - name: Upload MP4, cover, editable sources, report and screenshot evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi_Reels_Final
+          path: |
+            motion/ykeizumi/out/Ykeizumi_Consultoria_Ambiental_Reels_Final.mp4
+            motion/ykeizumi/out/Ykeizumi_Capa_Reels.png
+            motion/ykeizumi/out/Ykeizumi_Projeto_Remotion_Editavel.zip
+            motion/ykeizumi/out/RELATORIO_TECNICO.md
+            motion/ykeizumi/out/ffprobe.txt
+          if-no-files-found: error
+          retention-days: 30
