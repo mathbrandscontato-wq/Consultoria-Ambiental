@@ -79,7 +79,7 @@ const heroVideo=await page.evaluate(()=>{
    effectiveRadius:Math.max(parseFloat(getComputedStyle(hero).borderTopRightRadius)||0,
      parseFloat(getComputedStyle(media).borderTopRightRadius)||0)};
  if(['x','y','w','h'].some(k=>Math.abs(geometry.video[k]-geometry.container[k])>1) ||
-   geometry.video.w>=vw || geometry.video.h>=vh || geometry.video.w<250 || geometry.video.h<350)
+   geometry.video.w>=innerWidth || geometry.video.h>=innerHeight || geometry.video.w<250 || geometry.video.h<350)
    throw Error('Invalid measured media rectangle '+JSON.stringify(geometry));
  return geometry;
 });
