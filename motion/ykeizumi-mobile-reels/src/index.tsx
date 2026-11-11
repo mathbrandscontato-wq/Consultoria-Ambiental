@@ -88,10 +88,11 @@ function NativeLayer({id,f,scroll,from,to,line}:{
 }){
  const l=data.layers?.[id];if(!l||f<from)return null;
  const p=enter(f,from,to),y=l.absY-scroll+(line?.y||0);
+ const fade=id==='galleryFirstCard'?1-smooth(729,746,f):1;
  const lineY=Math.max(0,line?.y||0);
  const h=line?Math.min(l.h-lineY,line.h+2):l.h;
  return <div style={{position:'absolute',left:l.x,top:y,width:l.w,height:h,
-   overflow:'hidden',pointerEvents:'none',opacity:p,
+   overflow:'hidden',pointerEvents:'none',opacity:p*fade,
    transform:'translateY('+((1-p)*9)+'px)',
    clipPath:'inset(0 0 '+Math.max(0,(1-p)*100)+'% 0)'}}>
    <Img src={staticFile(l.file)} style={{position:'absolute',left:0,
@@ -103,7 +104,7 @@ function NativeWords({f}:{f:number}){
  const lines=data.layers?.introHeading?.lines||[];
  return <>
  {Object.entries(timing).map(([id,[from,to]])=>{
-  if(id==='galleryFirstCard'&&f>=729)return null;
+  if(id==='galleryFirstCard'&&f>=746)return null;
   return <NativeLayer key={id} id={id} f={f} from={from} to={to} scroll={scroll}/>;
  })}
  {lines.slice(0,3).map((line,i)=><NativeLayer
