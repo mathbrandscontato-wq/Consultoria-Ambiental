@@ -127,7 +127,7 @@
     },
     {
       "frame": 550,
-      "scroll": 2665,
+      "scroll": 2612,
       "sector": [
         false,
         false,
@@ -145,7 +145,7 @@
     },
     {
       "frame": 602,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -163,7 +163,7 @@
     },
     {
       "frame": 637,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -181,7 +181,7 @@
     },
     {
       "frame": 653,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -199,7 +199,7 @@
     },
     {
       "frame": 672,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -217,7 +217,7 @@
     },
     {
       "frame": 695,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -235,7 +235,7 @@
     },
     {
       "frame": 712,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -253,7 +253,7 @@
     },
     {
       "frame": 732,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -271,7 +271,7 @@
     },
     {
       "frame": 750,
-      "scroll": 2941,
+      "scroll": 2847,
       "sector": [
         false,
         false,
@@ -389,13 +389,13 @@
     {
       "frame": 638,
       "x": 96,
-      "y": 597,
+      "y": 691,
       "purpose": "gallery-next-1"
     },
     {
       "frame": 696,
       "x": 96,
-      "y": 597,
+      "y": 691,
       "purpose": "gallery-next-2"
     }
   ],
@@ -403,7 +403,7 @@
     "introY": 549,
     "servicesY": 985.046875,
     "segmentY": 2256.078125,
-    "galleryY": 2941.25,
+    "galleryY": 2847.25,
     "scrollPoints": [
       [
         0,
