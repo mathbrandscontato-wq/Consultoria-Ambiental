@@ -2,7 +2,7 @@
  * Math Brands — Ykeizumi original mobile interaction capture for V5.1.
  * Production website remains immutable. This captures its real DOM, images,
  * text, video, native details, menu and circular gallery from local build.
- * Frames: 704 (23.467s), inserted at composition frame 136 (28s total).
+ * Frames: 705 (23.500s), inserted at composition frame 135 (28s total).
  */
 import {chromium} from 'playwright';
 import {mkdir, rm, writeFile} from 'node:fs/promises';
@@ -268,7 +268,6 @@ try{
   await page.screenshot({path,type:'jpeg',quality:94,animations:'allow'});
   if(f%120===0)console.log('V5 capture',f+1,'/',frames,'scroll',state.scroll);
  }
-}
 }finally{
   await writeFile(join(publicDir,'v5-layer-manifest.json'),JSON.stringify({
  version:'5.1',frames,offset:135,viewport:components.viewport,fps,
@@ -277,7 +276,7 @@ try{
 },null,2));
   await writeFile(join(publicDir,'touches-v5.json'),JSON.stringify(touches,null,2));
   await writeFile(join(root,'capture-report-v5.json'),JSON.stringify({
-    source:site,sourceBranch:'feat/ykeizumi-mobile-reels-v3-premium',
+    source:site,sourceBranch:'feat/ykeizumi-mobile-reels-v4-directors-cut',
     viewport:components.viewport,heroVideo,layers:Object.keys(layers),stateTrack,sourceComponents:components,
     videoStatus,captures:frames,fps,touches,waypoints,
     imageSuppressedOnlyInCapture:components.hiddenPhoto,errors
@@ -288,7 +287,7 @@ const encoded=spawnSync('ffmpeg',[
   '-hide_banner','-loglevel','error','-y','-framerate',String(fps),
   '-i',join(framesDir,'frame-%04d.jpg'),
   '-c:v','libx264','-preset','fast','-crf','17',
-  '-pix_fmt','yuv520p','-r',String(fps),'-movflags','+faststart',
+  '-pix_fmt','yuv420p','-r',String(fps),'-movflags','+faststart',
   join(publicDir,'mobile-capture-v5.mp4')
 ],{stdio:'inherit',timeout:600000});
 if(encoded.status!==0)throw Error('V5.1 capture encode failed: '+String(encoded.error||encoded.status));
