@@ -1,0 +1,61 @@
+{
+  "source": "http://127.0.0.1:4173/",
+  "branch": "feat/ykeizumi-redesign-unificado-20261027",
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "dpr": 2
+  },
+  "videoStatus": {
+    "src": "http://127.0.0.1:4173/media/hero-mobile.mp4",
+    "videoWidth": 720,
+    "videoHeight": 406,
+    "paused": false
+  },
+  "sourceComponents": {
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "dpr": 2
+    },
+    "heroTitle": "Consultoria Ambiental",
+    "services": 3,
+    "accordions": 4,
+    "gallery": 6
+  },
+  "captures": 840,
+  "fps": 30,
+  "touches": [
+    {
+      "frame": 110,
+      "x": 340,
+      "y": 52,
+      "purpose": "open-mobile-menu"
+    },
+    {
+      "frame": 148,
+      "x": 340,
+      "y": 52,
+      "purpose": "close-mobile-menu"
+    },
+    {
+      "frame": 511,
+      "x": 195,
+      "y": 541,
+      "purpose": "select-second-sector"
+    },
+    {
+      "frame": 743,
+      "x": 96,
+      "y": 616,
+      "purpose": "next-gallery-image"
+    },
+    {
+      "frame": 787,
+      "x": 96,
+      "y": 616,
+      "purpose": "next-gallery-image"
+    }
+  ],
+  "errors": []
+}
