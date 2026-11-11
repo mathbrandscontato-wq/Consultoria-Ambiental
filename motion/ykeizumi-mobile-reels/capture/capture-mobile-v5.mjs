@@ -45,6 +45,7 @@ await page.waitForSelector('#projetos .circular-gallery');
 // Deliberate V3 correction retained: ONLY the local capture browser hides
 // the giant sector photo. The production site and its git CSS are untouched.
 await page.addStyleTag({content:[
+  'html,body,button,a,summary,*{-webkit-tap-highlight-color:transparent !important;}',
   '#segmentos .sector-description figure {display:none !important;}',
   '#segmentos .sector-stage {display:none !important;}',
   '#segmentos .sector-showcase {min-height:0 !important;}',
