@@ -195,10 +195,17 @@ function scrollSpline(f,points){
   if(f>=points[last][0])return points[last][1];
   let i=0;while(i<last-1&&f>points[i+1][0])i++;
   const [t0,y0]=points[i],[t1,y1]=points[i+1],dt=t1-t0;
+  // Fritsch-Carlson monotone slopes: exact zero velocity on reading holds,
+  // no spline overshoot/backtracking at repeated scroll coordinates.
   const slope=j=>{
     if(j===0||j===last)return 0;
-    return Math.max(0,(points[j+1][1]-points[j-1][1])/
-      (points[j+1][0]-points[j-1][0]));
+    const h0=points[j][0]-points[j-1][0];
+    const h1=points[j+1][0]-points[j][0];
+    const d0=(points[j][1]-points[j-1][1])/h0;
+    const d1=(points[j+1][1]-points[j][1])/h1;
+    if(d0<=0||d1<=0)return 0;
+    const w1=2*h1+h0,w2=h1+2*h0;
+    return (w1+w2)/(w1/d0+w2/d1);
   };
   const t=(f-t0)/dt,t2=t*t,t3=t2*t;
   return (2*t3-3*t2+1)*y0+(t3-2*t2+t)*dt*slope(i)+
