@@ -1,0 +1,216 @@
+{
+  "version": "5.2",
+  "fps": 30,
+  "totalFrames": 1080,
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "dpr": 3
+  },
+  "captureStart": 135,
+  "captureFrames": 945,
+  "scenes": {
+    "geometry": [
+      0,
+      135
+    ],
+    "hero": [
+      135,
+      315
+    ],
+    "intro": [
+      315,
+      465
+    ],
+    "services": [
+      465,
+      660
+    ],
+    "accordions": [
+      660,
+      870
+    ],
+    "gallery": [
+      870,
+      1080
+    ]
+  },
+  "scrollPlan": [
+    [
+      0,
+      "top"
+    ],
+    [
+      165,
+      "top"
+    ],
+    [
+      215,
+      "intro"
+    ],
+    [
+      290,
+      "intro"
+    ],
+    [
+      305,
+      "intro"
+    ],
+    [
+      357,
+      "servicesHeading"
+    ],
+    [
+      378,
+      "servicesHeading"
+    ],
+    [
+      413,
+      "service1"
+    ],
+    [
+      440,
+      "service1"
+    ],
+    [
+      473,
+      "service2"
+    ],
+    [
+      493,
+      "service2"
+    ],
+    [
+      524,
+      "service3"
+    ],
+    [
+      548,
+      "service3"
+    ],
+    [
+      595,
+      "sectors"
+    ],
+    [
+      619,
+      "sectors"
+    ],
+    [
+      729,
+      "sectors"
+    ],
+    [
+      778,
+      "gallery"
+    ],
+    [
+      945,
+      "gallery"
+    ]
+  ],
+  "events": {
+    "menuOpen": 104,
+    "menuClose": 145,
+    "sectorSecond": 643,
+    "sectorThird": 704,
+    "galleryNext1": 813,
+    "galleryNext2": 864
+  },
+  "gallery": {
+    "initialIndex": 2,
+    "nextPositions": [
+      3,
+      4
+    ],
+    "transitions": [
+      [
+        813,
+        849,
+        2,
+        3
+      ],
+      [
+        864,
+        901,
+        3,
+        4
+      ]
+    ],
+    "settleFrames": [
+      796,
+      851,
+      904,
+      938
+    ]
+  },
+  "reveals": {
+    "heroLogo": [
+      148,
+      179
+    ],
+    "heroTitle": [
+      166,
+      205
+    ],
+    "heroSubtitle": [
+      193,
+      229
+    ],
+    "heroDescription": [
+      215,
+      251
+    ],
+    "heroCTA": [
+      247,
+      278
+    ],
+    "introLineStart": 354,
+    "introLineStep": 17,
+    "introLineDuration": 32,
+    "introParagraph": [
+      405,
+      435
+    ],
+    "introLink": [
+      429,
+      454
+    ],
+    "servicesHeading": [
+      501,
+      532
+    ],
+    "servicesIntro": [
+      520,
+      549
+    ],
+    "service1Number": [
+      562,
+      582
+    ],
+    "service1Body": [
+      570,
+      600
+    ],
+    "service2Number": [
+      603,
+      623
+    ],
+    "service2Body": [
+      609,
+      639
+    ],
+    "service3Number": [
+      641,
+      657
+    ],
+    "service3Body": [
+      646,
+      672
+    ],
+    "galleryTitle": [
+      888,
+      922
+    ]
+  }
+}
