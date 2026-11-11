@@ -59,7 +59,7 @@ export function SearchToHeroTransition({frame,hero}:{frame:number;hero:Rect}){
  const box=heroGeometry(frame,hero);
  const green=smooth(105,123,frame);
  const fadeIn=smooth(3,13,frame);
- const opacity=frame<234?fadeIn:(1-smooth(234,249,frame));
+ const opacity=frame<234?fadeIn:(1-smooth(234,246,frame));
  return <svg width={1080} height={1920} viewBox="0 0 1080 1920"
    style={{position:'absolute',inset:0,display:'block',overflow:'hidden',opacity}}
    aria-hidden="true">
