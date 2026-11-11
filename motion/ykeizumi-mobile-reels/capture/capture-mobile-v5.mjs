@@ -1,8 +1,8 @@
 /**
- * Math Brands — Ykeizumi original mobile interaction capture for V5.1.
+ * Math Brands — Ykeizumi V6 real mobile interaction capture.
  * Production website remains immutable. This captures its real DOM, images,
  * text, video, native details, menu and circular gallery from local build.
- * Frames: 705 (23.500s), inserted at composition frame 135 (28s total).
+ * Frames: 756 (25.2s), inserted at composition frame 234 (33s total).
  */
 import {chromium} from 'playwright';
 import {mkdir, rm, readFile, writeFile} from 'node:fs/promises';
@@ -11,11 +11,11 @@ import {resolve, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
-const framesDir=join(root,'frames-v5');
+const framesDir=join(root,'frames-v6');
 const publicDir=join(root,'public');
-const timeline=JSON.parse(await readFile(join(root,'timeline-v5-2.json'),'utf8'));
+const timeline=JSON.parse(await readFile(join(root,'timeline-v6.json'),'utf8'));
 const frames=timeline.captureFrames, vw=390, vh=844, dpr=3, fps=timeline.fps;
-if(frames!==945||fps!==30||timeline.totalFrames!==1080||timeline.captureStart!==135)throw Error('Invalid V5.2 frame config');
+if(frames!==756||fps!==30||timeline.totalFrames!==990||timeline.captureStart!==234)throw Error('Invalid V6 frame config');
 const site=process.env.SITE_URL||'http://127.0.0.1:4173/';
 await rm(framesDir,{recursive:true,force:true});
 await mkdir(framesDir,{recursive:true});
@@ -107,7 +107,7 @@ await second.addStyleTag({content:[
  '[data-reveal]{opacity:1!important;transform:none!important}'
 ].join('\n')});
 await second.evaluate(async()=>document.fonts.ready);
-const layerDir=join(publicDir,'v5-layers');
+const layerDir=join(publicDir,'v6-layers');
 await rm(layerDir,{recursive:true,force:true});await mkdir(layerDir,{recursive:true});
 const entries=[
  ['heroLogo','.ha-logo'],['heroTitle','.ha-main .ha-title'],
@@ -173,7 +173,7 @@ for(const [id,selector] of entries){
  await second.screenshot({path:join(layerDir,id+'.png'),type:'png',omitBackground:true,
   clip:{x:box.x,y:box.y,width:box.w,height:box.h},animations:'disabled'});
  const scroll=await second.evaluate(()=>scrollY);
- layers[id]={file:'v5-layers/'+id+'.png',x:box.x,absY:box.y+scroll,
+ layers[id]={file:'v6-layers/'+id+'.png',x:box.x,absY:box.y+scroll,
   w:box.w,h:box.h,text:detail.text,font:detail.font,lines:detail.lines};
  console.log('Native alpha layer',id,'pageY',layers[id].absY,'size',box.w,box.h);
 }
@@ -285,23 +285,21 @@ async function paintNativeGallery(position){
 }
 try{
  for(let f=0;f<frames;f++){
-  if(f===events.menuOpen)await tapVisible('.ha-mobile-menu summary',f,'menu-open');
-  if(f===events.menuClose)await tapVisible('.ha-mobile-menu summary',f,'menu-close');
   if(f===events.sectorSecond)await tapVisible('#segmentos .sector-option:nth-child(2) summary',f,'sector-second');
   if(f===events.sectorThird)await tapVisible('#segmentos .sector-option:nth-child(3) summary',f,'sector-third');
 
-  if(f===644){
+  if(f===431){
    anchors.sectorThird=Math.max(0,await absTop('#segmentos .sector-option:nth-child(3) summary')-vh*.52);
    keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
   }
-  if(f===729){
+  if(f===511){
    waypoints.galleryY=Math.max(0,await absTop('#projetos')-16);
    anchors.gallery=waypoints.galleryY;
    keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
   }
   await instantScroll(scrollSpline(f,keys));
 
-  if(f===777){
+  if(f===550){
    // Source remains genuine: resolve all six original image URLs before video
    // captures the gallery; never render a blank or pending image in the reel.
    await page.evaluate(async()=>{
@@ -320,7 +318,7 @@ try{
   }
   if(f===events.galleryNext2)await tapVisible('#projetos [data-circular-next]',f,'gallery-next-2');
   let visibleGallery=null;
-  if(f>=777)visibleGallery=await paintNativeGallery(galleryPosition(f));
+  if(f>=550)visibleGallery=await paintNativeGallery(galleryPosition(f));
 
   const state=await page.evaluate(()=>({
     scroll:scrollY,
@@ -330,23 +328,23 @@ try{
   }));
   scrollTrack.push(state.scroll);
   galleryTitleYTrack.push(state.galleryTitleDocumentY);
-  if([620,644,685,705,745,777,812,831,850,863,882,904,938].includes(f)){
+  if([398,414,432,473,475,511,550,602,637,653,672,695,712,732,750].includes(f)){
    stateTrack.push({frame:f,...state,visibleGallery});
    if(visibleGallery)galleryStates.push({frame:f,...visibleGallery});
   }
   const imagePath=join(framesDir,'frame-'+String(f+1).padStart(4,'0')+'.jpg');
   await page.screenshot({path:imagePath,type:'jpeg',quality:94,animations:'allow'});
-  if(f%120===0)console.log('V5.2 capture',f+1,'/',frames,'scroll',state.scroll);
+  if(f%120===0)console.log('V6 capture',f+1,'/',frames,'scroll',state.scroll);
  }
 }finally{
-  await writeFile(join(publicDir,'v5-layer-manifest.json'),JSON.stringify({
- version:'5.2',frames,offset:timeline.captureStart,viewport:components.viewport,fps,timeline,
+  await writeFile(join(publicDir,'v6-layer-manifest.json'),JSON.stringify({
+ version:'6.0',frames,offset:timeline.captureStart,viewport:components.viewport,fps,timeline,
  heroVideo,components,photoSuppressedOnlyInCapture:true,
  layers,scrollTrack,stateTrack,galleryTitleYTrack,galleryStates,video:videoStatus,touches,waypoints,errors
 },null,2));
-  await writeFile(join(publicDir,'touches-v5.json'),JSON.stringify(touches,null,2));
-  await writeFile(join(root,'capture-report-v5.json'),JSON.stringify({
-    source:site,sourceBranch:'feat/ykeizumi-mobile-reels-v5-1-timeline',
+  await writeFile(join(publicDir,'touches-v6.json'),JSON.stringify(touches,null,2));
+  await writeFile(join(root,'capture-report-v6.json'),JSON.stringify({
+    source:site,sourceBranch:'feat/ykeizumi-mobile-reels-v5-2-polish',
     viewport:components.viewport,heroVideo,layers:Object.keys(layers),stateTrack,galleryStates,sourceComponents:components,
     videoStatus,captures:frames,fps,touches,waypoints,
     imageSuppressedOnlyInCapture:components.hiddenPhoto,errors
@@ -358,16 +356,16 @@ const encoded=spawnSync('ffmpeg',[
   '-i',join(framesDir,'frame-%04d.jpg'),
   '-c:v','libx264','-preset','fast','-crf','17',
   '-pix_fmt','yuv420p','-r',String(fps),'-movflags','+faststart',
-  join(publicDir,'mobile-capture-v5.mp4')
+  join(publicDir,'mobile-capture-v6.mp4')
 ],{stdio:'inherit',timeout:600000});
-if(encoded.status!==0)throw Error('V5.2 capture encode failed: '+String(encoded.error||encoded.status));
+if(encoded.status!==0)throw Error('V6 capture encode failed: '+String(encoded.error||encoded.status));
 if(errors.some(e=>e.startsWith('PAGE ERROR')||e.startsWith('HTTP'))){
-  throw Error('V5.2 page errors: '+JSON.stringify(errors));
+  throw Error('V6 page errors: '+JSON.stringify(errors));
 }
 if(!galleryReady)throw Error('Gallery never passed image decode validation');
-const required=['menu-open','menu-close','sector-second','sector-third',
-  'gallery-next-1','gallery-next-2'];
+if(touches.some(t=>t.purpose.startsWith('menu')))throw Error('V6 forbids opening mobile menu');
+const required=['sector-second','sector-third','gallery-next-1','gallery-next-2'];
 if(required.some(p=>!touches.some(t=>t.purpose===p))||galleryStates.length<4){
   throw Error('Missing native interaction: '+JSON.stringify({touches,errors}));
 }
-console.log('V5.2 source capture validated: '+JSON.stringify({touches,components,errors}));
+console.log('V6 source capture validated: '+JSON.stringify({touches,components,errors}));
