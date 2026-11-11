@@ -68,7 +68,7 @@ function MobileExperience() {
   );
   const reveal = interpolate(frame, [0, 9], [0, 1], CLAMP);
   return (
-    <AbsoluteFill style={{backgroundColor:'#fff'}}>
+    <AbsoluteFill style={{backgroundColor:'transparent'}}>
       <div style={{
         position:'absolute', left:'50%', top:'50%', width:MOBILE_WIDTH, height:MOBILE_HEIGHT,
         transform:'translate(-50%, -50%) scale(' + scale + ') translateY(' + cameraY + 'px)',
