@@ -52,6 +52,13 @@ jobs:
         working-directory: motion/ykeizumi-mobile-reels
         run: npx playwright install --with-deps chromium
 
+      - name: Ensure FFmpeg is available for capture and final QA
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          command -v ffmpeg
+          ffmpeg -version | head -2
+
       - name: Record original website and native touch interactions
         working-directory: motion/ykeizumi-mobile-reels
         run: npm run capture
