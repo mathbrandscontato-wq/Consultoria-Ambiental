@@ -31,7 +31,7 @@ type Manifest={heroVideo?:{video:{x:number;y:number;w:number;h:number};effective
 const data=manifest as Manifest;
 function realHeroRect():Rect{
  const v=data.heroVideo?.video;
- if(!v)throw Error('V6 requires measured source DOM. Run capture-mobile-v5 capture script first.');
+ if(!v)throw Error('V6 requires measured source DOM. Run capture-mobile-v6 capture script first.');
  return {x:STAGE.x+v.x*SX,y:STAGE.y+v.y*SY,w:v.w*SX,h:v.h*SY,
    r:(data.heroVideo?.effectiveRadius||0)*SX};
 }
