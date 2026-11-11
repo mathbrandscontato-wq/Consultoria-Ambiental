@@ -1,126 +1,159 @@
+/**
+ * Ykeizumi | Mobile Reels V4 — Director's Cut
+ * 1080 x 1920 • 30fps • 840 frames (28s)
+ *
+ * The opening geometry is projected into final output pixel coordinates on
+ * EVERY frame. The SVG is NEVER transformed/scaled as a composited layer.
+ * The mobile site below is original Chromium footage, not recreated UI.
+ */
 import React from 'react';
 import {
-  AbsoluteFill, Composition, Easing, interpolate,
-  OffthreadVideo, Sequence, registerRoot, staticFile, useCurrentFrame,
+  AbsoluteFill, Composition, OffthreadVideo,
+  Sequence, registerRoot, staticFile, useCurrentFrame,
 } from 'remotion';
-import touches from '../public/touches-v3.json';
 
-const WIDTH=1080, HEIGHT=1920, FPS=30, FRAMES=870;
-const GREEN='#1e3b2d';
-const CLAMP={extrapolateLeft:'clamp' as const,extrapolateRight:'clamp' as const};
-const out=Easing.bezier(0.22,1,0.36,1);
-const inOut=Easing.bezier(0.45,0,0.16,1);
-const standard=Easing.bezier(0.2,0.68,0.23,1);
-const tw=(f:number,a:number,b:number,v0:number,v1:number,ease=out)=>
- v0+(v1-v0)*ease(Math.max(0,Math.min(1,(f-a)/(b-a))));
+const WIDTH = 1080;
+const HEIGHT = 1920;
+const FPS = 30;
+const FRAMES = 840;
+const REVEAL_FRAME = 136;
+const BG = '#ffffff';
+const GREEN = '#1e3b2d';
 
-type Rect={x:number;y:number;w:number;h:number;r:number};
-type Touch={frame:number;x:number;y:number;purpose:string};
+type Rect = {x: number; y: number; w: number; h: number; r: number};
+type Camera = {scale: number; x: number; y: number};
 
-function geometry(f:number):Rect {
-  const p=tw(f,106,135,0,1,inOut);
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+const mix = (a: number, b: number, t: number) => a + (b - a) * t;
+// C2 continuous at both ends (velocity and acceleration approach zero).
+const smootherstep = (a: number, b: number, f: number) => {
+  const t = clamp01((f - a) / (b - a));
+  return t * t * t * (t * (t * 6 - 15) + 10);
+};
+const blend = (f: number, a: number, b: number, from: number, to: number) =>
+  mix(from, to, smootherstep(a, b, f));
+const px = (v: number) => Number(v.toFixed(3));
+
+// The corner is fully sharp until frame 63. Morph occurs at maximum magnification.
+function shape(f: number): Rect {
+  const morph = smootherstep(98, REVEAL_FRAME, f);
+  let r = blend(f, 63, 100, 0, 23);
+  r = mix(r, 18, smootherstep(109, REVEAL_FRAME, f));
   return {
-    x:435+(85-435)*p,
-    y:855+(-25-855)*p,
-    w:210+(910-210)*p,
-    h:210+(1970-210)*p,
-    r:tw(f,67,98,0,23,inOut)+(18-23)*p,
+    x: mix(435, 85, morph),
+    y: mix(855, -25, morph),
+    w: mix(210, 910, morph),
+    h: mix(210, 1970, morph),
+    r,
   };
 }
 
-// C1-continuous cubic Hermite interpolation through camera keyframes.
-// Unlike independently eased scene transitions, velocities flow across knots.
-function sampleTrack(keys:readonly (readonly [number,number])[],frame:number):number{
-  if(frame<=keys[0][0])return keys[0][1];
-  const last=keys.length-1;
-  if(frame>=keys[last][0])return keys[last][1];
-  let i=0;while(i<last-1&&frame>keys[i+1][0])i++;
-  const [t0,p0]=keys[i], [t1,p1]=keys[i+1],dt=t1-t0;
-  const slope=(j:number)=>j===0?(keys[1][1]-keys[0][1])/(keys[1][0]-keys[0][0]):
-    j===last?(keys[last][1]-keys[last-1][1])/(keys[last][0]-keys[last-1][0]):
-    (keys[j+1][1]-keys[j-1][1])/(keys[j+1][0]-keys[j-1][0]);
-  const u=(frame-t0)/dt,u2=u*u,u3=u2*u;
-  return (2*u3-3*u2+1)*p0+(u3-2*u2+u)*dt*slope(i)
-       +(-2*u3+3*u2)*p1+(u3-u2)*dt*slope(i+1);
+// Resolve the ENTIRE path directly in 1080x1920 output coordinates.
+// Deliberately no CSS/SVG transform, transformed wrapper or bitmap upscaling.
+function projectedShape(f: number, model: Rect): Rect {
+  const zoomIn = smootherstep(9, 72, f);
+  const zoomOut = smootherstep(83, REVEAL_FRAME, f);
+  const scale = 1 + 14.5 * zoomIn * (1 - zoomOut);
+  const cornerX = blend(f, 9, 72, 645, 715)
+    + (995 - 715) * smootherstep(88, REVEAL_FRAME, f);
+  const cornerY = blend(f, 9, 72, 855, 930)
+    + (-25 - 930) * smootherstep(88, REVEAL_FRAME, f);
+  return {
+    x: cornerX - scale * model.w,
+    y: cornerY,
+    w: model.w * scale,
+    h: model.h * scale,
+    r: model.r * scale,
+  };
 }
 
-function CameraController(f:number,rect:Rect){
-  if(f<=135){
-    const zoom=f<=18?1:f<=62?tw(f,18,62,1,13.5,inOut):
-      f<=95?13.5:tw(f,95,135,13.5,1,inOut);
-    const cornerX=rect.x+rect.w,cornerY=rect.y;
-    const focusX=f<=95?tw(f,18,62,645,603,standard):tw(f,95,135,603,995,inOut);
-    const focusY=f<=95?tw(f,18,62,855,932,standard):tw(f,95,135,932,-25,inOut);
-    return {
-      scale:zoom,
-      x:focusX-645-zoom*(cornerX-645),
-      y:focusY-855-zoom*(cornerY-855),
-      originX:645,originY:855
-    };
+function vectorPath(rect: Rect): string {
+  const l = px(rect.x), t = px(rect.y), right = px(rect.x + rect.w);
+  const bottom = px(rect.y + rect.h);
+  const r = px(Math.max(0, Math.min(rect.r, rect.w / 2, rect.h / 2)));
+  if (r < 0.001) {
+    return 'M ' + l + ' ' + t + ' H ' + right + ' V ' + bottom +
+      ' H ' + l + ' Z';
   }
+  // Four exact circular SVG arcs in destination coordinates, rasterized once.
+  return 'M ' + px(l+r) + ' ' + t +
+    ' H ' + px(right-r) +
+    ' A ' + r + ' ' + r + ' 0 0 1 ' + right + ' ' + px(t+r) +
+    ' V ' + px(bottom-r) +
+    ' A ' + r + ' ' + r + ' 0 0 1 ' + px(right-r) + ' ' + bottom +
+    ' H ' + px(l+r) +
+    ' A ' + r + ' ' + r + ' 0 0 1 ' + l + ' ' + px(bottom-r) +
+    ' V ' + px(t+r) +
+    ' A ' + r + ' ' + r + ' 0 0 1 ' + px(l+r) + ' ' + t +
+    ' Z';
+}
+
+// Small hand-directed drift across scene boundaries, with matched tangents.
+// Unlike hard per-scene ease resets, the first derivatives are continuous.
+function track(points: ReadonlyArray<readonly [number, number]>, f: number): number {
+  if (f <= points[0][0]) return points[0][1];
+  const last = points.length - 1;
+  if (f >= points[last][0]) return points[last][1];
+  let i = 0;
+  while (i < last - 1 && f > points[i + 1][0]) i++;
+  const [a, y0] = points[i], [b, y1] = points[i + 1];
+  const slope = (j: number): number => {
+    if (j === 0 || j === last) return 0;
+    return (points[j + 1][1] - points[j - 1][1]) /
+      (points[j + 1][0] - points[j - 1][0]);
+  };
+  const d = b-a, t = (f-a)/d, t2=t*t, t3=t2*t;
+  return (2*t3-3*t2+1)*y0 + (t3-2*t2+t)*d*slope(i) +
+    (-2*t3+3*t2)*y1 + (t3-t2)*d*slope(i+1);
+}
+
+function editorialCamera(f: number): Camera {
   return {
-    scale:sampleTrack([
-      [135,1],[176,1.026],[245,1.045],[302,1.037],
-      [392,1.065],[470,1.073],[567,1.055],
-      [657,1.079],[745,1.054],[835,1.045],[869,1.02]
-    ],f),
-    x:sampleTrack([[135,0],[250,-4],[398,8],[530,-5],[657,9],[760,-8],[869,0]],f),
-    y:sampleTrack([[135,0],[245,-14],[390,-19],[490,-28],[610,-16],[742,-19],[869,0]],f),
-    originX:540,originY:960
+    scale: track([
+      [136,1], [205,1.018], [275,1.028], [365,1.012],
+      [454,1.022], [545,1.034], [625,1.022], [720,1.018], [839,1.01],
+    ], f),
+    x: track([
+      [136,0], [225,-3], [330,3], [440,-4], [545,4], [650,-3], [839,0],
+    ], f),
+    y: track([
+      [136,0], [255,-8], [375,-12], [500,-16], [635,-10], [755,-15], [839,-8],
+    ], f),
   };
 }
 
-function TouchIndicator({sourceFrame,rect}:{sourceFrame:number;rect:Rect}){
-  return <>{(touches as Touch[]).map((touch,index)=>{
-    const age=sourceFrame-touch.frame;
-    if(age<-3||age>12)return null;
-    const opacity=interpolate(age,[-3,0,3,12],[0,.26,.32,0],CLAMP);
-    const radius=interpolate(age,[-3,1,12],[.75,.95,1.22],CLAMP);
-    return <div key={index} style={{
-      position:'absolute',pointerEvents:'none',
-      left:touch.x/390*rect.w-10,top:touch.y/844*rect.h-10,
-      height:20,width:20,borderRadius:'50%',
-      border:'1.25px solid rgba(250,255,248,.9)',
-      background:'rgba(31,59,45,.13)',
-      transform:'scale('+radius+')',opacity
-    }}/>;
-  })}</>;
-}
+function YkeizumiMobileDirectorCut() {
+  const frame = useCurrentFrame();
+  const model = shape(frame);
+  const p = projectedShape(frame, model);
+  const opacity = smootherstep(2, 14, frame);
+  const reveal = smootherstep(131, 154, frame);
+  const camera = editorialCamera(frame);
 
-function YkeizumiCanvas(){
-  const frame=useCurrentFrame();
-  const rect=geometry(frame),camera=CameraController(frame,rect);
-  const introOpacity=tw(frame,4,18,0,1,standard);
-  const revealVideo=tw(frame,113,135,0,1,standard);
-  return <AbsoluteFill style={{backgroundColor:'#ffffff',overflow:'hidden'}}>
-    <AbsoluteFill style={{
-      transformOrigin:camera.originX+'px '+camera.originY+'px',
-      transform:'translate('+camera.x+'px,'+camera.y+'px) scale('+camera.scale+')',
-      willChange:'transform'
+  return <AbsoluteFill style={{backgroundColor:BG, overflow:'hidden'}}>
+    {/* SCREEN-SPACE vector: no group transform, no CSS scale, no bitmap. */}
+    <svg width={WIDTH} height={HEIGHT} viewBox={'0 0 ' + WIDTH + ' ' + HEIGHT}
+      style={{position:'absolute',inset:0,display:'block',opacity}}>
+      <path d={vectorPath(p)} fill={GREEN}/>
+    </svg>
+    {frame >= 131 && <div style={{
+      position:'absolute', left:85, top:-25, width:910, height:1970,
+      borderRadius:18, overflow:'hidden', background:GREEN,
+      opacity:reveal,
+      transformOrigin:'50% 50%',
+      transform:'translate(' + camera.x + 'px,' + camera.y +
+        'px) scale(' + camera.scale + ')',
     }}>
-      {/* Native resolution-independent vector geometry. Corner radius morphs at 13.5x. */}
-      <svg width={WIDTH} height={HEIGHT} style={{position:'absolute',inset:0,overflow:'visible',opacity:introOpacity}}>
-        <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h}
-              rx={rect.r} ry={rect.r} fill={GREEN}/>
-      </svg>
-      {frame>=110&&<div style={{
-        position:'absolute',left:rect.x,top:rect.y,
-        width:rect.w,height:rect.h,borderRadius:rect.r,
-        overflow:'hidden',opacity:revealVideo,
-        backgroundColor:GREEN
-      }}>
-        <Sequence from={110} durationInFrames={760}>
-          <OffthreadVideo src={staticFile('mobile-capture-v3.mp4')} muted
-            style={{height:'100%',width:'100%',objectFit:'cover'}} />
-        </Sequence>
-        <TouchIndicator sourceFrame={frame-110} rect={rect}/>
-      </div>}
-    </AbsoluteFill>
+      <Sequence from={REVEAL_FRAME} durationInFrames={FRAMES-REVEAL_FRAME}>
+        <OffthreadVideo src={staticFile('mobile-capture-v4.mp4')} muted
+          style={{height:'100%',width:'100%',objectFit:'cover'}}/>
+      </Sequence>
+    </div>}
   </AbsoluteFill>;
 }
 
-export const YkeizumiMobileReels=YkeizumiCanvas;
-export function RemotionRoot(){
+export const YkeizumiMobileReels = YkeizumiMobileDirectorCut;
+export function RemotionRoot() {
   return <Composition id="YkeizumiMobileReels" component={YkeizumiMobileReels}
     width={WIDTH} height={HEIGHT} fps={FPS} durationInFrames={FRAMES}/>;
 }
