@@ -1,0 +1,164 @@
+name: Render Ykeizumi Mobile Reels
+on:
+  push:
+    branches:
+      - feat/ykeizumi-mobile-reels-remotion
+    paths:
+      - .github/workflows/render-ykeizumi-mobile-reels.yml
+      - motion/ykeizumi-mobile-reels/src/**
+      - motion/ykeizumi-mobile-reels/capture/**
+      - motion/ykeizumi-mobile-reels/package.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ykeizumi-mobile-reels-render
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out source website and isolated motion pipeline
+        uses: actions/checkout@v4
+
+      - name: Configure Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build real Ykeizumi website (without deployment)
+        run: npm run build
+
+      - name: Start local static site
+        run: |
+          python3 -m http.server 4173 --directory dist > /tmp/ykeizumi-site.log 2>&1 &
+          echo $! > /tmp/ykeizumi-site.pid
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ykeizumi-site.log
+          exit 1
+
+      - name: Install isolated motion dependencies
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm install --no-audit --no-fund
+
+      - name: Install Chromium for authentic mobile capture
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npx playwright install --with-deps chromium
+
+      - name: Record original website and native touch interactions
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm run capture
+
+      - name: Render 32-second H264 video using Remotion
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          mkdir -p ../../release
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/Ykeizumi_Mobile_Reels_Final.mp4 \
+            --codec h264 --crf 18 --concurrency 2 --browser-executable "$CHROME"
+
+      - name: Extract unmodified video frame as Instagram cover
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -ss 00:00:07.000 \
+            -i release/Ykeizumi_Mobile_Reels_Final.mp4 -frames:v 1 \
+            release/Ykeizumi_Mobile_Reels_Cover.png
+
+      - name: Inspect output integrity and generate QA report
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, pathlib, datetime
+          video=pathlib.Path('release/Ykeizumi_Mobile_Reels_Final.mp4')
+          cover=pathlib.Path('release/Ykeizumi_Mobile_Reels_Cover.png')
+          assert video.stat().st_size>1000000, 'Video file missing or unexpectedly small'
+          assert cover.stat().st_size>10000, 'Cover PNG missing'
+          info=json.loads(subprocess.check_output([
+            'ffprobe','-v','error','-show_entries',
+            'format=duration:stream=codec_name,width,height,r_frame_rate',
+            '-of','json',str(video)
+          ]))
+          streams=info['streams']
+          stream=next(x for x in streams if x.get('codec_name')=='h264')
+          duration=float(info['format']['duration'])
+          assert (stream['width'],stream['height'])==(1080,1920), stream
+          assert stream['r_frame_rate']=='30/1', stream
+          assert 31.9 <= duration <= 32.1, duration
+          capture=json.loads(pathlib.Path('motion/ykeizumi-mobile-reels/capture-report.json').read_text())
+          assert capture['captures']==840
+          assert capture['videoStatus']['paused'] is False
+          purposes=[t['purpose'] for t in capture['touches']]
+          assert 'open-mobile-menu' in purposes and 'select-second-sector' in purposes
+          lines=[
+            '# Ykeizumi — relatório técnico de renderização',
+            '',
+            '- Repositório: mathbrandscontato-wq/Consultoria-Ambiental',
+            '- Branch original: feat/ykeizumi-redesign-unificado-20261027',
+            '- Branch motion: feat/ykeizumi-mobile-reels-remotion',
+            '- Captura: Chromium, mobile 390 × 844 CSS px, device scale factor 2, touch',
+            '- Material de origem: arquivos do site original, sem UI reconstruída',
+            '- Captura contínua da interface: 840 frames reais do navegador',
+            '- Remotion: composição YkeizumiMobileReels, 960 frames',
+            '- Vídeo final: H.264 / MP4, 1080 × 1920, 30 fps, %.3f s' % duration,
+            '- Hero mobile: vídeo nativo confirmado como reproduzido durante a captura',
+            '- Eventos de toque registrados: '+', '.join(purposes),
+            '- Imagens de serviços: sem hover inventado para mobile',
+            '- Textos externos, locução e assinatura: nenhum',
+            '- Capa: extraída do segundo 7 do vídeo, sem acréscimo de texto',
+            '- Tipografia: usa CSS original do site; Avenir é fonte local e depende da instalação/licença do ambiente',
+            '- O website de produção não foi modificado nem publicado',
+            '- Integridade: ffprobe passou; decodificação integral verificada no CI',
+            '',
+            '## Caminhos',
+            '- release/Ykeizumi_Mobile_Reels_Final.mp4',
+            '- release/Ykeizumi_Mobile_Reels_Cover.png',
+            '- motion/ykeizumi-mobile-reels/src/index.tsx',
+            '- motion/ykeizumi-mobile-reels/public/mobile-capture.mp4',
+            '- motion/ykeizumi-mobile-reels/public/touches.json',
+            '- motion/ykeizumi-mobile-reels/capture-report.json',
+            '',
+            '## Avisos observados pelo navegador',
+            '']+['- '+x for x in capture['errors']]
+          if not capture['errors']:lines.append('- Nenhum erro observado')
+          pathlib.Path('release/Ykeizumi_Mobile_Reels_QA.md').write_text('\n'.join(lines)+'\n')
+          print('QA passed:',{'size':video.stat().st_size,'duration':duration,'frame_rate':stream['r_frame_rate'],'touches':purposes})
+          PY
+          ffmpeg -hide_banner -v error -i release/Ykeizumi_Mobile_Reels_Final.mp4 -f null -
+
+      - name: Upload video, cover, editable composition, capture assets and QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-Mobile-Reels-Entrega
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            release/Ykeizumi_Mobile_Reels_Final.mp4
+            release/Ykeizumi_Mobile_Reels_Cover.png
+            release/Ykeizumi_Mobile_Reels_QA.md
+            motion/ykeizumi-mobile-reels/src/
+            motion/ykeizumi-mobile-reels/capture/
+            motion/ykeizumi-mobile-reels/README.md
+            motion/ykeizumi-mobile-reels/package.json
+            motion/ykeizumi-mobile-reels/package-lock.json
+            motion/ykeizumi-mobile-reels/public/mobile-capture.mp4
+            motion/ykeizumi-mobile-reels/public/touches.json
+            motion/ykeizumi-mobile-reels/capture-report.json
+
+      - name: Save deliverables to motion branch (not production)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/Ykeizumi_Mobile_Reels_Final.mp4 \
+            release/Ykeizumi_Mobile_Reels_Cover.png \
+            release/Ykeizumi_Mobile_Reels_QA.md \
+            motion/ykeizumi-mobile-reels/public/mobile-capture.mp4 \
+            motion/ykeizumi-mobile-reels/public/touches.json \
+            motion/ykeizumi-mobile-reels/package-lock.json \
+            motion/ykeizumi-mobile-reels/capture-report.json
+          git commit -m "chore(motion): verified Ykeizumi mobile Reels render [skip ci]" || true
+          git push origin HEAD:feat/ykeizumi-mobile-reels-remotion
