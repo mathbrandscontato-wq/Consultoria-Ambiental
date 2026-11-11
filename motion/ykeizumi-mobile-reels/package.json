@@ -1,0 +1,20 @@
+{
+  "name": "math-brands-ykeizumi-mobile-reels",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture": "node capture/capture-mobile.mjs",
+    "render": "remotion render src/index.tsx YkeizumiMobileReels ../../release/Ykeizumi_Mobile_Reels_Final.mp4 --codec h264 --crf 18 --concurrency 2"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "remotion": "^4.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "playwright": "^1.56.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
