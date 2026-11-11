@@ -1,0 +1,274 @@
+name: Render Ykeizumi Mobile Reels V5.2 Polish
+on:
+  push:
+    branches:
+      - feat/ykeizumi-mobile-reels-v5-2-polish
+    paths:
+      - .github/workflows/render-ykeizumi-mobile-reels-v5-2.yml
+      - motion/ykeizumi-mobile-reels/src/index.tsx
+      - motion/ykeizumi-mobile-reels/capture/capture-mobile-v5.mjs
+      - motion/ykeizumi-mobile-reels/timeline-v5-2.json
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ykeizumi-mobile-v5-2
+  cancel-in-progress: true
+
+jobs:
+  render-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build real website locally only, never deploy
+        run: npm run build
+      - name: Serve genuine mobile DOM
+        run: |
+          python3 -m http.server 4173 --directory dist > /tmp/ykeizumi-v52-site.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ykeizumi-v52-site.log
+          exit 1
+      - name: Install isolated Remotion toolchain
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm ci --no-audit --no-fund
+      - name: Install Chromium, FFmpeg and image QA
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pil
+      - name: Recapture 945 source frames with new scroll and native gallery
+        working-directory: motion/ykeizumi-mobile-reels
+        run: node capture/capture-mobile-v5.mjs
+      - name: Assert camera readability, synchronized states and no gallery overlay
+        run: |
+          python3 - <<'PY'
+          import json,subprocess, pathlib
+          from PIL import Image
+          root=pathlib.Path('motion/ykeizumi-mobile-reels')
+          m=json.loads((root/'public/v5-layer-manifest.json').read_text())
+          t=json.loads((root/'timeline-v5-2.json').read_text())
+          assert (m['frames'],m['offset'],m['fps'])==(945,135,30)
+          assert (t['totalFrames'],t['captureFrames'])==(1080,945)
+          assert m['photoSuppressedOnlyInCapture'] and not m['errors']
+          assert len(m['scrollTrack'])==945 and len(m['galleryTitleYTrack'])==945
+          assert len(m['layers'])==17 and 'galleryFirstCard' not in m['layers']
+          assert m['viewport']=={'w':390,'h':844,'dpr':3}
+          for key,values in m['layers'].items():
+            file=root/'public'/values['file']
+            im=Image.open(file)
+            assert im.mode=='RGBA' and im.getchannel('A').getextrema()[1]>0,key
+          pts=m['scrollTrack']
+          diffs=[pts[i]-pts[i-1] for i in range(1,len(pts))]
+          assert min(diffs)>=-0.6,('scroll backwards',min(diffs))
+          assert max(diffs)<=45,('scroll excessively fast',max(diffs))
+          assert max(abs(pts[f+1]-pts[f]) for f in range(237,283))<3,('intro reading pause missing')
+          touches=[x['purpose'] for x in m['touches']]
+          expected=['menu-open','menu-close','sector-second','sector-third','gallery-next-1','gallery-next-2']
+          assert touches==expected,touches
+          checkpoints={s['frame']:s for s in m['galleryStates']}
+          assert checkpoints[777]['frameCard']==2,checkpoints.get(777)
+          assert checkpoints[850]['frameCard']==3,checkpoints.get(850)
+          assert checkpoints[904]['frameCard']==4,checkpoints.get(904)
+          assert all(x['loaded'] for x in m['galleryStates'])
+          source=(root/'public/mobile-capture-v5.mp4')
+          meta=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+            'format=duration:stream=width,height,r_frame_rate','-of','json',str(source)]))
+          stream=next(x for x in meta['streams'] if x.get('width'))
+          assert (stream['width'],stream['height'])==(1170,2532),stream
+          assert stream['r_frame_rate']=='30/1'
+          assert abs(float(meta['format']['duration'])-31.5)<.07
+          # Forbid the exact V5.1 failure at source level, not just in final pixels.
+          tsx=(root/'src/index.tsx').read_text()
+          capture=(root/'capture/capture-mobile-v5.mjs').read_text()
+          assert 'galleryFirstCard' not in tsx and 'galleryFirstCard' not in capture
+          assert 'cardHide' not in capture and 'nth-child(3){visibility:hidden' not in capture
+          print('V5.2 SOURCE/STATE QA PASSED',{'max_scroll_px_per_frame':round(max(diffs),2),'touches':touches,
+             'gallery':[ (f,checkpoints[f]['activeLabel']) for f in (777,850,904)]})
+          PY
+      - name: Test 1 – introduction and services only, before the master
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          mkdir -p ../../release/v5-2-previews
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/v5-2-previews/01_Intro_Services.mp4 \
+            --frames=315-659 --scale=0.4 --codec=h264 --crf=19 --concurrency=3 --browser-executable "$CHROME"
+      - name: Test 2 – original mobile accordion interactions only
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/v5-2-previews/02_Accordions.mp4 \
+            --frames=660-869 --scale=0.4 --codec=h264 --crf=19 --concurrency=3 --browser-executable "$CHROME"
+      - name: Test 3 – gallery complete 7 seconds
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/v5-2-previews/03_Gallery.mp4 \
+            --frames=870-1079 --scale=0.55 --codec=h264 --crf=18 --concurrency=3 --browser-executable "$CHROME"
+      - name: Verify all 3 test segments and decode before rendering the master
+        run: |
+          python3 - <<'PY'
+          import subprocess,json,pathlib
+          files=sorted(pathlib.Path('release/v5-2-previews').glob('*.mp4'))
+          assert len(files)==3,files
+          for file,expected in zip(files,(345,210,210)):
+            meta=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+              'format=duration:stream=width,height,r_frame_rate','-of','json',str(file)]))
+            stream=next(x for x in meta['streams'] if x.get('width'))
+            assert stream['r_frame_rate']=='30/1'
+            assert abs(float(meta['format']['duration'])-expected/30)<.06,(str(file),meta)
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(file),'-f','null','-'],check=True)
+          print('All three scene test videos decoded and verified, before final render')
+          PY
+      - name: Prepare visual review montage and upload scene tests
+        run: |
+          mkdir -p release/v5-2-review
+          python3 - <<'PY'
+          import subprocess
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          base=Path('release/v5-2-review')
+          files=['01_Intro_Services','02_Accordions','03_Gallery']
+          times=[[0,1.5,3.5,5,7,9.5,11.0],[0,1.5,3,4.5,6.2],[0,1,2,3,3.7,4.3,5.2,6.8]]
+          thumbs=[]
+          for name,marks in zip(files,times):
+            source=Path('release/v5-2-previews')/(name+'.mp4')
+            for i,tm in enumerate(marks):
+              path=base/(name+'_'+str(i)+'.png')
+              subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-ss',str(tm),'-i',str(source),
+                '-frames:v','1',str(path)],check=True)
+              im=Image.open(path).convert('RGB').resize((160,285),Image.Resampling.LANCZOS)
+              thumbs.append((im,name+' '+str(tm)+'s'))
+          columns=7;cellw=160;cellh=308
+          rows=(len(thumbs)+columns-1)//columns
+          canvas=Image.new('RGB',(columns*cellw,rows*cellh),'#f5f5f5')
+          draw=ImageDraw.Draw(canvas)
+          for i,(im,label) in enumerate(thumbs):
+            x=(i%columns)*cellw;y=(i//columns)*cellh
+            canvas.paste(im,(x,y));draw.text((x+2,y+288),label,fill='#222222')
+          canvas.save('release/Ykeizumi_Mobile_Reels_V5_2_Scene_Review.png')
+          PY
+      - name: Upload review artifacts for independent visual inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-V5-2-Preview-Review
+          retention-days: 30
+          path: |
+            release/v5-2-previews/*.mp4
+            release/Ykeizumi_Mobile_Reels_V5_2_Scene_Review.png
+      - name: Render final 36-second H264 after all scene checks passed
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/Ykeizumi_Mobile_Reels_V5_2_Polish.mp4 \
+            --codec=h264 --crf=16 --concurrency=2 --browser-executable "$CHROME"
+      - name: Extract final cover, gallery closeups and editorial review
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -ss 00:00:08 \
+            -i release/Ykeizumi_Mobile_Reels_V5_2_Polish.mp4 \
+            -frames:v 1 release/Ykeizumi_Mobile_Reels_V5_2_Cover.png
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          from PIL import Image,ImageDraw
+          out=Path('release/v5-2-review')
+          times=[28.8,29.4,30.2,31.1,31.5,31.9,32.2,32.6,33,33.3,33.8,34.2,34.7,35.3,35.8]
+          canvas=Image.new('RGB',(5*225,3*421),'#f5f5f5')
+          d=ImageDraw.Draw(canvas)
+          for i,tm in enumerate(times):
+            dest=out/('gallery_'+str(i)+'.png')
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-ss',str(tm),
+              '-i','release/Ykeizumi_Mobile_Reels_V5_2_Polish.mp4','-frames:v','1',str(dest)],check=True)
+            im=Image.open(dest).convert('RGB').resize((225,400),Image.Resampling.LANCZOS)
+            x=i%5*225;y=i//5*421
+            canvas.paste(im,(x,y));d.text((x+7,y+400),str(tm)+' s',fill='#202020')
+          canvas.save('release/Ykeizumi_Mobile_Reels_V5_2_Gallery_Review.png')
+          PY
+      - name: Test 4 – full decode, duration, native state and report
+        run: |
+          python3 - <<'PY'
+          import json,subprocess,pathlib
+          root=pathlib.Path('motion/ykeizumi-mobile-reels')
+          m=json.loads((root/'public/v5-layer-manifest.json').read_text())
+          file=pathlib.Path('release/Ykeizumi_Mobile_Reels_V5_2_Polish.mp4')
+          assert file.stat().st_size>1000000
+          meta=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+            'format=duration:stream=codec_name,width,height,r_frame_rate,nb_frames','-of','json',str(file)]))
+          s=next(x for x in meta['streams'] if x.get('codec_name')=='h264')
+          assert (s['width'],s['height'])==(1080,1920),s
+          assert s['r_frame_rate']=='30/1',s
+          assert int(s['nb_frames'])==1080,s
+          assert abs(float(meta['format']['duration'])-36)<.07,meta
+          subprocess.run(['ffmpeg','-hide_banner','-v','error','-i',str(file),'-f','null','-'],check=True)
+          import statistics
+          scroll=m['scrollTrack']
+          speed=max(abs(scroll[i]-scroll[i-1]) for i in range(1,len(scroll)))
+          text=[
+            '# Ykeizumi Mobile Reels V5.2 — relatório técnico','',
+            '- Status: render e decodificação técnica aprovados. Aprovação criativa pendente da direção da Math Brands.',
+            '- Formato: H264, MP4, 1080×1920px, 30fps, 1080 frames, 36s.',
+            '- Site original e branch V5.1: não alterados; captura somente no ambiente de motion.',
+            '- Abertura: vetor baseado nas medidas reais do contêiner da Hero (V5.1 preservada).',
+            '- Pacing: 945 frames de captura, scroll retemporizado por timeline-v5-2.json; velocidade máxima %.2f CSS px/frame.'%speed,
+            '- Leitura: chegada suavizada e pausas sobre introdução, título e lista de serviços; revelações reposicionadas na nova timeline.',
+            '- Geometria dos textos: camadas PNG alfa extraídas do DOM, posições ligadas ao scrollTrack novo.',
+            '- Galeria: eliminados galleryFirstCard estático e a ocultação artificial do card do DOM.',
+            '- Galeria: carregamento de todas as imagens confirmado antes da interação, CSS3D original aplicado em passos determinísticos de frames.',
+            '- Estados do carrossel: '+str([(x['frame'],x['frameCard'],x['activeLabel']) for x in m['galleryStates'] if x['frame'] in (777,850,904)]),
+            '- Dois toques nativos na galeria e dois nos acordeons. Sem crossfade de cards.',
+            '- Fotografia aérea: escondida somente na captura audiovisual, como na V5.1.',
+            '- Pré-testes: introdução+serviços, acordeons e sete segundos finais da galeria, todos decodificados antes do render integral.',
+            '- Revisão: release/Ykeizumi_Mobile_Reels_V5_2_Gallery_Review.png e release/Ykeizumi_Mobile_Reels_V5_2_Scene_Review.png.',
+            '- Ressalva: a inspeção visual por direção criativa ainda é necessária; integridade técnica não constitui aprovação editorial.',
+            '',
+            '## Arquivos',
+            '- release/Ykeizumi_Mobile_Reels_V5_2_Polish.mp4',
+            '- release/Ykeizumi_Mobile_Reels_V5_2_Cover.png',
+            '- release/Ykeizumi_Mobile_Reels_V5_2_Gallery_Review.png',
+            '- motion/ykeizumi-mobile-reels/src/index.tsx',
+            '- motion/ykeizumi-mobile-reels/capture/capture-mobile-v5.mjs',
+            '- motion/ykeizumi-mobile-reels/timeline-v5-2.json',
+            '- motion/ykeizumi-mobile-reels/public/v5-layer-manifest.json',
+            '- motion/ykeizumi-mobile-reels/public/mobile-capture-v5.mp4',
+          ]
+          pathlib.Path('release/Ykeizumi_Mobile_Reels_V5_2_QA.md').write_text('\n'.join(text)+'\n')
+          print('V5.2 VERIFIED',{'frames':s['nb_frames'],'duration':meta['format']['duration'],'bytes':file.stat().st_size})
+          PY
+      - name: Upload full verified V5.2 package
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-Mobile-Reels-V5-2-Final
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/Ykeizumi_Mobile_Reels_V5_2_*
+            release/v5-2-previews/*.mp4
+            motion/ykeizumi-mobile-reels/src/index.tsx
+            motion/ykeizumi-mobile-reels/capture/capture-mobile-v5.mjs
+            motion/ykeizumi-mobile-reels/timeline-v5-2.json
+            motion/ykeizumi-mobile-reels/package.json
+            motion/ykeizumi-mobile-reels/package-lock.json
+            motion/ykeizumi-mobile-reels/public/mobile-capture-v5.mp4
+            motion/ykeizumi-mobile-reels/public/v5-layer-manifest.json
+            motion/ykeizumi-mobile-reels/public/v5-layers/*.png
+            motion/ykeizumi-mobile-reels/capture-report-v5.json
+      - name: Commit media and QA only to V5.2 branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/Ykeizumi_Mobile_Reels_V5_2_* \
+            release/v5-2-previews/*.mp4 \
+            motion/ykeizumi-mobile-reels/public/mobile-capture-v5.mp4 \
+            motion/ykeizumi-mobile-reels/public/v5-layer-manifest.json \
+            motion/ykeizumi-mobile-reels/public/v5-layers \
+            motion/ykeizumi-mobile-reels/capture-report-v5.json
+          git commit -m "chore(motion-v5.2): verified 36s polished master, previews and gallery QA [skip ci]" || true
+          git push origin HEAD:feat/ykeizumi-mobile-reels-v5-2-polish
