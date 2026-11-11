@@ -5,7 +5,7 @@
  * Frames: 705 (23.500s), inserted at composition frame 135 (28s total).
  */
 import {chromium} from 'playwright';
-import {mkdir, rm, writeFile} from 'node:fs/promises';
+import {mkdir, rm, readFile, writeFile} from 'node:fs/promises';
 import {spawnSync} from 'node:child_process';
 import {resolve, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -13,7 +13,9 @@ import {fileURLToPath} from 'node:url';
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
 const framesDir=join(root,'frames-v5');
 const publicDir=join(root,'public');
-const frames=705, vw=390, vh=844, dpr=3, fps=30;
+const timeline=JSON.parse(await readFile(join(root,'timeline-v5-2.json'),'utf8'));
+const frames=timeline.captureFrames, vw=390, vh=844, dpr=3, fps=timeline.fps;
+if(frames!==945||fps!==30||timeline.totalFrames!==1080||timeline.captureStart!==135)throw Error('Invalid V5.2 frame config');
 const site=process.env.SITE_URL||'http://127.0.0.1:4173/';
 await rm(framesDir,{recursive:true,force:true});
 await mkdir(framesDir,{recursive:true});
@@ -120,10 +122,9 @@ const entries=[
  ['service2Body','#servicos-home .home-service:nth-child(2)>div'],
  ['service3Number','#servicos-home .home-service:nth-child(3) .service-number'],
  ['service3Body','#servicos-home .home-service:nth-child(3)>div'],
- ['galleryTitle','#projetos .project-section-head h2'],
- ['galleryFirstCard','#projetos .circular-card:nth-child(3)']
+ ['galleryTitle','#projetos .project-section-head h2']
 ];
-const layers={},scrollTrack=[],stateTrack=[];
+const layers={},scrollTrack=[],stateTrack=[],galleryTitleYTrack=[],galleryStates=[];
 for(const [id,selector] of entries){
  await second.evaluate(()=>{
   document.body.classList.remove('v5-isolate');
@@ -135,9 +136,6 @@ for(const [id,selector] of entries){
  const top=await loc.evaluate(el=>el.getBoundingClientRect().top+scrollY);
  await second.evaluate(y=>scrollTo({top:Math.max(0,y),behavior:'instant'}),Math.max(0,top-155));
  await second.evaluate(()=>new Promise(ok=>requestAnimationFrame(()=>requestAnimationFrame(ok))));
- if(id==='galleryFirstCard')await second.waitForFunction(()=>{
-  const im=document.querySelector('#projetos .circular-card:nth-child(3) img');
-  return im?.complete&&im.naturalWidth>0;},{timeout:30000});
  let b=await loc.boundingBox();
  if(!b)throw Error('Element has no box '+id);
  if(b.y<0||b.y+b.height>vh){
@@ -180,8 +178,7 @@ for(const [id,selector] of entries){
 }
 await second.close();
 if(layers.introHeading.lines.length<3)throw Error('Expected 3 original intro lines '+JSON.stringify(layers.introHeading.lines));
-await page.addStyleTag({content:entries.filter(e=>e[0]!=='galleryFirstCard').map(e=>e[1]+'{visibility:hidden!important}').join('\n')});
-const cardHide=await page.addStyleTag({content:'#projetos .circular-card:nth-child(3){visibility:hidden!important}'});
+await page.addStyleTag({content:entries.map(e=>e[1]+'{visibility:hidden!important}').join('\n')});
 
 const absTop=sel=>page.locator(sel).first().evaluate(el=>
   el.getBoundingClientRect().top+scrollY);
@@ -223,61 +220,121 @@ async function tapVisible(selector,frame,purpose){
 const introY=Math.max(0,await absTop('#introducao')-75);
 const servicesY=Math.max(0,await absTop('#servicos-home')-20);
 const segmentY=Math.max(0,await absTop('#segmentos')-10);
-const points=[[126,0],[189,introY],[223,servicesY],
-  [264,servicesY+490],[320,segmentY]];
-const waypoints={introY,servicesY,segmentY,scrollPoints:points};
-let start=segmentY,secondY=segmentY,thirdY=segmentY;
-let galleryStart=segmentY,galleryY=segmentY;
+const waypoints={
+ introY,servicesY,segmentY,
+ galleryY:Math.max(0,await absTop('#projetos')-16),
+ scrollPoints:timeline.scrollPlan
+};
+const anchors={
+ top:0,
+ intro:introY,
+ servicesHeading:Math.max(0,servicesY-115),
+ service1:servicesY+120,
+ service2:servicesY+440,
+ service3:servicesY+740,
+ sectors:Math.max(0,segmentY-62),
+ gallery:waypoints.galleryY
+};
+let keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
+if(keys.some(([f,y])=>!Number.isFinite(f)||!Number.isFinite(y)))throw Error('Bad scroll anchors');
+const events=timeline.events,gallery=timeline.gallery;
+let galleryReady=false;
+const quintic=t=>{t=clamp(t);return t*t*t*(t*(t*6-15)+10);};
+function galleryPosition(f){
+ const [a,b]=gallery.transitions;
+ if(f<a[0])return gallery.initialIndex;
+ if(f<=a[1])return a[2]+(a[3]-a[2])*quintic((f-a[0])/(a[1]-a[0]));
+ if(f<b[0])return a[3];
+ if(f<=b[1])return b[2]+(b[3]-b[2])*quintic((f-b[0])/(b[1]-b[0]));
+ return b[3];
+}
+// Exact original CSS3D arc geometry and real DOM cards. The native touch
+// button still selects the next real item; only video-frame transition
+// timing is driven deterministically rather than variable capture wall time.
+async function paintNativeGallery(position){
+ return page.evaluate(position=>{
+  const cards=[...document.querySelectorAll('#projetos .circular-card')];
+  const radius=innerWidth<768?470:740;
+  cards.forEach((card,i)=>{
+    const d=i-position,angle=d*.48;
+    const x=Math.sin(Math.max(-2.3,Math.min(2.3,angle)))*radius;
+    const y=(1-Math.cos(angle))*105;
+    const z=(Math.cos(angle)-1)*390;
+    card.style.setProperty('transform','translateX(calc(-50% + '+x+'px)) translateY('+y+'px) translateZ('+z+'px) rotateY('+(-angle*24)+'deg)','important');
+    card.style.setProperty('opacity',Math.abs(d)>2.8?'0':'1','important');
+    card.style.setProperty('visibility',Math.abs(d)>2.8?'hidden':'visible','important');
+    card.style.setProperty('z-index',String(20-Math.round(Math.abs(d)*3)),'important');
+    card.classList.toggle('is-active',i===Math.round(position));
+  });
+  const active=cards[Math.round(position)];
+  return {
+    frameCard:Math.round(position),activeLabel:active?.querySelector('.project-card__footer span')?.textContent,
+    visibleCards:cards.filter(x=>getComputedStyle(x).visibility!=='hidden').length,
+    loaded:cards.every(x=>x.querySelector('img')?.complete && x.querySelector('img')?.naturalWidth>0)
+  };
+ },position);
+}
 try{
- const positions=[[144,0],[171,introY],[199,introY],[222,servicesY],
-    [252,servicesY+430],[288,servicesY+910],[313,segmentY]];
- const spline=(f,k)=>{
-  if(f<=k[0][0])return k[0][1];const n=k.length-1;
-  if(f>=k[n][0])return k[n][1];let i=0;
-  while(i<n-1&&f>k[i+1][0])i++;
-  const [a,p0]=k[i],[b,p1]=k[i+1],dt=b-a,t=(f-a)/dt,t2=t*t,t3=t2*t;
-  const m=j=>j===0||j===n?0:Math.max(0,(k[j+1][1]-k[j-1][1])/(k[j+1][0]-k[j-1][0]));
-  return (2*t3-3*t2+1)*p0+(t3-2*t2+t)*dt*m(i)+(-2*t3+3*t2)*p1+(t3-t2)*dt*m(i+1);
- };
- let anchor=0,destination=0;
  for(let f=0;f<frames;f++){
-  if(f===114)await tapVisible('.ha-mobile-menu summary',f,'menu-open');
-  if(f===141)await tapVisible('.ha-mobile-menu summary',f,'menu-close');
-  if(f>=144&&f<=313)await instantScroll(spline(f,positions));
-  if(f===324){anchor=await page.evaluate(()=>scrollY);
-    destination=Math.max(0,await absTop('#segmentos .sector-option:nth-child(2) summary')-vh*.53);}
-  if(f>=325&&f<=343)await instantScroll(lerp(anchor,destination,(f-325)/18));
-  if(f===355)await tapVisible('#segmentos .sector-option:nth-child(2) summary',f,'sector-second');
-  if(f===385){anchor=await page.evaluate(()=>scrollY);
-    destination=Math.max(0,await absTop('#segmentos .sector-option:nth-child(3) summary')-vh*.52);}
-  if(f>=386&&f<=410)await instantScroll(lerp(anchor,destination,(f-386)/24));
-  if(f===421)await tapVisible('#segmentos .sector-option:nth-child(3) summary',f,'sector-third');
-  if(f===450){galleryStart=await page.evaluate(()=>scrollY);
-    galleryY=Math.max(0,await absTop('#projetos')-16);waypoints.galleryY=galleryY;}
-  if(f>=451&&f<=529)await instantScroll(lerp(galleryStart,galleryY,(f-451)/78));
-  if(f===594)await cardHide.evaluate(el=>el.remove());
-  if(f===611)await tapVisible('#projetos [data-circular-next]',f,'gallery-next-1');
-  if(f===665)await tapVisible('#projetos [data-circular-next]',f,'gallery-next-2');
-  if(f>=611&&f<695)await page.evaluate(()=>new Promise(ok=>requestAnimationFrame(ok)));
-  const state=await page.evaluate(()=>({scroll:scrollY,
+  if(f===events.menuOpen)await tapVisible('.ha-mobile-menu summary',f,'menu-open');
+  if(f===events.menuClose)await tapVisible('.ha-mobile-menu summary',f,'menu-close');
+  if(f===events.sectorSecond)await tapVisible('#segmentos .sector-option:nth-child(2) summary',f,'sector-second');
+  if(f===events.sectorThird)await tapVisible('#segmentos .sector-option:nth-child(3) summary',f,'sector-third');
+
+  if(f===729){
+   waypoints.galleryY=Math.max(0,await absTop('#projetos')-16);
+   anchors.gallery=waypoints.galleryY;
+   keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
+  }
+  await instantScroll(scrollSpline(f,keys));
+
+  if(f===777){
+   // Source remains genuine: resolve all six original image URLs before video
+   // captures the gallery; never render a blank or pending image in the reel.
+   await page.evaluate(async()=>{
+    const images=[...document.querySelectorAll('#projetos .circular-card img')];
+    for(const im of images){im.loading='eager';await im.decode();}
+   });
+   await page.waitForFunction(()=>{
+     const cards=[...document.querySelectorAll('#projetos .circular-card')];
+     return cards.length>=3&&cards.every(card=>card.querySelector('img')?.naturalWidth>0);
+   },{timeout:30000});
+   galleryReady=true;
+  }
+  if(f===events.galleryNext1){
+   if(!galleryReady)throw Error('Gallery not loaded before first native interaction');
+   await tapVisible('#projetos [data-circular-next]',f,'gallery-next-1');
+  }
+  if(f===events.galleryNext2)await tapVisible('#projetos [data-circular-next]',f,'gallery-next-2');
+  let visibleGallery=null;
+  if(f>=777)visibleGallery=await paintNativeGallery(galleryPosition(f));
+
+  const state=await page.evaluate(()=>({
+    scroll:scrollY,
     sector:[...document.querySelectorAll('#segmentos .sector-option')].map(x=>x.open),
-    gallery:document.querySelector('#projetos .circular-status')?.textContent?.trim()}));
+    gallery:document.querySelector('#projetos .circular-status')?.textContent?.trim(),
+    galleryTitleDocumentY:document.querySelector('#projetos .project-section-head h2')?.getBoundingClientRect().top+scrollY
+  }));
   scrollTrack.push(state.scroll);
-  if([354,356,420,422,610,650,680].includes(f))stateTrack.push({frame:f,...state});
-  const path=join(framesDir,'frame-'+String(f+1).padStart(4,'0')+'.jpg');
-  await page.screenshot({path,type:'jpeg',quality:94,animations:'allow'});
-  if(f%120===0)console.log('V5 capture',f+1,'/',frames,'scroll',state.scroll);
+  galleryTitleYTrack.push(state.galleryTitleDocumentY);
+  if([620,644,685,705,745,777,812,831,850,863,882,904,938].includes(f)){
+   stateTrack.push({frame:f,...state,visibleGallery});
+   if(visibleGallery)galleryStates.push({frame:f,...visibleGallery});
+  }
+  const imagePath=join(framesDir,'frame-'+String(f+1).padStart(4,'0')+'.jpg');
+  await page.screenshot({path:imagePath,type:'jpeg',quality:94,animations:'allow'});
+  if(f%120===0)console.log('V5.2 capture',f+1,'/',frames,'scroll',state.scroll);
  }
 }finally{
   await writeFile(join(publicDir,'v5-layer-manifest.json'),JSON.stringify({
- version:'5.1',frames,offset:135,viewport:components.viewport,fps,
+ version:'5.2',frames,offset:timeline.captureStart,viewport:components.viewport,fps,timeline,
  heroVideo,components,photoSuppressedOnlyInCapture:true,
- layers,scrollTrack,stateTrack,video:videoStatus,touches,waypoints,errors
+ layers,scrollTrack,stateTrack,galleryTitleYTrack,galleryStates,video:videoStatus,touches,waypoints,errors
 },null,2));
   await writeFile(join(publicDir,'touches-v5.json'),JSON.stringify(touches,null,2));
   await writeFile(join(root,'capture-report-v5.json'),JSON.stringify({
-    source:site,sourceBranch:'feat/ykeizumi-mobile-reels-v4-directors-cut',
-    viewport:components.viewport,heroVideo,layers:Object.keys(layers),stateTrack,sourceComponents:components,
+    source:site,sourceBranch:'feat/ykeizumi-mobile-reels-v5-1-timeline',
+    viewport:components.viewport,heroVideo,layers:Object.keys(layers),stateTrack,galleryStates,sourceComponents:components,
     videoStatus,captures:frames,fps,touches,waypoints,
     imageSuppressedOnlyInCapture:components.hiddenPhoto,errors
   },null,2));
@@ -290,13 +347,14 @@ const encoded=spawnSync('ffmpeg',[
   '-pix_fmt','yuv420p','-r',String(fps),'-movflags','+faststart',
   join(publicDir,'mobile-capture-v5.mp4')
 ],{stdio:'inherit',timeout:600000});
-if(encoded.status!==0)throw Error('V5.1 capture encode failed: '+String(encoded.error||encoded.status));
+if(encoded.status!==0)throw Error('V5.2 capture encode failed: '+String(encoded.error||encoded.status));
 if(errors.some(e=>e.startsWith('PAGE ERROR')||e.startsWith('HTTP'))){
-  throw Error('V5.1 page errors: '+JSON.stringify(errors));
+  throw Error('V5.2 page errors: '+JSON.stringify(errors));
 }
+if(!galleryReady)throw Error('Gallery never passed image decode validation');
 const required=['menu-open','menu-close','sector-second','sector-third',
   'gallery-next-1','gallery-next-2'];
-if(required.some(p=>!touches.some(t=>t.purpose===p))){
+if(required.some(p=>!touches.some(t=>t.purpose===p))||galleryStates.length<4){
   throw Error('Missing native interaction: '+JSON.stringify({touches,errors}));
 }
-console.log('V5.1 source capture validated: '+JSON.stringify({touches,components,errors}));
+console.log('V5.2 source capture validated: '+JSON.stringify({touches,components,errors}));
