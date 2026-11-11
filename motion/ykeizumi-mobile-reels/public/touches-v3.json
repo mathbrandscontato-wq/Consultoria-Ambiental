@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "frame": 87,
+    "x": 340,
+    "y": 52,
+    "purpose": "menu-open"
+  },
+  {
+    "frame": 119,
+    "x": 340,
+    "y": 52,
+    "purpose": "menu-close"
+  },
+  {
+    "frame": 362,
+    "x": 195,
+    "y": 490,
+    "purpose": "sector-second"
+  },
+  {
+    "frame": 435,
+    "x": 195,
+    "y": 482,
+    "purpose": "sector-third"
+  },
+  {
+    "frame": 656,
+    "x": 96,
+    "y": 597,
+    "purpose": "gallery-next-1"
+  },
+  {
+    "frame": 695,
+    "x": 96,
+    "y": 597,
+    "purpose": "gallery-next-2"
+  }
+]

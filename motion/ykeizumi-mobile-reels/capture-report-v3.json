@@ -1,0 +1,75 @@
+{
+  "source": "http://127.0.0.1:4173/",
+  "branch": "feat/ykeizumi-redesign-unificado-20261027",
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "dpr": 2
+  },
+  "videoStatus": {
+    "src": "http://127.0.0.1:4173/media/hero-mobile.mp4",
+    "videoWidth": 720,
+    "videoHeight": 406,
+    "paused": false
+  },
+  "sourceComponents": {
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "dpr": 2
+    },
+    "heroTitle": "Consultoria Ambiental",
+    "services": 3,
+    "accordions": 4,
+    "gallery": 6,
+    "hiddenPhoto": true
+  },
+  "captures": 760,
+  "fps": 30,
+  "touches": [
+    {
+      "frame": 87,
+      "x": 340,
+      "y": 52,
+      "purpose": "menu-open"
+    },
+    {
+      "frame": 119,
+      "x": 340,
+      "y": 52,
+      "purpose": "menu-close"
+    },
+    {
+      "frame": 362,
+      "x": 195,
+      "y": 490,
+      "purpose": "sector-second"
+    },
+    {
+      "frame": 435,
+      "x": 195,
+      "y": 482,
+      "purpose": "sector-third"
+    },
+    {
+      "frame": 656,
+      "x": 96,
+      "y": 597,
+      "purpose": "gallery-next-1"
+    },
+    {
+      "frame": 695,
+      "x": 96,
+      "y": 597,
+      "purpose": "gallery-next-2"
+    }
+  ],
+  "waypoints": {
+    "introY": 549,
+    "servicesY": 985.046875,
+    "segmentY": 2256.078125,
+    "galleryY": 2941.25
+  },
+  "imageSuppressedOnlyInCapture": true,
+  "errors": []
+}
