@@ -230,7 +230,7 @@ const servicesY=Math.max(0,await absTop('#servicos-home')-20);
 const segmentY=Math.max(0,await absTop('#segmentos')-10);
 const waypoints={
  introY,servicesY,segmentY,
- galleryY:Math.max(0,await absTop('#projetos')-66),
+ galleryY:Math.max(0,await absTop('#projetos')-110),
  scrollPoints:timeline.scrollPlan
 };
 const anchors={
@@ -293,7 +293,7 @@ try{
    keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
   }
   if(f===511){
-   waypoints.galleryY=Math.max(0,await absTop('#projetos')-66);
+   waypoints.galleryY=Math.max(0,await absTop('#projetos')-110);
    anchors.gallery=waypoints.galleryY;
    keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
   }
