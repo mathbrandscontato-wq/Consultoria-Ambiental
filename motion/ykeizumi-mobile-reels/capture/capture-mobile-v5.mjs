@@ -233,6 +233,7 @@ const anchors={
  service2:servicesY+440,
  service3:servicesY+740,
  sectors:Math.max(0,segmentY-62),
+ sectorThird:Math.max(0,segmentY-62),
  gallery:waypoints.galleryY
 };
 let keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
@@ -281,6 +282,10 @@ try{
   if(f===events.sectorSecond)await tapVisible('#segmentos .sector-option:nth-child(2) summary',f,'sector-second');
   if(f===events.sectorThird)await tapVisible('#segmentos .sector-option:nth-child(3) summary',f,'sector-third');
 
+  if(f===644){
+   anchors.sectorThird=Math.max(0,await absTop('#segmentos .sector-option:nth-child(3) summary')-vh*.52);
+   keys=timeline.scrollPlan.map(([frame,name])=>[frame,anchors[name]]);
+  }
   if(f===729){
    waypoints.galleryY=Math.max(0,await absTop('#projetos')-16);
    anchors.gallery=waypoints.galleryY;
