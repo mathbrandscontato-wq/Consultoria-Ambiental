@@ -13,7 +13,7 @@ import {fileURLToPath} from 'node:url';
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const framesDir = join(root,'frames');
 const publicDir = join(root,'public');
-const total = 840;
+const total = 760;
 const vw = 390, vh = 844;
 const url = process.env.SITE_URL || 'http://127.0.0.1:4173/';
 await rm(framesDir,{recursive:true,force:true});
@@ -37,6 +37,14 @@ await page.goto(url,{waitUntil:'networkidle',timeout:60000});
 await page.waitForSelector('.ha-mobile-menu summary');
 await page.waitForSelector('#segmentos .sector-option summary');
 await page.waitForSelector('#projetos .circular-gallery');
+// Capture-only: remove oversized aerial photographs and their layout space.
+// The published site and source CSS are completely unchanged.
+await page.addStyleTag({content:[
+ '#segmentos .sector-description figure {display:none !important;}',
+ '#segmentos .sector-stage {display:none !important;}',
+ '#segmentos .sector-showcase {min-height:0 !important;}',
+ '#segmentos .sector-description > p {margin:0 0 1.4rem 0 !important;}'
+].join('\n')});
 await page.waitForFunction(()=>{
  const v=document.querySelector('.ha-video');
  return v && v.readyState >= 2 && !v.paused && v.videoWidth > 0;
@@ -49,21 +57,21 @@ const sample=await page.evaluate(()=>({
  heroTitle:document.querySelector('.ha-title')?.textContent,
  services:document.querySelectorAll('.home-service').length,
  accordions:document.querySelectorAll('#segmentos .sector-option').length,
- gallery:document.querySelectorAll('#projetos .circular-card').length
+ gallery:document.querySelectorAll('#projetos .circular-card').length,
+ hiddenPhoto:[...document.querySelectorAll('#segmentos .sector-description figure')].every(el=>getComputedStyle(el).display==='none')
 }));
 if(sample.viewport.w!==390 || sample.viewport.h!==844)throw Error('Viewport mismatch: '+JSON.stringify(sample.viewport));
-if(sample.accordions<2 || sample.gallery<2)throw Error('Required interactive components are missing: '+JSON.stringify(sample));
+if(sample.accordions<3 || sample.gallery<3 || !sample.hiddenPhoto)throw Error('Required source components or capture-only photo removal missing: '+JSON.stringify(sample));
 const touches=[];
 const ease=(t)=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 const lerp=(a,b,t)=>a+(b-a)*ease(t);
 const absTop=async(sel)=>page.locator(sel).first().evaluate(el=>el.getBoundingClientRect().top+scrollY);
 const scroll=async(y)=>page.evaluate(y=>window.scrollTo({top:y,behavior:'instant'}),Math.max(0,y));
-const introY=Math.max(0,await absTop('#introducao')-56);
-const servicesY=Math.max(0,await absTop('#servicos-home')-30);
-const segmentY=Math.max(0,await absTop('#segmentos')-22);
-let secondY=segmentY;
-let galleryY=0;
-let galleryStart=0;
+const introY=Math.max(0,await absTop('#introducao')-75);
+const servicesY=Math.max(0,await absTop('#servicos-home')-20);
+const segmentY=Math.max(0,await absTop('#segmentos')-10);
+let pathStart=segmentY,secondY=segmentY,thirdY=segmentY,galleryY=segmentY,galleryStart=segmentY;
+const waypoints={introY,servicesY,segmentY};
 async function tapIfVisible(selector, frame, purpose) {
  const target=page.locator(selector).first();
  const box=await target.boundingBox();
@@ -80,47 +88,42 @@ async function tapIfVisible(selector, frame, purpose) {
 
 try {
   for(let f=0;f<total;f++) {
-    // Scene 02, 00:04-00:10: original animated mobile Hero and real disclosure menu.
-    if(f===110)await tapIfVisible('.ha-mobile-menu summary',f,'open-mobile-menu');
-    if(f===148)await tapIfVisible('.ha-mobile-menu summary',f,'close-mobile-menu');
+    // Original Hero video and menu interaction; capture starts before the reveal.
+    if(f===87)await tapIfVisible('.ha-mobile-menu summary',f,'menu-open');
+    if(f===119)await tapIfVisible('.ha-mobile-menu summary',f,'menu-close');
 
-    // Scene 03, 00:10-00:17: native scroll to service rows; no desktop hover.
-    if(f>=180 && f<=247)await scroll(lerp(0,introY,(f-180)/(247-180)));
-    if(f>=248 && f<=320)await scroll(lerp(introY,servicesY,(f-248)/(320-248)));
-    if(f>=321 && f<=389)await scroll(lerp(servicesY,servicesY+510,(f-321)/(389-321)));
+    // One editorial scroll arc: introduction, service rows and the dark sector.
+    if(f>=155&&f<=182)await scroll(lerp(0,introY,(f-155)/27));
+    if(f>=183&&f<=208)await scroll(lerp(introY,servicesY,(f-183)/25));
+    if(f>=209&&f<=246)await scroll(lerp(servicesY,servicesY+490,(f-209)/37));
+    if(f>=247&&f<=306)await scroll(lerp(servicesY+490,segmentY,(f-247)/59));
 
-    // Scene 04, 00:17-00:25: actual mobile details/select behavior.
-    if(f>=390 && f<=464)await scroll(lerp(servicesY+510,segmentY,(f-390)/(464-390)));
-    if(f===465)secondY=Math.max(0,(await absTop('#segmentos .sector-option:nth-child(2) summary'))-vh*.59);
-    if(f>=465 && f<=508)await scroll(lerp(segmentY,secondY,(f-465)/(508-465)));
-    if(f===511)await tapIfVisible('#segmentos .sector-option:nth-child(2) summary',f,'select-second-sector');
-    if(f===553) {
-      // Slow native scroll to show the revealed description; no invented behavior.
-      const second=await absTop('#segmentos .sector-option:nth-child(2) .sector-description');
-      secondY=Math.max(0,second-vh*.30);
-      galleryStart=await page.evaluate(()=>scrollY);
-    }
-    if(f>=554 && f<=607)await scroll(lerp(galleryStart,secondY,(f-554)/(607-554)));
+    // Actual mobile details; two touches, photography suppressed ONLY in capture.
+    if(f===335){pathStart=await page.evaluate(()=>scrollY);secondY=Math.max(0,await absTop('#segmentos .sector-option:nth-child(2) summary')-vh*.53);}
+    if(f>=336&&f<=355)await scroll(lerp(pathStart,secondY,(f-336)/19));
+    if(f===362)await tapIfVisible('#segmentos .sector-option:nth-child(2) summary',f,'sector-second');
+    if(f===402){pathStart=await page.evaluate(()=>scrollY);thirdY=Math.max(0,await absTop('#segmentos .sector-option:nth-child(3) summary')-vh*.52);}
+    if(f>=403&&f<=426)await scroll(lerp(pathStart,thirdY,(f-403)/23));
+    if(f===435)await tapIfVisible('#segmentos .sector-option:nth-child(3) summary',f,'sector-third');
+    if(f===455){pathStart=await page.evaluate(()=>scrollY);thirdY=Math.max(0,await absTop('#segmentos .sector-option:nth-child(3) .sector-description')-vh*.38);}
+    if(f>=456&&f<=497)await scroll(lerp(pathStart,thirdY,(f-456)/41));
 
-    // Scene 05, 00:25-00:32: arc gallery with native touch controls.
-    if(f===630) {
-      galleryStart=await page.evaluate(()=>scrollY);
-      galleryY=Math.max(0,await absTop('#projetos')-35);
-    }
-    if(f>=630 && f<=715)await scroll(lerp(galleryStart,galleryY,(f-630)/(715-630)));
-    if(f===743)await tapIfVisible('#projetos [data-circular-next]',f,'next-gallery-image');
-    if(f===787)await tapIfVisible('#projetos [data-circular-next]',f,'next-gallery-image');
+    // Continued native scroll into original responsive circular gallery.
+    if(f===533){galleryStart=await page.evaluate(()=>scrollY);galleryY=Math.max(0,await absTop('#projetos')-16);waypoints.galleryY=galleryY;}
+    if(f>=534&&f<=631)await scroll(lerp(galleryStart,galleryY,(f-534)/97));
+    if(f===656)await tapIfVisible('#projetos [data-circular-next]',f,'gallery-next-1');
+    if(f===695)await tapIfVisible('#projetos [data-circular-next]',f,'gallery-next-2');
 
     const file=join(framesDir,'frame-'+String(f+1).padStart(4,'0')+'.jpg');
-    await page.screenshot({path:file,type:'jpeg',quality:90,animations:'allow'});
-    if(f%120===0)console.log('Captured frame',f+1,'/',total);
+    await page.screenshot({path:file,type:'jpeg',quality:92,animations:'allow'});
+    if(f%120===0)console.log('Captured V3 frame',f+1,'/',total);
   }
 } finally {
-  await writeFile(join(publicDir,'touches.json'),JSON.stringify(touches,null,2));
-  await writeFile(join(root,'capture-report.json'),JSON.stringify({
+  await writeFile(join(publicDir,'touches-v3.json'),JSON.stringify(touches,null,2));
+  await writeFile(join(root,'capture-report-v3.json'),JSON.stringify({
     source:url,branch:'feat/ykeizumi-redesign-unificado-20261027',
     viewport:sample.viewport,videoStatus,sourceComponents:sample,
-    captures:total,fps:30,touches,errors
+    captures:total,fps:30,touches,waypoints,imageSuppressedOnlyInCapture:sample.hiddenPhoto,errors
   },null,2));
   await browser.close();
 }
@@ -129,11 +132,11 @@ const ffmpeg=spawnSync('ffmpeg',[
  '-framerate','30','-i',join(framesDir,'frame-%04d.jpg'),
  '-c:v','libx264','-preset','medium','-crf','18',
  '-pix_fmt','yuv420p','-r','30','-movflags','+faststart',
- join(publicDir,'mobile-capture.mp4')
+ join(publicDir,'mobile-capture-v3.mp4')
 ],{stdio:'inherit',timeout:300000});
 if(ffmpeg.status!==0)throw Error('ffmpeg capture failed: '+JSON.stringify({status:ffmpeg.status,signal:ffmpeg.signal,error:String(ffmpeg.error||'none'),stderr:ffmpeg.stderr?.toString().slice(-3000)}));
 if(errors.some(e=>e.startsWith('PAGE ERROR')||e.startsWith('HTTP')))throw Error('Page error(s): '+JSON.stringify(errors));
-if(!touches.some(t=>t.purpose==='open-mobile-menu')||!touches.some(t=>t.purpose==='select-second-sector')) {
+if(['menu-open','menu-close','sector-second','sector-third','gallery-next-1','gallery-next-2'].some(purpose=>!touches.some(t=>t.purpose===purpose))) {
  throw Error('Essential native mobile interactions were not captured: '+JSON.stringify(touches));
 }
-console.log('Browser capture complete:',JSON.stringify({videoStatus,touches,errors}));
+console.log('V3 browser capture complete:',JSON.stringify({videoStatus,touches,errors}));
