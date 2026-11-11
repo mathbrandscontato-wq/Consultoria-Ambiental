@@ -1,43 +1,48 @@
-# Ykeizumi | Mobile Reels — Math Brands
+# Math Brands | Ykeizumi — Mobile Reels V3 Premium
 
-**Escopo:** Reels de portfólio com captura do layout mobile real, separado do website de produção.
+## Entrega
+- `release/Ykeizumi_Mobile_Reels_V3_Premium.mp4` — vídeo final, H.264, 1080×1920, 30 fps, 29 s.
+- `release/Ykeizumi_Mobile_Reels_V3_Cover.png` — capa obtida diretamente do vídeo, sem novos textos.
+- `release/Ykeizumi_Mobile_Reels_V3_Review.png` — prancha de revisão dos frames.
+- `release/Ykeizumi_Mobile_Reels_V3_QA.md` — relatório técnico e comparação com V2.
+- `src/index.tsx` — Remotion editável, sistema central de câmera e geometria vetorial.
+- `capture/capture-mobile.mjs` — gravação automatizada da experiência mobile real.
+- `public/mobile-capture-v3.mp4` — interface móvel capturada a 30 fps.
+- `public/touches-v3.json` — mapa dos eventos reais de toque.
+- `capture-report-v3.json` — evidências da captura.
 
-## Fonte e reprodução
-- Fonte: `feat/ykeizumi-redesign-unificado-20261027` deste repositório.
-- Branch de trabalho: `feat/ykeizumi-mobile-reels-remotion`.
-- Viewport real: 390 × 844 CSS px; DPR 2; Chromium com touch habilitado.
-- Saída: `YkeizumiMobileReels`, 1080 × 1920, 30 fps, 960 frames, 32 s.
-- Sequência: geometria (0–4 s), Hero (4–10 s), scroll/serviços (10–17 s), acordeons (17–25 s), galeria (25–32 s).
-- A interface vem exclusivamente do build do próprio website; não é redesenhada no Remotion.
-- Menu, acordeon e galeria: eventos de toque reais em elementos do website.
-- Imagens da lista de serviços em mobile seguem comportamento original; sem simulação de hover.
-- `public/mobile-capture.mp4` é a captura temporal da interface, codificada a 30fps.
-- `public/touches.json` contém os pontos de toque capturados.
-- `src/index.tsx` contém a composição e os movimentos de câmera.
-- `capture/capture-mobile.mjs` realiza as capturas usando Playwright.
-- A composição não adiciona nenhum texto, logotipo de estúdio, tela final ou trilha.
+## Direção V3
+- 0–4,5 s: geometria vetorial verde-escura, aproximação 13,5× sobre o canto superior direito, alteração de raio 0→23px e zoom-out contínuo.
+- 4,5–9,5 s: interface real mobile e demonstração do menu original.
+- 9,5–13,5 s: navegação pela introdução e lista de serviços.
+- 13,5–21,5 s: acordeons, mantendo verde institucional e textos originais; a fotografia grande fica oculta **somente no Chromium de captura**, não no site publicado.
+- 21,5–29 s: galeria responsiva com duas interações originais de navegação.
 
-## Reproduzir no GitHub Actions
-O workflow `.github/workflows/render-ykeizumi-mobile-reels.yml` executa build local do site, grava a interface, renderiza em Remotion, extrai uma capa e verifica o MP4. A versão publicada do site **não é alterada**.
+A interface utiliza 910px da largura total 1080px (~84,3%) em plano geral. O componente Remotion centraliza a câmera e implementa interpolação cúbica contínua para os deslocamentos ao longo das cenas.
 
-## Rodar localmente
-A partir da raiz do repositório:
-```sh
+## Reprodução
+Da raiz da branch `feat/ykeizumi-mobile-reels-v3-premium`, rode:
+
+```bash
 npm run build
 python3 -m http.server 4173 --directory dist
 ```
-Em outro terminal:
-```sh
+
+Em outro terminal (Node 22+, FFmpeg instalado):
+
+```bash
 cd motion/ykeizumi-mobile-reels
-npm install
+npm ci
 npx playwright install chromium
 npm run capture
-npx remotion render src/index.tsx YkeizumiMobileReels ../../release/Ykeizumi_Mobile_Reels_Final.mp4 --codec h264
+npx remotion render src/index.tsx YkeizumiMobileReels ../../release/Ykeizumi_Mobile_Reels_V3_Premium.mp4 --codec h264 --crf 17
 ```
-Necessários: Node 20+, npm, Python 3, FFmpeg e navegador Chromium.
 
-## Observações de fidelidade
-A tipografia no website utiliza `@font-face` apontando para Avenir local e, em sistemas sem a fonte instalada, usa fallback. Nenhuma fonte proprietária é adicionada ao projeto ou redistribuída. A captura documenta o sistema que de fato executou o site. Verifique o relatório para interações efetivamente capturadas.
+O workflow `.github/workflows/render-ykeizumi-mobile-reels-v3.yml` automatiza captura, renderização, extração de capa, FFprobe, decodificação integral, relatório e upload de artefatos.
 
-## Gate
-Este vídeo não exige deploy do website e não deve ser considerado entregue até que o MP4 final seja renderizado e validado por FFprobe/decodificação.
+## Preservação e limites
+- O website de produção não foi alterado nem publicado.
+- A paleta, a tipografia declarada em CSS, os textos, a interface e as microinterações têm origem no site real.
+- Avenir no website é fonte local; não redistribuir seus arquivos sem licença apropriada.
+- Não há assinatura da Math Brands, chamadas promocionais, locução ou música sem licença.
+- O vídeo foi revisado visualmente e tecnicamente; publicação no Instagram depende da aprovação de direção criativa.
