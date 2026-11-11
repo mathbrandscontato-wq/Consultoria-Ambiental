@@ -131,7 +131,7 @@ const ffmpeg=spawnSync('ffmpeg',[
  '-pix_fmt','yuv420p','-r','30','-movflags','+faststart',
  join(publicDir,'mobile-capture.mp4')
 ],{stdio:'inherit',timeout:300000});
-if(ffmpeg.status!==0)throw Error('ffmpeg did not encode 30fps browser capture');
+if(ffmpeg.status!==0)throw Error('ffmpeg capture failed: '+JSON.stringify({status:ffmpeg.status,signal:ffmpeg.signal,error:String(ffmpeg.error||'none'),stderr:ffmpeg.stderr?.toString().slice(-3000)}));
 if(errors.some(e=>e.startsWith('PAGE ERROR')||e.startsWith('HTTP')))throw Error('Page error(s): '+JSON.stringify(errors));
 if(!touches.some(t=>t.purpose==='open-mobile-menu')||!touches.some(t=>t.purpose==='select-second-sector')) {
  throw Error('Essential native mobile interactions were not captured: '+JSON.stringify(touches));
