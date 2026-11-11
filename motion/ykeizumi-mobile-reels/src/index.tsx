@@ -73,11 +73,11 @@ const timing:Record<string,[number,number]>={
  heroLogo:[144,171],heroTitle:[161,194],heroSubtitle:[183,215],
  heroDescription:[203,235],heroCTA:[221,248],
  introParagraph:[321,342],introLink:[330,348],
- servicesHeading:[350,377],servicesIntro:[361,387],
- service1Number:[371,394],service1Body:[373,397],
- service2Number:[394,417],service2Body:[397,422],
- service3Number:[414,435],service3Body:[417,437],
- galleryTitle:[643,681],galleryFirstCard:[672,710]
+ servicesHeading:[343,357],servicesIntro:[347,362],
+ service1Number:[351,366],service1Body:[353,369],
+ service2Number:[365,379],service2Body:[367,384],
+ service3Number:[379,393],service3Body:[381,398],
+ galleryTitle:[635,660],galleryFirstCard:[646,684]
 };
 function sourceScroll(f:number):number{
  const t=data.scrollTrack||[];
@@ -103,7 +103,7 @@ function NativeWords({f}:{f:number}){
  const lines=data.layers?.introHeading?.lines||[];
  return <>
  {Object.entries(timing).map(([id,[from,to]])=>{
-  if(id==='galleryFirstCard'&&f>=744)return null;
+  if(id==='galleryFirstCard'&&f>=729)return null;
   return <NativeLayer key={id} id={id} f={f} from={from} to={to} scroll={scroll}/>;
  })}
  {lines.slice(0,3).map((line,i)=><NativeLayer
@@ -121,7 +121,8 @@ function SiteViewport({f}:{f:number}){
  return <div style={{position:'absolute',left:STAGE.x,top:STAGE.y,
    width:STAGE.w,height:STAGE.h,borderRadius:18,overflow:'hidden',
    background:'#ffffff',clipPath:clip,transformOrigin:'50% 50%',
-   transform:'translate('+cam.x+'px,'+cam.y+'px) scale('+cam.scale+')'}}>
+   transform:'translate('+cam.x+'px,'+cam.y+'px) scale('+cam.scale+')',
+   opacity:smooth(135,155,f)}}>
    <Sequence from={START} durationInFrames={FRAMES-START}>
     <OffthreadVideo src={staticFile('mobile-capture-v5.mp4')} muted
      style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}}/>
@@ -136,8 +137,8 @@ function SiteViewport({f}:{f:number}){
 function V51(){
  const f=useCurrentFrame();
  return <AbsoluteFill style={{backgroundColor:'#ffffff',overflow:'hidden'}}>
-  {f<=145 && <svg width={WIDTH} height={HEIGHT} viewBox={'0 0 '+WIDTH+' '+HEIGHT}
-   style={{position:'absolute',inset:0,display:'block',opacity:1-smooth(134,145,f)}}>
+  {f<=155 && <svg width={WIDTH} height={HEIGHT} viewBox={'0 0 '+WIDTH+' '+HEIGHT}
+   style={{position:'absolute',inset:0,display:'block',opacity:1}}>
     <path d={path(opening(Math.min(f,135)))} fill={GREEN}/>
    </svg>}
   {f>=135&&<SiteViewport f={f}/>}
