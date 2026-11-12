@@ -22,9 +22,9 @@ function typedCount(frame:number){
 }
 const boxAppearance=(f:number)=>ease(progress(f,4,14));
 export function SearchIntro({frame}:{frame:number}){
- if(frame>=103)return null;
+ if(frame>=100)return null;
  const p=boxAppearance(frame),filled=typedCount(frame);
- const fade=1-progress(frame,93,101);
+ const fade=1-progress(frame,89,99);
  const text=SEARCH_TEXT.slice(0,filled);
  const press=progress(frame,80,84),release=progress(frame,84,90);
  const scale=frame<84?1-.06*ease(press):.94+.06*ease(release);
