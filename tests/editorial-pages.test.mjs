@@ -9,7 +9,7 @@ test("nove serviços, navegação interna e sem cases inventados",()=>{
  const html=renderHomeSections();
  for(const path of ["./servicos/"])assert.ok(html.includes(path));
  assert.match(html,/Portfólio em construção/);
- assert.doesNotMatch(html,/href="\\.\\/projetos\\/"/);
+ assert.ok(!html.includes('href="./projetos/"'));
  assert.doesNotMatch(html,/clientes atendidos|10\+ anos|1000\+/i);
 });
 test("quatro páginas semanticamente completas e sem scaffold",()=>{
