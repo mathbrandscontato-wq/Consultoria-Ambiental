@@ -1,6 +1,6 @@
 /**
  * Single continuous, pixel-perfect SVG geometric object across:
- * field -> green real hero rectangle -> extreme top-right zoom -> round morph -> reveal.
+ * field -> IMMEDIATE close-up of real Hero top-right corner -> radius morph -> pull-back.
  * Coordinates are in output pixel-space (never raster-scaled).
  */
 import React from 'react';
@@ -14,7 +14,7 @@ const smooth=(a:number,b:number,f:number)=>{
  const x=clamp((f-a)/(b-a));
  return x*x*x*(x*(x*6-15)+10);
 };
-const progressive=Easing.bezier(0.22,1,0.36,1);
+const progressive=Easing.bezier(0.28,0.06,0.22,1);
 const ease=(a:number,b:number,f:number)=>progressive(clamp((f-a)/(b-a)));
 const lerp=(a:number,b:number,p:number)=>a+(b-a)*p;
 const round=(n:number)=>Number(n.toFixed(3));
@@ -31,33 +31,37 @@ function vectorPath(s:Rect){
   ' V '+round(y+r)+' A '+r+' '+r+' 0 0 1 '+round(x+r)+' '+y+' Z';
 }
 export function heroGeometry(frame:number,hero:Rect):Rect{
- const box=SEARCH_BOX;
- if(frame<=93)return box;
- if(frame<114){
-  const p=smooth(93,114,frame);
-  return {
-    x:lerp(box.x,hero.x,p),y:lerp(box.y,hero.y,p),
-    w:lerp(box.w,hero.w,p),h:lerp(box.h,hero.h,p),
-    r:lerp(box.r,0,p)
-  };
+ const field=SEARCH_BOX;
+ // The viewer travels into the right-hand corner INSTEAD of waiting for
+ // the full green Hero rectangle to appear. There is one vector throughout.
+ if(frame<=90)return field;
+ const peak=11.7;
+ const targetCornerX=720,targetCornerY=790;
+ if(frame<120){
+  const p=ease(90,120,frame);
+  const width=lerp(field.w,hero.w*peak,p);
+  const height=lerp(field.h,hero.h*peak,p);
+  const right=lerp(field.x+field.w,targetCornerX,p);
+  const top=lerp(field.y,targetCornerY,p);
+  const radius=field.r*(1-smooth(91,111,frame));
+  return {x:right-width,y:top,w:width,h:height,r:radius};
  }
- const peak=13.2;
- const zin=ease(116,144,frame);
- const zout=smooth(166,190,frame);
- const zoom=1+(peak-1)*zin*(1-zout);
- const cornerX=hero.x+hero.w;
- const focalX=lerp(lerp(cornerX,695,zin),cornerX,zout);
- const focalY=lerp(lerp(hero.y,827,zin),hero.y,zout);
- const radius=hero.r*smooth(149,164,frame);
- return {
-  x:focalX-zoom*hero.w,y:focalY,
-  w:zoom*hero.w,h:zoom*hero.h,r:radius*zoom
- };
+ // Corner stays anchored during the rounding, with a gentle continuing
+ // micro-dolly. Zoom-out begins before this micro-dolly finishes, so the
+ // direction never pauses or changes abruptly.
+ const drift=smooth(120,153,frame);
+ const dollyOut=smooth(143,190,frame);
+ const nearZoom=peak+.35*drift;
+ const z=lerp(nearZoom,1,dollyOut);
+ const right=lerp(targetCornerX+10*drift,hero.x+hero.w,dollyOut);
+ const top=lerp(targetCornerY-18*drift,hero.y,dollyOut);
+ const radius=hero.r*z*smooth(122,150,frame);
+ return {x:right-hero.w*z,y:top,w:hero.w*z,h:hero.h*z,r:radius};
 }
 export function SearchToHeroTransition({frame,hero}:{frame:number;hero:Rect}){
  if(frame>204)return null;
  const box=heroGeometry(frame,hero);
- const green=smooth(93,110,frame);
+ const green=smooth(90,113,frame);
  const fadeIn=smooth(3,13,frame);
  const opacity=frame<190?fadeIn:(1-smooth(190,202,frame));
  return <svg width={1080} height={1920} viewBox="0 0 1080 1920"
