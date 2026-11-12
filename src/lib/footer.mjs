@@ -18,5 +18,5 @@ export function renderFooter(prefix='./') {
       '<nav class="bwf-col" aria-label="Atuação"><p class="bwf-label">Atuação</p><ul class="bwf-links">'+serviceCards.map(s=>link(s.title,prefix+'servicos/#'+s.slug)).join('')+'</ul></nav>'+
     '</div>'+
     '<div class="bwf-word"><p class="sr-only">Ykeizumi</p><div class="bwf-word-box"><div class="bwf-word-in" aria-hidden="true">'+word+'</div></div><div class="bwf-foot" aria-hidden="true"></div></div>'+
-    '<div class="bwf-bottom"><span>© '+new Date().getFullYear()+' Ykeizumi Consultoria Ambiental Ltda.</span></div></footer>'
+    '<div class="bwf-bottom"><span>© '+new Date().getFullYear()+' Ykeizumi Consultoria Ambiental Ltda. · CNPJ 60.422.093/0001-74</span></div></footer>'
 }
