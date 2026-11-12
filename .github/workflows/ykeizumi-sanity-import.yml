@@ -1,0 +1,52 @@
+name: Ykeizumi — importar conteúdo editorial existente no Sanity
+
+on:
+  push:
+    branches:
+      - feat/ykeizumi-sanity-studio
+    paths:
+      - 'studio/scripts/seed-content.mjs'
+      - 'studio/schemaTypes/index.ts'
+      - 'studio/package.json'
+      - '.github/workflows/ykeizumi-sanity-import.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ykeizumi-sanity-import
+  cancel-in-progress: false
+
+jobs:
+  seed-content:
+    name: Importação preservando edições existentes
+    runs-on: ubuntu-latest
+    env:
+      SANITY_PROJECT_ID: fvoy1wqw
+      SANITY_DATASET: production
+      SANITY_CONTENT_TOKEN: ${{ secrets.YKEIZUMI_SANITY_CONTENT_TOKEN || secrets.YKEIZUMI_SANITY_DEPLOY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependências no runner
+        working-directory: studio
+        run: npm install --no-audit --no-fund
+      - name: Validar leitura do conteúdo original sem autenticação
+        working-directory: studio
+        env:
+          SEED_DRY_RUN: 'true'
+        run: node scripts/seed-content.mjs
+      - name: Importar para o Sanity preservando o que já existe
+        working-directory: studio
+        run: |
+          if [ -z "$SANITY_CONTENT_TOKEN" ]; then
+            echo "::error::Token de importação ausente. Cadastre YKEIZUMI_SANITY_CONTENT_TOKEN com permissão Editor."
+            exit 1
+          fi
+          node scripts/seed-content.mjs
+      - name: Orientação em caso de erro de permissão
+        if: failure()
+        run: |
+          echo "::notice::Se receber HTTP 401/403, cadastre no GitHub o secret YKEIZUMI_SANITY_CONTENT_TOKEN usando um token Sanity com papel Editor (read+write). O token Deploy Studio não substitui permissão de edição."
