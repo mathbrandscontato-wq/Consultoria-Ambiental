@@ -1,0 +1,311 @@
+name: Ykeizumi V6.1 Directors Polish — Capture, Sound, Render
+on:
+  push:
+    branches:
+      - feat/ykeizumi-mobile-reels-v6-1-directors-polish
+    paths:
+      - .github/workflows/render-ykeizumi-mobile-reels-v6-1.yml
+      - motion/ykeizumi-mobile-reels/timeline-v6-1.json
+      - motion/ykeizumi-mobile-reels/src/**
+      - motion/ykeizumi-mobile-reels/capture/capture-mobile-v6-1.mjs
+      - motion/ykeizumi-mobile-reels/audio/synthesize-v6-1.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+concurrency:
+  group: ykeizumi-reels-v6-1
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 105
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build website locally without touching production
+        run: npm run build
+      - name: Serve original website for genuine mobile Chromium capture
+        run: |
+          python3 -m http.server 4173 --directory dist > /tmp/ykeizumi-v6.log 2>&1 &
+          for i in $(seq 1 50); do
+            curl -fsS http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/ykeizumi-v6.log && exit 1
+      - name: Install isolated motion dependencies
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm ci --no-audit --no-fund
+      - name: Install capture browser and media validation utilities
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pil
+      - name: Capture source mobile video, real interactive states and original text layers
+        working-directory: motion/ykeizumi-mobile-reels
+        run: node capture/capture-mobile-v6-1.mjs
+      - name: Validate measured Hero, new story, readable scroll and no menu
+        run: |
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          from PIL import Image
+          root=Path('motion/ykeizumi-mobile-reels')
+          m=json.loads((root/'public/v6-1-layer-manifest.json').read_text())
+          t=json.loads((root/'timeline-v6-1.json').read_text())
+          assert (t['totalFrames'],t['captureStart'],t['captureFrames'],t['fps'])==(990,190,800,30)
+          assert (m['frames'],m['offset'],m['fps'])==(800,190,30)
+          assert m['viewport']=={'w':390,'h':844,'dpr':3}
+          assert m['photoSuppressedOnlyInCapture'] and m['components']['hiddenPhoto']
+          assert not m['errors'],m['errors']
+          hero=m['heroVideo']['video']
+          assert 250<hero['w']<390 and 350<hero['h']<844,hero
+          assert m['heroVideo']['effectiveRadius']>0
+          assert len(m['layers'])==17 and 'galleryFirstCard' not in m['layers']
+          assert len(m['layers']['introHeading']['lines'])>=3
+          assert m['layers']['introHeading']['text'].strip()=='Compreender o contexto. Identificar caminhos. Orientar decisões.'
+          assert len(m['scrollTrack'])==800 and len(m['galleryTitleYTrack'])==800
+          diffs=[m['scrollTrack'][i]-m['scrollTrack'][i-1] for i in range(1,800)]
+          assert min(diffs)>=-0.6,('unintentional backwards scroll',min(diffs))
+          assert max(diffs)<75,('unreadable camera scroll',max(diffs))
+          assert max(abs(d) for d in diffs[128:161])<1,('intro hold missing',diffs[128:161])
+          touches=[x['purpose'] for x in m['touches']]
+          assert touches==['sector-second','sector-third','gallery-next-1','gallery-next-2'],touches
+          states={p['frame']:p for p in m['galleryStates']}
+          for f,index in [(609,2),(674,3),(746,4)]:
+            assert states[f]['frameCard']==index,(f,states.get(f))
+          assert all(x['loaded'] for x in m['galleryStates'])
+          capture=(root/'capture/capture-mobile-v6-1.mjs').read_text()
+          remotion=(root/'src/index.tsx').read_text()
+          assert "galleryFirstCard" not in capture and "galleryFirstCard" not in remotion
+          assert "cardHide" not in capture
+          assert "events.menuOpen" not in capture
+          assert "SearchIntro" in remotion and "SearchToHeroTransition" in remotion
+          assert "Consultoria Ambiental em Joinville" in (root/'src/SearchIntro.tsx').read_text()
+          for name,layer in m['layers'].items():
+            im=Image.open(root/'public'/layer['file'])
+            assert im.mode=='RGBA' and im.getchannel('A').getextrema()[1]>0,name
+          vid=root/'public/mobile-capture-v6-1.mp4'
+          probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+            'format=duration:stream=width,height,r_frame_rate','-of','json',str(vid)]))
+          st=next(x for x in probe['streams'] if x.get('width'))
+          assert (st['width'],st['height'])==(1170,2532),st
+          assert st['r_frame_rate']=='30/1' and abs(float(probe['format']['duration'])-800/30)<.07
+          print('V6.1 CAPTURE QA PASSED',{'hero':hero,'max_scroll_px_per_frame':round(max(diffs),2),'touches':touches})
+          PY
+      - name: Preview A — condensed Search to Hero and original brand
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          mkdir -p ../../release/v6-1-previews
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/v6-1-previews/01_Search_Hero.mp4 \
+            --frames=0-305 --scale=0.5 --codec=h264 --crf=19 --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview test B – introduction and compact original services
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/v6-1-previews/02_Intro_Services.mp4 \
+            --frames=306-599 --scale=0.5 --codec=h264 --crf=19 --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview test C – authentic accordions
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/v6-1-previews/03_Accordions.mp4 \
+            --frames=600-779 --scale=0.5 --codec=h264 --crf=19 --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview test D – gallery original photos and two nav transitions
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/v6-1-previews/04_Gallery.mp4 \
+            --frames=780-989 --scale=0.5 --codec=h264 --crf=18 --concurrency=3 --browser-executable "$CHROME"
+      - name: Decode all scene previews before master export
+        run: |
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          files=sorted(Path('release/v6-1-previews').glob('*.mp4'))
+          assert len(files)==4,files
+          for f,frames in zip(files,[306,294,180,210]):
+            meta=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+              'format=duration:stream=width,height,r_frame_rate','-of','json',str(f)]))
+            st=next(x for x in meta['streams'] if x.get('width'))
+            assert (st['width'],st['height'])==(540,960)
+            assert st['r_frame_rate']=='30/1'
+            assert abs(float(meta['format']['duration'])-frames/30)<.07,(str(f),meta)
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(f),'-f','null','-'],check=True)
+          print('All four V6 previews verified before final master')
+          PY
+      - name: Editorial storyboard with Search, vector corner, text and gallery checkpoints
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          import subprocess
+          out=Path('release/v6-1-previews')
+          sections=[
+            ('01_Search_Hero',[.2,1.4,2.3,2.7,3.2,3.7,4.1,4.5,5.0,5.45,5.8,6.35,7.0,8.8,9.8]),
+            ('02_Intro_Services',[0,.6,1.45,2.15,3.1,4.3,5.1,6.1,7,8.2]),
+            ('03_Accordions',[0,.8,1.65,2.5,3.5,4.6,5.6]),
+            ('04_Gallery',[0,.9,2.1,3,3.7,4.7,5.7,6.65])
+          ]
+          cells=[]
+          for n,times in sections:
+            for i,t in enumerate(times):
+              p=out/(n+'_'+str(i)+'.png')
+              subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-ss',str(t),
+                '-i',str(out/(n+'.mp4')),'-frames:v','1',str(p)],check=True)
+              im=Image.open(p).convert('RGB').resize((180,320),Image.Resampling.LANCZOS)
+              cells.append((im,n.replace('0','',1)+' '+str(t)+'s'))
+          cw,ch,columns=180,347,8
+          rows=(len(cells)+columns-1)//columns
+          sheet=Image.new('RGB',(columns*cw,rows*ch),(245,245,243)); d=ImageDraw.Draw(sheet)
+          for i,(im,txt) in enumerate(cells):
+            x=(i%columns)*cw;y=(i//columns)*ch
+            sheet.paste(im,(x,y));d.text((x+4,y+322),txt,fill=(24,29,24))
+          sheet.save('release/Ykeizumi_Mobile_Reels_V6_1_Storyboard.png')
+          print('Review contact sheet:',len(cells),'frames')
+          PY
+      - name: Upload previews for visual auditing before final master
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-V6-1-Scene-Previews
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/v6-1-previews/*.mp4
+            release/Ykeizumi_Mobile_Reels_V6_1_Storyboard.png
+      - name: Render 33s full-resolution 990-frame master H.264
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels ../../release/Ykeizumi_Mobile_Reels_V6_1_VideoOnly.mp4 \
+            --codec=h264 --crf=16 --concurrency=2 --browser-executable "$CHROME"
+      - name: Synthesize original restrained ambience and mux into final MP4
+        run: |
+          python3 motion/ykeizumi-mobile-reels/audio/synthesize-v6-1.py
+          ffmpeg -hide_banner -loglevel error -y \
+            -i release/Ykeizumi_Mobile_Reels_V6_1_VideoOnly.mp4 \
+            -i motion/ykeizumi-mobile-reels/public/v6-1-original-ambience.wav \
+            -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 128k \
+            -ar 48000 -ac 2 -movflags +faststart -shortest \
+            release/Ykeizumi_Mobile_Reels_V6_1_DirectorsPolish.mp4
+          rm release/Ykeizumi_Mobile_Reels_V6_1_VideoOnly.mp4
+      - name: Extract cover and full-resolution ending contact sheet
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -ss 00:00:08.6 \
+            -i release/Ykeizumi_Mobile_Reels_V6_1_DirectorsPolish.mp4 \
+            -frames:v 1 release/Ykeizumi_Mobile_Reels_V6_1_Cover.png
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          import subprocess
+          out=Path('release/v6-1-previews')
+          times=[25.8,26.2,26.8,27.6,28.3,28.75,29.1,29.45,29.85,30.3,30.8,31.2,31.7,32.3,32.85]
+          sheet=Image.new('RGB',(5*220,3*418),'#f4f4f3'); d=ImageDraw.Draw(sheet)
+          for i,t in enumerate(times):
+            path=out/('gallery-master-'+str(i)+'.png')
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-ss',str(t),
+              '-i','release/Ykeizumi_Mobile_Reels_V6_1_DirectorsPolish.mp4',
+              '-frames:v','1',str(path)],check=True)
+            im=Image.open(path).convert('RGB').resize((220,394),Image.Resampling.LANCZOS)
+            x=i%5*220;y=i//5*418;sheet.paste(im,(x,y));d.text((x+5,y+397),str(t)+' s',fill='#202020')
+          sheet.save('release/Ykeizumi_Mobile_Reels_V6_1_Gallery_Review.png')
+          PY
+      - name: Final MP4 metadata, full decode and technical handoff
+        run: |
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          root=Path('motion/ykeizumi-mobile-reels')
+          m=json.loads((root/'public/v6-1-layer-manifest.json').read_text())
+          video=Path('release/Ykeizumi_Mobile_Reels_V6_1_DirectorsPolish.mp4')
+          meta=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries',
+            'format=duration:stream=codec_name,width,height,r_frame_rate,nb_frames',
+            '-of','json',str(video)]))
+          st=next(s for s in meta['streams'] if s.get('codec_name')=='h264')
+          assert (st['width'],st['height'])==(1080,1920),st
+          assert any(x.get('codec_name')=='aac' for x in meta['streams']), 'Missing original sound design'
+          assert st['r_frame_rate']=='30/1'
+          assert int(st['nb_frames'])==990
+          assert abs(float(meta['format']['duration'])-33)<.07
+          assert video.stat().st_size>1000000
+          subprocess.run(['ffmpeg','-hide_banner','-loglevel','error',
+            '-i',str(video),'-f','null','-'],check=True)
+          report=[
+            '# Math Brands — Ykeizumi Reels V6.1 Directors Polish',
+            '',
+            '## Delivery and validation',
+            '- 1080×1920 H.264 + original AAC ambient soundtrack, 30FPS, 990 frames, 33.000s — ffprobe and full decode validated.',
+            '- V6.1 Directors Polish: Search + Hero combined transition compressed to 6.33 s, brand visible earlier without a sudden cut.',
+            '- Typographic correction: 100% opacity original DOM alpha PNGs; only geometric bottom-to-top line clip, preventing gray/ghost glyphs.',
+            '- Accordion: two synced real native taps with 14-frame quiet tactile indicator overlay.',
+            '- Gallery: earlier first card change and softly paced second transition; stable composed final card.',
+            '- Bespoke procedural soundtrack: additive harmonic ambience plus restrained send/interaction cues, no external recordings or samples.',
+            '- Search opening: fictitious message-style field; exact text “Consultoria Ambiental em Joinville”; deterministic frame-based typing; 94% button contraction.',
+            '- Search-to-Reveal: one continuously transformed vector shape (gray field to deep-green real Hero video geometry), not a Google search results page.',
+            '- Camera and vector: real Hero video rect '+json.dumps(m['heroVideo'],ensure_ascii=False)+'. Top-right 13.2× dolly, square corner and original 15 CSS px radius transformed in SVG.',
+            '- Video Hero: original playing video, original captured logo and text layers; source mobile menu never opened.',
+            '- Motion: revised 33s 7-scene timeline; subtle Hermite camera; 0.4–0.57s masked source-heading reveals; faster staged 3-line introduction.',
+            '- Original DOM typography: 17 clean-alpha layers; native color, font, proportions and content. New capture scrollTrack measured frame-by-frame.',
+            '- Captured accordions: two real native touches; giant aerial sector photo suppressed ONLY in video capture.',
+            '- Carousel: original six image cards with real DOM transforms, loaded images and deterministic interpolation; no galleryFirstCard overlay.',
+            '- Source interactions: '+', '.join(x['purpose'] for x in m['touches']),
+            '- Original site not changed, no production deployment.',
+            '- Four independent scene test renders and a storyboard created and decoded before master export.',
+            '- Gallery contact sheet from final 1080p master: release/Ykeizumi_Mobile_Reels_V6_1_Gallery_Review.png.',
+            '',
+            '## Director review',
+            'Technical validation and frame contact sheets do not replace creative director approval. Review the 33s master in motion.',
+            '',
+            '## Editables',
+            '- motion/ykeizumi-mobile-reels/src/SearchIntro.tsx',
+            '- motion/ykeizumi-mobile-reels/src/SearchToHeroTransition.tsx',
+            '- motion/ykeizumi-mobile-reels/audio/synthesize-v6-1.py',
+            '- motion/ykeizumi-mobile-reels/public/v6-1-original-ambience.wav',
+            '- motion/ykeizumi-mobile-reels/src/index.tsx',
+            '- motion/ykeizumi-mobile-reels/capture/capture-mobile-v6-1.mjs',
+            '- motion/ykeizumi-mobile-reels/timeline-v6-1.json',
+            '- motion/ykeizumi-mobile-reels/public/v6-1-layer-manifest.json',
+            '- motion/ykeizumi-mobile-reels/public/v6-1-layers/*.png',
+            '- motion/ykeizumi-mobile-reels/public/mobile-capture-v6-1.mp4',
+          ]
+          Path('release/Ykeizumi_Mobile_Reels_V6_1_QA.md').write_text('\n'.join(report)+'\n')
+          print('V6.1 COMPLETE',{'duration':meta['format']['duration'],'bytes':video.stat().st_size})
+          PY
+      - name: Upload source and final video package
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-Mobile-Reels-V6-1-DirectorsPolish
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/Ykeizumi_Mobile_Reels_V6_1_*
+            release/v6-1-previews/*.mp4
+            motion/ykeizumi-mobile-reels/src/*.tsx
+            motion/ykeizumi-mobile-reels/audio/synthesize-v6-1.py
+            motion/ykeizumi-mobile-reels/capture/capture-mobile-v6-1.mjs
+            motion/ykeizumi-mobile-reels/timeline-v6-1.json
+            motion/ykeizumi-mobile-reels/package.json
+            motion/ykeizumi-mobile-reels/package-lock.json
+            motion/ykeizumi-mobile-reels/public/mobile-capture-v6-1.mp4
+            motion/ykeizumi-mobile-reels/public/v6-1-original-ambience.wav
+            motion/ykeizumi-mobile-reels/public/v6-1-layer-manifest.json
+            motion/ykeizumi-mobile-reels/public/v6-1-layers/*.png
+            motion/ykeizumi-mobile-reels/capture-report-v6-1.json
+      - name: Commit approved technical assets only to isolated V6 branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/Ykeizumi_Mobile_Reels_V6_1_* \
+            release/v6-1-previews/*.mp4 \
+            motion/ykeizumi-mobile-reels/public/mobile-capture-v6-1.mp4 \
+            motion/ykeizumi-mobile-reels/public/v6-1-original-ambience.wav \
+            motion/ykeizumi-mobile-reels/public/v6-1-layer-manifest.json \
+            motion/ykeizumi-mobile-reels/public/v6-1-layers \
+            motion/ykeizumi-mobile-reels/capture-report-v6-1.json
+          git commit -m "chore(motion-v6): verified 33-second Search to Experience master and editable source [skip ci]" || true
+          git push origin HEAD:feat/ykeizumi-mobile-reels-v6-1-directors-polish
