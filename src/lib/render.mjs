@@ -31,20 +31,20 @@ export const renderPage = (route) => {
   if (!routes.some((r) => r.slug === route.slug)) throw new Error("Rota não prevista");
   const prefix = route.slug ? "../" : "./";
   const pageTitle = {
-    '': 'Ykeizumi | Consultoria ambiental em Joinville',
-    sobre: 'Sobre a Ykeizumi e Lara Yumi | Consultoria ambiental',
-    servicos: 'Serviços de consultoria ambiental | Ykeizumi',
+    '': 'Ykeizumi | Consultoria ambiental em Joinville/SC',
+    sobre: 'Sobre a Ykeizumi | Consultoria ambiental',
+    servicos: 'Serviços ambientais | Ykeizumi',
     projetos: 'Projetos e galeria ilustrativa | Ykeizumi',
     contato: 'Contato | Ykeizumi Consultoria Ambiental',
   }[route.slug];
   const pageStyles={sobre:['about.css','about-tunnel.css'],servicos:['services.css'],projetos:['atlas.css']};
   const pageScripts={sobre:['about.mjs','about-tunnel.mjs'],servicos:['services.mjs'],'':['circular-gallery.mjs','map-pan.mjs','media.mjs']};
   const description = {
-    '': 'Consultoria ambiental com base em Joinville e atuação no Norte e Litoral de Santa Catarina. Licenciamento, estudos e análise técnica para cada empreendimento.',
-    sobre: 'Conheça a Ykeizumi, Lara Yumi e sua atuação na consultoria ambiental. Compreenda a abordagem técnica para analisar cada demanda.',
-    servicos: 'Explore as sete áreas de atuação da Ykeizumi e identifique serviços relacionados a licenciamento, estudos, laudos e outras demandas ambientais.',
+    '': 'Licenciamento ambiental, estudos ambientais, EIV, regularização fundiária, laudos técnicos e defesa administrativa para empreendimentos e para o setor público.',
+    sobre: 'Conheça a Ykeizumi, sua fundadora e a experiência em licenciamento, estudos e regularização ambiental.',
+    servicos: 'Conheça as nove frentes de atuação da Ykeizumi, do licenciamento ambiental à assessoria técnica ao setor público.',
     projetos: 'Explore a galeria de paisagens ilustrativas da Ykeizumi. As imagens são referências visuais e não representam projetos realizados.',
-    contato: 'Consulte o status dos canais de contato da Ykeizumi. O envio de solicitações pelo site permanece indisponível nesta versão.',
+    contato: 'Entre em contato com a Ykeizumi Consultoria Ambiental. Atendimento em Joinville/SC e no Sul do Brasil.',
   }[route.slug];
   const html = `<!doctype html>
 <html lang="${project.locale}">
