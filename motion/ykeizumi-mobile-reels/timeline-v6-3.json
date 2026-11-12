@@ -1,0 +1,191 @@
+{
+  "version": "6.3",
+  "fps": 30,
+  "totalFrames": 990,
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "dpr": 3
+  },
+  "captureStart": 190,
+  "captureFrames": 800,
+  "scenes": {
+    "search": [
+      0,
+      93
+    ],
+    "searchMorph": [
+      93,
+      114
+    ],
+    "vectorHero": [
+      114,
+      190
+    ],
+    "hero": [
+      190,
+      306
+    ],
+    "intro": [
+      306,
+      411
+    ],
+    "services": [
+      411,
+      600
+    ],
+    "accordions": [
+      600,
+      780
+    ],
+    "gallery": [
+      780,
+      990
+    ]
+  },
+  "scrollPlan": [
+    [
+      0,
+      "top"
+    ],
+    [
+      65,
+      "top"
+    ],
+    [
+      145,
+      "intro"
+    ],
+    [
+      198,
+      "servicesHeading"
+    ],
+    [
+      235,
+      "service1"
+    ],
+    [
+      305,
+      "service2"
+    ],
+    [
+      360,
+      "service3"
+    ],
+    [
+      410,
+      "sectors"
+    ],
+    [
+      452,
+      "sectors"
+    ],
+    [
+      516,
+      "sectorThird"
+    ],
+    [
+      593,
+      "gallery"
+    ],
+    [
+      800,
+      "gallery"
+    ]
+  ],
+  "events": {
+    "sectorSecond": 427,
+    "sectorThird": 480,
+    "galleryNext1": 642,
+    "galleryNext2": 713
+  },
+  "gallery": {
+    "initialIndex": 2,
+    "transitions": [
+      [
+        642,
+        673,
+        2,
+        3
+      ],
+      [
+        713,
+        745,
+        3,
+        4
+      ]
+    ],
+    "checkpoints": [
+      609,
+      640,
+      674,
+      711,
+      746,
+      789
+    ]
+  },
+  "reveals": {
+    "mode": "native-DOM-spatial-continuous",
+    "heroStartFrames": {
+      "heroLogo": 0,
+      "heroTitle": 3,
+      "heroSubtitle": 7,
+      "heroDescription": 12,
+      "heroCTA": 17
+    },
+    "heroDuration": 15,
+    "spatialStartCssPx": 780,
+    "spatialEndCssPx": 610,
+    "verticalDistanceCssPx": 7
+  },
+  "motion": {
+    "typing": [
+      12,
+      71
+    ],
+    "click": [
+      80,
+      90
+    ],
+    "outlineHero": [
+      90,
+      115
+    ],
+    "rightCornerZoom": [
+      121,
+      148
+    ],
+    "squareCorner": [
+      146,
+      151
+    ],
+    "cornerRadiusMorph": [
+      147,
+      166
+    ],
+    "pullback": [
+      162,
+      190
+    ],
+    "fillHero": [
+      179,
+      199
+    ],
+    "siteReveal": [
+      190,
+      207
+    ],
+    "scroll": "director-paced spline, no full stops on introductions or services",
+    "typography": "source DOM viewport-aware overlapping reveals, no hidden text PNG replacement"
+  },
+  "sourceCaptureVersion": "6.3",
+  "direction": "Full-bleed editorial experience; search → unfilled outlined original Hero rectangle → close-up right corner → radius morph → pull-back with fill → native full-width site; continuous capture scroll and source DOM typography.",
+  "fullBleedOutput": {
+    "width": 1080,
+    "height": 1920,
+    "sourceCssWidth": 390,
+    "sourceCssHeight": 844,
+    "sourceHeightPx": 2337.23077,
+    "noHorizontalMargin": true
+  }
+}
