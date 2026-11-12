@@ -9,7 +9,7 @@ test("Hero A é a única variação autorizada na Home", () => {
   assert.match(html, /data-design="G2V5-HERO-A"/);
   assert.doesNotMatch(html, /Hero B/);
   assert.match(html, /Consultoria Ambiental<\/h1>/);
-  assert.match(html, /Visão Técnica sobre o território/);
+  assert.match(html, /Mais de dez anos de experiência/);
   assert.doesNotMatch(html, /ha-location|ha-provisional|VÍDEO ILUSTRATIVO/);
   assert.match(html, /data-status="logo-oficial"/);
 });
@@ -25,7 +25,7 @@ test("Home possui Hero e não duplica o header estrutural", () => {
 test("Contato permanece como página técnica sem envio", () => {
   const html = renderPage(routes.find((r) => r.slug === "contato"));
   assert.doesNotMatch(html, /data-design="G2V5-HERO-A"/);
-  assert.match(html, /Nenhum dado é coletado/);
+  assert.match(html, /Formulário em configuração/);
 });
 
 test("Hero usa pontilhado e vídeo, sem CTA inferior ou controles", () => {
@@ -35,5 +35,5 @@ test("Hero usa pontilhado e vídeo, sem CTA inferior ou controles", () => {
   assert.doesNotMatch(html, /hero-video-toggle|ha-cta--main|ha-lines--/);
   assert.match(html, /hero-poster\.webp/);
   assert.match(html, /ha-cta--services" href=".\/servicos\//);
-  assert.match(html, /Joinville e Litoral de Santa Catarina/);
+  assert.match(html, /licenciamento, estudos e regularização ambiental/i);
 });
