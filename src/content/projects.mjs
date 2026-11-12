@@ -12,10 +12,10 @@ export const reviewSlots = Object.freeze(
 
 // Fotografias fornecidas e autorizadas por Matheus em 26/10/2026, apenas uso editorial.
 export const editorialPhotos = Object.freeze([
- {id:'litoral',title:'Litoral',alt:'Vista aérea de costa rochosa com vegetação e mar'},
- {id:'floresta',title:'Floresta',alt:'Vista aérea de vegetação florestal'},
- {id:'montanhas',title:'Montanhas',alt:'Relevo montanhoso com vegetação verde'},
- {id:'drone',title:'Observação do território',alt:'Drone em voo próximo à vegetação'},
- {id:'paisagem',title:'Paisagem natural',alt:'Campo aberto e árvores sob céu nublado'},
- {id:'territorio',title:'Território',alt:'Paisagem verde iluminada pelo sol'}
+ {"id":"ykeizumi-vila-costeira","title":"Território costeiro","alt":"Vista aérea de área residencial entre a vegetação e o litoral, com faixa de mar ao fundo"},
+ {"id":"ykeizumi-floresta-trilhos","title":"Vegetação e infraestrutura","alt":"Vista aérea de mata, campo rural e linha férrea na paisagem"},
+ {"id":"ykeizumi-estrada-vegetacao","title":"Uso e ocupação do solo","alt":"Vista aérea vertical de estrada entre pastagem e vegetação florestal"},
+ {"id":"ykeizumi-fauna-macaco","title":"Fauna nativa","alt":"Macaco-prego entre folhas e galhos de vegetação"},
+ {"id":"ykeizumi-avifauna","title":"Avifauna","alt":"Ave de penas azul-escuras e amarelas pousada em um galho"},
+ {"id":"litoral","title":"Paisagem litorânea","alt":"Vista aérea de costa rochosa, vegetação e mar"}
 ].map(x=>Object.freeze({...x,state:'editorial',category:'Imagem ilustrativa'})));

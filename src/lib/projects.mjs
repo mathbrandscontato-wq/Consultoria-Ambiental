@@ -1,6 +1,7 @@
 import { publishableProjects } from '../content/project-registry.mjs';
 import { reviewSlots, editorialPhotos } from "../content/projects.mjs";
 import { escapeHtml } from "./escape.mjs";
+import { photoUrl } from "./components.mjs";
 
 /**
  * Galeria visual aprovada como estrutura, não como portfólio com cases reais.
@@ -26,8 +27,8 @@ export function renderProjectGallery({ compact = false, prefix = "./" } = {}) {
         '</li>';
     }
     // Para entradas futuras, exige imagem e consentimento previamente verificados.
-    const image = project.state === 'editorial' ? prefix+'media/'+project.id+'-1280.webp' : project.image;
-    const responsive = project.state === 'editorial' ? ' srcset="'+escapeHtml(prefix+'media/'+project.id+'-640.webp')+' 640w, '+escapeHtml(image)+' 1280w" sizes="(max-width:650px) 100vw, 60vw"' : '';
+    const image = project.state === 'editorial' ? photoUrl(project.id,prefix) : project.image;
+    const responsive = project.state === 'editorial' && !project.id.startsWith('ykeizumi-') ? ' srcset="'+escapeHtml(prefix+'media/'+project.id+'-640.webp')+' 640w, '+escapeHtml(image)+' 1280w" sizes="(max-width:650px) 100vw, 60vw"' : '';
     return '<li class="project-card '+(index === 0 ? 'project-card--feature' : '')+'"><div class="project-card__art project-card__art--photo">'+
       '<a class="project-image-link" href="'+escapeHtml(image)+'" aria-label="Ampliar imagem: '+escapeHtml(project.title)+'"><img loading="lazy" decoding="async" src="'+escapeHtml(image)+
       '"'+responsive+' alt="'+escapeHtml(project.alt)+'" width="800" height="600"></a></div>'+

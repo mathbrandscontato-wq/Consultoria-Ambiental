@@ -80,7 +80,7 @@ function explorer(){
 }
 export function renderServices(){
   return '<main id="conteudo" tabindex="-1" class="inner-page services-page">'+
-  editorialHero({label:'Serviços',title:'Soluções ambientais para decisões mais seguras.',text:'Conheça as frentes de atuação da Ykeizumi e encontre o caminho mais adequado para apresentar sua demanda ambiental.',media:'floresta',classes:'services-hero'})+
+  editorialHero({label:'Serviços',title:'Soluções ambientais para decisões mais seguras.',text:'Conheça as frentes de atuação da Ykeizumi e encontre o caminho mais adequado para apresentar sua demanda ambiental.',media:'ykeizumi-estrada-vegetacao',classes:'services-hero'})+
   contextSection()+explorer()+
   ctaBanner({label:'Orientação técnica',title:'Não encontrou o serviço que procura?',text:'Descreva o seu caso e indicamos o caminho.',button:'Solicitar proposta'})+'</main>'
 }

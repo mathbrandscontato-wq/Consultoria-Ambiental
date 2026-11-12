@@ -42,7 +42,7 @@ const cards = [
       "Avaliação de viabilidade ambiental da regularização, com identificação de Áreas de Preservação Permanente (APP) e demais restrições."
     ],
     "slug": "s03",
-    "media": "montanhas"
+    "media": "ykeizumi-vila-costeira"
   },
   {
     "num": "04",
