@@ -50,13 +50,13 @@ test('Revisão da cliente conserva a imagem da fundadora e remove o túnel desco
   assert.equal(about.length,6);
   assert.match(about[1],/id="lara-yumi"/);
   assert.match(about[1],/Lara Yumi Fand Ykeizumi/);
-  assert.match(about[1],/src="\\.\\.\\/media\\/lara-yumi-640.webp"/);
+  assert.ok(about[1].includes('src="../media/lara-yumi-640.webp"'));
   assert.match(about[2],/id="abordagem"/);
   assert.match(about[2],/Diagnóstico/);
   assert.match(about[2],/Acompanhamento/);
   assert.match(about[4],/id="equipe"/);
   assert.doesNotMatch(page('sobre'),/id="visao"|Cada território apresenta desafios próprios/);
-  for(const slug of ['','servicos','contato'])assert.doesNotMatch(page(slug),/class="[^"]*\\babout-tunnel\\b/,slug);
+  for(const slug of ["","servicos","contato"])assert.ok(!page(slug).includes("about-tunnel"));
 });
 
 test('V5 rodapés não apresentam navegação social fictícia nem âncoras mortas',()=>{
