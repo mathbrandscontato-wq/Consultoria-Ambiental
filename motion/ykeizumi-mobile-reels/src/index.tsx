@@ -105,10 +105,18 @@ function LoopAperture({f}:{f:number}){
  if(f<1248)return null;
  const p=smooth(1248,1288,f);
  const r=1360*p;
- return <div style={{
-  position:'absolute',left:540-r,top:940-r,width:2*r,height:2*r,
-  borderRadius:'50%',background:'#ffffff',zIndex:7,pointerEvents:'none'
- }}/>;
+ return <>
+  <div style={{
+   position:'absolute',left:540-r,top:940-r,width:2*r,height:2*r,
+   borderRadius:'50%',background:'#ffffff',zIndex:7,pointerEvents:'none'
+  }}/>
+  {f>=1281&&<svg width={1080} height={1920} viewBox="0 0 1080 1920"
+   style={{position:'absolute',inset:0,zIndex:8,pointerEvents:'none',
+     opacity:smooth(1281,1288,f)}}>
+   <rect x="123" y="785" width="834" height="310" rx="36"
+    fill="#f3f3f3"/>
+  </svg>}
+ </>;
 }
 function Reel(){
  const f=useCurrentFrame(),hero=realHeroRect();
