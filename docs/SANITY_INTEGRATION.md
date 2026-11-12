@@ -1,22 +1,27 @@
-# Ykeizumi | Preparação Sanity Studio (sem publicação)
+# Ykeizumi | Sanity Studio (sem publicação)
 
-## Escopo entregue nesta branch
-- Studio independente em `studio/` com configurações gerais, Home, Sobre, Serviços, Projetos e Contato.
+## Identificação do projeto
+- Project ID informado: `fvoy1wqw`.
+- Dataset: `production`.
+- Administrador: Math Brands; convites a Vic e Lara serão gerenciados na conta Sanity.
+- A existência do projeto/dataset e as permissões ainda precisam ser verificadas em sessão autenticada.
+
+## Estrutura preparada
+- Studio independente em `studio/` com páginas únicas (configurações gerais, Home, Sobre e Contato), Serviços e Projetos.
+- Cada página única possui ID de documento estável e não pode ser recriada pelo menu de novos documentos.
 - Campos de SEO e imagens; projetos exigem `publishedOnSite=true` E `clientApproved=true` para integrações futuras.
 - Leitor GROQ em `src/lib/sanity-content.mjs`, desabilitado por padrão.
 - Nenhuma página pública, build, DNS, hospedagem ou publicação foi alterado.
-- Mantida a branch de referência visual `feat/ykeizumi-redesign-unificado-20261027`.
+- A branch base de referência visual é `feat/ykeizumi-redesign-unificado-20261027`.
 
-## Ativar o projeto Sanity (ação autenticada da titular)
-1. Acesse https://www.sanity.io/manage e crie um projeto **Ykeizumi Consultoria Ambiental** na organização/conta adequada.
-2. Crie dataset `production` (público apenas se os conteúdos forem destinados à publicação).
-3. Copie `studio/.env.example` para `studio/.env.local`, preencha `SANITY_STUDIO_PROJECT_ID`.
-4. Com Node.js >=20: `cd studio && npm install && npm run dev`.
-5. Autentique-se quando solicitado. Convide Vic e Lara pelo gerenciamento de membros do projeto; atribua somente as permissões necessárias.
-6. **Não execute** `npm run deploy` sem autorização específica. O Studio ainda é apenas local.
+## Usar o Studio localmente
+1. Acesse https://www.sanity.io/manage e confirme que o projeto `fvoy1wqw` e o dataset `production` existem.
+2. Com Node.js >=20: `cd studio && npm install && npm run dev`.
+3. Entre com a conta que possui acesso ao projeto. Convide Vic e Lara em Manage > Members, conforme as permissões disponíveis em seu plano.
+4. **Não execute** `npm run deploy` sem autorização específica. O Studio ainda é apenas local.
 
 ## Integração do site (próxima etapa, NÃO habilitada)
-- Variáveis do build estático: `YKEIZUMI_SANITY_ENABLED=true`, `SANITY_PROJECT_ID=<id>`, `SANITY_DATASET=production`.
+- Variáveis do build estático: `YKEIZUMI_SANITY_ENABLED=true`, `SANITY_PROJECT_ID=fvoy1wqw`, `SANITY_DATASET=production`.
 - `SANITY_READ_TOKEN` é opcional, apenas para datasets privados; configure no ambiente de build, NUNCA no GitHub nem no JavaScript de navegador.
 - O leitor `loadSanityContent` consulta somente conteúdo publicado; falha explicitamente se ativado sem credenciais ou se a API estiver indisponível.
 - O adaptador ainda não está conectado às funções atuais de renderização, por segurança: a integração visual exige mapear cada campo às seções existentes e preencher os dados reais antes de ativar.
