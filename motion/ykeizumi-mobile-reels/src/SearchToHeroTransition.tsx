@@ -32,9 +32,9 @@ function vectorPath(s:Rect){
 }
 export function heroGeometry(frame:number,hero:Rect):Rect{
  const box=SEARCH_BOX;
- if(frame<=105)return box;
- if(frame<129){
-  const p=smooth(105,129,frame);
+ if(frame<=93)return box;
+ if(frame<114){
+  const p=smooth(93,114,frame);
   return {
     x:lerp(box.x,hero.x,p),y:lerp(box.y,hero.y,p),
     w:lerp(box.w,hero.w,p),h:lerp(box.h,hero.h,p),
@@ -42,24 +42,24 @@ export function heroGeometry(frame:number,hero:Rect):Rect{
   };
  }
  const peak=13.2;
- const zin=ease(141,181,frame);
- const zout=smooth(211,234,frame);
+ const zin=ease(116,144,frame);
+ const zout=smooth(166,190,frame);
  const zoom=1+(peak-1)*zin*(1-zout);
  const cornerX=hero.x+hero.w;
  const focalX=lerp(lerp(cornerX,695,zin),cornerX,zout);
  const focalY=lerp(lerp(hero.y,827,zin),hero.y,zout);
- const radius=hero.r*smooth(186,207,frame);
+ const radius=hero.r*smooth(149,164,frame);
  return {
   x:focalX-zoom*hero.w,y:focalY,
   w:zoom*hero.w,h:zoom*hero.h,r:radius*zoom
  };
 }
 export function SearchToHeroTransition({frame,hero}:{frame:number;hero:Rect}){
- if(frame>249)return null;
+ if(frame>204)return null;
  const box=heroGeometry(frame,hero);
- const green=smooth(105,123,frame);
+ const green=smooth(93,110,frame);
  const fadeIn=smooth(3,13,frame);
- const opacity=frame<234?fadeIn:(1-smooth(234,246,frame));
+ const opacity=frame<190?fadeIn:(1-smooth(190,202,frame));
  return <svg width={1080} height={1920} viewBox="0 0 1080 1920"
    style={{position:'absolute',inset:0,display:'block',overflow:'hidden',opacity}}
    aria-hidden="true">
