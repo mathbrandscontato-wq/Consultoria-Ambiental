@@ -26,6 +26,8 @@ jobs:
         run: |
           npm ci --no-audit --no-fund
           npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pil
       - name: Confirm source media and foley match approved cut
         run: |
           python3 - <<'PY'
