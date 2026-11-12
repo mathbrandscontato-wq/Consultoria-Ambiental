@@ -45,11 +45,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: studio/package-lock.json
       - name: Instalar dependências
         if: steps.auth.outputs.configured == 'true'
-        run: npm ci
+        run: npm install --no-audit --no-fund
       - name: Publicar Studio na hospedagem Sanity
         if: steps.auth.outputs.configured == 'true'
         run: npx sanity@latest deploy --url "$SANITY_STUDIO_HOSTNAME" --yes --schema-required
