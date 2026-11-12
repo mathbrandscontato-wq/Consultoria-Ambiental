@@ -1,0 +1,261 @@
+{
+  "version": "6.1",
+  "fps": 30,
+  "totalFrames": 990,
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "dpr": 3
+  },
+  "captureStart": 190,
+  "captureFrames": 800,
+  "scenes": {
+    "search": [
+      0,
+      93
+    ],
+    "searchMorph": [
+      93,
+      114
+    ],
+    "vectorHero": [
+      114,
+      190
+    ],
+    "hero": [
+      190,
+      306
+    ],
+    "intro": [
+      306,
+      411
+    ],
+    "services": [
+      411,
+      600
+    ],
+    "accordions": [
+      600,
+      780
+    ],
+    "gallery": [
+      780,
+      990
+    ]
+  },
+  "scrollPlan": [
+    [
+      0,
+      "top"
+    ],
+    [
+      85,
+      "top"
+    ],
+    [
+      118,
+      "intro"
+    ],
+    [
+      168,
+      "intro"
+    ],
+    [
+      185,
+      "intro"
+    ],
+    [
+      219,
+      "servicesHeading"
+    ],
+    [
+      229,
+      "servicesHeading"
+    ],
+    [
+      256,
+      "service1"
+    ],
+    [
+      280,
+      "service1"
+    ],
+    [
+      302,
+      "service2"
+    ],
+    [
+      326,
+      "service2"
+    ],
+    [
+      352,
+      "service3"
+    ],
+    [
+      374,
+      "service3"
+    ],
+    [
+      409,
+      "sectors"
+    ],
+    [
+      423,
+      "sectors"
+    ],
+    [
+      448,
+      "sectors"
+    ],
+    [
+      474,
+      "sectorThird"
+    ],
+    [
+      516,
+      "sectorThird"
+    ],
+    [
+      591,
+      "gallery"
+    ],
+    [
+      800,
+      "gallery"
+    ]
+  ],
+  "events": {
+    "sectorSecond": 427,
+    "sectorThird": 480,
+    "galleryNext1": 642,
+    "galleryNext2": 713
+  },
+  "gallery": {
+    "initialIndex": 2,
+    "transitions": [
+      [
+        642,
+        673,
+        2,
+        3
+      ],
+      [
+        713,
+        745,
+        3,
+        4
+      ]
+    ],
+    "checkpoints": [
+      609,
+      640,
+      674,
+      711,
+      746,
+      789
+    ]
+  },
+  "reveals": {
+    "heroLogo": [
+      198,
+      210
+    ],
+    "heroTitle": [
+      210,
+      224
+    ],
+    "heroSubtitle": [
+      224,
+      236
+    ],
+    "heroDescription": [
+      238,
+      251
+    ],
+    "heroCTA": [
+      255,
+      268
+    ],
+    "introLineStart": 319,
+    "introLineStep": 5,
+    "introLineDuration": 12,
+    "introParagraph": [
+      348,
+      364
+    ],
+    "introLink": [
+      363,
+      378
+    ],
+    "servicesHeading": [
+      422,
+      437
+    ],
+    "servicesIntro": [
+      440,
+      453
+    ],
+    "service1Number": [
+      451,
+      463
+    ],
+    "service1Body": [
+      454,
+      470
+    ],
+    "service2Number": [
+      493,
+      505
+    ],
+    "service2Body": [
+      496,
+      512
+    ],
+    "service3Number": [
+      540,
+      552
+    ],
+    "service3Body": [
+      543,
+      559
+    ],
+    "galleryTitle": [
+      788,
+      801
+    ]
+  },
+  "motion": {
+    "typing": [
+      12,
+      71
+    ],
+    "click": [
+      80,
+      89
+    ],
+    "fieldMorph": [
+      93,
+      114
+    ],
+    "zoomIn": [
+      116,
+      144
+    ],
+    "cornerMorph": [
+      149,
+      164
+    ],
+    "zoomOut": [
+      166,
+      190
+    ],
+    "heroReveal": [
+      190,
+      202
+    ],
+    "introLineOffsetPx": 12,
+    "typingCaretEnd": 82,
+    "accordionPulseFrames": 14
+  }
+}
