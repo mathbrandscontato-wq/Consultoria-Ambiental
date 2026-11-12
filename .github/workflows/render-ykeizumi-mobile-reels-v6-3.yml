@@ -1,0 +1,255 @@
+name: Ykeizumi V6.3 — Full-Bleed Cinematic Flow
+on:
+  push:
+    branches:
+      - feat/ykeizumi-mobile-reels-v6-3-full-bleed
+    paths:
+      - .github/workflows/render-ykeizumi-mobile-reels-v6-3.yml
+      - motion/ykeizumi-mobile-reels/src/**
+      - motion/ykeizumi-mobile-reels/timeline-v6-3.json
+      - motion/ykeizumi-mobile-reels/capture/capture-mobile-v6-3.mjs
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ykeizumi-v6-3-motion
+  cancel-in-progress: true
+jobs:
+  render-and-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build genuine website locally — production not deployed
+        run: npm run build
+      - name: Serve source site locally for DOM-faithful mobile capture
+        run: |
+          python3 -m http.server 4173 --directory dist > /tmp/ykeizumi-v63-web.log 2>&1 &
+          for i in $(seq 1 50); do
+            if curl -fsS http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/ykeizumi-v63-web.log
+          exit 1
+      - name: Install isolated Remotion environment
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm ci --no-audit --no-fund
+      - name: Install Chromium and media QA dependencies
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pil
+      - name: Recapture authentic mobile site with continuous director-paced scroll
+        working-directory: motion/ykeizumi-mobile-reels
+        run: node capture/capture-mobile-v6-3.mjs
+      - name: Verify source DOM, gallery, scroll and 1080px full-bleed geometry
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,subprocess
+          root=Path('motion/ykeizumi-mobile-reels')
+          t=json.loads((root/'timeline-v6-3.json').read_text())
+          m=json.loads((root/'public/v6-3-layer-manifest.json').read_text())
+          assert t['version']=='6.3' and t['fullBleedOutput']['noHorizontalMargin']
+          assert (t['totalFrames'],t['captureStart'],t['captureFrames'],t['fps'])==(990,190,800,30)
+          assert (m['offset'],m['frames'],m['fps'])==(190,800,30)
+          assert m['viewport']=={'w':390,'h':844,'dpr':3}
+          assert m['heroVideo']['video']=={'x':12,'y':12,'w':366,'h':600}
+          assert m['heroVideo']['effectiveRadius']==15
+          assert m['photoSuppressedOnlyInCapture'] and not m['errors'],m['errors']
+          assert len(m['layers'])==17
+          assert len(m['scrollTrack'])==800 and len(m['galleryTitleYTrack'])==800
+          diff=[m['scrollTrack'][i]-m['scrollTrack'][i-1] for i in range(1,800)]
+          assert min(diff)>=-0.6,('reverse camera movement',min(diff))
+          assert max(diff)<85,('unreadable jump',max(diff))
+          assert sum(x>0.02 for x in diff[82:400])>270,('too many motion pauses',sum(x>0.02 for x in diff[82:400]))
+          touches=[x['purpose'] for x in m['touches']]
+          assert touches==['sector-second','sector-third','gallery-next-1','gallery-next-2'],touches
+          checkpoints={x['frame']:x for x in m['galleryStates']}
+          for fr,n in [(609,2),(674,3),(746,4)]:
+            assert checkpoints[fr]['frameCard']==n,(fr,checkpoints.get(fr))
+          assert all(x['loaded'] for x in m['galleryStates'])
+          capture=(root/'capture/capture-mobile-v6-3.mjs').read_text()
+          remotion=(root/'src/index.tsx').read_text()
+          geom=(root/'src/SearchToHeroTransition.tsx').read_text()
+          assert 'nativeEditorialReveal(f)' in capture
+          assert 'visibility:hidden!important' not in capture.split('// Full-bleed V6.3 uses the SOURCE DOM')[1]
+          assert 'NativeWords' not in remotion and 'NativeLayer' not in remotion
+          assert 'width:STAGE.w' in remotion and 'STAGE={x:0,y:0,w:W' in remotion
+          assert 'fill="none"' in geom and 'stroke="#414141"' in geom
+          assert 'galleryFirstCard' not in capture and 'galleryFirstCard' not in remotion
+          source=root/'public/mobile-capture-v6-3.mp4'
+          assert source.stat().st_size>5000000
+          probe=json.loads(subprocess.check_output(['ffprobe','-v','error',
+            '-show_entries','stream=width,height,r_frame_rate:format=duration',
+            '-of','json',str(source)]))
+          st=next(v for v in probe['streams'] if v.get('width'))
+          assert (st['width'],st['height'])==(1170,2532)
+          assert st['r_frame_rate']=='30/1'
+          assert abs(float(probe['format']['duration'])-800/30)<.07
+          print('SOURCE + FULL-BLEED QA PASS',{'maxScrollPerFrame':round(max(diff),2),
+            'movementFrames':sum(x>0.02 for x in diff[82:400]),'touches':touches})
+          PY
+      - name: Preview A — gray outline, right corner and full-width Hero
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          mkdir -p ../../release/v6-3-review
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-3-review/01_Outline_Hero.mp4 \
+            --frames=0-279 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview B — continuous intro and service editorial flow
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-3-review/02_Flowing_Sections.mp4 \
+            --frames=280-599 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview C — native accordions
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-3-review/03_Accordions.mp4 \
+            --frames=600-779 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview D — native gallery and final composed card
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-3-review/04_Gallery.mp4 \
+            --frames=780-989 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Full decode of previews and director's frame contact sheet
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          import json,subprocess
+          root=Path('release/v6-3-review')
+          scenes=[
+            ('01_Outline_Hero',280,[0.2,1.8,2.8,3,3.25,3.55,3.85,4.25,4.7,4.9,5.2,5.4,5.65,5.9,6.3,6.65,7,8.1]),
+            ('02_Flowing_Sections',320,[.15,.6,1.1,1.8,2.3,2.9,3.5,4.2,5.1,6,7,8,9.5,10.5]),
+            ('03_Accordions',180,[.1,1.2,2.3,3.4,4.8,5.9]),
+            ('04_Gallery',210,[.2,1.6,2.6,3.7,4.8,5.9,6.8])
+          ]
+          shots=[]
+          for name,frames,marks in scenes:
+            file=root/(name+'.mp4')
+            p=json.loads(subprocess.check_output(['ffprobe','-v','error',
+              '-show_entries','format=duration:stream=width,height,r_frame_rate',
+              '-of','json',str(file)]))
+            s=next(x for x in p['streams'] if x.get('width'))
+            assert (s['width'],s['height'])==(540,960)
+            assert s['r_frame_rate']=='30/1' and abs(float(p['format']['duration'])-frames/30)<.07
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(file),'-f','null','-'],check=True)
+            for i,t in enumerate(marks):
+              still=root/(name+'_'+str(i)+'.png')
+              subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y',
+                '-ss',str(t),'-i',str(file),'-frames:v','1',str(still)],check=True)
+              im=Image.open(still).convert('RGB').resize((180,320),Image.Resampling.LANCZOS)
+              shots.append((im,name+' '+str(t)))
+          columns=8;w=180;h=347
+          sheet=Image.new('RGB',(columns*w,((len(shots)+columns-1)//columns)*h),'#f5f5f3')
+          d=ImageDraw.Draw(sheet)
+          for i,(im,label) in enumerate(shots):
+            x=i%columns*w;y=i//columns*h
+            sheet.paste(im,(x,y));d.text((x+4,y+323),label,fill='#222222')
+          sheet.save('release/Ykeizumi_Mobile_Reels_V6_3_Storyboard.png')
+          print('FULL 4 SCENE PREVIEW DECODE PASS',len(shots),'shots')
+          PY
+      - name: Publish visual QA previews to GitHub Actions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-V6-3-Director-Previews
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/Ykeizumi_Mobile_Reels_V6_3_Storyboard.png
+            release/v6-3-review/*.mp4
+      - name: Render 990-frame 1080×1920 video master
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/Ykeizumi_Mobile_Reels_V6_3_VideoOnly.mp4 \
+            --codec=h264 --crf=16 --concurrency=2 --browser-executable "$CHROME"
+      - name: Preserve licensed-original ambient soundtrack as AAC
+        run: |
+          ffmpeg -hide_banner -loglevel error -y \
+            -i release/Ykeizumi_Mobile_Reels_V6_3_VideoOnly.mp4 \
+            -i motion/ykeizumi-mobile-reels/public/v6-1-original-ambience.wav \
+            -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac \
+            -b:a 128k -ar 48000 -ac 2 -shortest -movflags +faststart \
+            release/Ykeizumi_Mobile_Reels_V6_3_FullBleedCinematic.mp4
+          rm release/Ykeizumi_Mobile_Reels_V6_3_VideoOnly.mp4
+      - name: Validate final MP4 and extract internal review contact sheet
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          import subprocess,json
+          video=Path('release/Ykeizumi_Mobile_Reels_V6_3_FullBleedCinematic.mp4')
+          metadata=json.loads(subprocess.check_output(['ffprobe','-v','error',
+            '-show_entries','stream=codec_name,width,height,r_frame_rate,nb_frames:format=duration',
+            '-of','json',str(video)]))
+          v=next(x for x in metadata['streams'] if x.get('codec_name')=='h264')
+          assert (v['width'],v['height'])==(1080,1920)
+          assert v['r_frame_rate']=='30/1' and int(v['nb_frames'])==990
+          assert abs(float(metadata['format']['duration'])-33)<.07
+          assert any(x.get('codec_name')=='aac' for x in metadata['streams'])
+          assert video.stat().st_size>1000000
+          subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(video),'-f','null','-'],check=True)
+          times=[3.1,3.4,3.8,4.4,4.9,5.3,5.65,6,6.4,7.0,8.2,9.5,10.8,11.7,12.9,14.5,16.5,18.8,20.9,22.5,24.7,26.6,28.9,30.1,31.1,32.8]
+          canvas=Image.new('RGB',(7*195,4*370),'#f6f6f5');d=ImageDraw.Draw(canvas)
+          for i,t in enumerate(times):
+            file=Path('release/v6-3-review')/('final-'+str(i)+'.png')
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y',
+              '-ss',str(t),'-i',str(video),'-frames:v','1',str(file)],check=True)
+            im=Image.open(file).convert('RGB').resize((195,347),Image.Resampling.LANCZOS)
+            x=i%7*195;y=i//7*370
+            canvas.paste(im,(x,y));d.text((x+5,y+350),str(t)+' s',fill='#242424')
+          canvas.save('release/Ykeizumi_Mobile_Reels_V6_3_Final_Review.png')
+          Path('release/Ykeizumi_Mobile_Reels_V6_3_QA.md').write_text(
+             '# Ykeizumi V6.3 Full-Bleed Cinematic Flow\n'
+             '- MP4 H264 + original AAC; 1080×1920, 30FPS, 990 frames, 33 seconds.\n'
+             '- Full-width 1080px stage with uniform scale of original 390×844 mobile site.\n'
+             '- Hero container geometry measured at x12,y12,w366,h600 CSS px, radius15 CSS px.\n'
+             '- Search field → outline-only gray real Hero rectangle → right-corner closeup → SVG radius morph → green fill → site.\n'
+             '- All 17 content elements visible as original source DOM, with spatially timed 7px rise and fast overlap.\n'
+             '- Continuous director-paced scroll through intro/services with no manual frame-holds.\n'
+             '- Two original accordion taps and two original deterministic CSS3D gallery transitions retained.\n'
+             '- Native site remains untouched: no edits, deploy or new dependency.\n'
+             '- 4 preview videos decoded and final MP4 fully decoded without errors.\n'
+             '- Creative director approval remains pending.\n'
+          )
+          print('MASTER 1080p FULL-BLEED VERIFIED',video.stat().st_size, 'bytes')
+          PY
+      - name: Make only the final MP4 and source review internally available
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-Mobile-Reels-V6-3-FullBleed-Final
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/Ykeizumi_Mobile_Reels_V6_3_FullBleedCinematic.mp4
+            release/Ykeizumi_Mobile_Reels_V6_3_Final_Review.png
+            release/Ykeizumi_Mobile_Reels_V6_3_QA.md
+      - name: Version production video without editing live website
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/Ykeizumi_Mobile_Reels_V6_3_*
+          git add motion/ykeizumi-mobile-reels/public/mobile-capture-v6-3.mp4 \
+            motion/ykeizumi-mobile-reels/public/v6-3-layer-manifest.json \
+            motion/ykeizumi-mobile-reels/public/v6-3-layers \
+            motion/ykeizumi-mobile-reels/capture-report-v6-3.json
+          git commit -m "chore(v6.3): verified full-bleed cinematic Reels and motion QA [skip ci]" || true
+          git push origin HEAD:feat/ykeizumi-mobile-reels-v6-3-full-bleed
