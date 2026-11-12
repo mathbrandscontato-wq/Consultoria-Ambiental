@@ -1,5 +1,5 @@
 /**
- * Ykeizumi | V6 Search to Experience: message-field to measured SVG Hero and real DOM layers.
+ * Ykeizumi | V6.1 Directors Polish: message-field to measured SVG Hero and real DOM layers.
  * One 990-frame composition at 30FPS. No site source files modified.
  */
 import React from 'react';
@@ -7,12 +7,12 @@ import {
  AbsoluteFill, Composition, Easing, Img, interpolate,
  OffthreadVideo, Sequence, registerRoot, staticFile, useCurrentFrame
 } from 'remotion';
-import manifest from '../public/v6-layer-manifest.json';
-import timeline from '../timeline-v6.json';
+import manifest from '../public/v6-1-layer-manifest.json';
+import timeline from '../timeline-v6-1.json';
 import {SearchIntro} from './SearchIntro';
 import {SearchToHeroTransition} from './SearchToHeroTransition';
 const WIDTH=1080,HEIGHT=1920,FPS=timeline.fps,FRAMES=timeline.totalFrames,START=timeline.captureStart;
-if(FRAMES!==990||FPS!==30||timeline.captureFrames!==756||START!==234)throw Error('V6 timeline mismatch');
+if(FRAMES!==990||FPS!==30||timeline.captureFrames!==800||START!==190)throw Error('V6 timeline mismatch');
 const STAGE={x:85,y:-25,w:910,h:1970};
 const SX=STAGE.w/390,SY=STAGE.h/844;
 const CLAMP={extrapolateLeft:'clamp' as const,extrapolateRight:'clamp' as const};
@@ -27,11 +27,11 @@ const round=(n:number)=>Number(n.toFixed(3));
 type Rect={x:number;y:number;w:number;h:number;r:number};
 type Layer={file:string;x:number;absY:number;w:number;h:number;text?:string;lines?:Array<{y:number;h:number}>};
 type Manifest={heroVideo?:{video:{x:number;y:number;w:number;h:number};effectiveRadius:number};
- layers?:Record<string,Layer>;scrollTrack?:number[];galleryTitleYTrack?:number[]};
+ layers?:Record<string,Layer>;scrollTrack?:number[];galleryTitleYTrack?:number[];touches?:Array<{frame:number;x:number;y:number;purpose:string}>};
 const data=manifest as Manifest;
 function realHeroRect():Rect{
  const v=data.heroVideo?.video;
- if(!v)throw Error('V6 requires measured source DOM. Run capture-mobile-v6 capture script first.');
+ if(!v)throw Error('V6 requires measured source DOM. Run capture-mobile-v6-1 capture script first.');
  return {x:STAGE.x+v.x*SX,y:STAGE.y+v.y*SY,w:v.w*SX,h:v.h*SY,
    r:(data.heroVideo?.effectiveRadius||0)*SX};
 }
@@ -47,11 +47,11 @@ function track(keys:readonly (readonly[number,number])[],f:number):number{
 }
 function camera(f:number){
  return {
-  scale:track([[234,1],[294,1.016],[350,1.022],[434,1.019],
-    [500,1.024],[598,1.018],[677,1.022],[766,1.02],
-    [863,1.014],[944,1.012],[989,1.006]],f),
-  x:track([[234,0],[315,-3],[418,2],[525,-3],[652,3],[800,-2],[989,0]],f),
-  y:track([[234,0],[348,-8],[475,-10],[590,-13],[736,-9],[884,-12],[989,-8]],f)
+  scale:track([[190,1],[270,1.015],[310,1.022],[405,1.018],
+    [485,1.021],[599,1.018],[695,1.022],[800,1.02],
+    [894,1.013],[951,1.019],[989,1.018]],f),
+  x:track([[190,0],[305,-2],[416,2],[526,-3],[662,3],[805,-2],[989,0]],f),
+  y:track([[190,0],[335,-8],[472,-10],[590,-11],[734,-9],[895,-11],[989,-8]],f)
  };
 }
 // V6 timeline single source of truth for text, browser capture and output.
@@ -69,12 +69,15 @@ function NativeLayer({id,f,scroll,from,to,line}:{
 }){
  const l=data.layers?.[id];if(!l||f<from)return null;
  const dynamicY=id==='galleryTitle'?data.galleryTitleYTrack?.[Math.max(0,Math.min((data.galleryTitleYTrack?.length||1)-1,f-START))]:undefined;
- const p=enter(f,from,to),y=(dynamicY??l.absY)-scroll+(line?.y||0);
- const lineY=Math.max(0,line?.y||0);
- const h=line?Math.min(l.h-lineY,line.h+2):l.h;
- return <div style={{position:'absolute',left:l.x,top:y,width:l.w,height:h,
-   overflow:'hidden',pointerEvents:'none',opacity:p,
-   transform:'translateY('+((1-p)*9)+'px)',
+ const p=enter(f,from,to);
+ const lineY=line?Math.max(0,line.y-2):0;
+ const h=line?Math.min(l.h-lineY,line.y+line.h+2-lineY):l.h;
+ const fy=(dynamicY??l.absY)-scroll+lineY;
+ // Pure geometry reveal: no opacity fade. This prevents gray ghosts and
+ // semi-transparent source glyphs against the original video background.
+ return <div style={{position:'absolute',left:l.x,top:fy,width:l.w,height:h,
+   overflow:'hidden',pointerEvents:'none',opacity:1,
+   transform:'translateY('+((1-p)*(line?6:9))+'px)',
    clipPath:'inset(0 0 '+Math.max(0,(1-p)*100)+'% 0)'}}>
    <Img src={staticFile(l.file)} style={{position:'absolute',left:0,
      top:line?-lineY:0,width:l.w,height:l.h,maxWidth:'none'}}/>
@@ -92,8 +95,24 @@ function NativeWords({f}:{f:number}){
    f={f} scroll={scroll} from={timeline.reveals.introLineStart+i*timeline.reveals.introLineStep} to={timeline.reveals.introLineStart+i*timeline.reveals.introLineStep+timeline.reveals.introLineDuration}/>)}
  </>;
 }
+function NativeTouchHints({f}:{f:number}){
+ const touches=data.touches||[];
+ return <>{touches.filter(t=>t.purpose.startsWith('sector-')).map(t=>{
+  const age=f-START-t.frame;
+  if(age< -6||age>14)return null;
+  const born=smooth(-6,0,age),gone=smooth(4,14,age);
+  const scale=.72+.3*born+.27*smooth(0,14,age);
+  return <div key={t.purpose}
+    style={{position:'absolute',left:t.x-13,top:t.y-13,width:26,height:26,
+     border:'1.5px solid rgba(255,255,255,.94)',
+     background:'rgba(245,250,247,.18)',borderRadius:'50%',
+     opacity:born*(1-gone),transform:'scale('+scale+')',
+     boxShadow:'0 0 0 2px rgba(23,50,38,.18)',
+     pointerEvents:'none'}}/>;
+ })}</>;
+}
 function SiteViewport({f}:{f:number}){
- const cam=camera(f),hero=realHeroRect(),t=smooth(234,252,f);
+ const cam=camera(f),hero=realHeroRect(),t=smooth(190,205,f);
  const top=hero.y-STAGE.y,left=hero.x-STAGE.x;
  const right=STAGE.w-left-hero.w,bottom=STAGE.h-top-hero.h;
  const clip='inset('+round(mix(top,0,t))+'px '+round(mix(right,0,t))+'px '+
@@ -103,15 +122,16 @@ function SiteViewport({f}:{f:number}){
    width:STAGE.w,height:STAGE.h,borderRadius:18,overflow:'hidden',
    background:'#ffffff',clipPath:clip,transformOrigin:'50% 50%',
    transform:'translate('+cam.x+'px,'+cam.y+'px) scale('+cam.scale+')',
-   opacity:smooth(234,245,f)}}>
+   opacity:smooth(190,202,f)}}>
    <Sequence from={START} durationInFrames={FRAMES-START}>
-    <OffthreadVideo src={staticFile('mobile-capture-v6.mp4')} muted
+    <OffthreadVideo src={staticFile('mobile-capture-v6-1.mp4')} muted
      style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}}/>
    </Sequence>
    <div style={{position:'absolute',left:0,top:0,width:390,height:844,
      transform:'scale('+SX+','+SY+')',transformOrigin:'top left',
      overflow:'visible',pointerEvents:'none'}}>
      <NativeWords f={f}/>
+     <NativeTouchHints f={f}/>
    </div>
  </div>;
 }
@@ -120,8 +140,8 @@ function V6(){
  const hero=realHeroRect();
  return <AbsoluteFill style={{backgroundColor:'#ffffff',overflow:'hidden'}}>
   <SearchToHeroTransition frame={frame} hero={hero}/>
-  {frame<119&&<SearchIntro frame={frame}/>}
-  {frame>=234&&<SiteViewport f={frame}/>}
+  {frame<103&&<SearchIntro frame={frame}/>}
+  {frame>=START&&<SiteViewport f={frame}/>}
  </AbsoluteFill>;
 }
 export const YkeizumiMobileReels=V6;
