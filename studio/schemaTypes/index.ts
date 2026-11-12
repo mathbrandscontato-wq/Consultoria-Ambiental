@@ -79,6 +79,8 @@ const siteSettings = defineType({
   name:'siteSettings',title:'Configurações gerais',type:'document',
   fields:[
     defineField({name:'companyName',title:'Nome da empresa',type:'string',validation:r=>r.required()}),
+    defineField({name:'legalName',title:'Razão social',type:'string'}),
+    defineField({name:'cnpj',title:'CNPJ',type:'string',validation:r=>r.regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/).error('Use o formato 00.000.000/0000-00')}),
     defineField({name:'contactEmail',title:'E-mail público',type:'email'}),
     defineField({name:'phone',title:'Telefone público',type:'string'}),
     defineField({name:'whatsapp',title:'WhatsApp (somente números, com DDI)',type:'string',validation:r=>r.regex(/^\d{10,15}$/).warning('Use somente números, inclusive DDI.')}),
