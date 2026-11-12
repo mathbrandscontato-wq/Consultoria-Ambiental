@@ -191,10 +191,12 @@ jobs:
               '-i',str(mp4),'-frames:v','1','release/v6-4-review/seam-'+tag+'.png'],check=True)
           start=Image.open('release/v6-4-review/seam-begin.png').convert('RGB')
           end=Image.open('release/v6-4-review/seam-end.png').convert('RGB')
-          def white(im):
-            vals=[im.getpixel(p) for p in [(0,0),(1079,0),(0,1919),(1079,1919),(540,940)]]
-            return all(min(v)>=245 for v in vals)
-          assert white(start) and white(end),'Optical loop seam not visually white at start/end'
+          from PIL import ImageStat
+          seam=ImageChops.difference(start,end)
+          samples=[(0,0),(1079,0),(0,1919),(1079,1919),(540,940),(127,790),(900,1091)]
+          assert all(max(abs(a-b) for a,b in zip(start.getpixel(p),end.getpixel(p)))<14 for p in samples), 'Optical loop beginning and end pixel samples differ'
+          mean=sum(ImageStat.Stat(seam.resize((270,480))).mean)/3
+          assert mean<5.0,('Loop first-last frame composition mismatch',mean)
           f=Image.open('release/v6-4-review/seam-footer.png').convert('RGB')
           assert sum(f.resize((1,1)).getpixel((0,0)))<590,'Footer not visible near ending'
           assert mp4.stat().st_size>5000000
@@ -206,7 +208,7 @@ jobs:
              '- New original sound design, free from copyrighted sound samples or music.\n'
              '- Original footer .bwf captured from actual source DOM without modifying live website.\n'
              '- Editorial 33-frame gallery-to-footer matching upward slide, preserving full-width composition.\n'
-             '- Expanding white final iris; optical first and last frames checked for white seamless loop.\n'
+             '- White iris restores exact original search bar; pixel-difference QA verifies true end-to-start visual loop.\n'
              '- Four source previews combined into three QA excerpts and final master fully decoded.\n'
              '- Creative approval remains with Math Brands.\n'
           )
