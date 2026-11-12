@@ -59,7 +59,7 @@ function renderContours(model) {
 }
 
 const arrow='<span class="ha-arrow" aria-hidden="true"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span>';
-export const heroCta = (variant, href="./contato/", label="Solicitar Proposta") =>
+export const heroCta = (variant, href="./contato/", label="Solicitar proposta") =>
   '<a class="ha-cta '+variant+'" href="'+href+'"><span class="hover-dot" aria-hidden="true"></span><span class="hover-label">'+label+'</span><span class="hover-reveal" aria-hidden="true">'+label+' '+arrow+'</span>'+'</a>';
 
 export function renderHeroA() {
@@ -87,10 +87,10 @@ export function renderHeroA() {
     '</details>',
     '</header>',
     '<div class="ha-main">',
-    '<h1 id="titulo-pagina" class="ha-title">Consultoria Ambiental</h1>',
-    '<h2 class="ha-subtitle">Visão Técnica sobre o território.</h2>',
-    '<h3 class="ha-description">Atuação em licenciamento, estudos e demandas ambientais de diferentes setores. Atuação em Joinville e Litoral de Santa Catarina.</h3>',
-    heroCta("ha-cta--services", "./servicos/", "Conheça nossos serviços"),
-    '</div><a class="ha-scroll-hint" href="#introducao">Explore o território</a><button class="video-pause" type="button" aria-label="Pausar vídeo de fundo" aria-pressed="false"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5v14M15 5v14"/></svg></button></section></main>'
+    '<p class="ha-eyebrow">Consultoria ambiental</p><h1 id="titulo-pagina" class="ha-title">Para cada exigência ambiental, uma resposta técnica.</h1>',
+    '',
+    '<p class="ha-description">Licenciamento, estudos e regularização ambiental para quem precisa construir, operar ou regularizar um empreendimento. Mais de dez anos de experiência nos setores privado e público.</p>',
+    heroCta("ha-cta--services", "./servicos/", "Ver serviços"),
+    '</div><a class="ha-scroll-hint" href="#introducao">Explore a Ykeizumi</a><button class="video-pause" type="button" aria-label="Pausar vídeo de fundo" aria-pressed="false"><svg class="ui-icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5v14M15 5v14"/></svg></button></section></main>'
   ].join("\n");
 }
