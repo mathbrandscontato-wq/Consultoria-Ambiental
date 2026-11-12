@@ -1,0 +1,266 @@
+{
+  "version": "6.2",
+  "fps": 30,
+  "totalFrames": 990,
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "dpr": 3
+  },
+  "captureStart": 190,
+  "captureFrames": 800,
+  "scenes": {
+    "search": [
+      0,
+      93
+    ],
+    "searchMorph": [
+      93,
+      114
+    ],
+    "vectorHero": [
+      114,
+      190
+    ],
+    "hero": [
+      190,
+      306
+    ],
+    "intro": [
+      306,
+      411
+    ],
+    "services": [
+      411,
+      600
+    ],
+    "accordions": [
+      600,
+      780
+    ],
+    "gallery": [
+      780,
+      990
+    ]
+  },
+  "scrollPlan": [
+    [
+      0,
+      "top"
+    ],
+    [
+      85,
+      "top"
+    ],
+    [
+      118,
+      "intro"
+    ],
+    [
+      168,
+      "intro"
+    ],
+    [
+      185,
+      "intro"
+    ],
+    [
+      219,
+      "servicesHeading"
+    ],
+    [
+      229,
+      "servicesHeading"
+    ],
+    [
+      256,
+      "service1"
+    ],
+    [
+      280,
+      "service1"
+    ],
+    [
+      302,
+      "service2"
+    ],
+    [
+      326,
+      "service2"
+    ],
+    [
+      352,
+      "service3"
+    ],
+    [
+      374,
+      "service3"
+    ],
+    [
+      409,
+      "sectors"
+    ],
+    [
+      423,
+      "sectors"
+    ],
+    [
+      448,
+      "sectors"
+    ],
+    [
+      474,
+      "sectorThird"
+    ],
+    [
+      516,
+      "sectorThird"
+    ],
+    [
+      591,
+      "gallery"
+    ],
+    [
+      800,
+      "gallery"
+    ]
+  ],
+  "events": {
+    "sectorSecond": 427,
+    "sectorThird": 480,
+    "galleryNext1": 642,
+    "galleryNext2": 713
+  },
+  "gallery": {
+    "initialIndex": 2,
+    "transitions": [
+      [
+        642,
+        673,
+        2,
+        3
+      ],
+      [
+        713,
+        745,
+        3,
+        4
+      ]
+    ],
+    "checkpoints": [
+      609,
+      640,
+      674,
+      711,
+      746,
+      789
+    ]
+  },
+  "reveals": {
+    "heroLogo": [
+      196,
+      210
+    ],
+    "heroTitle": [
+      200,
+      215
+    ],
+    "heroSubtitle": [
+      205,
+      221
+    ],
+    "heroDescription": [
+      211,
+      230
+    ],
+    "heroCTA": [
+      220,
+      238
+    ],
+    "introLineStart": 300,
+    "introLineStep": 4,
+    "introLineDuration": 16,
+    "introParagraph": [
+      307,
+      326
+    ],
+    "introLink": [
+      313,
+      329
+    ],
+    "servicesHeading": [
+      405,
+      423
+    ],
+    "servicesIntro": [
+      412,
+      430
+    ],
+    "service1Number": [
+      431,
+      448
+    ],
+    "service1Body": [
+      433,
+      452
+    ],
+    "service2Number": [
+      478,
+      494
+    ],
+    "service2Body": [
+      481,
+      500
+    ],
+    "service3Number": [
+      522,
+      537
+    ],
+    "service3Body": [
+      524,
+      541
+    ],
+    "galleryTitle": [
+      779,
+      797
+    ]
+  },
+  "motion": {
+    "typing": [
+      12,
+      71
+    ],
+    "click": [
+      80,
+      90
+    ],
+    "fieldToCorner": [
+      90,
+      120
+    ],
+    "squareCorner": [
+      118,
+      124
+    ],
+    "cornerMorph": [
+      122,
+      149
+    ],
+    "continuousMicroDrift": [
+      120,
+      152
+    ],
+    "zoomOut": [
+      143,
+      190
+    ],
+    "heroReveal": [
+      190,
+      204
+    ],
+    "introLineOffsetPx": 10,
+    "typographyRule": "overlapping opaque geometry reveals; motion synchronized to actual scrollTrack in preserved V6.1 capture"
+  },
+  "sourceCaptureVersion": "6.1",
+  "direction": "Search → immediate right-corner dolly → continuous radius morph → seamless Hero reveal; simultaneous viewport-integrated text"
+}
