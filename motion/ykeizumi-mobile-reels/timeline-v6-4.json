@@ -1,0 +1,236 @@
+{
+  "version": "6.4",
+  "fps": 30,
+  "totalFrames": 1290,
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "dpr": 3
+  },
+  "captureStart": 190,
+  "captureFrames": 1100,
+  "scenes": {
+    "search": [
+      0,
+      93
+    ],
+    "searchMorph": [
+      93,
+      114
+    ],
+    "vectorHero": [
+      114,
+      190
+    ],
+    "hero": [
+      190,
+      306
+    ],
+    "intro": [
+      306,
+      411
+    ],
+    "services": [
+      411,
+      600
+    ],
+    "accordions": [
+      600,
+      780
+    ],
+    "gallery": [
+      780,
+      990
+    ],
+    "footer": [
+      990,
+      1260
+    ],
+    "loop": [
+      1260,
+      1290
+    ]
+  },
+  "scrollPlan": [
+    [
+      0,
+      "top"
+    ],
+    [
+      65,
+      "top"
+    ],
+    [
+      145,
+      "intro"
+    ],
+    [
+      198,
+      "servicesHeading"
+    ],
+    [
+      235,
+      "service1"
+    ],
+    [
+      305,
+      "service2"
+    ],
+    [
+      360,
+      "service3"
+    ],
+    [
+      410,
+      "sectors"
+    ],
+    [
+      452,
+      "sectors"
+    ],
+    [
+      516,
+      "sectorThird"
+    ],
+    [
+      593,
+      "gallery"
+    ],
+    [
+      800,
+      "gallery"
+    ]
+  ],
+  "events": {
+    "sectorSecond": 427,
+    "galleryNext1": 642,
+    "galleryNext2": 713
+  },
+  "gallery": {
+    "initialIndex": 2,
+    "transitions": [
+      [
+        642,
+        673,
+        2,
+        3
+      ],
+      [
+        713,
+        745,
+        3,
+        4
+      ]
+    ],
+    "checkpoints": [
+      609,
+      640,
+      674,
+      711,
+      746,
+      789
+    ]
+  },
+  "reveals": {
+    "mode": "native-DOM-spatial-continuous",
+    "heroStartFrames": {
+      "heroLogo": 0,
+      "heroTitle": 3,
+      "heroSubtitle": 7,
+      "heroDescription": 12,
+      "heroCTA": 17
+    },
+    "heroDuration": 15,
+    "spatialStartCssPx": 780,
+    "spatialEndCssPx": 610,
+    "verticalDistanceCssPx": 7
+  },
+  "motion": {
+    "typing": [
+      12,
+      71
+    ],
+    "click": [
+      80,
+      90
+    ],
+    "outlineHero": [
+      90,
+      115
+    ],
+    "rightCornerZoom": [
+      121,
+      148
+    ],
+    "squareCorner": [
+      146,
+      151
+    ],
+    "cornerRadiusMorph": [
+      147,
+      166
+    ],
+    "pullback": [
+      162,
+      190
+    ],
+    "fillHero": [
+      179,
+      199
+    ],
+    "siteReveal": [
+      190,
+      207
+    ],
+    "scroll": "director-paced spline, no full stops on introductions or services",
+    "typography": "source DOM viewport-aware overlapping reveals, no hidden text PNG replacement"
+  },
+  "sourceCaptureVersion": "6.3",
+  "direction": "V6.4 FINAL: preserve full-bleed V6.3; single accordion touch; tactile custom-foley sound cues; gallery followed by genuine illuminated Ykeizumi footer; editorial upward match slide and white seamlessly loopable finish.",
+  "fullBleedOutput": {
+    "width": 1080,
+    "height": 1920,
+    "sourceCssWidth": 390,
+    "sourceCssHeight": 844,
+    "sourceHeightPx": 2337.23077,
+    "noHorizontalMargin": true
+  },
+  "durationSeconds": 43,
+  "footer": {
+    "captureStartFrame": 800,
+    "globalStartFrame": 990,
+    "transitionFrames": 33,
+    "scrollFrom": 800,
+    "scrollTo": 1055,
+    "scrollFinish": 1070,
+    "finalHold": 30,
+    "source": ".bwf",
+    "realSource": true
+  },
+  "loop": {
+    "startFrame": 1251,
+    "whiteFrame": 1288,
+    "concept": "Return-to-search white page match cut, identical start/end full white composition",
+    "effect": "soft white corner-origin aperture",
+    "seamWhite": true
+  },
+  "sound": {
+    "base": "V6.3 original ambient harmonics",
+    "typingFrames": [
+      12,
+      71
+    ],
+    "searchClickFrame": 84,
+    "sectorClickFrames": [
+      617
+    ],
+    "galleryDragFrames": [
+      832,
+      903
+    ],
+    "footerTransitionFrame": 993,
+    "originalSynth": true,
+    "quiet": true,
+    "loopQuiet": true
+  }
+}
