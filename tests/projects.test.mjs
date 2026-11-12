@@ -18,7 +18,7 @@ test('Home apresenta portfólio em construção sem link para página removida',
   assert.match(html,/Portfólio em construção/);
   assert.match(html,/Em breve, os trabalhos realizados pela Ykeizumi/);
   assert.match(html,/id="projetos"/);
-  assert.doesNotMatch(html,/href="\\.\\/projetos\\/"/);
+ assert.ok(!html.includes('href="./projetos/"'));
 });
 test('Sobre apresenta fundadora, método, princípios, equipe e contato',()=>{
   const html=renderPage(routes.find(x=>x.slug==='sobre'));
