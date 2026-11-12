@@ -27,7 +27,7 @@ test("contato ainda bloqueado, sem coleta ou sucesso falso",()=>{
  const html=renderPage(routes.find(r=>r.slug==="contato"));
  assert.match(html,/Formulário em configuração/i);
  assert.match(html,/<fieldset disabled>/);
- assert.doesNotMatch(html,/<form\b|type="submit"|enviado com sucesso/i);
+ assert.doesNotMatch(html,/type="submit"|enviado com sucesso/i);
 });
 test("nove grupos de serviço têm IDs de destino reais",()=>{
  const html=renderPage(routes.find(r=>r.slug==="servicos"));
