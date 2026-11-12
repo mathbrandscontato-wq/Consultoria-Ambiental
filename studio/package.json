@@ -6,14 +6,18 @@
   "scripts": {
     "dev": "sanity dev",
     "build": "sanity build",
-    "deploy": "sanity deploy"
+    "deploy": "sanity deploy",
+    "seed:dry": "SEED_DRY_RUN=true node scripts/seed-content.mjs",
+    "seed": "node scripts/seed-content.mjs"
   },
   "dependencies": {
     "sanity": "^6.23.0",
     "@sanity/icons": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.1.15",
+    "@sanity/client": "^7.11.2",
+    "cheerio": "^1.2.0"
   },
   "devDependencies": {}
 }
