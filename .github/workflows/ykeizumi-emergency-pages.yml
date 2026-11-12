@@ -1,0 +1,62 @@
+name: Ykeizumi — entrega emergencial GitHub Pages (sem trocar hospedagem)
+on:
+  push:
+    branches: [feat/ykeizumi-revisao-cliente-20261112]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/ykeizumi-emergency-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ykeizumi-github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout da revisão da cliente
+        uses: actions/checkout@v4
+      - name: Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar sintaxe
+        run: npm run lint
+      - name: Gerar os quatro HTMLs
+        run: npm run build
+      - name: Verificar integridade
+        run: npm run check
+      - name: Testes
+        run: npm test
+      - name: Assegurar conteúdo apenas para revisão (sem indexação)
+        run: |
+          grep -q 'noindex,nofollow' dist/index.html
+          grep -q '60.422.093/0001-74' dist/index.html
+          test -f dist/servicos/index.html
+          test -f dist/sobre/index.html
+          test -f dist/contato/index.html
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Empacotar site estático
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar versão temporária sem tocar no GPT Sites
+        id: deployment
+        uses: actions/deploy-pages@v4
