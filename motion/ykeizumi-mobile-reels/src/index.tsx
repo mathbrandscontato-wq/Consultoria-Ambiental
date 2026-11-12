@@ -1,22 +1,22 @@
 /**
- * Ykeizumi | Full-Bleed Cinematic Flow V6.3.
+ * Ykeizumi | Full-Bleed Cinematic Flow V6.4 FINAL.
  * Single source mobile layout, uniformly scaled to fill all 1080px horizontally.
  * Text and sections are REAL DOM rendered in capture, never duplicated or masked.
  * The site published for the client is untouched.
  */
 import React from 'react';
 import {
-  AbsoluteFill, Composition, Easing, OffthreadVideo, Sequence,
+  AbsoluteFill, Composition, Img, OffthreadVideo, Sequence,
   registerRoot, staticFile, useCurrentFrame
 } from 'remotion';
-import manifest from '../public/v6-3-layer-manifest.json';
-import timeline from '../timeline-v6-3.json';
+import manifest from '../public/v6-4-layer-manifest.json';
+import timeline from '../timeline-v6-4.json';
 import {SearchIntro} from './SearchIntro';
 import {SearchToHeroTransition} from './SearchToHeroTransition';
-const W=1080,H=1920,FPS=30,FRAMES=990,START=190;
-if(timeline.fps!==FPS||timeline.totalFrames!==FRAMES||timeline.captureFrames!==800||
-   timeline.captureStart!==START||timeline.version!=='6.3'){
-  throw Error('V6.3 timing / source mismatch');
+const W=1080,H=1920,FPS=30,FRAMES=1290,START=190;
+if(timeline.fps!==FPS||timeline.totalFrames!==FRAMES||timeline.captureFrames!==1100||
+   timeline.captureStart!==START||timeline.version!=='6.4'){
+  throw Error('V6.4 FINAL timing / source mismatch');
 }
 // Actual source: 390x844 CSS px. Uniform fit-to-width is the only valid
 // full-bleed scale; do NOT scale 390x844 independently to 1080x1920.
@@ -61,6 +61,8 @@ function SiteViewport({f}:{f:number}){
  // Editorial micro-motion is strictly vertical; no horizontal stage crops,
  // no artificial phone frame and no empty margins.
  const drift=-2.8*smooth(START,400,f)+1.2*smooth(645,990,f);
+ const footerSlide=smooth(990,1023,f);
+ const cameraY=f>=990 ? (1-footerSlide)*H : drift;
  const enter=smooth(190,207,f);
  const originClipTop=hero.y,originClipLeft=hero.x;
  const right=STAGE.w-hero.x-hero.w;
@@ -71,13 +73,13 @@ function SiteViewport({f}:{f:number}){
   num((1-enter)*bottom)+'px '+
   num((1-enter)*originClipLeft)+'px round '+
   num((1-enter)*hero.r)+'px)';
- return <div style={{
-  position:'absolute',left:0,top:drift,width:STAGE.w,height:STAGE.h,
+ return <><div style={{
+  position:'absolute',left:0,top:cameraY,width:STAGE.w,height:STAGE.h,
   overflow:'hidden',background:'#ffffff',clipPath:clip,
   transformOrigin:'top center',opacity:smooth(190,202,f)
  }}>
   <Sequence from={START} durationInFrames={FRAMES-START}>
-   <OffthreadVideo src={staticFile('mobile-capture-v6-3.mp4')} muted
+   <OffthreadVideo src={staticFile('mobile-capture-v6-4.mp4')} muted
     style={{position:'absolute',inset:0,width:'100%',height:'100%',
       objectFit:'fill'}}/>
   </Sequence>
@@ -85,7 +87,28 @@ function SiteViewport({f}:{f:number}){
    transform:'scale('+Z+')',transformOrigin:'top left',pointerEvents:'none'}}>
    <NativeTouchHints f={f}/>
   </div>
- </div>;
+ </div>
+ {f>=990&&f<1023&&<div style={{
+  position:'absolute',left:0,top:-footerSlide*H,
+  width:STAGE.w,height:STAGE.h,overflow:'hidden',zIndex:3
+ }}>
+  <Img src={staticFile('v6-4-gallery-hold.jpg')} style={{
+   display:'block',width:'100%',height:'100%',objectFit:'fill'
+  }}/>
+ </div>}
+ </>;
+}
+function LoopAperture({f}:{f:number}){
+ // At the very last frame the page becomes the exact initial white canvas.
+ // A soft expanding white iris is the same spatial storytelling language
+ // as the right-hand-corner reveal, creating a seamless visual loop.
+ if(f<1248)return null;
+ const p=smooth(1248,1288,f);
+ const r=1360*p;
+ return <div style={{
+  position:'absolute',left:540-r,top:940-r,width:2*r,height:2*r,
+  borderRadius:'50%',background:'#ffffff',zIndex:7,pointerEvents:'none'
+ }}/>;
 }
 function Reel(){
  const f=useCurrentFrame(),hero=realHeroRect();
@@ -93,6 +116,7 @@ function Reel(){
   <SearchToHeroTransition frame={f} hero={hero}/>
   {f<105&&<SearchIntro frame={f}/>}
   {f>=START&&<SiteViewport f={f}/>}
+  <LoopAperture f={f}/>
  </AbsoluteFill>;
 }
 export const YkeizumiMobileReels=Reel;
