@@ -1,0 +1,58 @@
+name: Ykeizumi Sanity Studio — deploy separado
+
+on:
+  push:
+    branches:
+      - feat/ykeizumi-sanity-studio
+    paths:
+      - 'studio/**'
+      - '.github/workflows/ykeizumi-sanity-studio.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ykeizumi-sanity-studio
+  cancel-in-progress: false
+
+jobs:
+  deploy-studio:
+    name: Build e publicação exclusiva do Studio
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: studio
+    env:
+      SANITY_STUDIO_PROJECT_ID: fvoy1wqw
+      SANITY_STUDIO_DATASET: production
+      SANITY_STUDIO_HOSTNAME: ykeizumi-mathbrands
+      SANITY_AUTH_TOKEN: ${{ secrets.YKEIZUMI_SANITY_DEPLOY_TOKEN }}
+    steps:
+      - name: Conferir autenticação de deploy
+        id: auth
+        run: |
+          if [ -z "$SANITY_AUTH_TOKEN" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Adicione YKEIZUMI_SANITY_DEPLOY_TOKEN em Settings > Secrets and variables > Actions para publicar o Studio."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Checkout da branch
+        if: steps.auth.outputs.configured == 'true'
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        if: steps.auth.outputs.configured == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: studio/package-lock.json
+      - name: Instalar dependências
+        if: steps.auth.outputs.configured == 'true'
+        run: npm ci
+      - name: Publicar Studio na hospedagem Sanity
+        if: steps.auth.outputs.configured == 'true'
+        run: npx sanity@latest deploy --url "$SANITY_STUDIO_HOSTNAME" --yes --schema-required
+      - name: Endereço para revisão
+        if: steps.auth.outputs.configured == 'true'
+        run: echo "Studio publicado em https://$SANITY_STUDIO_HOSTNAME.sanity.studio (verificar resultado do deploy)" >> "$GITHUB_STEP_SUMMARY"
