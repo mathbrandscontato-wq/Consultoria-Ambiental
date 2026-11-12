@@ -1,5 +1,5 @@
 /**
- * Ykeizumi | V6.1 Directors Polish: message-field to measured SVG Hero and real DOM layers.
+ * Ykeizumi | V6.2 Corner Flow: message-field to measured SVG Hero and real DOM layers.
  * One 990-frame composition at 30FPS. No site source files modified.
  */
 import React from 'react';
@@ -8,11 +8,11 @@ import {
  OffthreadVideo, Sequence, registerRoot, staticFile, useCurrentFrame
 } from 'remotion';
 import manifest from '../public/v6-1-layer-manifest.json';
-import timeline from '../timeline-v6-1.json';
+import timeline from '../timeline-v6-2.json';
 import {SearchIntro} from './SearchIntro';
 import {SearchToHeroTransition} from './SearchToHeroTransition';
 const WIDTH=1080,HEIGHT=1920,FPS=timeline.fps,FRAMES=timeline.totalFrames,START=timeline.captureStart;
-if(FRAMES!==990||FPS!==30||timeline.captureFrames!==800||START!==190)throw Error('V6 timeline mismatch');
+if(FRAMES!==990||FPS!==30||timeline.captureFrames!==800||START!==190)throw Error('V6.2 requires verified V6.1 mobile source capture');
 const STAGE={x:85,y:-25,w:910,h:1970};
 const SX=STAGE.w/390,SY=STAGE.h/844;
 const CLAMP={extrapolateLeft:'clamp' as const,extrapolateRight:'clamp' as const};
@@ -69,15 +69,19 @@ function NativeLayer({id,f,scroll,from,to,line}:{
 }){
  const l=data.layers?.[id];if(!l||f<from)return null;
  const dynamicY=id==='galleryTitle'?data.galleryTitleYTrack?.[Math.max(0,Math.min((data.galleryTitleYTrack?.length||1)-1,f-START))]:undefined;
- const p=enter(f,from,to);
  const lineY=line?Math.max(0,line.y-2):0;
  const h=line?Math.min(l.h-lineY,line.y+line.h+2-lineY):l.h;
  const fy=(dynamicY??l.absY)-scroll+lineY;
+ // A line begins to enter while the camera is still arriving.
+ // This spatial gate is shared across titles, body copy and links, preventing
+ // isolated title-then-paragraph-then-link beats and offscreen early reveals.
+ const inViewport=1-smooth(690,820,fy);
+ const p=Math.min(enter(f,from,to),inViewport);
  // Pure geometry reveal: no opacity fade. This prevents gray ghosts and
  // semi-transparent source glyphs against the original video background.
  return <div style={{position:'absolute',left:l.x,top:fy,width:l.w,height:h,
    overflow:'hidden',pointerEvents:'none',opacity:1,
-   transform:'translateY('+((1-p)*(line?6:9))+'px)',
+   transform:'translateY('+((1-p)*(line?7:10))+'px)',
    clipPath:'inset(0 0 '+Math.max(0,(1-p)*100)+'% 0)'}}>
    <Img src={staticFile(l.file)} style={{position:'absolute',left:0,
      top:line?-lineY:0,width:l.w,height:l.h,maxWidth:'none'}}/>
@@ -140,7 +144,7 @@ function V6(){
  const hero=realHeroRect();
  return <AbsoluteFill style={{backgroundColor:'#ffffff',overflow:'hidden'}}>
   <SearchToHeroTransition frame={frame} hero={hero}/>
-  {frame<103&&<SearchIntro frame={frame}/>}
+  {frame<100&&<SearchIntro frame={frame}/>}
   {frame>=START&&<SiteViewport f={frame}/>}
  </AbsoluteFill>;
 }
