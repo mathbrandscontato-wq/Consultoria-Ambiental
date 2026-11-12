@@ -5,7 +5,7 @@ import { SERVICES, ROUTE_MODULES, CONDITIONAL_MODULES, APPROVED_ART_DIRECTION, E
 test("revisão cliente apresenta apenas quatro rotas institucionais",()=>{
   const ids=Object.values(ROUTE_MODULES).flat();
   assert.equal(ids.length,29);
-  assert.equal(new Set(ids).size,33);
+  assert.equal(new Set(ids).size,29);
   assert.deepEqual(Object.keys(ROUTE_MODULES),["/","/servicos","/sobre","/contato"]);
 });
 test("nove serviços reais, IDs únicos e revisão das fronteiras jurídicas",()=>{
