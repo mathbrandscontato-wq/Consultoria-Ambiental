@@ -4,11 +4,11 @@ import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { routes } from "../src/site.mjs";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
-// Production export must contain only the five approved HTML entrypoints.
+// Production export must contain only the four approved HTML entrypoints.
 const exportedFiles=await readdir(join(root,'dist'),{recursive:true});
 const expectedHtml=new Set(routes.map(route=>(route.slug?route.slug+'/':'')+'index.html'));
 for(const name of exportedFiles){
- if(name.endsWith('.html'))assert.ok(expectedHtml.has(name),'HTML de QA/desenvolvimento fora das cinco rotas: '+name);
+ if(name.endsWith('.html'))assert.ok(expectedHtml.has(name),'HTML de QA/desenvolvimento fora das quatro rotas: '+name);
  assert.doesNotMatch(name,/contact-development|responsive-review|qa-v5/,'Arquivo de desenvolvimento não pode entrar no pacote');
 }
 for (const route of routes) {
@@ -31,7 +31,12 @@ for (const route of routes) {
   assert.doesNotMatch(footer, /<a\b[^>]*href="(?:#|\s*)"/, 'Rodapé não deve conter destino vazio ou fictício');
   assert.ok(!/em preparação<\/h1>/.test(html), 'Página não deve usar heading vazio de scaffold');
   assert.ok(html.includes('href="' + prefix + 'contato/"'));
-  assert.ok(!/<form\b|type="submit"|enviado com sucesso/gi.test(html), "Não deve haver envio falso");
+  if (route.slug === 'contato') {
+    assert.match(html, /<form class="contact-form"/);
+    assert.match(html, /<fieldset disabled>/);
+    assert.doesNotMatch(html, /type="submit"|action="|enviado com sucesso/i, 'O formulário não pode coletar dados sem destino validado');
+  } else assert.doesNotMatch(html, /<form\\b/i, 'Somente a página Contato pode conter formulário');
+
   if (!route.slug) {
     assert.match(html, /data-design="G2V5-HERO-A"/);
     assert.match(html, /hero-a\.css/);
