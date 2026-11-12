@@ -2,7 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {schemaTypes} from './schemaTypes'
 
-const singletonTypes = ['siteSettings', 'homePage', 'aboutPage', 'contactPage']
+const singletonTypes = ['siteSettings', 'homePage', 'aboutPage', 'servicesPage', 'projectsPage', 'contactPage', 'illustrativeGallery']
 
 export default defineConfig({
   name: 'default',
@@ -16,11 +16,14 @@ export default defineConfig({
           siteSettings: 'Configurações gerais',
           homePage: 'Página inicial',
           aboutPage: 'Sobre',
+          servicesPage: 'Página de serviços',
+          projectsPage: 'Página de projetos',
+          illustrativeGallery: 'Galeria de imagens ilustrativas',
           contactPage: 'Contato',
         }[type]).id(type).child(S.document().schemaType(type).documentId(type))),
       S.divider(),
-      S.documentTypeListItem('service').title('Serviços'),
-      S.documentTypeListItem('project').title('Projetos'),
+      S.documentTypeListItem('service').title('Cadastro de serviços'),
+      S.documentTypeListItem('project').title('Projetos reais (somente autorizados)'),
     ]),
   })],
   schema: {types: schemaTypes},
