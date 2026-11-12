@@ -1,0 +1,545 @@
+{
+  "source": "http://127.0.0.1:4173/",
+  "sourceBranch": "feat/ykeizumi-mobile-reels-v6-2-corner-flow",
+  "viewport": {
+    "w": 390,
+    "h": 844,
+    "dpr": 3
+  },
+  "heroVideo": {
+    "video": {
+      "x": 12,
+      "y": 12,
+      "w": 366,
+      "h": 600
+    },
+    "container": {
+      "x": 12,
+      "y": 12,
+      "w": 366,
+      "h": 600
+    },
+    "hero": {
+      "x": 12,
+      "y": 12,
+      "w": 366,
+      "h": 600
+    },
+    "effectiveRadius": 15
+  },
+  "layers": [
+    "heroLogo",
+    "heroTitle",
+    "heroSubtitle",
+    "heroDescription",
+    "heroCTA",
+    "introHeading",
+    "introParagraph",
+    "introLink",
+    "servicesHeading",
+    "servicesIntro",
+    "service1Number",
+    "service1Body",
+    "service2Number",
+    "service2Body",
+    "service3Number",
+    "service3Body",
+    "galleryTitle"
+  ],
+  "stateTrack": [
+    {
+      "frame": 408,
+      "scroll": 2192,
+      "sector": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3028.25,
+      "visibleGallery": null
+    },
+    {
+      "frame": 426,
+      "scroll": 2194,
+      "sector": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3028.25,
+      "visibleGallery": null
+    },
+    {
+      "frame": 428,
+      "scroll": 2194,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3054.84375,
+      "visibleGallery": null
+    },
+    {
+      "frame": 448,
+      "scroll": 2194,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3054.84375,
+      "visibleGallery": null
+    },
+    {
+      "frame": 472,
+      "scroll": 2208,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3054.84375,
+      "visibleGallery": null
+    },
+    {
+      "frame": 479,
+      "scroll": 2219,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3054.84375,
+      "visibleGallery": null
+    },
+    {
+      "frame": 482,
+      "scroll": 2225,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3054.84375,
+      "visibleGallery": null
+    },
+    {
+      "frame": 516,
+      "scroll": 2307,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3054.165771484375,
+      "visibleGallery": null
+    },
+    {
+      "frame": 557,
+      "scroll": 2643,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 2,
+        "activeLabel": "Montanhas",
+        "visibleCards": 5,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 609,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 2,
+        "activeLabel": "Montanhas",
+        "visibleCards": 5,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 640,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "3 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 2,
+        "activeLabel": "Montanhas",
+        "visibleCards": 5,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 655,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "4 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 2,
+        "activeLabel": "Montanhas",
+        "visibleCards": 6,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 674,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "4 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 3,
+        "activeLabel": "Observação do território",
+        "visibleCards": 5,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 710,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "4 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 3,
+        "activeLabel": "Observação do território",
+        "visibleCards": 5,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 728,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "5 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 3,
+        "activeLabel": "Observação do território",
+        "visibleCards": 5,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 746,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "5 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 4,
+        "activeLabel": "Paisagem natural",
+        "visibleCards": 4,
+        "loaded": true
+      }
+    },
+    {
+      "frame": 789,
+      "scroll": 2874,
+      "sector": [
+        false,
+        true,
+        false,
+        false
+      ],
+      "gallery": "5 / 6",
+      "galleryTitleDocumentY": 3047.84375,
+      "visibleGallery": {
+        "frameCard": 4,
+        "activeLabel": "Paisagem natural",
+        "visibleCards": 4,
+        "loaded": true
+      }
+    }
+  ],
+  "galleryStates": [
+    {
+      "frame": 557,
+      "frameCard": 2,
+      "activeLabel": "Montanhas",
+      "visibleCards": 5,
+      "loaded": true
+    },
+    {
+      "frame": 609,
+      "frameCard": 2,
+      "activeLabel": "Montanhas",
+      "visibleCards": 5,
+      "loaded": true
+    },
+    {
+      "frame": 640,
+      "frameCard": 2,
+      "activeLabel": "Montanhas",
+      "visibleCards": 5,
+      "loaded": true
+    },
+    {
+      "frame": 655,
+      "frameCard": 2,
+      "activeLabel": "Montanhas",
+      "visibleCards": 6,
+      "loaded": true
+    },
+    {
+      "frame": 674,
+      "frameCard": 3,
+      "activeLabel": "Observação do território",
+      "visibleCards": 5,
+      "loaded": true
+    },
+    {
+      "frame": 710,
+      "frameCard": 3,
+      "activeLabel": "Observação do território",
+      "visibleCards": 5,
+      "loaded": true
+    },
+    {
+      "frame": 728,
+      "frameCard": 3,
+      "activeLabel": "Observação do território",
+      "visibleCards": 5,
+      "loaded": true
+    },
+    {
+      "frame": 746,
+      "frameCard": 4,
+      "activeLabel": "Paisagem natural",
+      "visibleCards": 4,
+      "loaded": true
+    },
+    {
+      "frame": 789,
+      "frameCard": 4,
+      "activeLabel": "Paisagem natural",
+      "visibleCards": 4,
+      "loaded": true
+    }
+  ],
+  "sourceComponents": {
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "dpr": 3
+    },
+    "heroTitle": "Consultoria Ambiental",
+    "services": 3,
+    "accordions": 4,
+    "gallery": 6,
+    "hiddenPhoto": true
+  },
+  "videoStatus": {
+    "src": "http://127.0.0.1:4173/media/hero-mobile.mp4",
+    "videoWidth": 720,
+    "videoHeight": 406,
+    "paused": false
+  },
+  "captures": 1100,
+  "fps": 30,
+  "touches": [
+    {
+      "frame": 427,
+      "x": 195,
+      "y": 481,
+      "purpose": "sector-second"
+    },
+    {
+      "frame": 642,
+      "x": 96,
+      "y": 691,
+      "purpose": "gallery-next-1"
+    },
+    {
+      "frame": 713,
+      "x": 96,
+      "y": 691,
+      "purpose": "gallery-next-2"
+    }
+  ],
+  "waypoints": {
+    "introY": 549,
+    "servicesY": 985.046875,
+    "segmentY": 2256.078125,
+    "galleryY": 2873.84375,
+    "scrollPoints": [
+      [
+        0,
+        "top"
+      ],
+      [
+        65,
+        "top"
+      ],
+      [
+        145,
+        "intro"
+      ],
+      [
+        198,
+        "servicesHeading"
+      ],
+      [
+        235,
+        "service1"
+      ],
+      [
+        305,
+        "service2"
+      ],
+      [
+        360,
+        "service3"
+      ],
+      [
+        410,
+        "sectors"
+      ],
+      [
+        452,
+        "sectors"
+      ],
+      [
+        516,
+        "sectorThird"
+      ],
+      [
+        593,
+        "gallery"
+      ],
+      [
+        800,
+        "gallery"
+      ]
+    ]
+  },
+  "footerStates": [
+    {
+      "frame": 800,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 815,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 832,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 856,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 900,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 955,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 1020,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 1060,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    },
+    {
+      "frame": 1099,
+      "scroll": 5130,
+      "footerVisible": true,
+      "footerTop": 232.96875,
+      "footerBottom": 843.78125
+    }
+  ],
+  "imageSuppressedOnlyInCapture": true,
+  "errors": []
+}
