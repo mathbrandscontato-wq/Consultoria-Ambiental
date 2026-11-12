@@ -8,7 +8,7 @@ import { renderPage, escapeHtml } from "../src/lib/render.mjs";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 
 test("rotas internas únicas e restritas ao escopo", () => {
-  assert.deepEqual(routes.map((r) => r.slug), ["", "sobre", "servicos", "projetos", "contato"]);
+  assert.deepEqual(routes.map((r) => r.slug), ["", "sobre", "servicos", "contato"]);
   assert.equal(new Set(routes.map((r) => r.slug)).size, routes.length);
 });
 test("escapamento de conteúdo e navegação com página atual", () => {
@@ -22,7 +22,7 @@ test("escapamento de conteúdo e navegação com página atual", () => {
     assert.equal((html.match(/aria-current="page"/g) ?? []).length, route.slug ? 2 : 1);
   }
 });
-test("build exporta cinco páginas estáticas independentes", async () => {
+test("build exporta quatro páginas estáticas independentes", async () => {
   for (const route of routes) {
     const html = await readFile(join(root, "dist", route.slug, "index.html"), "utf8");
     assert.match(html, /<main id="conteudo"/);
@@ -35,7 +35,7 @@ test("build exporta cinco páginas estáticas independentes", async () => {
 });
 test("interações não representam backend ou publicação", async () => {
   const html = await readFile(join(root, "dist", "contato", "index.html"), "utf8");
-  assert.match(html, /Nenhum dado é coletado/);
+  assert.match(html, /Formulário em configuração/);
   assert.doesNotMatch(html, /<input\b|<form\b|fetch\(/);
   const tokens = await readFile(join(root, "dist", "styles", "tokens.css"), "utf8");
   assert.match(tokens, /"Ykeizumi Avenir"/);
