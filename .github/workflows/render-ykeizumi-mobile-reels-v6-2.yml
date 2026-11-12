@@ -1,0 +1,275 @@
+name: Ykeizumi V6.2 — Corner Flow & Integrated Typography
+on:
+  push:
+    branches:
+      - feat/ykeizumi-mobile-reels-v6-2-corner-flow
+    paths:
+      - .github/workflows/render-ykeizumi-mobile-reels-v6-2.yml
+      - motion/ykeizumi-mobile-reels/src/**
+      - motion/ykeizumi-mobile-reels/timeline-v6-2.json
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ykeizumi-reels-v6-2
+  cancel-in-progress: true
+jobs:
+  motion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated Remotion environment
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm ci --no-audit --no-fund
+      - name: Install Chromium and review tools
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pil
+      - name: Verify unaltered authentic V6.1 mobile source and V6.2 storytelling
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,subprocess
+          root=Path('motion/ykeizumi-mobile-reels')
+          m=json.loads((root/'public/v6-1-layer-manifest.json').read_text())
+          t=json.loads((root/'timeline-v6-2.json').read_text())
+          assert t['version']=='6.2' and t['sourceCaptureVersion']=='6.1'
+          assert (t['totalFrames'],t['captureStart'],t['captureFrames'],t['fps'])==(990,190,800,30)
+          assert (m['offset'],m['frames'],m['fps'])==(190,800,30)
+          assert len(m['scrollTrack'])==800 and len(m['galleryTitleYTrack'])==800
+          assert len(m['layers'])==17 and 'galleryFirstCard' not in m['layers']
+          assert m['heroVideo']['effectiveRadius']>0
+          assert m['heroVideo']['video']['w']==366 and m['heroVideo']['video']['h']==600
+          assert m['photoSuppressedOnlyInCapture'] and not m['errors']
+          assert [t['purpose'] for t in m['touches']]==['sector-second','sector-third','gallery-next-1','gallery-next-2']
+          assert all(g['loaded'] for g in m['galleryStates'])
+          src=(root/'src/index.tsx').read_text()
+          shape=(root/'src/SearchToHeroTransition.tsx').read_text()
+          assert "timeline-v6-2.json" in src and "inViewport" in src
+          assert "fieldToCorner" in t['motion'] and "targetCornerX" in shape
+          assert "galleryFirstCard" not in src
+          for k in ('introParagraph','introLink','servicesHeading','servicesIntro','service1Body'):
+            assert t['reveals'][k][0]<t['reveals'].get('service1Number',[1000])[0] if k in ('introParagraph','introLink','servicesHeading','servicesIntro') else True
+          # Check evidence of deliberate overlap, not sequential on/off text.
+          assert t['reveals']['heroTitle'][0]<t['reveals']['heroLogo'][1]
+          assert t['reveals']['introParagraph'][0]<t['reveals']['introLineStart']+2*t['reveals']['introLineStep']+t['reveals']['introLineDuration']
+          assert t['reveals']['servicesIntro'][0]<t['reveals']['servicesHeading'][1]
+          assert t['reveals']['service1Body'][0]<t['reveals']['service1Number'][1]
+          video=root/'public/mobile-capture-v6-1.mp4'
+          assert video.stat().st_size>5000000
+          probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','stream=width,height,r_frame_rate:format=duration','-of','json',str(video)]))
+          st=next(x for x in probe['streams'] if x.get('width'))
+          assert (st['width'],st['height'])==(1170,2532) and st['r_frame_rate']=='30/1'
+          assert abs(float(probe['format']['duration'])-800/30)<.07
+          print('V6.2 animation+authentic source validation PASS')
+          PY
+      - name: Preview 1 — direct right-corner match, rounding and Hero
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          mkdir -p ../../release/v6-2-previews
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-2-previews/01_Corner_Morph_Hero.mp4 \
+            --frames=0-299 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview 2 — simultaneous introduction and services text
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-2-previews/02_Integrated_Typography.mp4 \
+            --frames=300-599 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview 3 — preserve authentic accordion interactions
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-2-previews/03_Accordions.mp4 \
+            --frames=600-779 --scale=0.45 --codec=h264 --crf=20 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview 4 — preserve real gallery and stable final card
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-2-previews/04_Gallery.mp4 \
+            --frames=780-989 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Decode scene tests and assemble transition review contact sheet
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          import subprocess,json
+          base=Path('release/v6-2-previews')
+          cases=[
+            ('01_Corner_Morph_Hero',300,[0.3,1.8,2.75,3.0,3.2,3.45,3.65,3.9,4.15,4.35,4.6,4.9,5.15,5.5,5.9,6.35,7.1,8.9]),
+            ('02_Integrated_Typography',300,[.35,.8,1.05,1.3,1.6,2.0,2.7,3.4,4.1,5.2,6.4,7.5,8.75,9.6]),
+            ('03_Accordions',180,[.25,1.5,3.0,4.7,5.7]),
+            ('04_Gallery',210,[.4,1.7,2.6,3.5,4.7,5.8,6.8])
+          ]
+          thumbs=[]
+          for filename,count,seconds in cases:
+            file=base/(filename+'.mp4')
+            meta=json.loads(subprocess.check_output(['ffprobe','-v','error',
+              '-show_entries','format=duration:stream=width,height,r_frame_rate',
+              '-of','json',str(file)]))
+            st=next(v for v in meta['streams'] if v.get('width'))
+            assert st['r_frame_rate']=='30/1' and abs(float(meta['format']['duration'])-count/30)<.07,(file,meta)
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(file),'-f','null','-'],check=True)
+            for i,seconds_mark in enumerate(seconds):
+              still=base/(filename+'_'+str(i)+'.png')
+              subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y',
+                '-ss',str(seconds_mark),'-i',str(file),'-frames:v','1',str(still)],check=True)
+              im=Image.open(still).convert('RGB').resize((180,320),Image.Resampling.LANCZOS)
+              thumbs.append((im,filename[3:18]+' '+str(seconds_mark)))
+          columns=8;w=180;h=346
+          rows=(len(thumbs)+columns-1)//columns
+          contact=Image.new('RGB',(columns*w,rows*h),'#f4f5f3')
+          d=ImageDraw.Draw(contact)
+          for i,(im,caption) in enumerate(thumbs):
+            x=(i%columns)*w;y=(i//columns)*h
+            contact.paste(im,(x,y));d.text((x+3,y+323),caption,fill='#202520')
+          contact.save('release/Ykeizumi_Mobile_Reels_V6_2_Storyboard.png')
+          print('Four full scene previews decoded and storyboard generated:',len(thumbs),'stills')
+          PY
+      - name: Upload previews before final master
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-V6-2-Director-Previews
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/v6-2-previews/*.mp4
+            release/Ykeizumi_Mobile_Reels_V6_2_Storyboard.png
+      - name: Render final 1080×1920 33-second H264 without resampling captured source
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/Ykeizumi_Mobile_Reels_V6_2_VideoOnly.mp4 \
+            --codec=h264 --crf=16 --concurrency=2 --browser-executable "$CHROME"
+      - name: Mux licensed-original procedural ambience from V6.1, unchanged
+        run: |
+          ffmpeg -hide_banner -loglevel error -y \
+            -i release/Ykeizumi_Mobile_Reels_V6_2_VideoOnly.mp4 \
+            -i motion/ykeizumi-mobile-reels/public/v6-1-original-ambience.wav \
+            -map 0:v:0 -map 1:a:0 \
+            -c:v copy -c:a aac -b:a 128k -ar 48000 -ac 2 \
+            -movflags +faststart -shortest \
+            release/Ykeizumi_Mobile_Reels_V6_2_CornerFlow.mp4
+          rm release/Ykeizumi_Mobile_Reels_V6_2_VideoOnly.mp4
+      - name: Export premium cover and close-ups from actual final master
+        run: |
+          ffmpeg -hide_banner -loglevel error -y -ss 00:00:07.1 \
+            -i release/Ykeizumi_Mobile_Reels_V6_2_CornerFlow.mp4 \
+            -frames:v 1 release/Ykeizumi_Mobile_Reels_V6_2_Cover.png
+          python3 - <<'PY'
+          import subprocess
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          source='release/Ykeizumi_Mobile_Reels_V6_2_CornerFlow.mp4'
+          times=[2.93,3.18,3.54,3.87,4.0,4.2,4.4,4.7,5,5.3,5.7,6.0,6.33,10.2,10.55,10.9,11.2,12.2,13.5,14.1,15.7,18.2,26.4,28.1,29.3,30.6,32.8]
+          sheet=Image.new('RGB',(9*180,3*344),(245,245,243))
+          d=ImageDraw.Draw(sheet)
+          for i,t in enumerate(times):
+            p=Path('release/v6-2-previews')/('final-frame-'+str(i)+'.png')
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y',
+              '-ss',str(t),'-i',source,'-frames:v','1',str(p)],check=True)
+            im=Image.open(p).convert('RGB').resize((180,319),Image.Resampling.LANCZOS)
+            x=(i%9)*180;y=(i//9)*344
+            sheet.paste(im,(x,y));d.text((x+5,y+322),str(t)+'s',fill=(35,35,35))
+          sheet.save('release/Ykeizumi_Mobile_Reels_V6_2_Final_Review.png')
+          PY
+      - name: Verify technical finish, metadata, timing and source preservation
+        run: |
+          python3 - <<'PY'
+          import subprocess,json
+          from pathlib import Path
+          video=Path('release/Ykeizumi_Mobile_Reels_V6_2_CornerFlow.mp4')
+          meta=json.loads(subprocess.check_output(['ffprobe','-v','error',
+            '-show_entries','stream=codec_name,width,height,r_frame_rate,nb_frames:format=duration',
+            '-of','json',str(video)]))
+          v=next(s for s in meta['streams'] if s.get('codec_name')=='h264')
+          assert (v['width'],v['height'])==(1080,1920),v
+          assert v['r_frame_rate']=='30/1',v
+          assert int(v['nb_frames'])==990,v
+          assert abs(float(meta['format']['duration'])-33.0)<.07,meta
+          assert any(x.get('codec_name')=='aac' for x in meta['streams'])
+          assert video.stat().st_size>1000000
+          subprocess.run(['ffmpeg','-hide_banner','-loglevel','error',
+            '-i',str(video),'-f','null','-'],check=True)
+          src=Path('motion/ykeizumi-mobile-reels')
+          t=json.loads((src/'timeline-v6-2.json').read_text())
+          m=json.loads((src/'public/v6-1-layer-manifest.json').read_text())
+          text=[
+            '# Math Brands — Ykeizumi V6.2 Corner Flow — QA técnico',
+            '',
+            '## Arquivo validado',
+            '- 1080 × 1920, 990 frames, 30 FPS, 33 segundos; H264 + AAC — PASS',
+            '- Decodificação de todos os frames e 4 prévias independentes — PASS',
+            '- Trilha original V6.1 preservada; nenhum sample de terceiros.',
+            '',
+            '## Direção criativa',
+            '- Busca transformada diretamente no canto superior direito da Hero, sem exibir o retângulo verde inteiro antes.',
+            '- Transição geometricamente contínua: mesmo path SVG, de caixa a close extremo e retorno.',
+            '- Close com ângulo reto; round morph vetorial durante micro movimento e zoom-out parcialmente sobreposto.',
+            '- Raio e retângulo reais medidos na Hero original: '+json.dumps(m['heroVideo']['video'])+', radius '+str(m['heroVideo']['effectiveRadius'])+' CSS pixels.',
+            '- Tipografia com progressão baseada tanto em frames quanto em posição na viewport.',
+            '- Títulos, texto de apoio, CTA e links aparecem em overlap; não mais em sequência de estágios exclusivos.',
+            '- Máscaras usam opacidade integral (sem letras cinzas ou transparências artificiais).',
+            '- Scroll do site, tipografia, fotos, vídeo e galeria da fonte V6.1 preservados; sem modificações na produção.',
+            '',
+            '## Evidências de revisão',
+            '- release/Ykeizumi_Mobile_Reels_V6_2_Storyboard.png',
+            '- release/Ykeizumi_Mobile_Reels_V6_2_Final_Review.png',
+            '- release/v6-2-previews/01_Corner_Morph_Hero.mp4',
+            '- release/v6-2-previews/02_Integrated_Typography.mp4',
+            '- release/v6-2-previews/03_Accordions.mp4',
+            '- release/v6-2-previews/04_Gallery.mp4',
+            '',
+            '## Arquivos-fonte',
+            '- motion/ykeizumi-mobile-reels/src/SearchToHeroTransition.tsx',
+            '- motion/ykeizumi-mobile-reels/src/SearchIntro.tsx',
+            '- motion/ykeizumi-mobile-reels/src/index.tsx',
+            '- motion/ykeizumi-mobile-reels/timeline-v6-2.json',
+            '- motion/ykeizumi-mobile-reels/public/v6-1-layer-manifest.json',
+            '',
+            '## Status',
+            'QA técnico concluído. Aprovação estética permanece com a direção criativa Math Brands.',
+          ]
+          Path('release/Ykeizumi_Mobile_Reels_V6_2_QA.md').write_text('\n'.join(text)+'\n')
+          print('V6.2 FINAL VERIFIED',{'duration':meta['format']['duration'],'bytes':video.stat().st_size})
+          PY
+      - name: Upload final MP4, editables and review assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-Mobile-Reels-V6-2-CornerFlow
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/Ykeizumi_Mobile_Reels_V6_2_*
+            release/v6-2-previews/*.mp4
+            motion/ykeizumi-mobile-reels/src/*.tsx
+            motion/ykeizumi-mobile-reels/timeline-v6-2.json
+            motion/ykeizumi-mobile-reels/package.json
+            motion/ykeizumi-mobile-reels/package-lock.json
+            motion/ykeizumi-mobile-reels/public/mobile-capture-v6-1.mp4
+            motion/ykeizumi-mobile-reels/public/v6-1-layer-manifest.json
+            motion/ykeizumi-mobile-reels/public/v6-1-original-ambience.wav
+            motion/ykeizumi-mobile-reels/public/v6-1-layers/*.png
+      - name: Version only V6.2 artifacts, never site files or main branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/Ykeizumi_Mobile_Reels_V6_2_*
+          git add release/v6-2-previews/*.mp4
+          git commit -m "chore(motion-v6.2): verified final corner-flow 33s master and previews [skip ci]" || true
+          git push origin HEAD:feat/ykeizumi-mobile-reels-v6-2-corner-flow
