@@ -8,9 +8,9 @@ test('contato: normaliza espaços e mantém quebras na descrição',()=>{
  const a=normalizeAnswers({...valid,name:'  João   da Silva  ',description:' Linha 1\r\nLinha 2 '});
  assert.equal(a.name,'João da Silva');assert.equal(a.description,'Linha 1\nLinha 2');assert.deepEqual(validateAll(a),{});
 });
-test('contato: aceita as sete pré-seleções e ignora identificadores inválidos',()=>{
- for(let n=1;n<=7;n++)assert.equal(serviceFromQuery('?servico=s0'+n),'s0'+n);
- for(const query of ['?servico=s08','?servico=<script>','?servico=SRV-01','?servico=unknown','?email=private@example.org'])assert.equal(serviceFromQuery(query),'');
+test('contato: aceita as nove pré-seleções e ignora identificadores inválidos',()=>{
+ for(let n=1;n<=9;n++)assert.equal(serviceFromQuery('?servico=s0'+n),'s0'+n);
+ for(const query of ['?servico=s10','?servico=<script>','?servico=SRV-01','?servico=unknown','?email=private@example.org'])assert.equal(serviceFromQuery(query),'');
  assert.deepEqual(validateStep(2,{service:'unknown'}),{});
 });
 test('contato: requer canal único, valida UF e limites sem negar outras regiões',()=>{
