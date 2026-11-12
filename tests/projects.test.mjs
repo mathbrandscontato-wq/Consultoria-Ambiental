@@ -1,37 +1,32 @@
-import test from "node:test";
-import assert from "node:assert/strict";
-import { renderProjectGallery, hasApprovedProjects } from "../src/lib/projects.mjs";
-import { approvedProjects, reviewSlots } from "../src/content/projects.mjs";
-import { renderPage } from "../src/lib/render.mjs";
-import { routes } from "../src/site.mjs";
-test("galeria contempla layout de projetos sem alegações de cases", () => {
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {renderProjectGallery, hasApprovedProjects} from '../src/lib/projects.mjs';
+import {approvedProjects, reviewSlots} from '../src/content/projects.mjs';
+import {renderPage} from '../src/lib/render.mjs';
+import {routes} from '../src/site.mjs';
+
+test('galeria ilustrativa não apresenta projetos de clientes como realizados',()=>{
   assert.equal(approvedProjects.length,0);
   assert.equal(reviewSlots.length,6);
   assert.equal(hasApprovedProjects(),false);
   const html=renderProjectGallery();
-  assert.equal((html.match(/class="project-image-link/g)||[]).length,6);
-  assert.doesNotMatch(html,/clientes atendidos|cases reais/);
   assert.match(html,/Imagem ilustrativa/);
+  assert.equal((html.match(/class="project-image-link/g)||[]).length,6);
 });
-test("chamada Home usa somente três espaços e leva a galeria", () => {
+test('Home apresenta portfólio em construção sem link para página removida',()=>{
   const html=renderPage(routes.find(x=>!x.slug));
-  assert.ok(html.includes('href="./projetos/"'));
-  assert.ok(html.includes('id="projetos"'));
-  const gallery=renderProjectGallery({compact:true});
-  assert.equal((gallery.match(/project-image-link/g)||[]).length,3);
+  assert.match(html,/Portfólio em construção/);
+  assert.match(html,/Em breve, os trabalhos realizados pela Ykeizumi/);
+  assert.match(html,/id="projetos"/);
+  assert.doesNotMatch(html,/href="\\.\\/projetos\\/"/);
 });
-test("ordem da página Sobre é abertura, Lara, experiência, contato", () => {
-  const html=renderPage(routes.find(x=>x.slug==="sobre"));
-  const pos=['aria-labelledby="titulo-pagina"','id="lara-yumi"','id="visao"','id="conversa"'].map(x=>html.indexOf(x));
-  assert.ok(pos.every(x=>x>=0),JSON.stringify(pos));
-  assert.ok(pos.every((x,i)=>!i||x>pos[i-1]),"Lara deve ser a primeira seção após Hero");
-  assert.match(html,/Lara Yumi/);
+test('Sobre apresenta fundadora, método, princípios, equipe e contato',()=>{
+  const html=renderPage(routes.find(x=>x.slug==='sobre'));
+  const order=['id="lara-yumi"','id="abordagem"','id="principios"','id="equipe"','id="conversa"'];
+  const positions=order.map(x=>html.indexOf(x));
+  assert.ok(positions.every(x=>x>=0),JSON.stringify(positions));
+  assert.ok(positions.every((x,i)=>!i||x>positions[i-1]));
 });
-test("Projetos é rota real com navegação, galeria e disclosure", () => {
-  const html=renderPage(routes.find(x=>x.slug==="projetos"));
-  assert.equal((html.match(/<h1\b/g)||[]).length,1);
-  assert.match(html,/Projetos/);
-  assert.match(html,/project-gallery/);
-  assert.match(html,/Ainda não há projetos publicados/);
-  assert.doesNotMatch(html,/<form\b/);
+test('escopo público contém quatro páginas e não apresenta rota Projetos',()=>{
+  assert.deepEqual(routes.map(x=>x.slug),['','sobre','servicos','contato']);
 });
