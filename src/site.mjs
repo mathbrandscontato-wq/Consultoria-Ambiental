@@ -10,7 +10,6 @@ export const routes = Object.freeze([
   Object.freeze({ slug: "", label: "Home", title: "Página inicial", slot: "hero-a" }),
   Object.freeze({ slug: "sobre", label: "Sobre", title: "Sobre", slot: "about" }),
   Object.freeze({ slug: "servicos", label: "Serviços", title: "Serviços", slot: "services" }),
-  Object.freeze({ slug: "projetos", label: "Projetos", title: "Projetos", slot: "projects" }),
   Object.freeze({ slug: "contato", label: "Contato", title: "Contato", slot: "contact" }),
 ]);
 
