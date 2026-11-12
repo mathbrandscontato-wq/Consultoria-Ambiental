@@ -86,7 +86,7 @@ if (approvedProjects.length !== 0) {
   throw new Error('A lista de projetos reais mudou; revisar consentimentos antes de importar.')
 }
 await seed({_id:'siteSettings',_type:'siteSettings',
-  companyName:'Ykeizumi Consultoria Ambiental',addressText:'Joinville · Santa Catarina'})
+  companyName:'Ykeizumi Consultoria Ambiental Ltda.',cnpj:'60.422.093/0001-74',addressText:'Joinville/SC'})
 for(const doc of docs) {
   if(doc._type==='homePage'){
     doc.eyebrow='Visão Técnica sobre o território.'
