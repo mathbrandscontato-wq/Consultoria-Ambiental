@@ -2,17 +2,18 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { SERVICES, ROUTE_MODULES, CONDITIONAL_MODULES, APPROVED_ART_DIRECTION, EDITORIAL_STATUS } from "../src/content/contracts.mjs";
-test("matriz V1.2 mantém 31 módulos e acrescenta 2 módulos da galeria aprovada",()=>{
+test("revisão cliente apresenta apenas quatro rotas institucionais",()=>{
   const ids=Object.values(ROUTE_MODULES).flat();
-  assert.equal(ids.length,33);
+  assert.equal(ids.length,29);
   assert.equal(new Set(ids).size,33);
-  assert.deepEqual(Object.keys(ROUTE_MODULES),["/","/servicos","/sobre","/contato","/projetos"]);
+  assert.deepEqual(Object.keys(ROUTE_MODULES),["/","/servicos","/sobre","/contato"]);
 });
-test("sete serviços reais, IDs únicos e sem promessas jurídicas inventadas",()=>{
-  assert.deepEqual(SERVICES.map(s=>s.id),["SRV-01","SRV-02","SRV-03","SRV-04","SRV-05","SRV-06","SRV-07"]);
-  assert.equal(new Set(SERVICES.map(s=>s.module)).size,7);
-  assert.equal(SERVICES[3].review,"legal-boundary");
-  assert.deepEqual(CONDITIONAL_MODULES,["H08","S10"]);
+test("nove serviços reais, IDs únicos e revisão das fronteiras jurídicas",()=>{
+  assert.deepEqual(SERVICES.map(s=>s.id),["SRV-01","SRV-02","SRV-03","SRV-04","SRV-05","SRV-06","SRV-07","SRV-08","SRV-09"]);
+  assert.equal(new Set(SERVICES.map(s=>s.module)).size,9);
+  assert.equal(SERVICES[6].review,"legal-boundary");
+  assert.equal(SERVICES[7].review,"legal-boundary");
+  assert.deepEqual(CONDITIONAL_MODULES,["C-FORM","REGION-MAP"]);
 });
 test("só Hero A e Avenir estão formalmente selecionados",()=>{
   assert.equal(APPROVED_ART_DIRECTION.hero,"A");
