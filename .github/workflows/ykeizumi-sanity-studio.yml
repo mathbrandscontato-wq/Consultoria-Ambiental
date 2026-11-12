@@ -49,7 +49,7 @@ jobs:
       - name: Publicar Studio na hospedagem Sanity
         working-directory: studio
         if: steps.auth.outputs.configured == 'true'
-        run: npx sanity@latest deploy --url "$SANITY_STUDIO_HOSTNAME" --yes --schema-required
+        run: npx sanity deploy --url "$SANITY_STUDIO_HOSTNAME" --yes
       - name: Endereço para revisão
         if: steps.auth.outputs.configured == 'true'
         run: echo "Studio publicado em https://$SANITY_STUDIO_HOSTNAME.sanity.studio (verificar resultado do deploy)" >> "$GITHUB_STEP_SUMMARY"
