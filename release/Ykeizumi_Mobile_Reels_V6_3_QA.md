@@ -1,0 +1,11 @@
+# Ykeizumi V6.3 Full-Bleed Cinematic Flow
+- MP4 H264 + original AAC; 1080×1920, 30FPS, 990 frames, 33 seconds.
+- Full-width 1080px stage with uniform scale of original 390×844 mobile site.
+- Hero container geometry measured at x12,y12,w366,h600 CSS px, radius15 CSS px.
+- Search field → outline-only gray real Hero rectangle → right-corner closeup → SVG radius morph → green fill → site.
+- All 17 content elements visible as original source DOM, with spatially timed 7px rise and fast overlap.
+- Continuous director-paced scroll through intro/services with no manual frame-holds.
+- Two original accordion taps and two original deterministic CSS3D gallery transitions retained.
+- Native site remains untouched: no edits, deploy or new dependency.
+- 4 preview videos decoded and final MP4 fully decoded without errors.
+- Creative director approval remains pending.
