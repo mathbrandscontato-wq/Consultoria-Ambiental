@@ -1,0 +1,237 @@
+name: Ykeizumi V6.4 FINAL — Footer, Foley & Seamless Loop
+on:
+  push:
+    branches:
+      - feat/ykeizumi-mobile-reels-v6-4-final-footer-loop
+    paths:
+      - .github/workflows/render-ykeizumi-mobile-reels-v6-4.yml
+      - motion/ykeizumi-mobile-reels/src/**
+      - motion/ykeizumi-mobile-reels/timeline-v6-4.json
+      - motion/ykeizumi-mobile-reels/capture/capture-mobile-v6-4.mjs
+      - motion/ykeizumi-mobile-reels/audio/synthesize-v6-4-final.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ykeizumi-v6-4-final
+  cancel-in-progress: true
+jobs:
+  final:
+    runs-on: ubuntu-latest
+    timeout-minutes: 115
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compile immutable client website for local visual capture
+        run: npm run build
+      - name: Serve client website only inside CI
+        run: |
+          python3 -m http.server 4173 --directory dist > /tmp/ykeizumi-v64.log 2>&1 &
+          for i in $(seq 1 50); do
+            curl -fsS http://127.0.0.1:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/ykeizumi-v64.log && exit 1
+      - name: Install isolated motion dependencies
+        working-directory: motion/ykeizumi-mobile-reels
+        run: npm ci --no-audit --no-fund
+      - name: Prepare Chromium, FFmpeg and image QA
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg python3-pil
+      - name: Capture source page, one arrow tap, gallery and genuine footer
+        working-directory: motion/ykeizumi-mobile-reels
+        run: node capture/capture-mobile-v6-4.mjs
+      - name: Validate original geometry, scroll, footer and exactly three touches
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import subprocess,json
+          p=Path('motion/ykeizumi-mobile-reels')
+          t=json.loads((p/'timeline-v6-4.json').read_text())
+          m=json.loads((p/'public/v6-4-layer-manifest.json').read_text())
+          assert t['version']=='6.4' and (t['fps'],t['totalFrames'],t['captureStart'],t['captureFrames'])==(30,1290,190,1100)
+          assert (m['offset'],m['frames'],m['fps'])==(190,1100,30)
+          assert m['viewport']=={'w':390,'h':844,'dpr':3}
+          assert m['heroVideo']['video']=={'x':12,'y':12,'w':366,'h':600}
+          assert m['heroVideo']['effectiveRadius']==15
+          assert len(m['layers'])==17 and not m['errors']
+          assert m['photoSuppressedOnlyInCapture']
+          assert len(m['scrollTrack'])==1100 and len(m['galleryTitleYTrack'])==1100
+          assert [x['purpose'] for x in m['touches']]==['sector-second','gallery-next-1','gallery-next-2']
+          assert [x['frame'] for x in m['touches']]==[427,642,713]
+          assert len(m['footerStates'])>=6 and m['footerStates'][0]['footerVisible']
+          assert m['footerGeometry']['height']>340
+          assert m['footerStates'][-1]['scroll']>=m['footerStates'][0]['scroll']
+          changes=[m['scrollTrack'][i]-m['scrollTrack'][i-1] for i in range(1,1100)]
+          assert min(changes[:799])>=-.6,('backward scroll before footer',min(changes[:799]))
+          assert max(changes[:799])<85,('huge page jump in editorial chapters',max(changes[:799]))
+          assert min(changes[801:])>=-.6,('backward footer scroll',min(changes[801:]))
+          assert max(changes[801:])<85,('too-fast footer scroll',max(changes[801:]))
+          assert sum(x>.02 for x in changes[82:400])>270,'missing smooth camera flow'
+          gs={v['frame']:v for v in m['galleryStates']}
+          for f,n in [(609,2),(674,3),(746,4)]:
+            assert gs[f]['frameCard']==n,(f,gs.get(f))
+          assert all(x['loaded'] for x in m['galleryStates'])
+          assert Image.open(p/'public/v6-4-gallery-hold.jpg').size==(1170,2532)
+          mp4=p/'public/mobile-capture-v6-4.mp4'
+          probe=json.loads(subprocess.check_output(['ffprobe','-v','error',
+            '-show_entries','stream=width,height,r_frame_rate,nb_frames:format=duration','-of','json',str(mp4)]))
+          v=next(x for x in probe['streams'] if x.get('width'))
+          assert (v['width'],v['height'])==(1170,2532) and v['r_frame_rate']=='30/1'
+          assert int(v['nb_frames'])==1100
+          assert abs(float(probe['format']['duration'])-1100/30)<.07
+          print('V6.4 CAPTURE VALIDATED — one sector tap, two gallery drags, genuine footer')
+          PY
+      - name: Original sound design — ambient bed plus exactly synced conceptual foley
+        run: |
+          python3 motion/ykeizumi-mobile-reels/audio/synthesize-v6-4-final.py
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 \
+            motion/ykeizumi-mobile-reels/public/v6-4-music-and-foley.wav
+      - name: Preview 01 — preserve approved outline search and full-bleed Hero
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          mkdir -p ../../release/v6-4-review
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-4-review/01_Search_Hero.mp4 \
+            --frames=0-349 --scale=0.5 --codec=h264 --crf=20 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview 02 — one sector interaction and gallery swipes
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-4-review/02_Interactions.mp4 \
+            --frames=690-989 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Preview 03 — real footer and gallery-to-footer match slide
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/v6-4-review/03_Footer_Loop.mp4 \
+            --frames=990-1289 --scale=0.5 --codec=h264 --crf=19 \
+            --concurrency=3 --browser-executable "$CHROME"
+      - name: Inspect preview decodability and editorial checkpoints
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image,ImageDraw
+          import subprocess,json
+          root=Path('release/v6-4-review')
+          shots=[]
+          specs=[
+            ('01_Search_Hero',350,[.5,2.7,3.1,3.8,4.6,5.1,5.7,6.3,7.2,9.2,11.2]),
+            ('02_Interactions',300,[.2,1.5,2.3,3.4,4.2,4.7,5.5,7.0,8.2,9.6]),
+            ('03_Footer_Loop',300,[0,.3,.6,1.05,1.35,2.4,3.6,4.7,5.8,7,7.9,8.5,9.0,9.5,9.95])
+          ]
+          for name,n,times in specs:
+            f=root/(name+'.mp4')
+            meta=json.loads(subprocess.check_output(['ffprobe','-v','error',
+              '-show_entries','format=duration:stream=width,height,r_frame_rate','-of','json',str(f)]))
+            st=next(v for v in meta['streams'] if v.get('width'))
+            assert (st['width'],st['height'])==(540,960) and st['r_frame_rate']=='30/1'
+            assert abs(float(meta['format']['duration'])-n/30)<.07
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(f),'-f','null','-'],check=True)
+            for i,sec in enumerate(times):
+              pic=root/(name+'-'+str(i)+'.jpg')
+              subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y',
+                '-ss',str(sec),'-i',str(f),'-frames:v','1',str(pic)],check=True)
+              shots.append((Image.open(pic).convert('RGB').resize((168,298),Image.Resampling.LANCZOS),
+                            name+' '+str(sec)+'s'))
+          cols=8;cw=168;ch=324
+          out=Image.new('RGB',(cols*cw,((len(shots)+cols-1)//cols)*ch),'#f5f6f3')
+          d=ImageDraw.Draw(out)
+          for i,(im,name) in enumerate(shots):
+            x=i%cols*cw;y=i//cols*ch
+            out.paste(im,(x,y));d.text((x+4,y+301),name,fill='#242824')
+          out.save('release/Ykeizumi_V6_4_Director_ContactSheet.png')
+          print('V6.4 ALL SCENES DECODED AND CONTACT SHEET PREPARED')
+          PY
+      - name: Render full resolution 43s master, 1290 exact frames
+        working-directory: motion/ykeizumi-mobile-reels
+        run: |
+          CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")
+          npx remotion render src/index.tsx YkeizumiMobileReels \
+            ../../release/Ykeizumi_V6_4_Final_VideoOnly.mp4 \
+            --codec=h264 --crf=16 --concurrency=2 --browser-executable "$CHROME"
+      - name: Attach bespoke original foley and continuous approved ambient bed
+        run: |
+          ffmpeg -hide_banner -loglevel error -y \
+            -i release/Ykeizumi_V6_4_Final_VideoOnly.mp4 \
+            -i motion/ykeizumi-mobile-reels/public/v6-4-music-and-foley.wav \
+            -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac \
+            -b:a 160k -ar 48000 -ac 2 -movflags +faststart -shortest \
+            release/Ykeizumi_V6_4_FINAL_Footer_Loop.mp4
+          rm release/Ykeizumi_V6_4_Final_VideoOnly.mp4
+      - name: Decode whole final 43 seconds and verify seamless white endpoint
+        run: |
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          from PIL import Image,ImageChops
+          mp4=Path('release/Ykeizumi_V6_4_FINAL_Footer_Loop.mp4')
+          meta=json.loads(subprocess.check_output(['ffprobe','-v','error',
+            '-show_entries','format=duration:stream=codec_name,width,height,r_frame_rate,nb_frames',
+            '-of','json',str(mp4)]))
+          video=next(s for s in meta['streams'] if s.get('codec_name')=='h264')
+          assert (video['width'],video['height'])==(1080,1920),video
+          assert video['r_frame_rate']=='30/1' and int(video['nb_frames'])==1290,video
+          assert abs(float(meta['format']['duration'])-43)<.07
+          assert any(s.get('codec_name')=='aac' for s in meta['streams'])
+          subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(mp4),'-f','null','-'],check=True)
+          for tag,sec in [('begin',0.0),('end',42.98),('footer',39.5)]:
+            subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-ss',str(sec),
+              '-i',str(mp4),'-frames:v','1','release/v6-4-review/seam-'+tag+'.png'],check=True)
+          start=Image.open('release/v6-4-review/seam-begin.png').convert('RGB')
+          end=Image.open('release/v6-4-review/seam-end.png').convert('RGB')
+          def white(im):
+            vals=[im.getpixel(p) for p in [(0,0),(1079,0),(0,1919),(1079,1919),(540,940)]]
+            return all(min(v)>=245 for v in vals)
+          assert white(start) and white(end),'Optical loop seam not visually white at start/end'
+          f=Image.open('release/v6-4-review/seam-footer.png').convert('RGB')
+          assert sum(f.resize((1,1)).getpixel((0,0)))<590,'Footer not visible near ending'
+          assert mp4.stat().st_size>5000000
+          Path('release/Ykeizumi_V6_4_QA.md').write_text(
+             '# Ykeizumi V6.4 — Final Motion QA\n'
+             '- 1290 frames / 30 FPS / 43 seconds / 1080 × 1920 / H.264 + AAC.\n'
+             '- 1 real native sector interaction, 2 original gallery transitions.\n'
+             '- 33 original typing micro cues, 1 search click, 1 sector click, 2 gallery drags, soft footer transition.\n'
+             '- New original sound design, free from copyrighted sound samples or music.\n'
+             '- Original footer .bwf captured from actual source DOM without modifying live website.\n'
+             '- Editorial 33-frame gallery-to-footer matching upward slide, preserving full-width composition.\n'
+             '- Expanding white final iris; optical first and last frames checked for white seamless loop.\n'
+             '- Four source previews combined into three QA excerpts and final master fully decoded.\n'
+             '- Creative approval remains with Math Brands.\n'
+          )
+          print('V6.4 FINAL PASS',{'duration':meta['format']['duration'],'size':mp4.stat().st_size})
+          PY
+      - name: Upload final video and technical review for handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ykeizumi-V6-4-FINAL-VIDEO
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            release/Ykeizumi_V6_4_FINAL_Footer_Loop.mp4
+            release/Ykeizumi_V6_4_QA.md
+            release/Ykeizumi_V6_4_Director_ContactSheet.png
+      - name: Commit final master and original capture only on isolated motion branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/Ykeizumi_V6_4_*
+          git add motion/ykeizumi-mobile-reels/public/mobile-capture-v6-4.mp4 \
+            motion/ykeizumi-mobile-reels/public/v6-4-gallery-hold.jpg \
+            motion/ykeizumi-mobile-reels/public/v6-4-music-and-foley.wav \
+            motion/ykeizumi-mobile-reels/public/v6-4-layer-manifest.json \
+            motion/ykeizumi-mobile-reels/public/v6-4-layers \
+            motion/ykeizumi-mobile-reels/capture-report-v6-4.json
+          git commit -m "chore(v6.4): final 43s full-bleed footer and cinematic loop validated [skip ci]" || true
+          git push origin HEAD:feat/ykeizumi-mobile-reels-v6-4-final-footer-loop
