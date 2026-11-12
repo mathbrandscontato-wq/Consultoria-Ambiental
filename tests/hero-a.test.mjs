@@ -8,7 +8,7 @@ test("Hero A é a única variação autorizada na Home", () => {
   const html = renderHeroA();
   assert.match(html, /data-design="G2V5-HERO-A"/);
   assert.doesNotMatch(html, /Hero B/);
-  assert.match(html, /Consultoria Ambiental<\/h1>/);
+  assert.match(html, /Para cada exigência ambiental, uma resposta técnica\.<\/h1>/);
   assert.match(html, /Mais de dez anos de experiência/);
   assert.doesNotMatch(html, /ha-location|ha-provisional|VÍDEO ILUSTRATIVO/);
   assert.match(html, /data-status="logo-oficial"/);
