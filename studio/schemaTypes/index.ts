@@ -19,6 +19,62 @@ const imageWithAlt = defineType({
   ],
 })
 
+const textEntry = defineType({
+  name: 'textEntry', title: 'Texto da seção', type: 'object',
+  fields: [
+    defineField({name:'element', title:'Tipo de texto original',type:'string',readOnly:true}),
+    defineField({name:'text',title:'Texto',type:'text',rows:3,validation:r=>r.required()}),
+  ],
+  preview:{select:{title:'text',subtitle:'element'}},
+})
+const pageSection = defineType({
+  name:'pageSection',title:'Seção do site',type:'object',
+  fields:[
+    defineField({name:'sectionId',title:'Identificador da seção',type:'string',readOnly:true}),
+    defineField({name:'label',title:'Nome da seção',type:'string',readOnly:true}),
+    defineField({name:'entries',title:'Textos em ordem de exibição',type:'array',of:[{type:'textEntry'}]}),
+  ],
+  preview:{select:{title:'label',subtitle:'sectionId'}},
+})
+const galleryImage = defineType({
+  name:'galleryImage',title:'Foto editorial',type:'object',
+  fields:[
+    defineField({name:'title',title:'Nome da fotografia',type:'string',validation:r=>r.required()}),
+    defineField({name:'photo',title:'Imagem',type:'imageWithAlt',validation:r=>r.required()}),
+    defineField({name:'note',title:'Observação',type:'string',initialValue:'Imagem ilustrativa — não representa projeto realizado'}),
+  ],
+  preview:{select:{title:'title',media:'photo.image'}},
+})
+const pageSectionsField = () => defineField({
+  name:'sections',title:'Demais seções e textos da página',type:'array',of:[{type:'pageSection'}],
+  description:'Textos importados do site existente, agrupados por seção. A integração visual será feita após homologação.',
+})
+const servicesPage = defineType({
+  name:'servicesPage',title:'Página de serviços',type:'document',
+  fields:[
+    defineField({name:'headline',title:'Título da página',type:'string'}),
+    defineField({name:'intro',title:'Texto introdutório',type:'text',rows:4}),
+    pageSectionsField(),
+    defineField({name:'seo',title:'SEO',type:'seo'}),
+  ],
+})
+const projectsPage = defineType({
+  name:'projectsPage',title:'Página de projetos',type:'document',
+  fields:[
+    defineField({name:'headline',title:'Título da página',type:'string'}),
+    defineField({name:'intro',title:'Texto introdutório',type:'text',rows:4}),
+    pageSectionsField(),
+    defineField({name:'seo',title:'SEO',type:'seo'}),
+  ],
+})
+const illustrativeGallery = defineType({
+  name:'illustrativeGallery',title:'Galeria ilustrativa',type:'document',
+  fields:[
+    defineField({name:'intro',title:'Observação de uso',type:'string',initialValue:'Fotografias ilustrativas, não projetos realizados pela Ykeizumi.'}),
+    defineField({name:'photos',title:'Fotografias editoriais',type:'array',of:[{type:'galleryImage'}]}),
+  ],
+})
+
 const siteSettings = defineType({
   name:'siteSettings',title:'Configurações gerais',type:'document',
   fields:[
@@ -35,6 +91,7 @@ const siteSettings = defineType({
 const homePage = defineType({
   name:'homePage',title:'Página inicial',type:'document',
   fields:[
+    pageSectionsField(),
     defineField({name:'eyebrow',title:'Texto de apoio da abertura',type:'string'}),
     defineField({name:'headline',title:'Título da abertura',type:'string'}),
     defineField({name:'intro',title:'Texto introdutório',type:'text',rows:4}),
@@ -46,6 +103,7 @@ const homePage = defineType({
 const aboutPage = defineType({
   name:'aboutPage',title:'Sobre',type:'document',
   fields:[
+    pageSectionsField(),
     defineField({name:'headline',title:'Título',type:'string'}),
     defineField({name:'intro',title:'Introdução',type:'text',rows:5}),
     defineField({name:'story',title:'História e abordagem',type:'array',of:[{type:'block'}]}),
@@ -97,10 +155,11 @@ const project = defineType({
 const contactPage = defineType({
   name:'contactPage',title:'Página de contato',type:'document',
   fields:[
+    pageSectionsField(),
     defineField({name:'headline',title:'Título',type:'string'}),
     defineField({name:'intro',title:'Texto introdutório',type:'text'}),
     defineField({name:'seo',title:'SEO',type:'seo'}),
   ],
 })
 
-export const schemaTypes=[seo,imageWithAlt,siteSettings,homePage,aboutPage,service,project,contactPage]
+export const schemaTypes=[seo,imageWithAlt,textEntry,pageSection,galleryImage,siteSettings,homePage,aboutPage,servicesPage,projectsPage,illustrativeGallery,service,project,contactPage]
