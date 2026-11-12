@@ -19,9 +19,6 @@ jobs:
   deploy-studio:
     name: Build e publicação exclusiva do Studio
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: studio
     env:
       SANITY_STUDIO_PROJECT_ID: fvoy1wqw
       SANITY_STUDIO_DATASET: production
@@ -46,9 +43,11 @@ jobs:
         with:
           node-version: '22'
       - name: Instalar dependências
+        working-directory: studio
         if: steps.auth.outputs.configured == 'true'
         run: npm install --no-audit --no-fund
       - name: Publicar Studio na hospedagem Sanity
+        working-directory: studio
         if: steps.auth.outputs.configured == 'true'
         run: npx sanity@latest deploy --url "$SANITY_STUDIO_HOSTNAME" --yes --schema-required
       - name: Endereço para revisão
