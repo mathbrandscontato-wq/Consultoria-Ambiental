@@ -26,16 +26,28 @@ export function renderHomeSections(){
 }
 const intro = (index,title,description)=>'<div class="page-head"><h1 id="titulo-pagina">'+title+'</h1><p>'+description+'</p></div>';
 const section = (className,body)=>'<section class="'+className+'"><div class="editorial-container">'+body+'</div></section>';
-const contactNote = '<p class="contact-unavailable" role="status">Os canais oficiais de contato estão em preparação. Nenhum dado é coletado nesta página.</p>';
 export function renderInnerPage(route){
  if(route.slug==='sobre')return renderAbout();
  if(route.slug==='servicos')return renderServices();
  if(route.slug==='projetos')return renderProjectsPage();
  if(route.slug==="contato"){
+  const fields='<div class="contact-fields">'+
+    '<div><label for="contact-name">Nome <span aria-hidden="true">*</span></label><input id="contact-name" name="name" type="text" autocomplete="name" required></div>'+
+    '<div><label for="contact-company">Empresa ou instituição</label><input id="contact-company" name="company" type="text" autocomplete="organization"></div>'+
+    '<div><label for="contact-email">E-mail <span aria-hidden="true">*</span></label><input id="contact-email" name="email" type="email" autocomplete="email" required></div>'+
+    '<div><label for="contact-phone">Telefone / WhatsApp <span aria-hidden="true">*</span></label><input id="contact-phone" name="phone" type="tel" autocomplete="tel" required></div>'+
+    '<div><label for="contact-service">Tipo de serviço <span aria-hidden="true">*</span></label><select id="contact-service" name="service" required><option value="">Selecione</option>'+
+    serviceCards.map(s=>'<option value="'+s.slug+'">'+s.title+'</option>').join('')+'<option value="other">Outro / não sei</option></select></div>'+
+    '<div><label for="contact-city">Município do empreendimento ou da área <span aria-hidden="true">*</span></label><input id="contact-city" name="city" type="text" required></div>'+
+    '<div><label for="contact-description">Descrição do caso <span aria-hidden="true">*</span></label><p id="contact-description-hint">Informe a atividade, a situação atual (projeto, em implantação ou em operação) e se já existe processo aberto no órgão ambiental.</p><textarea id="contact-description" name="description" rows="6" aria-describedby="contact-description-hint" required></textarea></div>'+
+    '<div><label for="contact-attachments">Anexos (matrícula, projeto, notificação, licença)</label><input id="contact-attachments" name="attachments" type="file" multiple></div>'+
+    '</div>'
+  // Até definição de endpoint, retenção/privacidade e [PRAZO], não disponibilizar envio.
+  const form='<form class="contact-form" aria-describedby="contact-status"><p id="contact-status" role="status">Formulário em configuração. Para atendimento imediato, utilize os contatos ao lado.</p><fieldset disabled><legend>Conte o seu caso</legend>'+fields+'<button type="button" disabled>Enviar</button></fieldset></form>'
+  const direct='<aside class="contact-direct"><h2>Contato direto</h2><p><a href="tel:+5547999519658">(47) 99951-9658</a></p><p><a href="mailto:lara@ykeizumi.com.br">lara@ykeizumi.com.br</a></p><p>Joinville/SC</p><p>Atendimento: segunda a sexta, das 8h às 18h</p></aside>'
   return '<main id="conteudo" tabindex="-1" class="inner-page">'+
-   section("page-banner page-banner--green",intro("03 / Propostas","Vamos entender sua demanda.","A Ykeizumi avalia o contexto de cada solicitação para estruturar uma proposta técnico-comercial individualizada."))+
-   section("page-contact",'<div class="editorial-split"><div><h2>Uma conversa <em>é o começo.</em></h2></div><div class="editorial-copy">'+contactNote+
-   '<div class="contact-region">Joinville · Santa Catarina<br>Norte e Litoral catarinense</div></div></div>')+'</main>';
+    section("page-banner page-banner--green",intro("Contato","Seu projeto precisa de uma orientação ambiental?","Conte um pouco sobre o seu caso. Com essas informações, fazemos uma avaliação inicial e retornamos com a proposta de trabalho."))+
+    section("page-contact",'<div class="editorial-split contact-layout">'+form+direct+'</div>')+'</main>'
  }
 
  throw new Error('Unsupported route: '+route.slug);
