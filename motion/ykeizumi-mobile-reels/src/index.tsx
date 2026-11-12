@@ -62,7 +62,12 @@ function SiteViewport({f}:{f:number}){
  // no artificial phone frame and no empty margins.
  const drift=-2.8*smooth(START,400,f)+1.2*smooth(645,990,f);
  const footerSlide=smooth(990,1023,f);
- const cameraY=f>=990 ? (1-footerSlide)*H : drift;
+ // Original mobile footer is 610.8 CSS px high, shorter than a 844px
+ // viewport, so natural browser max-scroll leaves a preceding CTA above it.
+ // Shift only VERTICALLY to give the full-width footer editorial focus.
+ // Never crop or rescale horizontally: this retains the approved full-bleed.
+ const footerFocus=640*smooth(1023,1070,f);
+ const cameraY=f>=990 ? (1-footerSlide)*H-footerFocus : drift;
  const enter=smooth(190,207,f);
  const originClipTop=hero.y,originClipLeft=hero.x;
  const right=STAGE.w-hero.x-hero.w;
@@ -120,7 +125,7 @@ function LoopAperture({f}:{f:number}){
 }
 function Reel(){
  const f=useCurrentFrame(),hero=realHeroRect();
- return <AbsoluteFill style={{background:'#ffffff',overflow:'hidden'}}>
+ return <AbsoluteFill style={{background:f>=990?'#102a20':'#ffffff',overflow:'hidden'}}>
   <SearchToHeroTransition frame={f} hero={hero}/>
   {f<105&&<SearchIntro frame={f}/>}
   {f>=START&&<SiteViewport f={f}/>}
