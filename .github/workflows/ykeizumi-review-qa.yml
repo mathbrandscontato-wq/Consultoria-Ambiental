@@ -1,0 +1,25 @@
+name: Ykeizumi — validação da revisão da cliente
+on:
+  push:
+    branches:
+      - feat/ykeizumi-revisao-cliente-20261112
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa:
+    name: Verificar build e testes sem deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar sintaxe
+        run: npm run lint
+      - name: Gerar site estático sem publicar
+        run: npm run build
+      - name: Verificar estrutura
+        run: npm run check
+      - name: Executar testes automatizados
+        run: npm test
