@@ -21,8 +21,8 @@ function sections(html) {
   return result;
 }
 
-test('V5 mantém as cinco rotas de homologação e um H1 semântico por página',()=>{
-  assert.deepEqual(routes.map(route=>route.slug),['','sobre','servicos','projetos','contato']);
+test('V5 mantém as quatro rotas de homologação e um H1 semântico por página',()=>{
+  assert.deepEqual(routes.map(route=>route.slug),['','sobre','servicos','contato']);
   for(const route of routes){
     const html=renderPage(route);
     assert.match(html,/<meta name="robots" content="noindex,nofollow">/,route.slug);
@@ -33,7 +33,7 @@ test('V5 mantém as cinco rotas de homologação e um H1 semântico por página'
 });
 
 test('V5 heros internos fotográficos contêm texto, fotografia e um único CTA de contato',()=>{
-  for(const slug of ['sobre','servicos','projetos']){
+  for(const slug of ['sobre','servicos']){
     const hero=sections(page(slug))[0];
     assert.match(hero,/\bunified-hero\b/,slug);
     assert.match(hero,/<h1\b/,slug);
@@ -45,22 +45,18 @@ test('V5 heros internos fotográficos contêm texto, fotografia e um único CTA 
   assert.match(sections(page(''))[0],/class="ha-video"/,'Home mantém hero em vídeo');
 });
 
-test('V5.4 restaura Lara na seção 02 e mantém Perspective Tunnel só na seção 03',()=>{
+test('Revisão da cliente conserva a imagem da fundadora e remove o túnel descontinuado',()=>{
   const about=sections(page('sobre'));
-  assert.equal(about.length,6,'Seis seções de Sobre devem ser preservadas');
+  assert.equal(about.length,6);
   assert.match(about[1],/id="lara-yumi"/);
-  assert.doesNotMatch(about[1],/\babout-tunnel\b|translateZ|tunnel-card/);
-  assert.match(about[2],/id="visao"/);
-  assert.match(about[2],/\babout-tunnel\b/);
-  assert.match(about[2],/Cada território apresenta desafios próprios/);
-  assert.doesNotMatch(about[2],/data-scroll-reveal|data-reveal|data-image-reveal/);
-  assert.match(about[1],/<h2[^>]*>Lara Yumi<\/h2>/);
-  assert.match(about[1],/src="\.\.\/media\/lara-yumi-640.webp"/);
-  assert.match(about[1],/alt="Retrato de Lara Yumi"/);
-  assert.match(about[1],/Joinville/);
-  assert.doesNotMatch(about[1],/<canvas\b|class="[^"]*is-enhanced/,'Conteúdo é estático antes do aprimoramento JS');
-  for(const [i,section] of about.entries())if(i!==2)assert.doesNotMatch(section,/\babout-tunnel\b/,'Tunnel fora da seção 03');
-  for(const slug of ['','servicos','projetos','contato'])assert.doesNotMatch(page(slug),/class="[^"]*\babout-tunnel\b/,slug);
+  assert.match(about[1],/Lara Yumi Fand Ykeizumi/);
+  assert.match(about[1],/src="\\.\\.\\/media\\/lara-yumi-640.webp"/);
+  assert.match(about[2],/id="abordagem"/);
+  assert.match(about[2],/Diagnóstico/);
+  assert.match(about[2],/Acompanhamento/);
+  assert.match(about[4],/id="equipe"/);
+  assert.doesNotMatch(page('sobre'),/id="visao"|Cada território apresenta desafios próprios/);
+  for(const slug of ['','servicos','contato'])assert.doesNotMatch(page(slug),/class="[^"]*\\babout-tunnel\\b/,slug);
 });
 
 test('V5 rodapés não apresentam navegação social fictícia nem âncoras mortas',()=>{
