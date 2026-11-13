@@ -26,7 +26,8 @@ test('Foto JPEG tratada não tenta requisitar WebP inexistente',()=>{
 test('Fotos de território têm contexto correto em Sobre, Serviços e Home',()=>{
   assert.ok(pick('sobre').includes('media/ykeizumi-floresta-trilhos-1280.jpg'));
   assert.ok(pick('servicos').includes('media/ykeizumi-estrada-vegetacao-1280.jpg'));
-  assert.ok(pick('servicos').includes('media/ykeizumi-vila-costeira-1280.jpg'));
+  assert.ok(pick('').includes('media/ykeizumi-vila-costeira-1280.jpg'));
+  // O seletor novo de serviços preserva a foto na Home e na galeria, mas exibe um painel textual como na referência aprovada.
   assert.ok(pick('').includes('media/ykeizumi-vila-costeira-1280.jpg'));
 });
 test('Cinco arquivos JPEG efetivamente existem no pacote de fontes',async()=>{
