@@ -73,11 +73,11 @@ export const renderPage = (route) => {
   ${(pageStyles[route.slug]||[]).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}">`).join("\n  ")}
   <link rel="stylesheet" href="${prefix}styles/v5-editorial.css">
   <link rel="stylesheet" href="${prefix}styles/responsive-type.css">
-  <link rel="stylesheet" href="${prefix}styles/client-revision.css">\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
+  <link rel="stylesheet" href="${prefix}styles/client-revision.css?v=ux-20261113-2">\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
   <script type="module" src="${prefix}scripts/motion.mjs"></script>
   <script type="module" src="${prefix}scripts/unified.mjs"></script>
-  ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}"></script>`).join("\n  ")}
-  <script type="module" src="${prefix}scripts/footer.mjs"></script>
+  ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}${script==='services.mjs'?'?v=ux-20261113-2':''}"></script>`).join("\n  ")}
+  <script type="module" src="${prefix}scripts/footer.mjs?v=ux-20261113-2"></script>
 
 </head>
 <body data-stage="g5-design-review">
