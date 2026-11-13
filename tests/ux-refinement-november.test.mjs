@@ -40,3 +40,12 @@ test('Atendimento segue bloqueado até endpoint seguro',()=>{
  assert.match(html,/<fieldset disabled>/);
  assert.doesNotMatch(html,/type="submit"/);
 });
+
+test('Fotos dos segmentos aparecem apenas no desktop',async()=>{
+ const css=await readFile(new URL('../src/styles/unified.css',import.meta.url),'utf8');
+ assert.match(css,/@media\(max-width:899px\)[^\n]*\.sector-showcase \.sector-description figure\{display:none\}/);
+ assert.match(css,/@media\(min-width:900px\)[^\n]*\.sector-showcase\.is-enhanced \.sector-stage\{display:block/);
+ const home=page('');
+ assert.match(home,/Indústria e infraestrutura/);
+ assert.match(home,/sector-description/);
+});
