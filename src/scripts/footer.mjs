@@ -15,7 +15,7 @@ if(root){
  };
  const fit=()=>{
   const box=inner.parentElement,padding=parseFloat(getComputedStyle(box).paddingLeft)||0,target=box.clientWidth-padding*2;
-  inner.style.fontSize='100px';const measured=inner.offsetWidth,size=measured?Math.min(100*target/measured,target*.42,132):100;
+  inner.style.fontSize='100px';const measured=inner.offsetWidth,size=measured?Math.min(100*target/measured,target*.42,108):100;
   const style=getComputedStyle(inner),ctx=document.createElement('canvas').getContext('2d');let baseline=.8;
   if(ctx){ctx.font=style.fontWeight+' 100px '+style.fontFamily;const m=ctx.measureText('Ykeizumi');if(m.fontBoundingBoxAscent>0)baseline=clamp(((100-m.fontBoundingBoxAscent-m.fontBoundingBoxDescent)/2+m.fontBoundingBoxAscent)/100,.5,1.2);}
   inner.style.fontSize=size+'px';word.style.height=Math.max(0,size*(baseline+.04))+'px';place();
