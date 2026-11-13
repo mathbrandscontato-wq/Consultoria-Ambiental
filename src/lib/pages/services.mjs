@@ -69,14 +69,21 @@ const contextSection=()=>section('contextos','Contextos de atuação',
   contexts.map((c,i)=>'<details class="service-context"><summary><span class="service-feature-number">0'+(i+1)+'</span><h3>'+esc(c.title)+'</h3><span class="service-feature-indicator" aria-hidden="true">+</span></summary><div class="service-context-content"><p>'+esc(c.text)+'</p><div class="context-links">'+c.ids.map(serviceLink).join('')+'</div></div></details>').join('')+'</div></div>',
   'services-context-section')
 function explorer(){
-  const items=serviceCards.map(s=>'<details class="service-feature" id="'+s.slug+'" open>'+
-    '<summary aria-controls="content-'+s.slug+'"><span class="service-feature-number">'+s.num+'</span><h3>'+esc(s.title)+'</h3><span class="service-feature-indicator" aria-hidden="true">+</span></summary>'+
-    '<div class="service-feature-content" id="content-'+s.slug+'"><p>'+esc(s.description)+'</p>'+
-    '<ul class="service-details">'+s.details.map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul>'+
-    '<figure class="service-mobile-media">'+photo(s.media,'../',s.title+': paisagem ilustrativa')+'<figcaption>Imagem ilustrativa</figcaption></figure>'+
-    '<a class="service-proposal" href="../contato/" aria-label="Solicitar proposta sobre '+esc(s.title)+'">Solicitar proposta <span aria-hidden="true">↗</span></a></div></details>').join('')
-  const media=serviceCards.map((s,i)=>'<figure class="service-feature-media '+(i===0?'is-active':'')+'" data-service-media="'+s.slug+'" aria-hidden="true">'+photo(s.media,'../','')+'<figcaption><span>'+s.num+' / 09</span><span>Imagem ilustrativa</span></figcaption></figure>').join('')
-  return section('explorador','Explorador de serviços','<div class="services-section-heading"><h2>As nove frentes de atuação</h2></div><div class="service-explorer"><div class="service-feature-list">'+items+'</div><div class="service-media-stage">'+media+'</div></div>','services-explorer-section')
+  const navigation='<nav class="service-selector" aria-label="Selecionar frente de atuação"><div class="service-selector-list" role="tablist" aria-label="Nove frentes de atuação">'+
+    serviceCards.map((s,i)=>'<a href="#'+esc(s.slug)+'" id="tab-'+esc(s.slug)+'" class="service-nav-item'+(i===0?' is-active':'')+'" role="tab" aria-selected="'+(i===0?'true':'false')+'" aria-controls="'+esc(s.slug)+'" tabindex="'+(i===0?'0':'-1')+'"><span class="service-nav-number">'+esc(s.num)+'</span><span class="service-nav-name">'+esc(s.title)+'</span><span class="service-nav-arrow" aria-hidden="true">→</span></a>').join('')+
+    '</div></nav>';
+  const panels='<div class="service-panel-stage">'+serviceCards.map((s,i)=>
+    '<article class="service-info-panel" id="'+esc(s.slug)+'" role="tabpanel" aria-labelledby="tab-'+esc(s.slug)+'" tabindex="0" data-service-panel="'+esc(s.slug)+'">'+
+    '<span class="service-panel-count">'+esc(s.num)+' / 09</span>'+
+    '<h3>'+esc(s.title)+'</h3>'+
+    '<p class="service-panel-description">'+esc(s.description)+'</p>'+
+    '<ul class="service-panel-details">'+s.details.map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul>'+
+    '<a class="service-panel-cta" href="../contato/" aria-label="Solicitar proposta sobre '+esc(s.title)+'">Solicitar proposta <span aria-hidden="true">↗</span></a>'+
+    '</article>').join('')+'</div>';
+  return section('explorador','Explorador de serviços',
+    '<div class="services-section-heading"><h2>As nove frentes de atuação</h2><p>Selecione uma frente para ver os serviços incluídos.</p></div>'+
+    '<div class="service-explorer">'+navigation+panels+'</div>',
+    'services-explorer-section');
 }
 export function renderServices(){
   return '<main id="conteudo" tabindex="-1" class="inner-page services-page">'+

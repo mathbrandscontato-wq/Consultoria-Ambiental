@@ -1,39 +1,59 @@
-// Native adaptation of Feature01: one selected service, shared stable crossfade media.
+// Accessible two-column service selector; anchored links from Home and footer are preserved.
 const explorer=document.querySelector('.service-explorer');
 if(explorer){
- const items=[...explorer.querySelectorAll('.service-feature')];
- const media=[...explorer.querySelectorAll('[data-service-media]')];
- const valid=id=>items.some(item=>item.id===id);
- const hashId=()=>{try{return decodeURIComponent(location.hash.slice(1));}catch{return '';}};
- const select=(id,updateUrl=false)=>{
+ const tabs=[...explorer.querySelectorAll('.service-nav-item')];
+ const panels=[...explorer.querySelectorAll('[data-service-panel]')];
+ const valid=id=>panels.some(panel=>panel.id===id);
+ const currentHash=()=>{try{return decodeURIComponent(location.hash.slice(1));}catch{return '';}};
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+ const select=(id,{updateUrl=false,focus=false,scroll=false}={})=>{
   if(!valid(id))return;
-  for(const item of items){const selected=item.id===id;item.open=selected;item.querySelector('summary').setAttribute('aria-expanded',String(selected));}
-  for(const frame of media)frame.classList.toggle('is-active',frame.dataset.serviceMedia===id);
+  for(const tab of tabs){
+   const active=tab.getAttribute('aria-controls')===id;
+   tab.classList.toggle('is-active',active);
+   tab.setAttribute('aria-selected',String(active));
+   tab.tabIndex=active?0:-1;
+  }
+  for(const panel of panels)panel.hidden=panel.id!==id;
   explorer.dataset.activeService=id;
   if(updateUrl&&location.hash!=='#'+id)history.pushState(null,'','#'+id);
+  const activeTab=tabs.find(tab=>tab.getAttribute('aria-controls')===id);
+  if(focus)activeTab?.focus({preventScroll:true});
+  if(scroll)explorer.scrollIntoView({behavior:reduce.matches?'instant':'smooth',block:'start'});
  };
- for(const [index,item] of items.entries()){
-  const summary=item.querySelector('summary');
-  summary.addEventListener('click',event=>{event.preventDefault();select(item.id,true);});
-  summary.addEventListener('keydown',event=>{
-   if(!['ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
-   event.preventDefault();let next=index;
-   if(event.key==='ArrowDown')next=(index+1)%items.length;
-   if(event.key==='ArrowUp')next=(index-1+items.length)%items.length;
-   if(event.key==='Home')next=0;if(event.key==='End')next=items.length-1;
-   select(items[next].id,true);items[next].querySelector('summary').focus({preventScroll:true});
+ tabs.forEach((tab,index)=>{
+  tab.addEventListener('click',event=>{
+   if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+   event.preventDefault();
+   select(tab.getAttribute('aria-controls'),{updateUrl:true,focus:true});
   });
- }
- const fromUrl=()=>select(valid(hashId())?hashId():items[0].id);
- addEventListener('hashchange',fromUrl);addEventListener('popstate',fromUrl);
- explorer.classList.add('is-enhanced');fromUrl();
- // Contextual links select the correct item without browser anchor jumps.
+  tab.addEventListener('keydown',event=>{
+   if(!['ArrowLeft','ArrowRight','ArrowDown','ArrowUp','Home','End'].includes(event.key))return;
+   event.preventDefault();
+   let target=index;
+   if(event.key==='Home')target=0;
+   else if(event.key==='End')target=tabs.length-1;
+   else target=(index+(event.key==='ArrowRight'||event.key==='ArrowDown'?1:-1)+tabs.length)%tabs.length;
+   select(tabs[target].getAttribute('aria-controls'),{updateUrl:true,focus:true});
+  });
+ });
+ explorer.classList.add('is-enhanced');
+ const initial=currentHash();
+ select(valid(initial)?initial:panels[0].id);
+ if(valid(initial))requestAnimationFrame(()=>explorer.scrollIntoView({behavior:'instant',block:'start'}));
+ const restore=()=>{
+  const id=currentHash();
+  select(valid(id)?id:panels[0].id);
+  if(valid(id))explorer.scrollIntoView({behavior:'instant',block:'start'});
+ };
+ addEventListener('hashchange',restore);
+ addEventListener('popstate',restore);
  for(const link of document.querySelectorAll('.context-service-link'))link.addEventListener('click',event=>{
   if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
-  const id=link.hash.slice(1);if(!valid(id))return;
-  event.preventDefault();select(id,true);
-  explorer.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'start'});
-  items.find(item=>item.id===id).querySelector('summary').focus({preventScroll:true});
+  const id=link.hash.slice(1);
+  if(!valid(id))return;
+  event.preventDefault();
+  select(id,{updateUrl:true,focus:true,scroll:true});
  });
 }
 // Custom progress extends the editorial three-step reference; no automatic rotation.

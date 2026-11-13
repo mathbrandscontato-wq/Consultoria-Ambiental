@@ -8,7 +8,7 @@ import { renderProjectsPage } from './pages/projects-page.mjs';
 export const faq=[['Como saber qual serviço meu projeto precisa?','O ponto de partida é entender o empreendimento, sua localização e a demanda ambiental. Com essas informações, a consultoria pode avaliar a frente de atuação adequada.'],['Qual é a região de atuação?','A Ykeizumi tem base em Joinville e atua no Norte e Litoral de Santa Catarina. A viabilidade do atendimento é avaliada conforme cada demanda.'],['Como é definida uma proposta?','A proposta é individualizada e considera o escopo técnico, as etapas e as informações disponíveis sobre o projeto.'],['Quais informações devo reunir?','Localização, tipo de atividade e uma descrição do que você precisa. Documentos ambientais existentes também podem ajudar na avaliação inicial.'],['As imagens da galeria são de projetos realizados?','As imagens são ilustrativas. Projetos realizados serão apresentados quando houver documentação e autorização para publicação.']];
 const segments=[
  ['Incorporadoras e loteadoras','Viabilidade ambiental e licenciamento de loteamentos, condomínios e empreendimentos imobiliários.','ykeizumi-estrada-vegetacao'],
- ['Indústria e infraestrutura','Licenças, renovações e estudos para atividades industriais, saneamento e gestão de resíduos.','floresta'],
+ ['Indústria e infraestrutura','Licenças, renovações e estudos para atividades industriais, saneamento e gestão de resíduos.','ykeizumi-floresta-trilhos'],
  ['Prefeituras e consórcios','Estudos para regularização fundiária e apoio técnico na análise de processos.','ykeizumi-vila-costeira'],
  ['Escritórios de advocacia','Laudos, pareceres e assistência técnica em processos administrativos e judiciais.','paisagem']
 ];

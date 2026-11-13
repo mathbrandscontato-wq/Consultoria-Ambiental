@@ -38,3 +38,170 @@
  .contact-fields{grid-template-columns:1fr}
  .contact-fields>div{grid-column:1/-1}
 }
+
+
+/* Refinamento de UX — 13/11/2026: manter o visual aprovado e facilitar a leitura. */
+
+/* 1. Rodapé editorial compacto: três colunas, links agrupados, assinatura próxima. */
+.bwf-inner{
+  max-width:1240px;
+  padding:clamp(30px,4.4vw,58px) clamp(20px,5.2vw,72px) 0;
+  grid-template-columns:minmax(0,1.12fr) minmax(0,.52fr) minmax(0,1.45fr);
+  column-gap:clamp(26px,3.6vw,56px);
+  row-gap:22px;
+}
+.bwf-col:nth-child(3) .bwf-links{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:clamp(10px,2vw,24px);
+  row-gap:2px;
+}
+.bwf-links{margin-top:8px}
+.bwf-link{font-size:13px;line-height:1.35;padding:5px 0}
+.bwf-label{padding-bottom:10px}
+.bwf-credits{margin-top:14px}
+.bwf-word{margin-top:clamp(10px,1.8vw,24px)}
+.bwf-word-box{max-width:1240px;padding-inline:clamp(20px,5.2vw,72px)}
+.bwf-bottom{padding:12px 0 17px}
+
+/* 2. Acabamento editorial: justificar somente os textos corridos, sem esticar títulos. */
+@media(min-width:640px){
+  .intro-support > p,
+  .home-services-head > p,
+  .home-service p,
+  .sector-description > p,
+  .about-profile-copy .editorial-copy p,
+  .about-story-step p,
+  .services-section-heading > p,
+  .service-context-content > p,
+  .service-panel-description,
+  .service-panel-details li,
+  .region-heading h3,
+  .editorial-hero-grid .page-head p {
+    text-align:justify;
+    text-align-last:left;
+    hyphens:auto;
+    overflow-wrap:break-word;
+  }
+}
+
+/* 3. Imagens técnicas em tratamento editorial menos saturado, sem afetar logo, retrato ou vídeo Hero. */
+.home-service-image,
+.sector-stage img,
+.sector-description img,
+.editorial-hero-media img,
+.circular-card img,
+.about-story-frame img,
+.about-story-mobile-media img {
+  filter:saturate(.74) contrast(.96);
+}
+
+/* 4. Quebra clara entre a introdução e a lista de serviços na Home. */
+#introducao{padding-bottom:clamp(4.5rem,8vw,8.75rem)}
+#servicos-home{
+  background:#edf0e9;
+  border-top:1px solid #c9d2c3;
+  padding-top:clamp(5rem,9vw,9rem);
+}
+#servicos-home .home-services-head{
+  border-bottom:1px solid #b5c3b2;
+  padding-bottom:clamp(2rem,4vw,3.75rem);
+  margin-bottom:clamp(2rem,4vw,3.75rem);
+}
+
+/* 5. Nove frentes: menu lateral + painel técnico fixo na coluna direita. */
+.services-explorer-section>.editorial-container>.services-section-heading{
+  grid-template-columns:minmax(0,1fr) minmax(0,.55fr);
+  align-items:end;
+  margin-bottom:clamp(2rem,3.5vw,3.5rem);
+}
+.services-explorer-section>.editorial-container>.services-section-heading h2{
+  font-size:clamp(2.1rem,3.5vw,3.4rem);
+  max-width:24ch;
+}
+.service-explorer,
+.service-explorer.is-enhanced{
+  display:grid;
+  grid-template-columns:minmax(225px,.82fr) minmax(0,1.2fr);
+  gap:clamp(1.25rem,2.5vw,2.25rem);
+  align-items:start;
+}
+.service-selector{min-width:0}
+.service-selector-list{border-top:1px solid #d0d6cc}
+.service-nav-item{
+  display:grid;
+  grid-template-columns:24px minmax(0,1fr) 20px;
+  gap:clamp(.65rem,1.3vw,1rem);
+  align-items:center;
+  min-height:54px;
+  padding:13px 12px;
+  border-bottom:1px solid #d0d6cc;
+  text-decoration:none;
+  color:#46564a;
+  font-size:clamp(.79rem,.95vw,.91rem);
+  line-height:1.35;
+  transition:background .2s,color .2s;
+}
+.service-nav-item:hover{background:#e6e9e1;color:#173729}
+.service-nav-item.is-active{background:#e0e4dc;color:#1e3b2d;font-weight:600}
+.service-nav-item:focus-visible{outline:2px solid #587f5b;outline-offset:-2px}
+.service-nav-number{font-size:.67rem;letter-spacing:.04em;color:#727e70}
+.service-nav-arrow{justify-self:end;font-size:1rem;opacity:0}
+.service-nav-item.is-active .service-nav-arrow{opacity:1}
+.service-panel-stage{min-width:0}
+.service-info-panel{
+  background:#1c3a2c;
+  border-radius:12px;
+  color:#f2f4ef;
+  padding:clamp(1.75rem,3.5vw,3.4rem);
+  min-height:440px;
+}
+.service-info-panel[hidden]{display:none!important}
+.service-panel-count{display:block;font-size:.72rem;letter-spacing:.08em;color:#d4e0d0;margin-bottom:clamp(1.1rem,2.5vw,2.5rem)}
+.service-info-panel h3{
+  color:#fff;font-size:clamp(1.55rem,2.5vw,2.35rem);
+  font-weight:600;line-height:1.15;letter-spacing:-.03em;margin:0 0 1rem;
+  overflow-wrap:break-word;
+}
+.service-panel-description{max-width:62ch;color:#dbe7d7;font-size:.94rem;line-height:1.65;margin:0 0 1.5rem}
+.service-panel-details{padding-left:1.2rem;margin:0 0 1.8rem;display:grid;gap:.65rem}
+.service-panel-details li{font-size:.88rem;line-height:1.55;color:#f1f4ef;padding-left:.15rem}
+.service-panel-details li::marker{color:#b9d0b1}
+.service-panel-cta{
+  color:#fff;display:inline-flex;align-items:center;gap:1.5rem;
+  min-height:44px;text-decoration:none;border-bottom:1px solid #a6c19e;
+  font-size:.88rem;font-weight:600;
+}
+.service-panel-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.service-explorer{scroll-margin-top:105px}
+@media(max-width:960px){
+  .service-explorer,.service-explorer.is-enhanced{grid-template-columns:minmax(195px,.75fr) minmax(0,1fr)}
+  .bwf-inner{grid-template-columns:minmax(0,1fr) minmax(0,.55fr) minmax(0,1.45fr);gap:1.6rem}
+}
+@media(max-width:760px){
+  .service-explorer,.service-explorer.is-enhanced{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem}
+  .services-explorer-section>.editorial-container>.services-section-heading{grid-template-columns:1fr;gap:1rem}
+  .service-selector-list{
+    display:flex;gap:.5rem;overflow-x:auto;scroll-snap-type:x proximity;
+    overscroll-behavior-inline:contain;padding:0 0 12px;border:0;
+    scrollbar-width:thin;
+  }
+  .service-nav-item{
+    min-width:min(70vw,250px);max-width:250px;min-height:78px;
+    border:1px solid #cbd4c6;border-radius:7px;scroll-snap-align:start;
+    padding:12px;grid-template-columns:20px 1fr 15px;
+  }
+  .service-info-panel{min-height:0;padding:clamp(1.35rem,5vw,2rem)}
+  .service-panel-details li,.service-panel-description{font-size:.94rem}
+  .bwf-inner{grid-template-columns:1fr 1fr;row-gap:1.8rem}
+  .bwf-col:first-child{grid-column:1/-1;max-width:none}
+  .bwf-col:nth-child(3) .bwf-links{grid-template-columns:1fr;gap:1px}
+}
+@media(max-width:520px){
+  .bwf-inner{column-gap:1.25rem}
+  .bwf-word{margin-top:10px}
+  .bwf-bottom{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-nav-item{transition:none}
+}
