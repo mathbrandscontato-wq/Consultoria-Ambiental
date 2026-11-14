@@ -29,14 +29,14 @@ test("build exporta quatro páginas estáticas independentes", async () => {
     assert.match(html, /<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
     assert.match(html, /<nav[^>]*aria-label="Institucional"/);
     assert.match(html,/© \d{4} Ykeizumi Consultoria Ambiental/);
-    assert.match(html, /<meta name="robots" content="noindex,nofollow">/);
+    assert.match(html, /<meta name="robots" content="index,follow">/);
     if (route.slug === 'contato') assert.match(html, /<fieldset disabled>/);
     else assert.doesNotMatch(html, /<form\b/);
   }
 });
 test("interações não representam backend ou publicação", async () => {
   const html = await readFile(join(root, "dist", "contato", "index.html"), "utf8");
-  assert.match(html, /Formulário em configuração/);
+  assert.match(html, /Envio on-line indisponível/);
   assert.match(html, /<fieldset disabled>/);
   assert.doesNotMatch(html, /type="submit"|fetch\(/);
   const tokens = await readFile(join(root, "dist", "styles", "tokens.css"), "utf8");

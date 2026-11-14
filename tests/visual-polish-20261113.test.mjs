@@ -21,10 +21,10 @@ test('revisão visual mantém quatro páginas, nove serviços e conteúdo integr
  assert.equal((services.match(/class="service-context"/g)||[]).length,7);
  assert.equal((home.match(/class="home-service"/g)||[]).length,9);
 });
-test('acessibilidade e dados essenciais permanecem na versão provisória',()=>{
+test('acessibilidade e dados essenciais permanecem no site publicado',()=>{
  for(const route of routes){
    const html=renderPage(route);
-   assert.match(html,/noindex,nofollow/);
+   assert.match(html,/index,follow/);
    assert.match(html,/60\.422\.093\/0001-74/);
    assert.match(html,/lara@ykeizumi\.com\.br/);
  }

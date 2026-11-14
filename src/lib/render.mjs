@@ -11,22 +11,6 @@ const nav = (current, prefix) => routes.map((route) =>
   `<li><a href="${escapeHtml(routeHref(route, prefix))}"${route.slug === current.slug ? ' aria-current="page"' : ""}>${escapeHtml(route.label)}</a></li>`
 ).join("\n");
 
-const main = (route) => {
-  const isContact = route.slug === "contato";
-  const home = route.slug === "";
-  return `<main id="conteudo" tabindex="-1">
-  <section class="foundation-slot" data-design-slot="${escapeHtml(route.slot)}" aria-labelledby="titulo-pagina">
-    <div class="foundation-slot__content">
-      <p class="foundation-slot__eyebrow">Ambiente de desenvolvimento · PR-01</p>
-      <h1 id="titulo-pagina">${escapeHtml(route.title)} em preparação</h1>
-      <p>Esta é somente uma estrutura técnica reversível. A composição visual e os conteúdos aprovados serão vinculados às pranchas originais do G2 V5 antes da implementação.</p>
-      ${home ? '<p class="foundation-slot__notice">Hero A aprovado · implementação visual ainda não iniciada.</p>' : ""}
-      ${isContact ? '<p class="foundation-slot__notice">O envio de formulários não está disponível. Nenhum dado é coletado nesta versão.</p>' : ""}
-    </div>
-  </section>
-</main>`;
-};
-
 export const renderPage = (route) => {
   if (!routes.some((r) => r.slug === route.slug)) throw new Error("Rota não prevista");
   const prefix = route.slug ? "../" : "./";
@@ -38,7 +22,7 @@ export const renderPage = (route) => {
     contato: 'Contato | Ykeizumi Consultoria Ambiental',
   }[route.slug];
   const pageStyles={sobre:['about.css','about-tunnel.css'],servicos:['services.css'],projetos:['atlas.css']};
-  const pageScripts={sobre:['about.mjs','about-tunnel.mjs'],servicos:['services.mjs'],'':['circular-gallery.mjs','map-pan.mjs','media.mjs']};
+  const pageScripts={sobre:['about.mjs','about-tunnel.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['circular-gallery.mjs','map-pan.mjs','media.mjs']};
   const description = {
     '': 'Licenciamento ambiental, estudos ambientais, EIV, regularização fundiária, laudos técnicos e defesa administrativa para empreendimentos e para o setor público.',
     sobre: 'Conheça a Ykeizumi, sua fundadora e a experiência em licenciamento, estudos e regularização ambiental.',
@@ -51,7 +35,7 @@ export const renderPage = (route) => {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="robots" content="index,follow">
   <meta name="description" content="${escapeHtml(description)}">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
@@ -80,7 +64,7 @@ export const renderPage = (route) => {
   <script type="module" src="${prefix}scripts/footer.mjs?v=ux-20261113-visual-v3"></script>
 
 </head>
-<body data-stage="g5-design-review">
+<body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
   <header class="site-header">
     <div class="site-header__inner">

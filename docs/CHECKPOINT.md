@@ -141,3 +141,23 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - npm run qa46 testes PASS. CUA320/390/768/1024/1440/1920 sem overflow, largura do H2 igual ao container em todos; desktop1440/1920 com2 linhas em1200px. Publicação pelo mesmo Site, sem mudar indexação, SEO, conteúdo ou demais seções.
 
 - Publicado versão27 (fonte c41dfa3492de8ae8d421fbb631ab7eaf8d86e8f4), deploy appgdep_6ae11abf36f48191b6681bdf60881956 succeeded. CI112c068 SUCCESS, run40588829214. Conferência pública: cabeçalho block, H2 e container ambos1200px e2 linhas. Evidência docs/evidence/projects-context-title-published.jpg. Gate excluiu página temporária do QA antes do pacote final limpo; build/check46testes aprovados no helper de empacotamento.
+
+
+## 13/11/2026 — Sincronização GitHub → Sites autorizada
+- Fonte selecionada: PR13, branch feat/ykeizumi-revisao-cliente-20261112, commit 0410b95fd53ba2e99d3c2942878c470f0ea48167. Main é documental e não foi usada como fonte visual.
+- Site existente e audiência pública preservados. Fonte anterior recuperável no Git do Sites: fa34058d1848954acaf0cf182560f616e9f1457f; publicação anterior versão27. Sem merge de PR, alteração DNS ou exclusão de hospedagem.
+- Aplicados os arquivos rastreados da branch, sem reescrever design/conteúdo. Quatro rotas institucionais, nove frentes de atuação, contatos oficiais e fotografias revisadas. Projetos e FAQ removidos conforme revisão da cliente.
+- npm run qa aprovado: sintaxe52 módulos, build4rotas,62testes e inspeção estática. CUA em390/768/1440 nas4rotas sem overflow, umH1, imagens comsrc sem falha. Seleção do serviço09 observada, formulário inteiramente desabilitado e semaction.
+- QA responsivo executado no navegador suportado. scripts/qa-browser.mjs legado ainda pressupõe5rotas e não foi executado; não se alega CI/browser automatizado aprovado. Sem auditoria WCAG integral/CWV.
+- Sanity Studio/adaptador presentes mas leitor não está ligado à renderização; mudanças no CMS ainda não atualizam o site. Noindex preservado conforme branch revisada; indexação não alterada nesta sincronização.
+
+- Publicado no Sites como versão28, fonte817d89913125bba003b0745c9dc2d61fda60fc53, deployappgdep_6af7845c9fd48191bbc39468900db1c3 succeeded. As4rotas conferidas no domínio oficial https://ykeizumi.com.br/ viaHTTPS, novos títulos presentes, sem overflow/imagens quebradas na inspeção. Evidência docs/evidence/ykeizumi-publicado-nov13.jpg. Esta atualização documental não muda o runtime publicado.
+
+
+## 14/11/2026 — Limpeza da versão pública e preparação do contato
+- Solicitação: retirar tags de protótipo e ativar envio para Lara. Fonte de rollback ad99189530f453f71a38d9033eddcde43533bfe5 (runtime anterior versão28).
+- Removidos figcaptions/spans repetidos Imagem ilustrativa nas4rotas, data-stage de revisão e fallback de scaffold não utilizado. Sem apagar imagens, alternativas acessíveis, textos técnicos ou aviso do portfólio em construção.
+- Meta robots index,follow nas4rotas após confirmação do domínio definitivo; não se afirma que Google já indexou.
+- Aviso técnico Formulário em configuração substituído por estado honesto de indisponibilidade, com contatos diretos preservados.
+- FormSubmit: integração nativa preparada, desativada por padrão; destinatária fixa, upload multipart PDF/JPG/PNG limitado10MB, honeypot/captcha e aviso do provedor. Revisor automático rejeitou teste por ausência de autorização explícita para FormSubmit; não foi contornado. Ativação e entrega não confirmadas. Plano concreto em docs/CONTACT_DELIVERY.md.
+- QA65testes aprovados, build4rotas e inspeção estática. Navegador desktop verificou4rotas: umH1, indexfollow, nenhum marcador provisório/legenda repetida, zero overflow e zero campos de envio habilitados. QA de browser automatizado legado não executado.

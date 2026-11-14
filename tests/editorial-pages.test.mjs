@@ -20,12 +20,12 @@ test("quatro páginas semanticamente completas e sem scaffold",()=>{
   assert.match(html,/<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
   assert.match(html,/<nav[^>]*aria-label="Institucional"/);
   assert.match(html,/© \d{4} Ykeizumi Consultoria Ambiental/);
-  assert.match(html,/<meta name="robots" content="noindex,nofollow">/);
+  assert.match(html,/<meta name="robots" content="index,follow">/);
  }
 });
 test("contato ainda bloqueado, sem coleta ou sucesso falso",()=>{
  const html=renderPage(routes.find(r=>r.slug==="contato"));
- assert.match(html,/Formulário em configuração/i);
+ assert.match(html,/Envio on-line indisponível/i);
  assert.match(html,/<fieldset disabled>/);
  assert.doesNotMatch(html,/type="submit"|enviado com sucesso/i);
 });

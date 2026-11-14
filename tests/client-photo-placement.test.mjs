@@ -13,7 +13,7 @@ test('Fotos da cliente mantêm legenda editorial e sem alegação de projetos ex
   for(const id of ['ykeizumi-vila-costeira','ykeizumi-floresta-trilhos','ykeizumi-estrada-vegetacao','ykeizumi-fauna-macaco','ykeizumi-avifauna']) {
     assert.ok(html.includes('media/'+id+'-1280.jpg'), 'Falta foto na galeria: '+id);
   }
-  assert.match(html,/Imagem ilustrativa/);
+  assert.doesNotMatch(html,/<(?:figcaption|span)>Imagens? ilustrativas?<\//i);
   assert.match(html,/Portfólio em construção/);
 });
 test('Foto JPEG tratada não tenta requisitar WebP inexistente',()=>{

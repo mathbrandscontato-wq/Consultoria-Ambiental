@@ -25,7 +25,7 @@ test("Home possui Hero e não duplica o header estrutural", () => {
 test("Contato permanece como página técnica sem envio", () => {
   const html = renderPage(routes.find((r) => r.slug === "contato"));
   assert.doesNotMatch(html, /data-design="G2V5-HERO-A"/);
-  assert.match(html, /Formulário em configuração/);
+  assert.match(html, /Envio on-line indisponível/);
 });
 
 test("Hero usa pontilhado e vídeo, sem CTA inferior ou controles", () => {

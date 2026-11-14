@@ -36,4 +36,4 @@ await writeFile(join(dist,"scripts/footer.mjs"), await readFile(join(root,"src/s
 
 await writeFile(join(dist,"scripts/map-pan.mjs"), await readFile(join(root,"src/scripts/map-pan.mjs"),"utf8"));
 
-for(const name of ['unified.mjs','circular-gallery.mjs','about.mjs','services.mjs','about-tunnel.mjs']) await cp(join(root,'src/scripts',name),join(dist,'scripts',name));
+for(const name of ['unified.mjs','circular-gallery.mjs','about.mjs','services.mjs','about-tunnel.mjs','contact-delivery.mjs']) await cp(join(root,'src/scripts',name),join(dist,'scripts',name));
