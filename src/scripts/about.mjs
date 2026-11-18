@@ -30,24 +30,6 @@ if(portrait&&'IntersectionObserver'in window){
  observer.observe(portrait);
 }
 
-const story=document.querySelector('[data-about-story]');
-if(story){
- const steps=[...story.querySelectorAll('[data-story-step]')],frames=[...story.querySelectorAll('[data-story-frame]')];
- let visible=true,frame=0;
- const update=()=>{
-  frame=0;if(!visible)return;
-  const rect=story.getBoundingClientRect(),view=innerHeight;
-  const progress=Math.max(0,Math.min(1,(view*.55-rect.top)/Math.max(1,rect.height-view*.35)));
-  let active=0,nearest=Infinity;
-  for(const [i,step]of steps.entries()){const bounds=step.getBoundingClientRect(),distance=Math.abs(bounds.top+Math.min(bounds.height*.4,view*.2)-view*.45);if(distance<nearest){nearest=distance;active=i;}}
-  story.style.setProperty('--story-progress',progress);
-  steps.forEach((step,i)=>step.classList.toggle('is-active',i===active));frames.forEach((image,i)=>image.classList.toggle('is-active',i===active));
- };
- const schedule=()=>{if(!frame&&visible)frame=requestAnimationFrame(update);};
- if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries){visible=entry.isIntersecting;if(visible)schedule();}},{rootMargin:'100px'});observer.observe(story);}
- addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});update();
-}
-
 for(const card of document.querySelectorAll('[data-bento]')){
  let rect,frame=0,point;
  const clear=()=>{cancelAnimationFrame(frame);frame=0;card.classList.remove('is-lit');};
@@ -58,4 +40,67 @@ for(const card of document.querySelectorAll('[data-bento]')){
   if(!frame)frame=requestAnimationFrame(()=>{card.style.setProperty('--bento-x',point.x+'px');card.style.setProperty('--bento-y',point.y+'px');card.classList.add('is-lit');frame=0;});
  });
  card.addEventListener('pointerleave',clear);card.addEventListener('pointercancel',clear);reduced.addEventListener('change',clear);fine.addEventListener('change',clear);
+}
+
+// Page scroll advances the horizontal timeline; native horizontal scrolling is the fallback.
+const timelineSection=document.querySelector('.about-approach');
+if(timelineSection){
+ const container=timelineSection.querySelector('.editorial-container');
+ const scene=timelineSection.querySelector('.about-timeline-scene');
+ const viewport=timelineSection.querySelector('.about-timeline-viewport');
+ const track=timelineSection.querySelector('.about-timeline');
+ const steps=[...track.children];
+ let distance=0,travel=0,frame=0,enabled=false,positions=[];
+ const update=()=>{
+  frame=0;if(!enabled)return;
+  const progress=Math.max(0,Math.min(1,(104-container.getBoundingClientRect().top)/travel));
+  track.style.setProperty('--timeline-x',(-distance*progress)+'px');
+  steps.forEach((step,i)=>{
+   const appearance=Math.max(0,Math.min(1,(viewport.clientWidth-positions[i]+distance*progress)/180));
+   step.style.setProperty('--step-opacity',appearance);
+   step.style.setProperty('--step-x',((1-appearance)*44)+'px');
+  });
+ };
+ const schedule=()=>{if(!frame&&enabled)frame=requestAnimationFrame(update);};
+ const measure=()=>{
+  enabled=false;timelineSection.classList.remove('is-timeline-enhanced');
+  track.style.removeProperty('--timeline-x');
+  steps.forEach(step=>{step.style.removeProperty('--step-opacity');step.style.removeProperty('--step-x');});
+  const mobile=innerWidth<768;
+  viewport.setAttribute('aria-label',mobile?'Etapas de atuação':'Etapas de atuação. Role a página ou use as setas para acompanhar a sequência horizontal.');
+  if(mobile)viewport.removeAttribute('tabindex');else viewport.setAttribute('tabindex','0');
+  if(mobile||reduced.matches||innerHeight<620)return;
+  positions=steps.map(step=>step.getBoundingClientRect().left-track.getBoundingClientRect().left);
+  distance=Math.max(0,track.scrollWidth-viewport.clientWidth);
+  // Pin only when the complete heading and stage fit in the available screen.
+  if(scene.getBoundingClientRect().height>innerHeight-120)return;
+  travel=Math.max(innerHeight*.9,distance*1.1);
+  container.style.setProperty('--timeline-travel',travel+'px');
+  viewport.scrollLeft=0;
+  timelineSection.classList.add('is-timeline-enhanced');enabled=true;update();
+ };
+ viewport.addEventListener('keydown',event=>{
+  if(!enabled||!['ArrowRight','ArrowLeft','Home','End'].includes(event.key))return;
+  event.preventDefault();
+  const start=scrollY+container.getBoundingClientRect().top-104;
+  const target=event.key==='Home'?start:event.key==='End'?start+travel:scrollY+(event.key==='ArrowRight'?1:-1)*travel/3;
+  scrollTo({top:Math.max(start,Math.min(start+travel,target)),behavior:'instant'});
+ });
+ addEventListener('scroll',schedule,{passive:true});
+ addEventListener('resize',measure,{passive:true});
+ reduced.addEventListener('change',measure);
+ if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>{
+   for(const entry of entries){
+    if(!entry.isIntersecting||innerWidth>=768)continue;
+    observer.unobserve(entry.target);
+    if(!reduced.matches&&entry.target.animate){
+     const animation=entry.target.animate([{opacity:.3,transform:'translateY(16px)'},{opacity:1,transform:'none'}],{duration:450,easing:'ease-out'});
+     reduced.addEventListener('change',()=>{if(reduced.matches)animation.cancel();},{once:true});
+    }
+   }
+  },{threshold:.15});
+  steps.forEach(step=>observer.observe(step));
+ }
+ if(document.fonts)document.fonts.ready.then(measure);else measure();
 }

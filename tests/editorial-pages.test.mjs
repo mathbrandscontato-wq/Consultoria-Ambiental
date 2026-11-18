@@ -7,7 +7,7 @@ test("nove serviços, navegação interna e sem cases inventados",()=>{
  assert.equal(serviceCards.length,9);
  assert.equal(new Set(serviceCards.map(x=>x.slug)).size,9);
  const html=renderHomeSections();
- for(const path of ["./contato/","#s01","#s09"])assert.ok(html.includes(path));
+ for(const path of ["./servicos/","./servicos/#s01","./servicos/#s09"])assert.ok(html.includes(path));
  assert.match(html,/Portfólio em construção/);
  assert.ok(!html.includes('href="./projetos/"'));
  assert.doesNotMatch(html,/clientes atendidos|10\+ anos|1000\+/i);
@@ -23,11 +23,11 @@ test("quatro páginas semanticamente completas e sem scaffold",()=>{
   assert.match(html,/<meta name="robots" content="index,follow">/);
  }
 });
-test("contato ainda bloqueado, sem coleta ou sucesso falso",()=>{
+test("contato permite ativação humana sem sucesso falso",()=>{
  const html=renderPage(routes.find(r=>r.slug==="contato"));
- assert.match(html,/Envio on-line indisponível/i);
- assert.match(html,/<fieldset disabled>/);
- assert.doesNotMatch(html,/type="submit"|enviado com sucesso/i);
+ assert.match(html,/Envie sua solicitação/i);
+ assert.match(html,/<fieldset>/);
+ assert.doesNotMatch(html,/enviado com sucesso|<fieldset disabled>/i);
 });
 test("nove grupos de serviço têm IDs de destino reais",()=>{
  const html=renderPage(routes.find(r=>r.slug==="servicos"));

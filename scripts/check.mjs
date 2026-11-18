@@ -3,6 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { routes } from "../src/site.mjs";
+import { styleFilesFor } from "../src/lib/render.mjs";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 // Production export must contain only the four approved HTML entrypoints.
 const exportedFiles=await readdir(join(root,'dist'),{recursive:true});
@@ -21,9 +22,14 @@ for (const route of routes) {
   assert.match(html, /<a class="skip-link" href="#conteudo">/);
   assert.match(html, /<main id="conteudo" tabindex="-1"(?:\s[^>]*)?>/);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
-  assert.ok(html.includes('href="' + prefix + 'styles/tokens.css"'));
-  assert.ok(html.includes('href="' + prefix + 'styles/base.css"'));
-  assert.ok(html.includes('href="' + prefix + 'styles/sections.css"'));
+  const styles=[...html.matchAll(/<link rel="stylesheet" href="([^"]+)">/g)];
+  assert.equal(styles.length,1,'A exportação deve carregar um único bundle CSS por rota');
+  const bundleHref=styles[0][1];
+  assert.ok(bundleHref.startsWith(prefix+'styles/site-'));
+  assert.match(bundleHref,/site-[a-f0-9]{12}\.css$/);
+  const bundle=await readFile(join(root,'dist/styles',bundleHref.split('/').at(-1)),'utf8');
+  const originalCascade=(await Promise.all(styleFilesFor(route.slug).map(name=>readFile(join(root,'src/styles',name),'utf8')))).join('\n');
+  assert.equal(bundle,originalCascade,'O bundle deve preservar cada byte e a ordem da cascata original');
   assert.match(html, /<footer\b[\s\S]*?Ykeizumi Consultoria Ambiental/);
   assert.match(html, /<nav[^>]*aria-label="Institucional"/);
   assert.match(html, /© \d{4} Ykeizumi Consultoria Ambiental/);
@@ -33,13 +39,15 @@ for (const route of routes) {
   assert.ok(html.includes('href="' + prefix + 'contato/"'));
   if (route.slug === 'contato') {
     assert.match(html, /<form class="contact-form"/);
-    assert.match(html, /<fieldset disabled>/);
-    assert.doesNotMatch(html, /type="submit"|action="|enviado com sucesso/i, 'O formulário não pode coletar dados sem destino validado');
+    assert.match(html, /<fieldset>/);
+    assert.match(html, /action="https:\/\/formsubmit.co\/lara@ykeizumi.com.br" method="POST"/);
+    assert.match(html, /Envie sua solicitação/);
+    assert.doesNotMatch(html, /enviado com sucesso|<fieldset disabled>/i, 'Não pode simular entrega confirmada durante ativação pendente');
   } else assert.doesNotMatch(html, /<form\\b/i, 'Somente a página Contato pode conter formulário');
 
   if (!route.slug) {
     assert.match(html, /data-design="G2V5-HERO-A"/);
-    assert.match(html, /hero-a\.css/);
+    assert.ok(styleFilesFor(route.slug).includes('hero-a.css'));
     assert.match(html, /mobile-menu\.mjs/);
     assert.match(html, /media\/hero-desktop\.mp4/);
     assert.doesNotMatch(html, /VÍDEO ILUSTRATIVO|ha-location/);

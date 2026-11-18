@@ -1,0 +1,125 @@
+# Ykeizumi UX/UI V2 — desempenho e verificação
+
+## Estados de comparação
+
+- Antes: publicação32, fonte Sites `fd0e04732ca31a840dd578423856311309b9b703`; espelho GitHub de mesmo runtime `a1c37a8f82292a6173e35a323bfb00fe9644100f`.
+- Depois: commit exato da cabeça da PR do refinamento V2, registrado em `CANDIDATE_SHA` no workflow.
+- O workflow não publica nem modifica DNS. A publicação continua pelo Sites existente.
+
+## Medição executável e limitações
+
+`.github/workflows/ykeizumi-ux-v2-audit.yml` executa oito comparações Lighthouse: Home, Sobre, Serviços e Contato, cada uma em mobile e desktop simulados. Cada job constrói os dois estados e usa o mesmo servidor estático local, ambiente e versão da ferramenta. São preservados HTML e JSON completos dos relatórios e `summary.json` com pontuações, FCP, LCP, TBT, CLS, Speed Index, versão e configuração.
+
+Esses valores serão dados de laboratório do runner GitHub, não medição do TTFB da hospedagem ou experiência real dos usuários. Uma execução por estado não representa distribuição estatística. Os valores e a variabilidade precisam ser lidos dos artefatos concluídos; este documento não inventa pontuações. Lighthouse não mede INP de campo.
+
+Ferramentas isoladas, sem dependências adicionadas ao site: Lighthouse13.6.0; Playwright1.65.1; @axe-core/playwright4.14.0 (versões verificadas no registro npm nesta execução). Chrome do runner Ubuntu.
+
+## Acessibilidade e QA automatizados
+
+O job de navegador gera snapshots antes/depois em390/1440 e resultados axe com tags WCAG2/2.1/2.2 A/AA. A candidata é também inspecionada em320/360/375/390/414/720/768/1024/1280/1440/1920 nas quatro páginas. Verifica overflow, H1 único, IDs duplicados, erros JavaScript e imagens que concluíram com erro. Verifica links internos e IDs de destino. Fluxos: nove acordeões com toque e recolhimento, Enter/Space, deep link#s09, desktopEnd/Home e menuEscape.
+
+720CSSpx é uma verificação complementar da largura de layout efetiva de1440 a200%;320 verifica reflow estreito. Não é prova de zoom físico do browser. Teste manual do navegador e revisão visual continuam necessários. Axe pode marcar casos para revisão manual, especialmente texto sobre imagens, vídeo e efeitos. Não se afirma conformidade WCAG integral.
+
+## Achados no código e otimizações
+
+1. O mapa geográfico SVG tem2.250.675bytes e a variante mobile1.176.020bytes. O thumbnail e o mapa fora da primeira tela não tinham lazyloading, podendo disputar tráfego antes de o visitante chegar à seção. Foram encaminhados ao responsável pela Home para carregamento lazy sem trocar a imagem/mapa.
+2. A hero mantém vídeo2.425.547bytesdesktop/662.076bytesmobile e poster WebP. O poster já era fetchpriorityhigh; adicionado preload da mesma URL para descoberta imediata. Não foi aplicado lazy ao LCP nem removido o vídeo.
+3. A revisão da cliente removeu o túnel da página Sobre, mas a página ainda requisitava `about-tunnel.mjs`(2.998bytes) e `about-tunnel.css`. Retirados somente esses includes comprovadamente sem componente correspondente; fontes históricas preservadas.
+4. O footer recalculava a tipografia escrevendo100px, medindo e ajustando de novo quando ResizeObserver disparava por mudança de altura, mesmo sem largura nova. Fit agora ignora a mesma largura e força nova medição apenas ao resolver as fontes; assinatura e efeitos preservados.
+5. Fontes Avenir continuam local-first, sem downloads externos ou redistribuição de arquivos proprietários. A aparência em dispositivos sem Avenir usa o fallback existente, igualmente nos dois estados do laboratório.
+
+## CMS e contato — estado real preservado
+
+A camada Sanity existe em `src/lib/sanity-content.mjs`, está desabilitada por padrão e não é chamada pelo build/render atual. Não há integração dinâmica no site exportado que possa ser validada como funcional nesta auditoria. Nenhum mapeamento do CMS foi ligado ou substituído. Os testes existentes do adaptador continuam sendo testes de contrato, não confirmação de conteúdo publicado chegando ao site.
+
+Contato continua desabilitado, aguardando autorização/acesso da contaGoogle da Lara e integração real. Não foi enviado teste nem simulada confirmação de entrega nesta revisão.
+
+## Artefatos esperados
+
+- `artifacts/ux-v2/lighthouse/<rota>-<dispositivo>/before.report.{html,json}`
+- `artifacts/ux-v2/lighthouse/<rota>-<dispositivo>/after.report.{html,json}`
+- `artifacts/ux-v2/lighthouse/<rota>-<dispositivo>/summary.json`
+- `artifacts/ux-v2/browser/*-axe.json`, capturasPNG e `results.json`.
+- `docs/UX_V2_FIELD_DATA_ATTEMPT.json`: resultado real da tentativa PageSpeed Insights para disponibilidade de campo.
+
+## Referências técnicas
+
+- https://web.dev/articles/vitals
+- https://developer.chrome.com/docs/lighthouse/performance/performance-scoring
+- https://developer.chrome.com/docs/lighthouse/overview
+- https://github.com/dequelabs/axe-core
+
+## Resultados observados até o handoff
+
+Sintaxe dos quatro novos scripts validada com `node --check`. O processo local não executou Chrome, Playwright, Lighthouse ou axe. As ferramentas de navegador locais permanecem sob controle CUA do responsável. O resultado dos jobs remotos e as métricas finais serão adicionados pelo responsável após execução, sem inferir sucesso a partir da presença do workflow.
+
+## Primeira medição comparativa — execução real
+
+Execução GitHub Actions [44294195532](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44294195532), Lighthouse13.6.0 / Chrome157. Baselinea1c37a8; candidata5c65d15. Uma execução por cenário, sem mediana; oscilações de CPU do runner afetam comparações. Estes resultados precedem o ajuste final de contraste em Serviços e o bundleCSS, portanto não representam a versão final publicável.
+
+| Página | Dispositivo | Performance antes→depois | Accessibility antes→depois | Best Practices antes→depois | SEO antes→depois | LCP depois | TBT depois | CLS depois |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| home | mobile | 45→93 | 97→100 | 96→96 | 100→100 | 3.01s | 0ms | 0.000 |
+| home | desktop | 82→99 | 97→100 | 100→100 | 100→100 | 0.89s | 0ms | 0.000 |
+| sobre | mobile | 73→76 | 95→100 | 100→100 | 100→100 | 6.16s | 0ms | 0.000 |
+| sobre | desktop | 97→97 | 95→100 | 96→96 | 100→100 | 1.31s | 0ms | 0.000 |
+| servicos | mobile | 86→85 | 96→95 | 100→100 | 100→100 | 4.06s | 9ms | 0.000 |
+| servicos | desktop | 100→99 | 96→96 | 100→100 | 100→100 | 0.85s | 0ms | 0.000 |
+| contato | mobile | 98→98 | 100→100 | 100→100 | 100→100 | 1.81s | 0ms | 0.000 |
+| contato | desktop | 100→100 | 100→100 | 100→100 | 100→100 | 0.43s | 0ms | 0.000 |
+
+As oito comparações Lighthouse concluíram com sucesso técnico; isso não significa atingir todas as metas. Home mobile45→93 e todos os cenários Accessibility≥95. Sobre mobile76 e Serviços mobile85 ainda abaixo de90; LCPmobile3.0s/6.2s/4.1s emHome/Sobre/Serviços excede referência2.5s. CLS0 em todos os cenários. Contato mobile98/desktop100. Não há INP de campo disponível.
+
+Os HTML/JSON completos dos16 relatórios estão nos oito artifacts `lighthouse-<página>-<dispositivo>` da execução. Retenção padrão informada pelo GitHub: até16/02/2027. Cópias materializadas durante a auditoria em `artifacts/ux-v2/downloads/`, ignoradas pelo Git e fora da exportação do site.
+
+O job de navegador da primeira execução falhou: contraste4.39:1 em um parágrafoServiços e uma asserção que lia `aria-expanded` antes de o evento nativo `toggle` concluir. O contraste foi corrigido para5.38:1; a leitura do teste deve aguardar a sincronização, sem ocultar falhas reais. Reteste necessário.
+
+## Bundle CSS de cascata preservada — aguarda reteste
+
+O laboratório apontou13–14 solicitações de folhas CSS bloqueando a renderização. O build passa a concatenar, sem minificar nem reescrever, exatamente os mesmos arquivos e na mesma ordem específica de cada rota. Cada página carrega uma única folha com SHA-256 no nome para invalidar o cache quando os bytes mudam. Os arquivos-fonte individuais permanecem disponíveis para manutenção. URLs relativas mantêm a mesma pasta `styles`, e o gate verifica igualdade byte a byte entre o bundle exportado e a cascata de origem. Nenhum seletor, regra, fonte, conteúdo ou animação foi removido.
+
+A diferença de pontuação deve ser medida novamente. O laboratório usa servidorHTTP/1.1 local, sem compressão; a produção pode aplicarHTTP/2, compressão e cache. Assim, a redução de rodadas de rede não deve ser descrita como ganho de latência real comprovado no domínio.
+
+## Medição final da candidata — 18/11/2026
+
+Execução [44345724108](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108), candidata `a3d3ba7c57903b47ed9fb6f667c855cf9feb180d`, baseline `a1c37a8f82292a6173e35a323bfb00fe9644100f`. As oito comparações Lighthouse concluíram e geraram16JSON+16HTML. Inclui bundleCSS, correção de contraste e ajuste de perfil solicitado pela cliente. A situação do job de navegador e a autorização efetiva de publicação são registradas separadamente no relatório de entrega.
+
+Uma execução por fase/página/dispositivo: resultados de laboratório, com rede móvel simulada e CPU4×, não mediana ou dados reais de usuários. A variação entre a primeira e a segunda execução também aparece na baseline; não atribuir toda oscilação a um ajuste específico.
+
+| Página | Dispositivo | Performance antes→depois | Accessibility antes→depois | Best Practices antes→depois | SEO antes→depois | LCP antes→depois | TBT antes→depois | CLS antes→depois |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| home | mobile | 61→86 | 97→100 | 96→96 | 100→100 | 13.66→4.13s | 522.23→0.00ms | 0.00→0.00 |
+| home | desktop | 88→100 | 97→100 | 100→100 | 100→100 | 2.37→0.80s | 11.00→0.00ms | 0.00→0.00 |
+| sobre | mobile | 76→78 | 95→100 | 100→100 | 100→100 | 6.09→6.00s | 0.00→0.00ms | 0.00→0.00 |
+| sobre | desktop | 95→97 | 95→100 | 96→96 | 100→100 | 1.28→1.21s | 122.00→0.00ms | 0.00→0.00 |
+| servicos | mobile | 87→87 | 96→100 | 100→100 | 100→100 | 3.92→3.91s | 0.00→0.00ms | 0.00→0.00 |
+| servicos | desktop | 100→100 | 96→100 | 100→100 | 100→100 | 0.82→0.77s | 0.00→0.00ms | 0.00→0.00 |
+| contato | mobile | 98→100 | 100→100 | 100→100 | 100→100 | 1.84→1.35s | 100.00→0.00ms | 0.00→0.00 |
+| contato | desktop | 100→100 | 100→100 | 100→100 | 100→100 | 0.37→0.32s | 0.00→0.00ms | 0.00→0.00 |
+
+### Interpretação e pendências reais
+
+- Accessibility100 nos oito cenários finais; o parágrafo de Serviços deixou de falhar no contraste automatizado. Isso não é certificação de conformidade WCAG integral.
+- Performance≥90 alcançada nos quatro cenários desktop e Contato mobile. Home86, Sobre78 e Serviços87 no mobile não atingiram90. O conteúdo, vídeo e fotografias foram preservados; não foram ocultados para elevar pontuação.
+- LCPmobile permanece acima de2.5s emHome4.13s, Sobre6.00s eServiços3.91s (valores arredondados; JSONé a fonte exata). Contato1.35s; quatro cenários desktop abaixo2.5s.
+- TBT0ms eCLS0 em todos os cenários finais. Não se apresentaTBT comoINP. Nenhumpercentil75 de campo foi obtido.
+- BestPractices96 emHomeMobile eSobreDesktop: a auditoria apontou proporções intrínsecas declaradas diferentes dos arquivos em imagens de variantes responsivas ocultas. O mesmo problema aparece na baseline desses cenários. As imagens visíveis usamrecorteobject-fit, mas os atributos width/height genéricos merecem normalização futura porarquivo. Não éerroJavaScript/console e não foi disfarçado no teste.
+- O laboratório ainda aponta imagens acima da resolução/compressão necessárias; as JPG principais deSobre/Serviços têm312956/377811bytes e não oferecem srcset próprio. Variantes WebP/AVIF de alta qualidade, com as mesmas fotos e dimensões reais, são a próxima otimização recomendada se a meta90mobile for condição de aceite. Elas não foram produzidas nesta rodada.
+- O servidor de laboratório usaHTTP/1.1 semcompressão. Não se inferemtempoTTFB outransferência reais da hospedagemHTTPS, que pode usarHTTP/2, compressão e cache.
+
+### Evidências completas
+
+Resumo estruturado com pontuações, métricas exatas, momento da medição, fontes, recursos transferidos e links: `docs/ux-v2/lighthouse-summary.json`. A primeira medição foi preservada em `docs/ux-v2/lighthouse-first-run-summary.json`. ZIPs originais do segundo ciclo materializados em `artifacts/ux-v2/downloads/final/` e excluídos do pacote publicado.
+
+| Artifact | Link oficial |
+|---|---|
+| lighthouse-home-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446880156) |
+| lighthouse-servicos-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446755461) |
+| lighthouse-sobre-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446430968) |
+| lighthouse-sobre-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445892262) |
+| lighthouse-contato-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445552979) |
+| lighthouse-home-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445358146) |
+| lighthouse-servicos-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14444694207) |
+| lighthouse-contato-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14444649878) |
+
+Retenção informada peloGitHub:16/02/2027. Esses artifacts contêm antes/depois e não se confundem com o site publicado.

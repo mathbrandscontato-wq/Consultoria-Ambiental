@@ -1,15 +1,16 @@
 import { mkdir, readFile, rm, writeFile, cp } from "node:fs/promises";
 import { resolve, join } from "node:path";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { routes } from "../src/site.mjs";
-import { renderPage } from "../src/lib/render.mjs";
+import { renderPage, styleFilesFor } from "../src/lib/render.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const dist = join(root, "dist");
 await rm(dist, { recursive: true, force: true });
 await mkdir(join(dist, "styles"), { recursive: true });
 
-for (const style of ["tokens.css", "base.css", "hero-a.css", "sections.css", "motion.css", "refinement.css", "footer.css", "unified.css", "about.css", "services.css", "atlas.css", "about-tunnel.css", "v5-editorial.css", "responsive-type.css", "client-revision.css"]) {
+for (const style of ["tokens.css", "base.css", "hero-a.css", "sections.css", "motion.css", "refinement.css", "footer.css", "unified.css", "about.css", "services.css", "atlas.css", "about-tunnel.css", "v5-editorial.css", "responsive-type.css", "client-revision.css", "services-mobile.css", "ux-v2.css"]) {
   const content = await readFile(join(root, "src/styles", style), "utf8");
   await writeFile(join(dist, "styles", style), content, "utf8");
 }
@@ -23,7 +24,12 @@ for (const route of routes) {
   if (route.slug && !/^[a-z0-9-]+$/.test(route.slug)) throw new Error("Unsafe route slug");
   const out = route.slug ? join(dist, route.slug) : dist;
   await mkdir(out, { recursive: true });
-  await writeFile(join(out, "index.html"), renderPage(route), "utf8");
+  // Same stylesheet order and bytes as the source; only the request count changes.
+  const styleParts=await Promise.all(styleFilesFor(route.slug).map(style=>readFile(join(root,'src/styles',style),'utf8')));
+  const bundle=styleParts.join('\n');
+  const styleBundle='site-'+createHash('sha256').update(bundle).digest('hex').slice(0,12)+'.css';
+  await writeFile(join(dist,'styles',styleBundle),bundle,'utf8');
+  await writeFile(join(out, "index.html"), renderPage(route,{styleBundle}), "utf8");
 }
 console.info(`Arquivos estáticos gerados: ${routes.length} rotas, sem deploy.`);
 

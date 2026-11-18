@@ -185,3 +185,58 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Colunas, palavra e barra inferior agora usam content-max e space-layout das demais seções. Cores, fonte, feixe, interação e fade originais preservados. Assets CSS/JS com nova versão para cache.
 - Navegador320/390/768/1440/1920 sem overflow. Em1440/1920, palavra1199.92px para corte1200px, borda esquerda idêntica à do conteúdo. Mobile320/390/768 sem overflow. Captura desktop mostrou assinatura completa e barra abaixo.
 - QA65testes PASS; removidas expectativas legadas que exigiam justamente o limite reduzido108px. Não foi criada dependência nem alterado envio do formulário. QA temporário retirado do pacote.
+
+- Footer publicado versão32, fontefd0e04732ca31a840dd578423856311309b9b703, deployappgdep_6afd81e3f71481919524b480b2c2a5a4 succeeded. CUA no domínio oficial confirmou nove abas daHome e palavra1199.92px para corte1200px; sem overflow. Evidência docs/evidence/ykeizumi-footer-largura-nov18.jpg. EspelhoGitHub a1c37a8f82292a6173e35a323bfb00fe9644100f naPR14, sem merge.
+
+
+## 18/11/2026 — Refinamento UX/UI V2 em validação
+- Autorização: prompt completo P1/P2 com publicação após validação; manter identidade, conteúdo e arquitetura. Backup recuperável versão32, fontefd0e04732ca31a840dd578423856311309b9b703. BranchGitHubfeat/ykeizumi-ux-v2-20261118, PR15draft.
+- Mobile: nove disclosures nativos independentes no explorador compartilhado Home/Serviços, seleção por âncora e CTA contextual; desktop mantém abas editoriais. Mobilemenu recebe CTA dentro do fluxo.
+- Acessibilidade: foco em duas cores, alvos44px, contraste de pequenos textos, piso de opacidade na animação e preferência por movimento reduzido preservada. Tipografia com balance/pretty e leitura sem justificação nas colunas estreitas.
+- Performance: mapas abaixo da dobra com lazyloading, preloadposter, includesórfãos removidos e footerfit evita recalcular largura idêntica; bundleCSS por rota preserva bytes e cascata.
+- Pedido adicional da cliente: Sobre agrupa nome, cargo e retrato na coluna esquerda; biografia integral à direita com topo alinhado. Mobile mantém nome/cargo/foto/texto empilhados. Conferido no navegadordesktop eiframe390px sem overflow.
+- QA local:65testes,lint,build4rotas echeck aprovados; todos581fragmentos originais preservados no inventário textual. PrimeiroCI achou contraste4.39:1 no apoioServiços, corrigido para5.38:1; teste de toggle nativo ajustado para esperar o estado acessível real. Nova execução44345724108 sobrecommita3d3ba7c57903b47ed9fb6f667c855cf9feb180d em andamento. Ainda não publicado.
+- Limitações preservadas: formulário indisponível aguardando contaGoogle da Lara; adaptadorSanity presente porém não conectado ao render. PageSpeedcampo retornouHTTP429/cota; semINPreal ou declaração de WCAGintegral.
+
+- Validaçãofinal: CI44345724108 aprovado em9jobs, incluindo8comparaçõesLighthouse e52combinaçõesbrowser(44candidata+8baseline), issues[]. Axe0violações finais;65testes PASS. Sobreperfilvalidado desktop/mobile390. Detalhes docs/UX_V2_RELEASE.md. Liberado para publicação autorizada; scoremobile90nãoatingido em3páginas documentado, sem regressões críticas observadas.
+
+- Publicação V2 concluída: versão33, fonte1714e4580bdfc5cff1080709ca49b41d58d5eeb9, deployappgdep_6afdd184f5fc81919b295dad361b2bac succeeded. Quatro rotasHTTPS verificadas ao vivo; perfilLara com colunas alinhadas e identidade acima dafoto; sem overflow. Evidência docs/evidence/ykeizumi-ux-v2-profile-published.jpg. Relatórios e screenshots preservados no pacote de evidências. Atualização documental posterior não altera runtime.
+
+## 18/11/2026 — Formulário liberado para ativação humana
+- Matheus solicitou explicitamente campos editáveis e envio pelo site, após esclarecer que a Lara deve receber o e-mail de ativação do provedor. Habilitado POST nativo, destinatária fixa e status público de ativação pendente; não se afirma entrega validada. Sem novos e-mails pelo Gmail ou tentativas automatizadas de contornar bloqueio do FormSubmit. Próximo passo: Matheus enviar teste manual, Lara confirmar ativação e validar recebimento de novo teste.
+
+## 18/11/2026 — Recuperação de envio sem resposta
+- Usuário relatou carregamento infinito. POST nativo transferia a navegação ao provedor; causa externa não confirmada. Envio passa a aba separada noopener, preserva campos e CAPTCHA e libera botão após15s sem alegar sucesso. Alternativa pelo aplicativo de e-mail mantém campos e destinatária fixa; anexos manuais explicitados.69testes PASS, incluindo timeout/duplicação/mailto. Teste local simula cancelamento da saída, sem nova requisição ao FormSubmit. Ativação e entrega real continuam pendentes.
+
+- Navegador: fixture local impediu saída externa; mensagem de espera e recuperação após15s observadas, botão novamente habilitado e respostas preservadas. Nenhuma requisição de envio ao FormSubmit. Página temporária excluída pelo build antes do pacote.
+
+## 18/11/2026 — POST e anexos após ativação informada pela cliente
+- Lara ativou segundo Matheus. Novo print mostra “Form should POST”; form anterior já tinha POST/multipart, sem_next e sem barra final, então causa externa/redirecionamento não foi comprovada. Botão passa a fixar método, encoding e endpoint. Arquivos múltiplos passam a campos multipart distintos pelo eventoformdata, sem alterar bytes/nomes.
+-71testes PASS. Teste remoto de transporte Chromium/WebKit preparado com captura HTTP isolada, sem envio ao provedor. Ativação informada não é prova de entrega. Nota docs/CONTACT_POST_ATTACHMENTS_20261118.md.
+
+- Transporte real de navegador aprovado no CI44400137166:12cenários Chromium/WebKit, POST multipart com0/1/3arquivos, hashes íntegros, desktop/mobile. Zero chamadas ao provedor. CI de regressão44400136704 aprovado em9jobs. Recebimento real continua não confirmado.
+
+- Publicado versão36, fonte1c97ad411b1b0a8fd4e3128fd7ba800e7d16deba, deployappgdep_6afe175a1a4881919cae5836532af3e8 succeeded. Domínio oficial /contato/ conferido em navegador: métodoPOST noform ebotão, multipart, múltiplosarquivos e campos editáveis. Não houve envio ao provedor nesta verificação.
+
+## 18/11/2026 — Retorno da seção03 da Home
+- Matheus esclareceu pedido da cliente: restaurar Home anterior à versão31. Recuperados somente markup e estilos locais de serviços da fonte82583fcf9411ffa5130f90d8e4c262323f511e29: nove cards com título, descrição e links para #s01–#s09 na páginaServiços. Desktop3colunas, tablet2, mobile1. PáginaServiços e formulário preservados. Backup recuperável versão36. Validação e publicação em andamento.
+
+- Validação:71testes, lint60módulos/build4rotas/check PASS. Browser1363/768/390 sem overflow, grade3/2/1colunas e nove cards. Link #s01 abriu painel correto emServiços. Fixture temporária removida pelo build de publicação.
+
+## 18/11/2026 — Abordagem Sobre em linha do tempo
+- Referência enviada pelo Matheus: quatro etapas com ícones lineares em círculos, números e textos integrais, título/apoio lado a lado. Substituído o scrollytelling com fotografias desta seção por sequência horizontal; tablet2colunas e mobilevertical conectado. Mantidas as quatro descrições, identidade, demais seções e formulário. Controlador antigo exclusivo dessa sequência retirado. Backup versão37. QA em andamento.
+
+- QA:71testes/lint/build/check PASS. Navegador1363px:4etapas em linha;768px:2colunas;390px:vertical, sem overflow nas três larguras. Comparação visual observada com referência; textos integrais preservados. Fixture de QA removida antes do pacote.
+
+- Correção superveniente do Matheus antes de publicar: sequência deve seguir para o lado e aparecer progressivamente, inclusive mobile. Implementado deslocamento horizontal por scroll com entrada por etapa; heading permanece durante sequência. Setas/Home/End no contêiner e fallback de scroll horizontal nativo para movimento reduzido/viewport baixo. A variante estática vertical não foi publicada.
+
+- QA da versão horizontal:71testes/build/check aprovados. Browser1363/768/390 confirmou avanço até04 por teclado e scroll, opacidades completas ao entrar e ausência de overflow. Em390px deslocamento≈996px e em768px≈625px, última etapa inteira. Fallback reduzido implementado; não emulado manualmente.
+
+## 18/11/2026 — Mobile responsivo na abordagem Sobre
+- Matheus autorizou adaptação específica mobile: abaixo768px sequência vertical conectada, sem pin/scroll horizontal, conteúdo integral. Entrada suave de cada etapa ao aparecer; preferência de movimento reduzido respeitada. Desktop preserva sequência horizontal. Backup versão38.
+
+- QA71testes/build/check PASS; browser360/390:4etapas verticais, sem pin e sem overflow. Desktop1363:sequência horizontal aprimorada preservada. Fixture removida pelo build antes de empacotar.
+
+## 18/11/2026 — Texto de abertura Sobre
+- Substituído exclusivamente parágrafo da abertura pela redação exata enviada pelo Matheus, unificando descrição e experiência. Layout e demais textos preservados. Backup recuperável versão39.
+- Build4rotas/check/diff-check aprovados; alteração de texto simples sem mudança funcional.
