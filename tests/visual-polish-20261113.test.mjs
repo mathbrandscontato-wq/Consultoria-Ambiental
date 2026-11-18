@@ -28,7 +28,7 @@ test('acessibilidade e dados essenciais permanecem no site publicado',()=>{
    assert.match(html,/60\.422\.093\/0001-74/);
    assert.match(html,/lara@ykeizumi\.com\.br/);
  }
- assert.match(page('contato'),/<fieldset disabled>/);
+ assert.match(page('contato'),/<fieldset>/);
  assert.ok(page('sobre').includes('lara-yumi-640.webp'));
 });
 test('refinamento visual: hierarquia e leitura, sem conteúdo adicional',async()=>{

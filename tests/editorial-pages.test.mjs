@@ -23,11 +23,11 @@ test("quatro páginas semanticamente completas e sem scaffold",()=>{
   assert.match(html,/<meta name="robots" content="index,follow">/);
  }
 });
-test("contato ainda bloqueado, sem coleta ou sucesso falso",()=>{
+test("contato permite ativação humana sem sucesso falso",()=>{
  const html=renderPage(routes.find(r=>r.slug==="contato"));
- assert.match(html,/Envio on-line indisponível/i);
- assert.match(html,/<fieldset disabled>/);
- assert.doesNotMatch(html,/type="submit"|enviado com sucesso/i);
+ assert.match(html,/Formulário em ativação/i);
+ assert.match(html,/<fieldset>/);
+ assert.doesNotMatch(html,/enviado com sucesso|<fieldset disabled>/i);
 });
 test("nove grupos de serviço têm IDs de destino reais",()=>{
  const html=renderPage(routes.find(r=>r.slug==="servicos"));

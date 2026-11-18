@@ -39,8 +39,10 @@ for (const route of routes) {
   assert.ok(html.includes('href="' + prefix + 'contato/"'));
   if (route.slug === 'contato') {
     assert.match(html, /<form class="contact-form"/);
-    assert.match(html, /<fieldset disabled>/);
-    assert.doesNotMatch(html, /type="submit"|action="|enviado com sucesso/i, 'O formulário não pode coletar dados sem destino validado');
+    assert.match(html, /<fieldset>/);
+    assert.match(html, /action="https:\/\/formsubmit.co\/lara@ykeizumi.com.br" method="POST"/);
+    assert.match(html, /Formulário em ativação/);
+    assert.doesNotMatch(html, /enviado com sucesso|<fieldset disabled>/i, 'Não pode simular entrega confirmada durante ativação pendente');
   } else assert.doesNotMatch(html, /<form\\b/i, 'Somente a página Contato pode conter formulário');
 
   if (!route.slug) {

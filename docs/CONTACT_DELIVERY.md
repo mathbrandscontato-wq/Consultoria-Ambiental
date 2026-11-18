@@ -27,3 +27,7 @@ Para FormSubmit, não é necessário acesso à caixa Google da Lara: ela pode co
 4. Testar campos obrigatórios, anexos válidos/limites, cancelamento, erro do provedor e envio real; não declarar funcionamento apenas com sucesso HTTP.
 
 Documentação consultada: https://formsubmit.co/documentation e https://formsubmit.co/help . O serviço informa retenção de submissões por30dias, sem retenção de anexos no arquivo da API; avaliar essa condição antes da ativação.
+
+
+## 18/11/2026 — Liberação expressa para teste humano no site
+Matheus pediu campos e botão habilitados na página pública de contato para fazer o primeiro envio no próprio navegador. contactDelivery.enabled=true, verification=pending. POST nativo para a destinatária fixa, antispam e limites de anexos preservados. Aviso público informa que a ativação e a entrega não foram confirmadas. Não foi realizado novo POST automatizado ao provedor nem enviado outro e-mail de coordenação. A validação agora depende do envio manual, da confirmação da Lara no e-mail do FormSubmit e de um segundo teste de recebimento.

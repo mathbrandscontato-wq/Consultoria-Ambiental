@@ -22,10 +22,10 @@ test("Home possui Hero e não duplica o header estrutural", () => {
   assert.match(html, /prefers-reduced-motion|hero-a\.css/);
   assert.doesNotMatch(html, /<form\b/);
 });
-test("Contato permanece como página técnica sem envio", () => {
+test("Contato apresenta status real de ativação pendente", () => {
   const html = renderPage(routes.find((r) => r.slug === "contato"));
   assert.doesNotMatch(html, /data-design="G2V5-HERO-A"/);
-  assert.match(html, /Envio on-line indisponível/);
+  assert.match(html, /Formulário em ativação/);
 });
 
 test("Hero usa pontilhado e vídeo, sem CTA inferior ou controles", () => {

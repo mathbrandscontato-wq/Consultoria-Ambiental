@@ -33,10 +33,10 @@ test('Rodapé compacto e tratamento visual estão configurados sem alteração d
  assert.match(css,/text-align:justify/);
  assert.ok(!css.includes('.about-portrait img{filter:'));
 });
-test('Atendimento segue bloqueado até endpoint seguro',()=>{
+test('Atendimento aponta ao endpoint HTTPS autorizado',()=>{
  const html=page('contato');
- assert.match(html,/<fieldset disabled>/);
- assert.doesNotMatch(html,/type="submit"/);
+ assert.match(html,/<fieldset>/);
+ assert.match(html,/type="submit"/);
 });
 
 test('Fotos dos segmentos aparecem apenas no desktop',async()=>{

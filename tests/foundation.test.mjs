@@ -30,15 +30,15 @@ test("build exporta quatro páginas estáticas independentes", async () => {
     assert.match(html, /<nav[^>]*aria-label="Institucional"/);
     assert.match(html,/© \d{4} Ykeizumi Consultoria Ambiental/);
     assert.match(html, /<meta name="robots" content="index,follow">/);
-    if (route.slug === 'contato') assert.match(html, /<fieldset disabled>/);
+    if (route.slug === 'contato') assert.match(html, /<fieldset>/);
     else assert.doesNotMatch(html, /<form\b/);
   }
 });
 test("interações não representam backend ou publicação", async () => {
   const html = await readFile(join(root, "dist", "contato", "index.html"), "utf8");
-  assert.match(html, /Envio on-line indisponível/);
-  assert.match(html, /<fieldset disabled>/);
-  assert.doesNotMatch(html, /type="submit"|fetch\(/);
+  assert.match(html, /Formulário em ativação/);
+  assert.match(html, /<fieldset>/);
+  assert.doesNotMatch(html, /enviado com sucesso|fetch\(/);
   const tokens = await readFile(join(root, "dist", "styles", "tokens.css"), "utf8");
   assert.match(tokens, /"Ykeizumi Avenir"/);
   assert.match(tokens, /#1e3b2d/);
