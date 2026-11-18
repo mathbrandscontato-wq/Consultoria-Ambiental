@@ -236,3 +236,7 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Matheus autorizou adaptação específica mobile: abaixo768px sequência vertical conectada, sem pin/scroll horizontal, conteúdo integral. Entrada suave de cada etapa ao aparecer; preferência de movimento reduzido respeitada. Desktop preserva sequência horizontal. Backup versão38.
 
 - QA71testes/build/check PASS; browser360/390:4etapas verticais, sem pin e sem overflow. Desktop1363:sequência horizontal aprimorada preservada. Fixture removida pelo build antes de empacotar.
+
+## 18/11/2026 — Texto de abertura Sobre
+- Substituído exclusivamente parágrafo da abertura pela redação exata enviada pelo Matheus, unificando descrição e experiência. Layout e demais textos preservados. Backup recuperável versão39.
+- Build4rotas/check/diff-check aprovados; alteração de texto simples sem mudança funcional.
