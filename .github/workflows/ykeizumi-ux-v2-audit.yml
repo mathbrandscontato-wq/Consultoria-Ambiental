@@ -1,0 +1,83 @@
+name: Ykeizumi UX V2 audit (no deploy)
+on:
+  pull_request:
+    branches: [feat/ykeizumi-publico-20261114]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ux-v2-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  BASELINE_SHA: a1c37a8f82292a6173e35a323bfb00fe9644100f
+  CANDIDATE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+jobs:
+  lighthouse:
+    name: Lighthouse ${{ matrix.page }} ${{ matrix.device }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        page: [home, sobre, servicos, contato]
+        device: [mobile, desktop]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
+          path: candidate
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BASELINE_SHA }}
+          path: baseline
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build both source states
+        run: |
+          npm --prefix baseline run build
+          npm --prefix candidate run build
+      - name: Install isolated lab tooling
+        run: npm install --prefix audit-tools --no-package-lock --ignore-scripts lighthouse@13.6.0
+      - name: Run comparable Lighthouse audits
+        run: node candidate/scripts/ux-v2-lighthouse.mjs "$PWD/baseline" "$PWD/candidate" "$PWD/audit-tools" '${{ matrix.page }}' '${{ matrix.device }}'
+      - name: Attach full JSON and HTML reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ matrix.page }}-${{ matrix.device }}
+          path: candidate/artifacts/ux-v2/lighthouse/
+          if-no-files-found: warn
+  browser-accessibility:
+    name: Responsive flows and axe WCAG AA
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
+          path: candidate
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.BASELINE_SHA }}
+          path: baseline
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate candidate and build baseline
+        run: |
+          npm --prefix candidate run qa
+          npm --prefix baseline run build
+      - name: Install isolated accessibility tooling
+        run: npm install --prefix audit-tools --no-package-lock --ignore-scripts playwright@1.65.1 @axe-core/playwright@4.14.0
+      - name: Audit responsive routes and accessible interactions
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: node candidate/scripts/ux-v2-browser-audit.mjs "$PWD/baseline" "$PWD/candidate" "$PWD/audit-tools"
+      - name: Attach axe JSON and before/after screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ux-v2-browser-accessibility
+          path: candidate/artifacts/ux-v2/browser/
+          if-no-files-found: warn

@@ -83,7 +83,7 @@ export function renderHeroA() {
     '<nav class="ha-nav" aria-label="Navegação principal">'+routes.map(route=>'<a href="'+routeHref(route)+'">'+route.label+'</a>').join(''),
     heroCta("ha-cta--top"),'</nav>',
     '<details class="ha-mobile-menu"><summary aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mobile-navigation"><span aria-hidden="true"><svg class="ui-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span></summary>',
-    '<nav id="mobile-navigation" aria-label="Menu de celular">'+routes.map(route=>'<a href="'+routeHref(route)+'">'+route.label+'</a>').join('')+'</nav>',
+    '<nav id="mobile-navigation" aria-label="Menu de celular">'+routes.map(route=>'<a href="'+routeHref(route)+'">'+route.label+'</a>').join('')+heroCta('ha-cta--menu')+'</nav>',
     '</details>',
     '</header>',
     '<div class="ha-main">',

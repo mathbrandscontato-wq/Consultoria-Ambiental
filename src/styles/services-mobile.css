@@ -1,0 +1,24 @@
+/* Preserve desktop tabs; native disclosures reuse the same technical content. */
+.service-accordion-item { border:0; margin:0; padding:0; min-width:0; }
+.service-mobile-trigger { display:none; }
+.service-accordion-item > summary::-webkit-details-marker { display:none; }
+.service-accordion-item,.service-explorer { scroll-margin-top:calc(var(--site-header-height,88px) + 24px); }
+.service-accordion-item > summary:focus-visible { outline:3px solid #1e3b2d; outline-offset:4px; }
+@media(max-width:760px){
+ .service-explorer,.service-explorer.is-enhanced { display:block; }
+ .service-explorer .service-selector { display:none; }
+ .service-panel-stage { position:static; min-width:0; }
+ .service-accordion-item { border-top:1px solid #bec9b7; overflow-anchor:none; }
+ .service-accordion-item:last-child { border-bottom:1px solid #bec9b7; }
+ .service-mobile-trigger { display:flex; list-style:none; cursor:pointer; align-items:center; gap:.75rem; min-height:64px; padding:1.1rem .15rem; color:#1e3b2d; }
+ .service-mobile-trigger h3 { font-size:clamp(1.05rem,4.4vw,1.3rem); line-height:1.4; font-weight:550; letter-spacing:-.02em; margin:0; overflow-wrap:break-word; }
+ .service-mobile-trigger .service-nav-number { flex:none; color:#506448; font-size:.8rem; }
+ .service-accordion-indicator { position:relative; flex:none; width:24px; height:24px; margin-left:auto; }
+ .service-accordion-indicator:before,.service-accordion-indicator:after { content:''; position:absolute; background:currentColor; width:12px; height:2px; top:11px; left:6px; }
+ .service-accordion-indicator:after { transform:rotate(90deg); transition:transform .2s; }
+ .service-accordion-item[open] .service-accordion-indicator:after { transform:rotate(0); }
+ .service-accordion-item[open] > summary { font-weight:650; }
+ .service-accordion-item .service-info-panel { margin:0 0 1.2rem; width:100%; }
+ .service-info-panel .service-panel-cta { min-height:44px; }
+}
+@media(prefers-reduced-motion:reduce){ .service-accordion-indicator:after { transition:none; } }

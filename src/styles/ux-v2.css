@@ -1,0 +1,71 @@
+/* UX/UI V2 — additive accessibility and editorial refinements.
+   Institutional palette, content, type scale and default motion remain intact. */
+
+/* A two-tone indicator remains visible on cream, forest and photographic surfaces. */
+:is(a,button,summary,input,select,textarea,[tabindex]):focus-visible {
+  outline:3px solid #1e3b2d!important;
+  outline-offset:3px;
+  box-shadow:0 0 0 6px #f8f6f2!important;
+  scroll-margin-block:7rem 1.25rem;
+}
+.project-image-link:focus-visible,.map-viewport:focus-visible {
+  outline-color:#f8f6f2!important;
+  outline-offset:-5px!important;
+  box-shadow:inset 0 0 0 8px #1e3b2d!important;
+}
+.skip-link:focus-visible { z-index:100; }
+
+/* Legible small text without replacing the institutional accent color globally. */
+.minimal-link,.service-nav-number,.service-feature-number { color:#506448; }
+.service-context summary { color:#506448; }
+.about-story-step { color:#506448; }
+.about-story-step.is-active { color:#1e3b2d; }
+
+/* Keep the moving footer beam, with a darker reading plane behind its small copy.
+   The oversized signature is decorative and retains the approved beam treatment. */
+.bwf-sky { opacity:.65; }
+.bwf .bwf-label,.bwf .bwf-credits,.bwf .bwf-bottom { color:#d2deca; }
+.bwf .bwf-link { color:#e3ebde; }
+.bwf .bwf-link:hover,.bwf .bwf-link:focus-visible { color:#fff; }
+
+/* The extra top shade protects small white navigation text over bright video frames. */
+.ha > .ha-media .ha-photo-shade::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(9,33,22,.6),rgba(9,33,22,0) 220px);
+  pointer-events:none;
+}
+
+/* Comfortable controls; no floating action bar obscures the page. */
+.ha-nav>a:not(.ha-cta) { min-height:44px;display:inline-flex;align-items:center; }
+.ha-mobile-menu nav .ha-cta--menu {
+  display:flex;width:100%;min-width:0;min-height:44px;margin-top:8px;
+  padding:13px 16px;gap:10px;color:#1e3b2d;background:#fff;
+}
+.video-pause { width:44px;height:44px;min-width:44px;min-height:44px; }
+.ha-scroll-hint { min-height:44px;min-width:44px; }
+.map-controls button { min-width:44px;min-height:44px; }
+.minimal-link,.about-text-link,.service-panel-cta,.context-service-link { min-height:44px; }
+.map-attribution { font-size:12px;max-width:calc(100% - 1.5rem); }
+@media(pointer:coarse),(max-width:820px) {
+  .bwf .bwf-link,.bwf-contact a,.contact-direct a { min-height:44px;display:inline-flex;align-items:center; }
+  .map-attribution { min-height:44px;display:flex;align-items:center; }
+}
+
+/* Native fallback remains ordinary wrapping when balance/pretty are unsupported. */
+main :is(h1,h2,h3) { text-wrap:balance;hyphens:none;overflow-wrap:break-word; }
+main :is(p,li) { text-wrap:pretty; }
+.editorial-hero-grid>*,.home-introduction>*,.about-profile-grid>*,.services-context-layout>* { min-width:0; }
+.home-introduction .intro-support,.about-profile-copy .editorial-copy { max-width:65ch; }
+.about-section-head>p:last-child { max-width:65ch; }
+.region-heading .region-description { color:#cbd5c4;font-size:1rem;line-height:1.7;font-weight:400;letter-spacing:0;max-width:40ch;margin:0; }
+@media(min-width:900px) and (max-width:1199px) {
+  .intro-support>p,.about-profile-copy .editorial-copy p,.editorial-hero-grid .page-head p,.service-panel-description {
+    text-align:left;text-align-last:auto;hyphens:none;
+  }
+}
+@media(max-width:899px) {
+  main :is(p,li) { text-align:start;text-align-last:auto; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .hover-label,.hover-reveal,.hover-dot,.bwf-l,.sector-stage img { transition:none!important; }
+}

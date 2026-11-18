@@ -21,8 +21,8 @@ export const renderPage = (route) => {
     projetos: 'Projetos e galeria ilustrativa | Ykeizumi',
     contato: 'Contato | Ykeizumi Consultoria Ambiental',
   }[route.slug];
-  const pageStyles={'':['services.css'],sobre:['about.css','about-tunnel.css'],servicos:['services.css'],projetos:['atlas.css']};
-  const pageScripts={sobre:['about.mjs','about-tunnel.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['services.mjs','circular-gallery.mjs','map-pan.mjs','media.mjs']};
+  const pageStyles={'':['services.css'],sobre:['about.css'],servicos:['services.css'],projetos:['atlas.css']};
+  const pageScripts={sobre:['about.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['services.mjs','circular-gallery.mjs','map-pan.mjs','media.mjs']};
   const description = {
     '': 'Licenciamento ambiental, estudos ambientais, EIV, regularização fundiária, laudos técnicos e defesa administrativa para empreendimentos e para o setor público.',
     sobre: 'Conheça a Ykeizumi, sua fundadora e a experiência em licenciamento, estudos e regularização ambiental.',
@@ -45,6 +45,7 @@ export const renderPage = (route) => {
   <link rel="icon" type="image/png" sizes="512x512" href="${prefix}media/favicon.png">
   <link rel="apple-touch-icon" href="${prefix}media/favicon.png">
   <meta name="color-scheme" content="light">
+  ${!route.slug?'<link rel="preload" as="image" href="./media/hero-poster.webp" fetchpriority="high">':""}
   <title>${escapeHtml(pageTitle)}</title>
   <link rel="stylesheet" href="${prefix}styles/tokens.css">
   <link rel="stylesheet" href="${prefix}styles/base.css">
@@ -57,11 +58,13 @@ export const renderPage = (route) => {
   ${(pageStyles[route.slug]||[]).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}">`).join("\n  ")}
   <link rel="stylesheet" href="${prefix}styles/v5-editorial.css">
   <link rel="stylesheet" href="${prefix}styles/responsive-type.css">
-  <link rel="stylesheet" href="${prefix}styles/client-revision.css?v=ux-20261118-home-footer-v6">\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
+  <link rel="stylesheet" href="${prefix}styles/client-revision.css?v=ux-20261118-home-footer-v6">
+  <link rel="stylesheet" href="${prefix}styles/services-mobile.css?v=ux-v2-20261118">
+  <link rel="stylesheet" href="${prefix}styles/ux-v2.css?v=ux-v2-20261118">\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
   <script type="module" src="${prefix}scripts/motion.mjs"></script>
-  <script type="module" src="${prefix}scripts/unified.mjs"></script>
+  <script type="module" src="${prefix}scripts/unified.mjs?v=ux-v2-20261118"></script>
   ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}${script==='services.mjs'?'?v=ux-20261113-2':''}"></script>`).join("\n  ")}
-  <script type="module" src="${prefix}scripts/footer.mjs?v=ux-20261118-home-footer-v6"></script>
+  <script type="module" src="${prefix}scripts/footer.mjs?v=ux-v2-20261118"></script>
 
 </head>
 <body>
@@ -71,7 +74,7 @@ export const renderPage = (route) => {
       <a class="brand-placeholder" href="${prefix}" aria-label="Ykeizumi Consultoria Ambiental, início"><img class="brand-image" src="${prefix}media/logo-white.webp" width="1024" height="200" alt="Ykeizumi Consultoria Ambiental"></a>
       <nav class="site-desktop-nav" aria-label="Navegação principal"><ul class="site-nav">${nav(route, prefix)}</ul></nav>
       ${heroCta("ha-cta--top site-desktop-cta",prefix+"contato/")}
-      <details class="ha-mobile-menu site-mobile-menu"><summary aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mobile-navigation"><span aria-hidden="true"><svg class="ui-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span></summary><nav id="mobile-navigation" aria-label="Menu de celular">${routes.map(r=>`<a href="${escapeHtml(routeHref(r,prefix))}"${r.slug===route.slug?' aria-current="page"':''}>${escapeHtml(r.label)}</a>`).join('')}</nav></details>
+      <details class="ha-mobile-menu site-mobile-menu"><summary aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="mobile-navigation"><span aria-hidden="true"><svg class="ui-icon" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span></summary><nav id="mobile-navigation" aria-label="Menu de celular">${routes.map(r=>`<a href="${escapeHtml(routeHref(r,prefix))}"${r.slug===route.slug?' aria-current="page"':''}>${escapeHtml(r.label)}</a>`).join('')}${heroCta('ha-cta--menu',prefix+'contato/')}</nav></details>
     </div>
   </header>
   ${route.slug ? renderInnerPage(route) : renderHeroA().replace("</main>",renderHomeSections()+"</main>")}

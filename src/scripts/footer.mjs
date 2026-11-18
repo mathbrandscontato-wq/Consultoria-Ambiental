@@ -13,8 +13,11 @@ if(root){
   letters.forEach((s,i)=>{let x=0,y=0,el=s;while(el&&el!==root){x+=el.offsetLeft;y+=el.offsetTop;el=el.offsetParent;}s.style.setProperty('--bwf-x',x+'px');s.style.setProperty('--bwf-y',y+'px');if(i===0)top=y;});
   root.style.setProperty('--bwf-top',top+'px');root.style.setProperty('--bwf-bot',top+parseFloat(inner.style.fontSize)*.92+'px');
  };
- const fit=()=>{
+ let fittedWidth=-1;
+ const fit=(force=false)=>{
   const box=inner.parentElement,padding=parseFloat(getComputedStyle(box).paddingLeft)||0,target=box.clientWidth-padding*2;
+  if(!force&&Math.abs(target-fittedWidth)<.5)return;
+  fittedWidth=target;
   inner.style.fontSize='100px';const measured=inner.getBoundingClientRect().width,size=measured?100*target/measured:100;
   const style=getComputedStyle(inner),ctx=document.createElement('canvas').getContext('2d');let baseline=.8;
   if(ctx){ctx.font=style.fontWeight+' 100px '+style.fontFamily;const m=ctx.measureText('Ykeizumi');if(m.fontBoundingBoxAscent>0)baseline=clamp(((100-m.fontBoundingBoxAscent-m.fontBoundingBoxDescent)/2+m.fontBoundingBoxAscent)/100,.5,1.2);}
@@ -29,5 +32,5 @@ if(root){
  root.querySelectorAll('[data-social-placeholder]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
  if('IntersectionObserver'in window)new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;if(visible){seen=true;root.dataset.in='true';start();}else {cancelAnimationFrame(frame);frame=0;}},{threshold:.12}).observe(root);else{visible=true;start();}
  reduced.addEventListener('change',()=>{cancelAnimationFrame(frame);frame=0;root.dataset.in=seen||reduced.matches?'true':'false';if(reduced.matches){b=58;g=0;set();}else start();});
- fit();root.dataset.in=reduced.matches?'true':'false';if('ResizeObserver'in window)new ResizeObserver(fit).observe(root);else addEventListener('resize',fit,{passive:true});document.fonts?.ready.then(fit);
+ fit();root.dataset.in=reduced.matches?'true':'false';if('ResizeObserver'in window)new ResizeObserver(()=>fit()).observe(root);else addEventListener('resize',()=>fit(),{passive:true});document.fonts?.ready.then(()=>fit(true));
 }

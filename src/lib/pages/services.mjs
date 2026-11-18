@@ -73,13 +73,13 @@ export function renderServiceExplorer({id='explorador',prefix='../'}={}){
     serviceCards.map((s,i)=>'<a href="#'+esc(s.slug)+'" id="tab-'+esc(s.slug)+'" class="service-nav-item'+(i===0?' is-active':'')+'" role="tab" aria-selected="'+(i===0?'true':'false')+'" aria-controls="'+esc(s.slug)+'" tabindex="'+(i===0?'0':'-1')+'"><span class="service-nav-number">'+esc(s.num)+'</span><span class="service-nav-name">'+esc(s.title)+'</span><span class="service-nav-arrow" aria-hidden="true">→</span></a>').join('')+
     '</div></nav>';
   const panels='<div class="service-panel-stage">'+serviceCards.map((s,i)=>
-    '<article class="service-info-panel" id="'+esc(s.slug)+'" role="tabpanel" aria-labelledby="tab-'+esc(s.slug)+'" tabindex="0" data-service-panel="'+esc(s.slug)+'">'+
+    '<details class="service-accordion-item" data-service-item="'+esc(s.slug)+'" open><summary class="service-mobile-trigger" id="accordion-'+esc(s.slug)+'" aria-controls="'+esc(s.slug)+'"><span class="service-nav-number">'+esc(s.num)+'</span><h3>'+esc(s.title)+'</h3><span class="service-accordion-indicator" aria-hidden="true"></span></summary><article class="service-info-panel" id="'+esc(s.slug)+'" role="tabpanel" aria-labelledby="tab-'+esc(s.slug)+'" tabindex="0" data-service-panel="'+esc(s.slug)+'">'+
     '<span class="service-panel-count">'+esc(s.num)+' / 09</span>'+
     '<h3>'+esc(s.title)+'</h3>'+
     '<p class="service-panel-description">'+esc(s.description)+'</p>'+
     '<ul class="service-panel-details">'+s.details.map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul>'+
     '<a class="service-panel-cta" href="'+esc(prefix)+'contato/" aria-label="Solicitar proposta sobre '+esc(s.title)+'">Solicitar proposta <span aria-hidden="true">↗</span></a>'+
-    '</article>').join('')+'</div>';
+    '</article></details>').join('')+'</div>';
   return section(id,'Explorador de serviços',
     '<div class="services-section-heading"><h2>As nove frentes de atuação</h2><p>Selecione uma frente para ver os serviços incluídos.</p></div>'+
     '<div class="service-explorer">'+navigation+panels+'</div>',
