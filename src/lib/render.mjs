@@ -58,7 +58,7 @@ export const renderPage = (route, {styleBundle} = {}) => {
     : styleFilesFor(route.slug).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}${style==='client-revision.css'?'?v=ux-20261118-home-footer-v6':['services-mobile.css','ux-v2.css'].includes(style)?'?v=ux-v2-20261118':''}">`).join("\n  ")}\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
   <script type="module" src="${prefix}scripts/motion.mjs"></script>
   <script type="module" src="${prefix}scripts/unified.mjs?v=ux-v2-20261118"></script>
-  ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}${script==='services.mjs'?'?v=ux-20261113-2':''}"></script>`).join("\n  ")}
+  ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}${script==='services.mjs'?'?v=ux-20261113-2':script==='contact-delivery.mjs'?'?v=contact-20261118-2':''}"></script>`).join("\n  ")}
   <script type="module" src="${prefix}scripts/footer.mjs?v=ux-v2-20261118"></script>
 
 </head>

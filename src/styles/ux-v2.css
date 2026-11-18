@@ -81,3 +81,10 @@ main :is(p,li) { text-wrap:pretty; }
  .about-profile-heading h2 { font-size:clamp(2.2rem,9vw,3.2rem); }
  .about-profile-heading .about-role { margin-bottom:1.5rem; }
 }
+
+.contact-submit-actions{display:flex;align-items:center;flex-wrap:wrap;gap:1rem 1.5rem;margin-top:1rem}
+.contact-submit-actions button{min-height:44px;min-width:120px}
+.contact-submit-actions button[disabled]{margin:0}
+.contact-submit-actions .minimal-link{display:inline-flex;align-items:center}
+.contact-email-note{font-size:.9rem;line-height:1.6;max-width:65ch;margin-top:1rem}
+[data-contact-progress]:empty,[data-contact-error]:empty{display:none}

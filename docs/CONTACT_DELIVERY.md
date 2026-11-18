@@ -31,3 +31,7 @@ Documentação consultada: https://formsubmit.co/documentation e https://formsub
 
 ## 18/11/2026 — Liberação expressa para teste humano no site
 Matheus pediu campos e botão habilitados na página pública de contato para fazer o primeiro envio no próprio navegador. contactDelivery.enabled=true, verification=pending. POST nativo para a destinatária fixa, antispam e limites de anexos preservados. Aviso público informa que a ativação e a entrega não foram confirmadas. Não foi realizado novo POST automatizado ao provedor nem enviado outro e-mail de coordenação. A validação agora depende do envio manual, da confirmação da Lara no e-mail do FormSubmit e de um segundo teste de recebimento.
+
+
+## 18/11/2026 — Tratamento do travamento relatado
+Relato de carregamento sem envio após liberação. A rota usa POST nativo, sem spinner JS ou fetch do formulário; a causa de rede/antispam no provedor não foi confirmada. O POST agora abre outra aba com noopener, mantendo os dados na Ykeizumi; feedback local limita o estado ocupado a15s, bloqueia duplicação nesse intervalo e nunca declara entrega. Alternativa mailto gera mensagem com os campos preenchidos para Lara no aplicativo do visitante. Arquivos precisam ser anexados manualmente nessa alternativa, com aviso explícito. CAPTCHA e serviço originais preservados; nenhuma nova tentativa automatizada ao FormSubmit foi feita. Ativação/recebimento continuam pendentes de teste humano.

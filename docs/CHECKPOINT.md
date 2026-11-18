@@ -204,3 +204,8 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 
 ## 18/11/2026 — Formulário liberado para ativação humana
 - Matheus solicitou explicitamente campos editáveis e envio pelo site, após esclarecer que a Lara deve receber o e-mail de ativação do provedor. Habilitado POST nativo, destinatária fixa e status público de ativação pendente; não se afirma entrega validada. Sem novos e-mails pelo Gmail ou tentativas automatizadas de contornar bloqueio do FormSubmit. Próximo passo: Matheus enviar teste manual, Lara confirmar ativação e validar recebimento de novo teste.
+
+## 18/11/2026 — Recuperação de envio sem resposta
+- Usuário relatou carregamento infinito. POST nativo transferia a navegação ao provedor; causa externa não confirmada. Envio passa a aba separada noopener, preserva campos e CAPTCHA e libera botão após15s sem alegar sucesso. Alternativa pelo aplicativo de e-mail mantém campos e destinatária fixa; anexos manuais explicitados.69testes PASS, incluindo timeout/duplicação/mailto. Teste local simula cancelamento da saída, sem nova requisição ao FormSubmit. Ativação e entrega real continuam pendentes.
+
+- Navegador: fixture local impediu saída externa; mensagem de espera e recuperação após15s observadas, botão novamente habilitado e respostas preservadas. Nenhuma requisição de envio ao FormSubmit. Página temporária excluída pelo build antes do pacote.
