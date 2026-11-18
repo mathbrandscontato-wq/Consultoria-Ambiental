@@ -59,3 +59,7 @@ Build, lint, testes da aplicação, axe-core, Lighthouse, capturas e verificaç�
 8. Complementar axe com inspeção manual de nomes acessíveis, alternativas de imagens, headings, âncoras e elementos interativos.
 
 Referências de critérios: WCAG 2.2 — 1.4.3 Contraste mínimo; 1.4.10 Reflow; 1.4.11 Contraste não textual; 2.1.1 Teclado; 2.4.7 Foco visível; 2.4.11 Foco não obscurecido (mínimo); 2.5.8 Tamanho do alvo (mínimo). A preferência de 44 × 44 px é uma meta de conforto; não substitui a avaliação das exceções e do mínimo de 24 × 24 px do critério AA.
+
+## Correção após a primeira auditoria renderizada
+
+O Lighthouse da primeira execução apontou um parágrafo em Serviços, em mobile e desktop: “Identifique a sua situação e veja quais serviços se relacionam a ela.” A cor #61705E sobre #E8ECE3 apresentou 4,39:1 no relatório automatizado. Foi ajustada somente a tonalidade desse parágrafo para #506448, com razão calculada de 5,38:1. O texto e a composição foram preservados. O resultado final exige nova execução automatizada; esta correção não é um resultado de reteste.

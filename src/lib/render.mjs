@@ -11,7 +11,14 @@ const nav = (current, prefix) => routes.map((route) =>
   `<li><a href="${escapeHtml(routeHref(route, prefix))}"${route.slug === current.slug ? ' aria-current="page"' : ""}>${escapeHtml(route.label)}</a></li>`
 ).join("\n");
 
-export const renderPage = (route) => {
+// The build concatenates this exact cascade without rewriting any selectors or URLs.
+export const styleFilesFor = (slug) => [
+  'tokens.css','base.css','hero-a.css','sections.css','motion.css',
+  'refinement.css','footer.css','unified.css',
+  ...({'':['services.css'],sobre:['about.css'],servicos:['services.css'],projetos:['atlas.css']}[slug]||[]),
+  'v5-editorial.css','responsive-type.css','client-revision.css','services-mobile.css','ux-v2.css',
+];
+export const renderPage = (route, {styleBundle} = {}) => {
   if (!routes.some((r) => r.slug === route.slug)) throw new Error("Rota não prevista");
   const prefix = route.slug ? "../" : "./";
   const pageTitle = {
@@ -21,7 +28,6 @@ export const renderPage = (route) => {
     projetos: 'Projetos e galeria ilustrativa | Ykeizumi',
     contato: 'Contato | Ykeizumi Consultoria Ambiental',
   }[route.slug];
-  const pageStyles={'':['services.css'],sobre:['about.css'],servicos:['services.css'],projetos:['atlas.css']};
   const pageScripts={sobre:['about.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['services.mjs','circular-gallery.mjs','map-pan.mjs','media.mjs']};
   const description = {
     '': 'Licenciamento ambiental, estudos ambientais, EIV, regularização fundiária, laudos técnicos e defesa administrativa para empreendimentos e para o setor público.',
@@ -47,20 +53,9 @@ export const renderPage = (route) => {
   <meta name="color-scheme" content="light">
   ${!route.slug?'<link rel="preload" as="image" href="./media/hero-poster.webp" fetchpriority="high">':""}
   <title>${escapeHtml(pageTitle)}</title>
-  <link rel="stylesheet" href="${prefix}styles/tokens.css">
-  <link rel="stylesheet" href="${prefix}styles/base.css">
-  <link rel="stylesheet" href="${prefix}styles/hero-a.css">
-  <link rel="stylesheet" href="${prefix}styles/sections.css">
-  <link rel="stylesheet" href="${prefix}styles/motion.css">
-  <link rel="stylesheet" href="${prefix}styles/refinement.css">
-  <link rel="stylesheet" href="${prefix}styles/footer.css">
-  <link rel="stylesheet" href="${prefix}styles/unified.css">
-  ${(pageStyles[route.slug]||[]).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}">`).join("\n  ")}
-  <link rel="stylesheet" href="${prefix}styles/v5-editorial.css">
-  <link rel="stylesheet" href="${prefix}styles/responsive-type.css">
-  <link rel="stylesheet" href="${prefix}styles/client-revision.css?v=ux-20261118-home-footer-v6">
-  <link rel="stylesheet" href="${prefix}styles/services-mobile.css?v=ux-v2-20261118">
-  <link rel="stylesheet" href="${prefix}styles/ux-v2.css?v=ux-v2-20261118">\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
+  ${styleBundle
+    ? `<link rel="stylesheet" href="${prefix}styles/${escapeHtml(styleBundle)}">`
+    : styleFilesFor(route.slug).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}${style==='client-revision.css'?'?v=ux-20261118-home-footer-v6':['services-mobile.css','ux-v2.css'].includes(style)?'?v=ux-v2-20261118':''}">`).join("\n  ")}\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
   <script type="module" src="${prefix}scripts/motion.mjs"></script>
   <script type="module" src="${prefix}scripts/unified.mjs?v=ux-v2-20261118"></script>
   ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}${script==='services.mjs'?'?v=ux-20261113-2':''}"></script>`).join("\n  ")}

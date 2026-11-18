@@ -52,3 +52,30 @@ Contato continua desabilitado, aguardando autorização/acesso da contaGoogle da
 ## Resultados observados até o handoff
 
 Sintaxe dos quatro novos scripts validada com `node --check`. O processo local não executou Chrome, Playwright, Lighthouse ou axe. As ferramentas de navegador locais permanecem sob controle CUA do responsável. O resultado dos jobs remotos e as métricas finais serão adicionados pelo responsável após execução, sem inferir sucesso a partir da presença do workflow.
+
+## Primeira medição comparativa — execução real
+
+Execução GitHub Actions [44294195532](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44294195532), Lighthouse13.6.0 / Chrome157. Baselinea1c37a8; candidata5c65d15. Uma execução por cenário, sem mediana; oscilações de CPU do runner afetam comparações. Estes resultados precedem o ajuste final de contraste em Serviços e o bundleCSS, portanto não representam a versão final publicável.
+
+| Página | Dispositivo | Performance antes→depois | Accessibility antes→depois | Best Practices antes→depois | SEO antes→depois | LCP depois | TBT depois | CLS depois |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| home | mobile | 45→93 | 97→100 | 96→96 | 100→100 | 3.01s | 0ms | 0.000 |
+| home | desktop | 82→99 | 97→100 | 100→100 | 100→100 | 0.89s | 0ms | 0.000 |
+| sobre | mobile | 73→76 | 95→100 | 100→100 | 100→100 | 6.16s | 0ms | 0.000 |
+| sobre | desktop | 97→97 | 95→100 | 96→96 | 100→100 | 1.31s | 0ms | 0.000 |
+| servicos | mobile | 86→85 | 96→95 | 100→100 | 100→100 | 4.06s | 9ms | 0.000 |
+| servicos | desktop | 100→99 | 96→96 | 100→100 | 100→100 | 0.85s | 0ms | 0.000 |
+| contato | mobile | 98→98 | 100→100 | 100→100 | 100→100 | 1.81s | 0ms | 0.000 |
+| contato | desktop | 100→100 | 100→100 | 100→100 | 100→100 | 0.43s | 0ms | 0.000 |
+
+As oito comparações Lighthouse concluíram com sucesso técnico; isso não significa atingir todas as metas. Home mobile45→93 e todos os cenários Accessibility≥95. Sobre mobile76 e Serviços mobile85 ainda abaixo de90; LCPmobile3.0s/6.2s/4.1s emHome/Sobre/Serviços excede referência2.5s. CLS0 em todos os cenários. Contato mobile98/desktop100. Não há INP de campo disponível.
+
+Os HTML/JSON completos dos16 relatórios estão nos oito artifacts `lighthouse-<página>-<dispositivo>` da execução. Retenção padrão informada pelo GitHub: até16/02/2027. Cópias materializadas durante a auditoria em `artifacts/ux-v2/downloads/`, ignoradas pelo Git e fora da exportação do site.
+
+O job de navegador da primeira execução falhou: contraste4.39:1 em um parágrafoServiços e uma asserção que lia `aria-expanded` antes de o evento nativo `toggle` concluir. O contraste foi corrigido para5.38:1; a leitura do teste deve aguardar a sincronização, sem ocultar falhas reais. Reteste necessário.
+
+## Bundle CSS de cascata preservada — aguarda reteste
+
+O laboratório apontou13–14 solicitações de folhas CSS bloqueando a renderização. O build passa a concatenar, sem minificar nem reescrever, exatamente os mesmos arquivos e na mesma ordem específica de cada rota. Cada página carrega uma única folha com SHA-256 no nome para invalidar o cache quando os bytes mudam. Os arquivos-fonte individuais permanecem disponíveis para manutenção. URLs relativas mantêm a mesma pasta `styles`, e o gate verifica igualdade byte a byte entre o bundle exportado e a cascata de origem. Nenhum seletor, regra, fonte, conteúdo ou animação foi removido.
+
+A diferença de pontuação deve ser medida novamente. O laboratório usa servidorHTTP/1.1 local, sem compressão; a produção pode aplicarHTTP/2, compressão e cache. Assim, a redução de rodadas de rede não deve ser descrita como ganho de latência real comprovado no domínio.

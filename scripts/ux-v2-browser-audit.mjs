@@ -15,6 +15,7 @@ const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'/u
 const results=[],issues=[];
 const routes=['','sobre','servicos','contato'];
 const widths=[320,360,375,390,414,720,768,1024,1280,1440,1920];
+async function disclosureState(page,id,open){await page.waitForFunction(({id,open})=>{const el=document.querySelector('details[data-service-item="'+id+'"]');return el.open===open&&el.querySelector('summary').getAttribute('aria-expanded')===String(open);},{id,open});}
 async function ready(page){await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(1500);}
 try{
  for(const [phase,directory] of [['before',baseline],['after',candidate]]){
@@ -46,6 +47,7 @@ try{
      }
      if(phase==='after'){
       if(metrics.scroll>metrics.width+1)issues.push(key+': horizontal overflow');
+      if(metrics.headingOverflow.length)issues.push(key+': heading overflow '+metrics.headingOverflow.join(';'));
       if(metrics.h1!==1)issues.push(key+': H1 count '+metrics.h1);
       if(metrics.duplicateIds.length)issues.push(key+': duplicate IDs '+metrics.duplicateIds.join(','));
       if(errors.length)issues.push(key+': page error '+errors.join(';'));
@@ -71,15 +73,15 @@ try{
       if(width===390){
        for(const id of ['s01','s02','s03','s04','s05','s06','s07','s08','s09']){
         const item=page.locator('details[data-service-item="'+id+'"]'),summary=item.locator('summary');
-        await summary.tap();assert.equal(await item.getAttribute('open')!==null,true,'touch expands '+id);
+        await summary.tap();await disclosureState(page,id,true);assert.equal(await item.getAttribute('open')!==null,true,'touch expands '+id);
         assert.equal(await summary.getAttribute('aria-expanded'),'true');
         assert.ok((await item.locator('.service-panel-cta').getAttribute('href')).endsWith('contato/'));
-        await summary.tap();assert.equal(await item.getAttribute('open'),null,'touch closes '+id);
+        await summary.tap();await disclosureState(page,id,false);assert.equal(await item.getAttribute('open'),null,'touch closes '+id);
        }
-       const first=page.locator('details[data-service-item="s01"] summary');await first.focus();await first.press('Space');
+       const first=page.locator('details[data-service-item="s01"] summary');await first.focus();await first.press('Space');await disclosureState(page,'s01',true);
        assert.equal(await page.locator('details[data-service-item="s01"]').getAttribute('open')!==null,true,'Space opens accordion');
-       await first.press('Enter');assert.equal(await page.locator('details[data-service-item="s01"]').getAttribute('open'),null,'Enter closes accordion');
-       await page.goto(server.url+'/'+(slug?slug+'/':'')+'#s09',{waitUntil:'networkidle'});await ready(page);
+       await first.press('Enter');await disclosureState(page,'s01',false);assert.equal(await page.locator('details[data-service-item="s01"]').getAttribute('open'),null,'Enter closes accordion');
+       await page.goto(server.url+'/'+(slug?slug+'/':'')+'#s09',{waitUntil:'networkidle'});await ready(page);await disclosureState(page,'s09',true);
        assert.equal(await page.locator('details[data-service-item="s09"]').getAttribute('open')!==null,true,'deep anchor opens service09');
        const anchor=await page.locator('details[data-service-item="s09"] summary').boundingBox();
        if(anchor.y<0)issues.push((slug||'home')+': deep anchor clipped above viewport');
@@ -95,10 +97,29 @@ try{
      }
      if(width===390){
       await page.goto(server.url+'/contato/',{waitUntil:'networkidle'});await ready(page);
-      const menu=page.locator('.site-mobile-menu');await menu.locator('summary').click();assert.equal(await menu.getAttribute('open')!==null,true);
-      await menu.locator('summary').press('Escape');assert.equal(await menu.getAttribute('open'),null,'Escape closes mobile menu');
+      const menu=page.locator('.site-mobile-menu');await menu.locator('summary').click();await page.waitForFunction(()=>document.querySelector('.site-mobile-menu').open);assert.equal(await menu.getAttribute('open')!==null,true);
+      await menu.locator('summary').press('Escape');await page.waitForFunction(()=>!document.querySelector('.site-mobile-menu').open);assert.equal(await menu.getAttribute('open'),null,'Escape closes mobile menu');
      }
     }
+    await context.close();
+   }
+   if(phase==='after'){
+    const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'}),page=await context.newPage();
+    for(const slug of routes){
+     await page.goto(server.url+'/'+(slug?slug+'/':''),{waitUntil:'networkidle'});await ready(page);
+     const reduced=await page.evaluate(()=>({words:[...document.querySelectorAll('.scroll-word')].every(e=>Number(getComputedStyle(e).opacity)===1),video:[...document.querySelectorAll('video')].every(v=>v.paused)}));
+     assert.ok(reduced.words,'reduced-motion text remains fully readable on '+(slug||'home'));assert.ok(reduced.video,'reduced-motion video is static');
+    }
+    await page.goto(server.url+'/servicos/',{waitUntil:'networkidle'});await ready(page);
+    const need=page.locator('.service-context summary').first();await need.click();
+    const direct=page.locator('.context-service-link:visible').first(),target=(await direct.getAttribute('href')).slice(1);await direct.click();await disclosureState(page,target,true);
+    await page.goto(server.url+'/',{waitUntil:'networkidle'});await ready(page);
+    const map=page.locator('.expand-map-trigger');await map.click();assert.equal(await map.getAttribute('aria-expanded'),'true');
+    await page.locator('[data-map-zoom="in"]').click();await page.locator('.map-viewport').press('ArrowRight');await page.locator('[data-map-reset]').click();
+    await page.locator('[data-circular-next]').click();await page.locator('[data-circular-prev]').click();
+    const active=page.locator('.circular-card.is-active .project-image-link');await active.click();
+    assert.equal(await page.locator('dialog[open]').count(),1,'gallery opens accessible dialog');await page.locator('dialog [data-close]').press('Escape');
+    assert.equal(await page.locator('dialog[open]').count(),0,'Escape closes gallery');
     await context.close();
    }
   }finally{await server.close();}

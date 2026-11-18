@@ -18,6 +18,7 @@
 /* Legible small text without replacing the institutional accent color globally. */
 .minimal-link,.service-nav-number,.service-feature-number { color:#506448; }
 .service-context summary { color:#506448; }
+.services-context-section .services-section-heading>p { color:#506448; }
 .about-story-step { color:#506448; }
 .about-story-step.is-active { color:#1e3b2d; }
 
@@ -58,7 +59,7 @@ main :is(p,li) { text-wrap:pretty; }
 .home-introduction .intro-support,.about-profile-copy .editorial-copy { max-width:65ch; }
 .about-section-head>p:last-child { max-width:65ch; }
 .region-heading .region-description { color:#cbd5c4;font-size:1rem;line-height:1.7;font-weight:400;letter-spacing:0;max-width:40ch;margin:0; }
-@media(min-width:900px) and (max-width:1199px) {
+@media(min-width:900px) {
   .intro-support>p,.about-profile-copy .editorial-copy p,.editorial-hero-grid .page-head p,.service-panel-description {
     text-align:left;text-align-last:auto;hyphens:none;
   }
@@ -68,4 +69,15 @@ main :is(p,li) { text-wrap:pretty; }
 }
 @media(prefers-reduced-motion:reduce) {
   .hover-label,.hover-reveal,.hover-dot,.bwf-l,.sector-stage img { transition:none!important; }
+}
+
+/* Client refinement: identity and portrait form the left column; full biography on the right. */
+.about-profile-grid { align-items:start; }
+.about-profile-identity { min-width:0; }
+.about-profile-heading h2 { color:#1e3b2d;font-size:clamp(2rem,3.2vw,3rem);line-height:1.12;letter-spacing:-.045em;margin:0 0 1rem;max-width:100%; }
+.about-profile-heading .about-role { margin:0 0 1.75rem;line-height:1.5; }
+.about-profile-copy .editorial-copy { max-width:61ch; }
+@media(max-width:767px) {
+ .about-profile-heading h2 { font-size:clamp(2.2rem,9vw,3.2rem); }
+ .about-profile-heading .about-role { margin-bottom:1.5rem; }
 }
