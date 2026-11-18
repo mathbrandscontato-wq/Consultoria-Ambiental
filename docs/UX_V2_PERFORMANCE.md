@@ -79,3 +79,47 @@ O job de navegador da primeira execução falhou: contraste4.39:1 em um parágra
 O laboratório apontou13–14 solicitações de folhas CSS bloqueando a renderização. O build passa a concatenar, sem minificar nem reescrever, exatamente os mesmos arquivos e na mesma ordem específica de cada rota. Cada página carrega uma única folha com SHA-256 no nome para invalidar o cache quando os bytes mudam. Os arquivos-fonte individuais permanecem disponíveis para manutenção. URLs relativas mantêm a mesma pasta `styles`, e o gate verifica igualdade byte a byte entre o bundle exportado e a cascata de origem. Nenhum seletor, regra, fonte, conteúdo ou animação foi removido.
 
 A diferença de pontuação deve ser medida novamente. O laboratório usa servidorHTTP/1.1 local, sem compressão; a produção pode aplicarHTTP/2, compressão e cache. Assim, a redução de rodadas de rede não deve ser descrita como ganho de latência real comprovado no domínio.
+
+## Medição final da candidata — 18/11/2026
+
+Execução [44345724108](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108), candidata `a3d3ba7c57903b47ed9fb6f667c855cf9feb180d`, baseline `a1c37a8f82292a6173e35a323bfb00fe9644100f`. As oito comparações Lighthouse concluíram e geraram16JSON+16HTML. Inclui bundleCSS, correção de contraste e ajuste de perfil solicitado pela cliente. A situação do job de navegador e a autorização efetiva de publicação são registradas separadamente no relatório de entrega.
+
+Uma execução por fase/página/dispositivo: resultados de laboratório, com rede móvel simulada e CPU4×, não mediana ou dados reais de usuários. A variação entre a primeira e a segunda execução também aparece na baseline; não atribuir toda oscilação a um ajuste específico.
+
+| Página | Dispositivo | Performance antes→depois | Accessibility antes→depois | Best Practices antes→depois | SEO antes→depois | LCP antes→depois | TBT antes→depois | CLS antes→depois |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| home | mobile | 61→86 | 97→100 | 96→96 | 100→100 | 13.66→4.13s | 522.23→0.00ms | 0.00→0.00 |
+| home | desktop | 88→100 | 97→100 | 100→100 | 100→100 | 2.37→0.80s | 11.00→0.00ms | 0.00→0.00 |
+| sobre | mobile | 76→78 | 95→100 | 100→100 | 100→100 | 6.09→6.00s | 0.00→0.00ms | 0.00→0.00 |
+| sobre | desktop | 95→97 | 95→100 | 96→96 | 100→100 | 1.28→1.21s | 122.00→0.00ms | 0.00→0.00 |
+| servicos | mobile | 87→87 | 96→100 | 100→100 | 100→100 | 3.92→3.91s | 0.00→0.00ms | 0.00→0.00 |
+| servicos | desktop | 100→100 | 96→100 | 100→100 | 100→100 | 0.82→0.77s | 0.00→0.00ms | 0.00→0.00 |
+| contato | mobile | 98→100 | 100→100 | 100→100 | 100→100 | 1.84→1.35s | 100.00→0.00ms | 0.00→0.00 |
+| contato | desktop | 100→100 | 100→100 | 100→100 | 100→100 | 0.37→0.32s | 0.00→0.00ms | 0.00→0.00 |
+
+### Interpretação e pendências reais
+
+- Accessibility100 nos oito cenários finais; o parágrafo de Serviços deixou de falhar no contraste automatizado. Isso não é certificação de conformidade WCAG integral.
+- Performance≥90 alcançada nos quatro cenários desktop e Contato mobile. Home86, Sobre78 e Serviços87 no mobile não atingiram90. O conteúdo, vídeo e fotografias foram preservados; não foram ocultados para elevar pontuação.
+- LCPmobile permanece acima de2.5s emHome4.13s, Sobre6.00s eServiços3.91s (valores arredondados; JSONé a fonte exata). Contato1.35s; quatro cenários desktop abaixo2.5s.
+- TBT0ms eCLS0 em todos os cenários finais. Não se apresentaTBT comoINP. Nenhumpercentil75 de campo foi obtido.
+- BestPractices96 emHomeMobile eSobreDesktop: a auditoria apontou proporções intrínsecas declaradas diferentes dos arquivos em imagens de variantes responsivas ocultas. O mesmo problema aparece na baseline desses cenários. As imagens visíveis usamrecorteobject-fit, mas os atributos width/height genéricos merecem normalização futura porarquivo. Não éerroJavaScript/console e não foi disfarçado no teste.
+- O laboratório ainda aponta imagens acima da resolução/compressão necessárias; as JPG principais deSobre/Serviços têm312956/377811bytes e não oferecem srcset próprio. Variantes WebP/AVIF de alta qualidade, com as mesmas fotos e dimensões reais, são a próxima otimização recomendada se a meta90mobile for condição de aceite. Elas não foram produzidas nesta rodada.
+- O servidor de laboratório usaHTTP/1.1 semcompressão. Não se inferemtempoTTFB outransferência reais da hospedagemHTTPS, que pode usarHTTP/2, compressão e cache.
+
+### Evidências completas
+
+Resumo estruturado com pontuações, métricas exatas, momento da medição, fontes, recursos transferidos e links: `docs/ux-v2/lighthouse-summary.json`. A primeira medição foi preservada em `docs/ux-v2/lighthouse-first-run-summary.json`. ZIPs originais do segundo ciclo materializados em `artifacts/ux-v2/downloads/final/` e excluídos do pacote publicado.
+
+| Artifact | Link oficial |
+|---|---|
+| lighthouse-home-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446880156) |
+| lighthouse-servicos-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446755461) |
+| lighthouse-sobre-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446430968) |
+| lighthouse-sobre-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445892262) |
+| lighthouse-contato-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445552979) |
+| lighthouse-home-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445358146) |
+| lighthouse-servicos-mobile | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14444694207) |
+| lighthouse-contato-desktop | [HTML e JSON](https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14444649878) |
+
+Retenção informada peloGitHub:16/02/2027. Esses artifacts contêm antes/depois e não se confundem com o site publicado.

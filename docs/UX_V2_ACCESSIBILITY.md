@@ -63,3 +63,12 @@ Referências de critérios: WCAG 2.2 — 1.4.3 Contraste mínimo; 1.4.10 Reflow;
 ## Correção após a primeira auditoria renderizada
 
 O Lighthouse da primeira execução apontou um parágrafo em Serviços, em mobile e desktop: “Identifique a sua situação e veja quais serviços se relacionam a ela.” A cor #61705E sobre #E8ECE3 apresentou 4,39:1 no relatório automatizado. Foi ajustada somente a tonalidade desse parágrafo para #506448, com razão calculada de 5,38:1. O texto e a composição foram preservados. O resultado final exige nova execução automatizada; esta correção não é um resultado de reteste.
+
+
+## Reteste consolidado concluído
+
+CI44345724108, candidataa3d3ba7c57903b47ed9fb6f667c855cf9feb180d: quatro páginas×11larguras=44cenários finais, sem overflow horizontal, headings fora da tela, IDs duplicados, errosJavaScript ou imagens carregadas com erro. Axe executado em390/1440 nas quatro páginas: zero violações nas oito auditorias finais, incluindo a correção de contraste deServiços. As oito auditorias de referência também foram preservadas.
+
+Fluxos aprovados: nove acordeões por toque nas duas rotas que compartilham o explorador, abrir/recolher, Enter/Space, âncora#s09, contexto de necessidade→especialidade, End/Home nas abasdesktop, menuEscape, movimento reduzido nas quatro páginas, controles de mapa e galeria/lightboxEscape. O teste espera a atualização do evento nativo toggle para validar aria-expanded, sem mascarar estados incorretos.
+
+Revisão manual em navegador: seleção e teclado emdesktop; mobile390 viaiframe com âncora de serviço visível e conteúdos independentes; novo perfilSobre com nome/cargo/foto na primeira coluna, biografia na segunda e empilhamento no mobile. Zoom físico200/400% não pôde ser confirmado nesta superfície;320/720CSSpx foram testados como reflow/equivalência de largura, sem alegar teste físico. Texto sobre todas as combinações temporais do vídeo e do feixe exige avaliação humana contínua; não se afirma conformidadeWCAGintegral.

@@ -185,3 +185,19 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Colunas, palavra e barra inferior agora usam content-max e space-layout das demais seções. Cores, fonte, feixe, interação e fade originais preservados. Assets CSS/JS com nova versão para cache.
 - Navegador320/390/768/1440/1920 sem overflow. Em1440/1920, palavra1199.92px para corte1200px, borda esquerda idêntica à do conteúdo. Mobile320/390/768 sem overflow. Captura desktop mostrou assinatura completa e barra abaixo.
 - QA65testes PASS; removidas expectativas legadas que exigiam justamente o limite reduzido108px. Não foi criada dependência nem alterado envio do formulário. QA temporário retirado do pacote.
+
+- Footer publicado versão32, fontefd0e04732ca31a840dd578423856311309b9b703, deployappgdep_6afd81e3f71481919524b480b2c2a5a4 succeeded. CUA no domínio oficial confirmou nove abas daHome e palavra1199.92px para corte1200px; sem overflow. Evidência docs/evidence/ykeizumi-footer-largura-nov18.jpg. EspelhoGitHub a1c37a8f82292a6173e35a323bfb00fe9644100f naPR14, sem merge.
+
+
+## 18/11/2026 — Refinamento UX/UI V2 em validação
+- Autorização: prompt completo P1/P2 com publicação após validação; manter identidade, conteúdo e arquitetura. Backup recuperável versão32, fontefd0e04732ca31a840dd578423856311309b9b703. BranchGitHubfeat/ykeizumi-ux-v2-20261118, PR15draft.
+- Mobile: nove disclosures nativos independentes no explorador compartilhado Home/Serviços, seleção por âncora e CTA contextual; desktop mantém abas editoriais. Mobilemenu recebe CTA dentro do fluxo.
+- Acessibilidade: foco em duas cores, alvos44px, contraste de pequenos textos, piso de opacidade na animação e preferência por movimento reduzido preservada. Tipografia com balance/pretty e leitura sem justificação nas colunas estreitas.
+- Performance: mapas abaixo da dobra com lazyloading, preloadposter, includesórfãos removidos e footerfit evita recalcular largura idêntica; bundleCSS por rota preserva bytes e cascata.
+- Pedido adicional da cliente: Sobre agrupa nome, cargo e retrato na coluna esquerda; biografia integral à direita com topo alinhado. Mobile mantém nome/cargo/foto/texto empilhados. Conferido no navegadordesktop eiframe390px sem overflow.
+- QA local:65testes,lint,build4rotas echeck aprovados; todos581fragmentos originais preservados no inventário textual. PrimeiroCI achou contraste4.39:1 no apoioServiços, corrigido para5.38:1; teste de toggle nativo ajustado para esperar o estado acessível real. Nova execução44345724108 sobrecommita3d3ba7c57903b47ed9fb6f667c855cf9feb180d em andamento. Ainda não publicado.
+- Limitações preservadas: formulário indisponível aguardando contaGoogle da Lara; adaptadorSanity presente porém não conectado ao render. PageSpeedcampo retornouHTTP429/cota; semINPreal ou declaração de WCAGintegral.
+
+- Validaçãofinal: CI44345724108 aprovado em9jobs, incluindo8comparaçõesLighthouse e52combinaçõesbrowser(44candidata+8baseline), issues[]. Axe0violações finais;65testes PASS. Sobreperfilvalidado desktop/mobile390. Detalhes docs/UX_V2_RELEASE.md. Liberado para publicação autorizada; scoremobile90nãoatingido em3páginas documentado, sem regressões críticas observadas.
+
+- Publicação V2 concluída: versão33, fonte1714e4580bdfc5cff1080709ca49b41d58d5eeb9, deployappgdep_6afdd184f5fc81919b295dad361b2bac succeeded. Quatro rotasHTTPS verificadas ao vivo; perfilLara com colunas alinhadas e identidade acima dafoto; sem overflow. Evidência docs/evidence/ykeizumi-ux-v2-profile-published.jpg. Relatórios e screenshots preservados no pacote de evidências. Atualização documental posterior não altera runtime.

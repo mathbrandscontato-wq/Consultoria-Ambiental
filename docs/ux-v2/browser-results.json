@@ -1,0 +1,1098 @@
+{
+  "method": "Chromium responsive and touch/keyboard checks plus axe WCAG A/AA. Width720 simulates the effective layout width of1440 at200%; width320 tests reflow but does not claim physical browser zoom or full WCAG conformance.",
+  "baseline": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
+  "candidate": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+  "results": [
+    {
+      "phase": "before",
+      "route": "home",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "count": 8,
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+        }
+      ],
+      "axeIncomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 78
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "route": "sobre",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "count": 6,
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+        }
+      ],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "route": "servicos",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "count": 60,
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+        }
+      ],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 54
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "route": "contato",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "route": "home",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "count": 15,
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+        }
+      ],
+      "axeIncomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 42
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "route": "sobre",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "count": 6,
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+        }
+      ],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "route": "servicos",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "count": 67,
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+        }
+      ],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 39
+        }
+      ]
+    },
+    {
+      "phase": "before",
+      "route": "contato",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 320,
+      "width": 320,
+      "scroll": 320,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 320,
+      "width": 320,
+      "scroll": 320,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 320,
+      "width": 320,
+      "scroll": 320,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 320,
+      "width": 320,
+      "scroll": 320,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 360,
+      "width": 360,
+      "scroll": 360,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 360,
+      "width": 360,
+      "scroll": 360,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 360,
+      "width": 360,
+      "scroll": 360,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 360,
+      "width": 360,
+      "scroll": 360,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 375,
+      "width": 375,
+      "scroll": 375,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 375,
+      "width": 375,
+      "scroll": 375,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 375,
+      "width": 375,
+      "scroll": 375,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 375,
+      "width": 375,
+      "scroll": 375,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 53
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 37
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 390,
+      "width": 390,
+      "scroll": 390,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 414,
+      "width": 414,
+      "scroll": 414,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 414,
+      "width": 414,
+      "scroll": 414,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 414,
+      "width": 414,
+      "scroll": 414,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 414,
+      "width": 414,
+      "scroll": 414,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 720,
+      "width": 720,
+      "scroll": 720,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 720,
+      "width": 720,
+      "scroll": 720,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 720,
+      "width": 720,
+      "scroll": 720,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 720,
+      "width": 720,
+      "scroll": 720,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 768,
+      "width": 768,
+      "scroll": 768,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 768,
+      "width": 768,
+      "scroll": 768,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 768,
+      "width": 768,
+      "scroll": 768,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 768,
+      "width": 768,
+      "scroll": 768,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 1024,
+      "width": 1024,
+      "scroll": 1024,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 1024,
+      "width": 1024,
+      "scroll": 1024,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 1024,
+      "width": 1024,
+      "scroll": 1024,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 1024,
+      "width": 1024,
+      "scroll": 1024,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 1280,
+      "width": 1280,
+      "scroll": 1280,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 1280,
+      "width": 1280,
+      "scroll": 1280,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 1280,
+      "width": 1280,
+      "scroll": 1280,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 1280,
+      "width": 1280,
+      "scroll": 1280,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "internalLinks": [
+        {
+          "href": "/#conteudo",
+          "status": 200
+        },
+        {
+          "href": "/",
+          "status": 200
+        },
+        {
+          "href": "/sobre/",
+          "status": 200
+        },
+        {
+          "href": "/servicos/",
+          "status": 200
+        },
+        {
+          "href": "/contato/",
+          "status": 200
+        },
+        {
+          "href": "/#introducao",
+          "status": 200
+        },
+        {
+          "href": "/#s01",
+          "status": 200
+        },
+        {
+          "href": "/#s02",
+          "status": 200
+        },
+        {
+          "href": "/#s03",
+          "status": 200
+        },
+        {
+          "href": "/#s04",
+          "status": 200
+        },
+        {
+          "href": "/#s05",
+          "status": 200
+        },
+        {
+          "href": "/#s06",
+          "status": 200
+        },
+        {
+          "href": "/#s07",
+          "status": 200
+        },
+        {
+          "href": "/#s08",
+          "status": 200
+        },
+        {
+          "href": "/#s09",
+          "status": 200
+        },
+        {
+          "href": "/media/ykeizumi-vila-costeira-1280.jpg",
+          "status": 200
+        },
+        {
+          "href": "/media/ykeizumi-floresta-trilhos-1280.jpg",
+          "status": 200
+        },
+        {
+          "href": "/media/ykeizumi-estrada-vegetacao-1280.jpg",
+          "status": 200
+        },
+        {
+          "href": "/media/ykeizumi-fauna-macaco-1280.jpg",
+          "status": 200
+        },
+        {
+          "href": "/media/ykeizumi-avifauna-1280.jpg",
+          "status": 200
+        },
+        {
+          "href": "/media/litoral-1280.webp",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s01",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s02",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s03",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s04",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s05",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s06",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s07",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s08",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s09",
+          "status": 200
+        }
+      ],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "count": 3
+        },
+        {
+          "id": "color-contrast",
+          "count": 41
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "internalLinks": [
+        {
+          "href": "/sobre/#conteudo",
+          "status": 200
+        },
+        {
+          "href": "/",
+          "status": 200
+        },
+        {
+          "href": "/sobre/",
+          "status": 200
+        },
+        {
+          "href": "/servicos/",
+          "status": 200
+        },
+        {
+          "href": "/contato/",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s01",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s02",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s03",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s04",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s05",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s06",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s07",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s08",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s09",
+          "status": 200
+        }
+      ],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "internalLinks": [
+        {
+          "href": "/servicos/#conteudo",
+          "status": 200
+        },
+        {
+          "href": "/",
+          "status": 200
+        },
+        {
+          "href": "/sobre/",
+          "status": 200
+        },
+        {
+          "href": "/servicos/",
+          "status": 200
+        },
+        {
+          "href": "/contato/",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s01",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s02",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s03",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s04",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s06",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s07",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s05",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s08",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s09",
+          "status": 200
+        }
+      ],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 38
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 1440,
+      "width": 1440,
+      "scroll": 1440,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": [],
+      "internalLinks": [
+        {
+          "href": "/contato/#conteudo",
+          "status": 200
+        },
+        {
+          "href": "/",
+          "status": 200
+        },
+        {
+          "href": "/sobre/",
+          "status": 200
+        },
+        {
+          "href": "/servicos/",
+          "status": 200
+        },
+        {
+          "href": "/contato/",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s01",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s02",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s03",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s04",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s05",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s06",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s07",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s08",
+          "status": 200
+        },
+        {
+          "href": "/servicos/#s09",
+          "status": 200
+        }
+      ],
+      "axeViolations": [],
+      "axeIncomplete": [
+        {
+          "id": "color-contrast",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "phase": "after",
+      "route": "home",
+      "viewport": 1920,
+      "width": 1920,
+      "scroll": 1920,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "sobre",
+      "viewport": 1920,
+      "width": 1920,
+      "scroll": 1920,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "servicos",
+      "viewport": 1920,
+      "width": 1920,
+      "scroll": 1920,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    },
+    {
+      "phase": "after",
+      "route": "contato",
+      "viewport": 1920,
+      "width": 1920,
+      "scroll": 1920,
+      "h1": 1,
+      "duplicateIds": [],
+      "brokenImages": [],
+      "headingOverflow": [],
+      "pageErrors": []
+    }
+  ],
+  "issues": []
+}

@@ -1,15 +1,17 @@
 {
-  "status": "first-run-before-final-corrections",
-  "workflow_run": 44294195532,
-  "workflow_url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44294195532",
-  "method": "One Lighthouse lab run per phase, route and simulated device, served over equal local HTTP/1.1 static servers in GitHub runner; no production TTFB or field INP inferred.",
+  "status": "final-candidate-lighthouse-round-2",
+  "workflow_run": 44345724108,
+  "workflow_url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108",
+  "candidate_sha": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+  "baseline_sha": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
+  "method": "One Lighthouse lab run per phase, route and simulated device, served over equal local HTTP/1.1 static servers in GitHub runner; no production TTFB, median or field INP inferred.",
   "results": [
     {
       "phase": "before",
       "slug": "contato",
       "device": "desktop",
       "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:30.055Z",
+      "fetchTime": "2026-11-18T16:18:53.504Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
         "performance": 100,
@@ -19,11 +21,11 @@
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 371.3097,
+          "value": 368.0925,
           "display": "0.4 s"
         },
         "largest-contentful-paint": {
-          "value": 371.3097,
+          "value": 368.0925,
           "display": "0.4 s"
         },
         "total-blocking-time": {
@@ -35,7 +37,7 @@
           "display": "0"
         },
         "speed-index": {
-          "value": 418.12421057727516,
+          "value": 368.0925,
           "display": "0.4 s"
         }
       },
@@ -45,8 +47,8 @@
       "phase": "after",
       "slug": "contato",
       "device": "desktop",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:42.131Z",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:04.217Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
         "performance": 100,
@@ -56,12 +58,12 @@
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 429.327,
-          "display": "0.4 s"
+          "value": 323.6829,
+          "display": "0.3 s"
         },
         "largest-contentful-paint": {
-          "value": 429.327,
-          "display": "0.4 s"
+          "value": 323.6829,
+          "display": "0.3 s"
         },
         "total-blocking-time": {
           "value": 0,
@@ -72,8 +74,8 @@
           "display": "0"
         },
         "speed-index": {
-          "value": 429.327,
-          "display": "0.4 s"
+          "value": 323.6829,
+          "display": "0.3 s"
         }
       },
       "warnings": []
@@ -83,7 +85,7 @@
       "slug": "contato",
       "device": "mobile",
       "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:23.783Z",
+      "fetchTime": "2026-11-18T16:19:35.964Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
         "performance": 98,
@@ -93,23 +95,23 @@
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 1808.9151000000002,
+          "value": 1836.9238,
           "display": "1.8 s"
         },
         "largest-contentful-paint": {
-          "value": 1808.9151000000002,
+          "value": 1836.9238,
           "display": "1.8 s"
         },
         "total-blocking-time": {
-          "value": 0,
-          "display": "0 ms"
+          "value": 100,
+          "display": "100 ms"
         },
         "cumulative-layout-shift": {
           "value": 0,
           "display": "0"
         },
         "speed-index": {
-          "value": 1808.9151000000002,
+          "value": 1836.9238,
           "display": "1.8 s"
         }
       },
@@ -119,208 +121,23 @@
       "phase": "after",
       "slug": "contato",
       "device": "mobile",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:34.683Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 98,
-        "accessibility": 100,
-        "best-practices": 100,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 1808.1876,
-          "display": "1.8 s"
-        },
-        "largest-contentful-paint": {
-          "value": 1808.1876,
-          "display": "1.8 s"
-        },
-        "total-blocking-time": {
-          "value": 0,
-          "display": "0 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 1808.1876,
-          "display": "1.8 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "before",
-      "slug": "home",
-      "device": "desktop",
-      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:18.106Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 82,
-        "accessibility": 97,
-        "best-practices": 100,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 409.0048,
-          "display": "0.4 s"
-        },
-        "largest-contentful-paint": {
-          "value": 3391.2559999999994,
-          "display": "3.4 s"
-        },
-        "total-blocking-time": {
-          "value": 0,
-          "display": "0 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 449.4737890852216,
-          "display": "0.4 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "after",
-      "slug": "home",
-      "device": "desktop",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:28.980Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 99,
-        "accessibility": 100,
-        "best-practices": 100,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 463.12159999999994,
-          "display": "0.5 s"
-        },
-        "largest-contentful-paint": {
-          "value": 888.1216,
-          "display": "0.9 s"
-        },
-        "total-blocking-time": {
-          "value": 0,
-          "display": "0 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 477.2592084905539,
-          "display": "0.5 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "before",
-      "slug": "home",
-      "device": "mobile",
-      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:40.640Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 45,
-        "accessibility": 97,
-        "best-practices": 96,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 1812.0133999999998,
-          "display": "1.8 s"
-        },
-        "largest-contentful-paint": {
-          "value": 13665.016749999999,
-          "display": "13.7 s"
-        },
-        "total-blocking-time": {
-          "value": 2163.98995,
-          "display": "2,160 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 2752.664618781675,
-          "display": "2.8 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "after",
-      "slug": "home",
-      "device": "mobile",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:54.355Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 93,
-        "accessibility": 100,
-        "best-practices": 96,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 1812.6327999999999,
-          "display": "1.8 s"
-        },
-        "largest-contentful-paint": {
-          "value": 3012.6328000000003,
-          "display": "3.0 s"
-        },
-        "total-blocking-time": {
-          "value": 0,
-          "display": "0 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 1812.6327999999999,
-          "display": "1.8 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "before",
-      "slug": "servicos",
-      "device": "desktop",
-      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:42.728Z",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:47.033Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
         "performance": 100,
-        "accessibility": 96,
+        "accessibility": 100,
         "best-practices": 100,
         "seo": 100
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 529.1349525900516,
-          "display": "0.5 s"
+          "value": 1353.6954,
+          "display": "1.4 s"
         },
         "largest-contentful-paint": {
-          "value": 808.1799367867357,
-          "display": "0.8 s"
+          "value": 1353.6954,
+          "display": "1.4 s"
         },
         "total-blocking-time": {
           "value": 0,
@@ -331,110 +148,36 @@
           "display": "0"
         },
         "speed-index": {
-          "value": 529.1349525900516,
-          "display": "0.5 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "after",
-      "slug": "servicos",
-      "device": "desktop",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:53.673Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 99,
-        "accessibility": 96,
-        "best-practices": 100,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 460.55379999999997,
-          "display": "0.5 s"
-        },
-        "largest-contentful-paint": {
-          "value": 846.94225,
-          "display": "0.8 s"
-        },
-        "total-blocking-time": {
-          "value": 0,
-          "display": "0 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 460.55379999999997,
-          "display": "0.5 s"
+          "value": 1353.6954,
+          "display": "1.4 s"
         }
       },
       "warnings": []
     },
     {
       "phase": "before",
-      "slug": "servicos",
-      "device": "mobile",
+      "slug": "home",
+      "device": "desktop",
       "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:32.853Z",
+      "fetchTime": "2026-11-18T16:18:57.800Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
-        "performance": 86,
-        "accessibility": 96,
+        "performance": 88,
+        "accessibility": 97,
         "best-practices": 100,
         "seo": 100
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 2114.4982,
-          "display": "2.1 s"
+          "value": 408.297,
+          "display": "0.4 s"
         },
         "largest-contentful-paint": {
-          "value": 3914.37275,
-          "display": "3.9 s"
+          "value": 2370.37125,
+          "display": "2.4 s"
         },
         "total-blocking-time": {
-          "value": 81,
-          "display": "80 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 2114.4982,
-          "display": "2.1 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "after",
-      "slug": "servicos",
-      "device": "mobile",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:44.788Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 85,
-        "accessibility": 95,
-        "best-practices": 100,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 1958.877,
-          "display": "2.0 s"
-        },
-        "largest-contentful-paint": {
-          "value": 4061.09625,
-          "display": "4.1 s"
-        },
-        "total-blocking-time": {
-          "value": 8.780749999999898,
+          "value": 11,
           "display": "10 ms"
         },
         "cumulative-layout-shift": {
@@ -442,33 +185,33 @@
           "display": "0"
         },
         "speed-index": {
-          "value": 1958.877,
-          "display": "2.0 s"
+          "value": 614.8747098728759,
+          "display": "0.6 s"
         }
       },
       "warnings": []
     },
     {
-      "phase": "before",
-      "slug": "sobre",
+      "phase": "after",
+      "slug": "home",
       "device": "desktop",
-      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:26.426Z",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:09.957Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
-        "performance": 97,
-        "accessibility": 95,
-        "best-practices": 96,
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
         "seo": 100
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 493.1952,
-          "display": "0.5 s"
+          "value": 443.7887,
+          "display": "0.4 s"
         },
         "largest-contentful-paint": {
-          "value": 1281.9919999999997,
-          "display": "1.3 s"
+          "value": 803.7887000000001,
+          "display": "0.8 s"
         },
         "total-blocking-time": {
           "value": 0,
@@ -479,8 +222,267 @@
           "display": "0"
         },
         "speed-index": {
-          "value": 493.1952,
+          "value": 457.32608158333437,
           "display": "0.5 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "before",
+      "slug": "home",
+      "device": "mobile",
+      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
+      "fetchTime": "2026-11-18T16:19:00.463Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 61,
+        "accessibility": 97,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 1809.0292624734539,
+          "display": "1.8 s"
+        },
+        "largest-contentful-paint": {
+          "value": 13661.286578091818,
+          "display": "13.7 s"
+        },
+        "total-blocking-time": {
+          "value": 522.2280531449096,
+          "display": "520 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 1809.0292624734539,
+          "display": "1.8 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "after",
+      "slug": "home",
+      "device": "mobile",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:12.345Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 86,
+        "accessibility": 100,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 1354.5577,
+          "display": "1.4 s"
+        },
+        "largest-contentful-paint": {
+          "value": 4129.5577,
+          "display": "4.1 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 1354.5577,
+          "display": "1.4 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "before",
+      "slug": "servicos",
+      "device": "desktop",
+      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
+      "fetchTime": "2026-11-18T16:18:58.404Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 100,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 415.4722,
+          "display": "0.4 s"
+        },
+        "largest-contentful-paint": {
+          "value": 815.4721999999999,
+          "display": "0.8 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 485.5846316576045,
+          "display": "0.5 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "after",
+      "slug": "servicos",
+      "device": "desktop",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:10.716Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 325.5202,
+          "display": "0.3 s"
+        },
+        "largest-contentful-paint": {
+          "value": 765.5202,
+          "display": "0.8 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 325.5202,
+          "display": "0.3 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "before",
+      "slug": "servicos",
+      "device": "mobile",
+      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
+      "fetchTime": "2026-11-18T16:18:53.774Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 87,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 1812.1102,
+          "display": "1.8 s"
+        },
+        "largest-contentful-paint": {
+          "value": 3915.13775,
+          "display": "3.9 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 1812.1102,
+          "display": "1.8 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "after",
+      "slug": "servicos",
+      "device": "mobile",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:04.743Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 87,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 1653.5285,
+          "display": "1.7 s"
+        },
+        "largest-contentful-paint": {
+          "value": 3905.2927499999996,
+          "display": "3.9 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 1653.5285,
+          "display": "1.7 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "before",
+      "slug": "sobre",
+      "device": "desktop",
+      "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
+      "fetchTime": "2026-11-18T16:19:13.179Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 95,
+        "accessibility": 95,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 494.8416,
+          "display": "0.5 s"
+        },
+        "largest-contentful-paint": {
+          "value": 1284.7359999999999,
+          "display": "1.3 s"
+        },
+        "total-blocking-time": {
+          "value": 121.99999999999983,
+          "display": "120 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 764.9397980552302,
+          "display": "0.8 s"
         }
       },
       "warnings": []
@@ -489,8 +491,8 @@
       "phase": "after",
       "slug": "sobre",
       "device": "desktop",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:38.531Z",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:26.666Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
         "performance": 97,
@@ -500,12 +502,12 @@
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 451.625,
-          "display": "0.5 s"
+          "value": 406.8766,
+          "display": "0.4 s"
         },
         "largest-contentful-paint": {
-          "value": 1314.53125,
-          "display": "1.3 s"
+          "value": 1210.3148999999999,
+          "display": "1.2 s"
         },
         "total-blocking-time": {
           "value": 0,
@@ -516,8 +518,8 @@
           "display": "0"
         },
         "speed-index": {
-          "value": 451.625,
-          "display": "0.5 s"
+          "value": 406.8766,
+          "display": "0.4 s"
         }
       },
       "warnings": []
@@ -527,59 +529,22 @@
       "slug": "sobre",
       "device": "mobile",
       "source": "a1c37a8f82292a6173e35a323bfb00fe9644100f",
-      "fetchTime": "2026-11-18T11:23:26.108Z",
-      "lighthouseVersion": "13.6.0",
-      "scores": {
-        "performance": 73,
-        "accessibility": 95,
-        "best-practices": 100,
-        "seo": 100
-      },
-      "metrics": {
-        "first-contentful-paint": {
-          "value": 2112.7551999999996,
-          "display": "2.1 s"
-        },
-        "largest-contentful-paint": {
-          "value": 6165.9439999999995,
-          "display": "6.2 s"
-        },
-        "total-blocking-time": {
-          "value": 189.43359999999984,
-          "display": "190 ms"
-        },
-        "cumulative-layout-shift": {
-          "value": 0,
-          "display": "0"
-        },
-        "speed-index": {
-          "value": 2112.7551999999996,
-          "display": "2.1 s"
-        }
-      },
-      "warnings": []
-    },
-    {
-      "phase": "after",
-      "slug": "sobre",
-      "device": "mobile",
-      "source": "5c65d15231f797292c8e846c898e6d87b50d5072",
-      "fetchTime": "2026-11-18T11:23:38.783Z",
+      "fetchTime": "2026-11-18T16:19:25.904Z",
       "lighthouseVersion": "13.6.0",
       "scores": {
         "performance": 76,
-        "accessibility": 100,
+        "accessibility": 95,
         "best-practices": 100,
         "seo": 100
       },
       "metrics": {
         "first-contentful-paint": {
-          "value": 1960.2376,
-          "display": "2.0 s"
+          "value": 2210.668212746602,
+          "display": "2.2 s"
         },
         "largest-contentful-paint": {
-          "value": 6162.7970000000005,
-          "display": "6.2 s"
+          "value": 6089.502319119903,
+          "display": "6.1 s"
         },
         "total-blocking-time": {
           "value": 0,
@@ -590,11 +555,633 @@
           "display": "0"
         },
         "speed-index": {
-          "value": 1960.2376,
-          "display": "2.0 s"
+          "value": 2210.668212746602,
+          "display": "2.2 s"
+        }
+      },
+      "warnings": []
+    },
+    {
+      "phase": "after",
+      "slug": "sobre",
+      "device": "mobile",
+      "source": "a3d3ba7c57903b47ed9fb6f667c855cf9feb180d",
+      "fetchTime": "2026-11-18T16:19:36.875Z",
+      "lighthouseVersion": "13.6.0",
+      "scores": {
+        "performance": 78,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 1502.8330811981841,
+          "display": "1.5 s"
+        },
+        "largest-contentful-paint": {
+          "value": 6004.249621797277,
+          "display": "6.0 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "display": "0"
+        },
+        "speed-index": {
+          "value": 1502.8330811981841,
+          "display": "1.5 s"
         }
       },
       "warnings": []
     }
-  ]
+  ],
+  "resources": [
+    {
+      "scenario": "contato-desktop",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 9,
+          "transferSize": 185089
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 108743
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 5,
+          "transferSize": 19516
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 12791
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 1,
+          "transferSize": 10405
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:46401/styles/site-1cc0073374ba.css",
+          "totalBytes": 108743,
+          "wastedMs": 162
+        }
+      ]
+    },
+    {
+      "scenario": "contato-mobile",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 9,
+          "transferSize": 185089
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 108743
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 5,
+          "transferSize": 19516
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 12791
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 1,
+          "transferSize": 10405
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:42305/styles/site-1cc0073374ba.css",
+          "totalBytes": 108743,
+          "wastedMs": 752
+        }
+      ]
+    },
+    {
+      "scenario": "home-desktop",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 21,
+          "transferSize": 4912768
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 1,
+          "transferSize": 2425743
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 9,
+          "transferSize": 2262756
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 116087
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 40682
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 8,
+          "transferSize": 33866
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:45949/styles/site-e9c5b4b18871.css",
+          "totalBytes": 116087,
+          "wastedMs": 242
+        }
+      ]
+    },
+    {
+      "scenario": "home-mobile",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 21,
+          "transferSize": 5117967
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 9,
+          "transferSize": 4231427
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 1,
+          "transferSize": 662271
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 116087
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 40682
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 8,
+          "transferSize": 33866
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:40181/styles/site-e9c5b4b18871.css",
+          "totalBytes": 116087,
+          "wastedMs": 602
+        }
+      ]
+    },
+    {
+      "scenario": "servicos-desktop",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 10,
+          "transferSize": 592829
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 2,
+          "transferSize": 388412
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 116087
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 30779
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 5,
+          "transferSize": 23917
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:41041/styles/site-e9c5b4b18871.css",
+          "totalBytes": 116087,
+          "wastedMs": 123
+        }
+      ]
+    },
+    {
+      "scenario": "servicos-mobile",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 10,
+          "transferSize": 592829
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 2,
+          "transferSize": 388412
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 116087
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 30779
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 5,
+          "transferSize": 23917
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:34199/styles/site-e9c5b4b18871.css",
+          "totalBytes": 116087,
+          "wastedMs": 602
+        }
+      ]
+    },
+    {
+      "scenario": "sobre-desktop",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 15,
+          "transferSize": 2146201
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 7,
+          "transferSize": 1904404
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 116688
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 68521
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 5,
+          "transferSize": 22954
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:43509/styles/site-4eab9a887bce.css",
+          "totalBytes": 116688,
+          "wastedMs": 163
+        }
+      ]
+    },
+    {
+      "scenario": "sobre-mobile",
+      "resourceSummary": [
+        {
+          "resourceType": "total",
+          "label": "Total",
+          "requestCount": 14,
+          "transferSize": 1675693
+        },
+        {
+          "resourceType": "image",
+          "label": "Image",
+          "requestCount": 6,
+          "transferSize": 1433896
+        },
+        {
+          "resourceType": "stylesheet",
+          "label": "Stylesheet",
+          "requestCount": 1,
+          "transferSize": 116688
+        },
+        {
+          "resourceType": "document",
+          "label": "Document",
+          "requestCount": 1,
+          "transferSize": 68521
+        },
+        {
+          "resourceType": "other",
+          "label": "Other",
+          "requestCount": 1,
+          "transferSize": 33634
+        },
+        {
+          "resourceType": "script",
+          "label": "Script",
+          "requestCount": 5,
+          "transferSize": 22954
+        },
+        {
+          "resourceType": "media",
+          "label": "Media",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "font",
+          "label": "Font",
+          "requestCount": 0,
+          "transferSize": 0
+        },
+        {
+          "resourceType": "third-party",
+          "label": "Third-party",
+          "requestCount": 0,
+          "transferSize": 0
+        }
+      ],
+      "renderBlocking": [
+        {
+          "url": "http://127.0.0.1:35689/styles/site-4eab9a887bce.css",
+          "totalBytes": 116688,
+          "wastedMs": 601
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "lighthouse-home-desktop",
+      "id": 14446880156,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446880156",
+      "expires_at": "2027-02-16T16:18:36Z"
+    },
+    {
+      "name": "lighthouse-servicos-desktop",
+      "id": 14446755461,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446755461",
+      "expires_at": "2027-02-16T16:18:36Z"
+    },
+    {
+      "name": "lighthouse-sobre-desktop",
+      "id": 14446430968,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14446430968",
+      "expires_at": "2027-02-16T16:18:36Z"
+    },
+    {
+      "name": "lighthouse-sobre-mobile",
+      "id": 14445892262,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445892262",
+      "expires_at": "2027-02-16T16:18:36Z"
+    },
+    {
+      "name": "lighthouse-contato-mobile",
+      "id": 14445552979,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445552979",
+      "expires_at": "2027-02-16T16:18:36Z"
+    },
+    {
+      "name": "lighthouse-home-mobile",
+      "id": 14445358146,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14445358146",
+      "expires_at": "2027-02-16T16:18:36Z"
+    },
+    {
+      "name": "lighthouse-servicos-mobile",
+      "id": 14444694207,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14444694207",
+      "expires_at": "2027-02-16T16:18:36Z"
+    },
+    {
+      "name": "lighthouse-contato-desktop",
+      "id": 14444649878,
+      "url": "https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44345724108/artifacts/14444649878",
+      "expires_at": "2027-02-16T16:18:36Z"
+    }
+  ],
+  "field_data": {
+    "status": "unavailable-quota",
+    "INP": null,
+    "note": "PSI returned HTTP429 RESOURCE_EXHAUSTED, daily quota0. This does not establish that CrUX has no site data."
+  }
 }
