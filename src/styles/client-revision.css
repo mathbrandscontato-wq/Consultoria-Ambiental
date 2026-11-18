@@ -241,6 +241,9 @@
 .home-service .service-number { margin-top:.35rem; }
 .home-services-head>p { max-width:50ch; font-size:1.02rem; line-height:1.75; }
 .segment-cloud h2 { max-width:26ch; }
+@media(min-width:900px){
+  .home-services-head h2,.segment-cloud h2 { font-size:clamp(2rem,3.7vw,3.5rem); line-height:1.15; }
+}
 .sector-option summary { line-height:1.35; min-height:78px; }
 .sector-description>p { max-width:52ch; line-height:1.75; }
 .project-section-head p { max-width:50ch; font-size:1.02rem; }

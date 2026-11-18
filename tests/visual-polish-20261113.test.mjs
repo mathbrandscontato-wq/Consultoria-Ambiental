@@ -41,5 +41,5 @@ test('refinamento visual: hierarquia e leitura, sem conteúdo adicional',async()
  assert.match(css,/\.contact-direct \{/);
  assert.match(css,/@media\(max-width:760px\)/);
  assert.match(js,/target\*\.42,108/);
- assert.match(page(''),/client-revision\.css\?v=ux-20261113-visual-v3/);
+ assert.match(page(''),/client-revision\.css\?v=ux-20261118-sector-title-v4/);
 });

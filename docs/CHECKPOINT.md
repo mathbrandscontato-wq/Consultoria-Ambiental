@@ -161,3 +161,11 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Aviso técnico Formulário em configuração substituído por estado honesto de indisponibilidade, com contatos diretos preservados.
 - FormSubmit: integração nativa preparada, desativada por padrão; destinatária fixa, upload multipart PDF/JPG/PNG limitado10MB, honeypot/captcha e aviso do provedor. Revisor automático rejeitou teste por ausência de autorização explícita para FormSubmit; não foi contornado. Ativação e entrega não confirmadas. Plano concreto em docs/CONTACT_DELIVERY.md.
 - QA65testes aprovados, build4rotas e inspeção estática. Navegador desktop verificou4rotas: umH1, indexfollow, nenhum marcador provisório/legenda repetida, zero overflow e zero campos de envio habilitados. QA de browser automatizado legado não executado.
+
+- Publicado versão29, fonte4d69228ed20ec4e80ee4096f63e3140507f19fcb, deployappgdep_6af8b492ec688191bba23829db49edaa succeeded. Conferidas4rotas HTTPS no domínio ykeizumi.com.br: indexfollow, zero rótulos/avisos provisórios e sem overflow; formulário permanece semaction até autorização/confirmação. Evidência docs/evidence/ykeizumi-sem-rotulos-nov14.jpg. Código espelhado em PR14 draft, commit47c3a7d8c936bb45aa2e14a9a56b39a3c4fd5ca9, sem merge/push na branch que aciona hospedagem provisória.
+
+
+## 18/11/2026 — Título dos segmentos no padrão dos títulos de seção
+- Instrução final: não criar aumento arbitrário; igualar ao tamanho dos outros títulos.
+- Acima de900px, .segment-cloud h2 compartilha com .home-services-head h2 exatamente font-size clamp(2rem,3.7vw,3.5rem) e line-height1.15. Mobile e tablet abaixo900px preservados. Cache da folha client-revision atualizado.
+- QA65testes, build e check aprovados. Navegador desktop: ambos títulos50.431px; sem overflow. Conteúdo, demais seções e formulário pendente preservados. Rollback fonte0dedf4b5953c8c40cefaee8e64ae518c6db4b397, versão29.
