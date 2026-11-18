@@ -213,3 +213,7 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 ## 18/11/2026 — POST e anexos após ativação informada pela cliente
 - Lara ativou segundo Matheus. Novo print mostra “Form should POST”; form anterior já tinha POST/multipart, sem_next e sem barra final, então causa externa/redirecionamento não foi comprovada. Botão passa a fixar método, encoding e endpoint. Arquivos múltiplos passam a campos multipart distintos pelo eventoformdata, sem alterar bytes/nomes.
 -71testes PASS. Teste remoto de transporte Chromium/WebKit preparado com captura HTTP isolada, sem envio ao provedor. Ativação informada não é prova de entrega. Nota docs/CONTACT_POST_ATTACHMENTS_20261118.md.
+
+- Transporte real de navegador aprovado no CI44400137166:12cenários Chromium/WebKit, POST multipart com0/1/3arquivos, hashes íntegros, desktop/mobile. Zero chamadas ao provedor. CI de regressão44400136704 aprovado em9jobs. Recebimento real continua não confirmado.
+
+- Publicado versão36, fonte1c97ad411b1b0a8fd4e3128fd7ba800e7d16deba, deployappgdep_6afe175a1a4881919cae5836532af3e8 succeeded. Domínio oficial /contato/ conferido em navegador: métodoPOST noform ebotão, multipart, múltiplosarquivos e campos editáveis. Não houve envio ao provedor nesta verificação.

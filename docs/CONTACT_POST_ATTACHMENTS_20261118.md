@@ -15,6 +15,6 @@ Instruções de ativação pendente retiradas da interface, pois a cliente infor
 
 ## Validação
 
-71 testes locais aprovados, incluindo serialização multipart de dois arquivos e verificação byte a byte. Novo teste remoto Chromium/WebKit usa o HTML de produção com apenas o destino trocado por servidor isolado de captura. Inspeciona o POST nativo entre duas origens locais, zero/um/três arquivos, hash de cada conteúdo e preservação das respostas, em desktop e mobile simulado. Não acessa o FormSubmit nem envia e-mails. Resultado dessa execução será registrado após conclusão.
+71 testes locais aprovados, incluindo serialização multipart de dois arquivos e verificação byte a byte. Novo teste remoto Chromium/WebKit usa o HTML de produção com apenas o destino trocado por servidor isolado de captura. Inspeciona o POST nativo entre duas origens locais, zero/um/três arquivos, hash de cada conteúdo e preservação das respostas, em desktop e mobile simulado. Não acessa o FormSubmit nem envia e-mails. Execução GitHub Actions44400137166 aprovada: seis cenários por engine,12 no total. Chromium e WebKit confirmaram POST multipart, campos e hashes de todos os anexos. Evidências: https://github.com/mathbrandscontato-wq/Consultoria-Ambiental/actions/runs/44400137166 . Auditoria de regressão44400136704 também aprovada em nove jobs. Nenhum desses testes comprova entrega na caixa postal da Lara.
 
 A origem exata do erro apresentado pelo serviço e a entrega de ponta a ponta permanecem sem confirmação.
