@@ -15,11 +15,11 @@ test('revisão visual mantém quatro páginas, nove serviços e conteúdo integr
   assert.ok(home.includes(s.description),'A Home deve preservar descrição de '+s.title);
   assert.ok(services.includes(s.title),'Serviços deve preservar '+s.title);
   assert.ok(services.includes(s.description),'Serviços deve preservar descrição de '+s.title);
-  for(const detail of s.details)assert.ok(services.includes(detail),'Falta detalhe '+detail);
+  for(const detail of s.details){assert.ok(services.includes(detail),'Falta detalhe '+detail);assert.ok(home.includes(detail),'Falta detalhe na Home '+detail);}
  }
  assert.equal((services.match(/role="tabpanel"/g)||[]).length,9);
  assert.equal((services.match(/class="service-context"/g)||[]).length,7);
- assert.equal((home.match(/class="home-service"/g)||[]).length,9);
+ assert.equal((home.match(/role="tabpanel"/g)||[]).length,9);
 });
 test('acessibilidade e dados essenciais permanecem no site publicado',()=>{
  for(const route of routes){
@@ -41,5 +41,5 @@ test('refinamento visual: hierarquia e leitura, sem conteúdo adicional',async()
  assert.match(css,/\.contact-direct \{/);
  assert.match(css,/@media\(max-width:760px\)/);
  assert.match(js,/target\*\.42,108/);
- assert.match(page(''),/client-revision\.css\?v=ux-20261118-sector-title-v4/);
+ assert.match(page(''),/client-revision\.css\?v=ux-20261118-home-services-v5/);
 });

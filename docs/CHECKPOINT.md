@@ -169,3 +169,11 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Instrução final: não criar aumento arbitrário; igualar ao tamanho dos outros títulos.
 - Acima de900px, .segment-cloud h2 compartilha com .home-services-head h2 exatamente font-size clamp(2rem,3.7vw,3.5rem) e line-height1.15. Mobile e tablet abaixo900px preservados. Cache da folha client-revision atualizado.
 - QA65testes, build e check aprovados. Navegador desktop: ambos títulos50.431px; sem overflow. Conteúdo, demais seções e formulário pendente preservados. Rollback fonte0dedf4b5953c8c40cefaee8e64ae518c6db4b397, versão29.
+
+- Título dos segmentos publicado versão30, fonte82583fcf9411ffa5130f90d8e4c262323f511e29, deployappgdep_6afd800045c88191bdccb48b21b56211 succeeded. Domínio oficial confirmou ambos títulos50.431px sem overflow; evidência inicial registrada na conversa.
+
+## 18/11/2026 — Seção03 da Home igual à página Serviços
+- Pedido do Matheus: seção03 exatamente como página Serviços. Reutilizado renderServiceExplorer nas duas páginas; sem duplicação de HTML nem conteúdo técnico. Preservadas as nove frentes completas e links de contato com prefixo correto em cada rota. Home mantém id servicos-home; Serviços mantém explorador.
+- Mesmos CSS e controlador de abas carregados na Home. Retirada a regra visual exclusiva da antiga grade. Componente usa mesmo título, apoio, menu lateral e painel verde; adaptação mobile/teclado compartilhada. Demais seções preservadas.
+- Comparação real no navegador em390/768/1440: colunas/fontes idênticas entre as duas rotas, nove abas, um painel visível, sem overflow. Nove seleções por clique, teclaHome e link contato verificados na Home.
+- Teste editorial ajustado aos novos destinos locais #s01/#s09 e contato; teste de conteúdo exige agora todos os detalhes técnicos também na Home. Página temporária do QA removida antes de construir pacote.

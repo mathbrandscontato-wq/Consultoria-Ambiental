@@ -21,8 +21,8 @@ export const renderPage = (route) => {
     projetos: 'Projetos e galeria ilustrativa | Ykeizumi',
     contato: 'Contato | Ykeizumi Consultoria Ambiental',
   }[route.slug];
-  const pageStyles={sobre:['about.css','about-tunnel.css'],servicos:['services.css'],projetos:['atlas.css']};
-  const pageScripts={sobre:['about.mjs','about-tunnel.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['circular-gallery.mjs','map-pan.mjs','media.mjs']};
+  const pageStyles={'':['services.css'],sobre:['about.css','about-tunnel.css'],servicos:['services.css'],projetos:['atlas.css']};
+  const pageScripts={sobre:['about.mjs','about-tunnel.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['services.mjs','circular-gallery.mjs','map-pan.mjs','media.mjs']};
   const description = {
     '': 'Licenciamento ambiental, estudos ambientais, EIV, regularização fundiária, laudos técnicos e defesa administrativa para empreendimentos e para o setor público.',
     sobre: 'Conheça a Ykeizumi, sua fundadora e a experiência em licenciamento, estudos e regularização ambiental.',
@@ -57,11 +57,11 @@ export const renderPage = (route) => {
   ${(pageStyles[route.slug]||[]).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}">`).join("\n  ")}
   <link rel="stylesheet" href="${prefix}styles/v5-editorial.css">
   <link rel="stylesheet" href="${prefix}styles/responsive-type.css">
-  <link rel="stylesheet" href="${prefix}styles/client-revision.css?v=ux-20261118-sector-title-v4">\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
+  <link rel="stylesheet" href="${prefix}styles/client-revision.css?v=ux-20261118-home-services-v5">\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
   <script type="module" src="${prefix}scripts/motion.mjs"></script>
   <script type="module" src="${prefix}scripts/unified.mjs"></script>
   ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}${script==='services.mjs'?'?v=ux-20261113-2':''}"></script>`).join("\n  ")}
-  <script type="module" src="${prefix}scripts/footer.mjs?v=ux-20261118-sector-title-v4"></script>
+  <script type="module" src="${prefix}scripts/footer.mjs?v=ux-20261118-home-services-v5"></script>
 
 </head>
 <body>

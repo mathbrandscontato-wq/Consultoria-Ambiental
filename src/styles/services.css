@@ -1,5 +1,5 @@
 /* Feature01 / Feature Accordion / HowItWorks09: native technical adaptations. */
-.services-page .services-section-heading h2{font-size:clamp(2rem,4.3vw,4rem);max-width:20ch;line-height:1.08}
+.services-page .services-section-heading h2,.services-explorer-section .services-section-heading h2{font-size:clamp(2rem,4.3vw,4rem);max-width:20ch;line-height:1.08}
 .services-section-heading>p:not(.editorial-kicker){max-width:44ch;line-height:1.7;color:#61705e;margin:1.4rem 0 0;font-size:1.02rem}
 .services-explorer-section{background:#f8f6f2}
 .services-explorer-section>.editorial-container>.services-section-heading{display:grid;grid-template-columns:1fr .7fr;gap:4rem;align-items:end;margin-bottom:3.5rem}

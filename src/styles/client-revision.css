@@ -96,18 +96,8 @@
   filter:saturate(.74) contrast(.96);
 }
 
-/* 4. Quebra clara entre a introdução e a lista de serviços na Home. */
+/* Introdução preserva o respiro; Home e Serviços compartilham o explorador. */
 #introducao{padding-bottom:clamp(4.5rem,8vw,8.75rem)}
-#servicos-home{
-  background:#edf0e9;
-  border-top:1px solid #c9d2c3;
-  padding-top:clamp(5rem,9vw,9rem);
-}
-#servicos-home .home-services-head{
-  border-bottom:1px solid #b5c3b2;
-  padding-bottom:clamp(2rem,4vw,3.75rem);
-  margin-bottom:clamp(2rem,4vw,3.75rem);
-}
 
 /* 5. Nove frentes: menu lateral + painel técnico fixo na coluna direita. */
 .services-explorer-section>.editorial-container>.services-section-heading{

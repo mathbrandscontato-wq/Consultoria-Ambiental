@@ -30,7 +30,7 @@ test('Rodapé compacto e tratamento visual estão configurados sem alteração d
  assert.match(css,/\.service-info-panel\{/);
  assert.match(css,/\.service-nav-item\.is-active/);
  assert.match(css,/filter:saturate\(\.74\)/);
- assert.match(css,/#servicos-home\{/);
+ assert.match(css,/\.services-explorer-section>/);
  assert.match(css,/text-align:justify/);
  assert.match(js,/target\*\.42,108/);
  assert.ok(!css.includes('.about-portrait img{filter:'));
