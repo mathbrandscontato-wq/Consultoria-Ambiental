@@ -401,3 +401,13 @@
 @media(prefers-reduced-motion:reduce) {
   .home-service,.service-nav-item,.bwf-l { transition:none; }
 }
+
+/* Assinatura do rodapé alinhada à mesma largura útil das seções. */
+.bwf-inner,.bwf-word-box,.bwf-bottom {
+  width:calc(100% - 2 * var(--space-layout));
+  max-width:var(--content-max);
+  margin-inline:auto;
+  padding-inline:0;
+  box-sizing:border-box;
+}
+.bwf-word-in { font-size:clamp(2rem,22vw,20rem); }

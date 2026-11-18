@@ -177,3 +177,11 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Mesmos CSS e controlador de abas carregados na Home. Retirada a regra visual exclusiva da antiga grade. Componente usa mesmo título, apoio, menu lateral e painel verde; adaptação mobile/teclado compartilhada. Demais seções preservadas.
 - Comparação real no navegador em390/768/1440: colunas/fontes idênticas entre as duas rotas, nove abas, um painel visível, sem overflow. Nove seleções por clique, teclaHome e link contato verificados na Home.
 - Teste editorial ajustado aos novos destinos locais #s01/#s09 e contato; teste de conteúdo exige agora todos os detalhes técnicos também na Home. Página temporária do QA removida antes de construir pacote.
+
+- Explorador compartilhado publicado versão31, fonte654f36549db3581e45ec04374853aec3aa64226a, deployappgdep_6afd811a2698819187998bc64628813b succeeded.65testes/build/check aprovados, espelhoGitHub f5dc44917d4b9778bfdc6164f9f186d5d1d757d9 naPR14.
+
+## 18/11/2026 — Assinatura do footer na largura de corte
+- Pedido: Ykeizumi ocupar linha de corte do conteúdo, como composição aprovada. Retirado limite108px/42% no fit da palavra; tamanho passa a ser calculado pela largura disponível e largura real da composição tipográfica.
+- Colunas, palavra e barra inferior agora usam content-max e space-layout das demais seções. Cores, fonte, feixe, interação e fade originais preservados. Assets CSS/JS com nova versão para cache.
+- Navegador320/390/768/1440/1920 sem overflow. Em1440/1920, palavra1199.92px para corte1200px, borda esquerda idêntica à do conteúdo. Mobile320/390/768 sem overflow. Captura desktop mostrou assinatura completa e barra abaixo.
+- QA65testes PASS; removidas expectativas legadas que exigiam justamente o limite reduzido108px. Não foi criada dependência nem alterado envio do formulário. QA temporário retirado do pacote.
