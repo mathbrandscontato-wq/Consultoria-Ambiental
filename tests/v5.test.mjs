@@ -21,11 +21,11 @@ function sections(html) {
   return result;
 }
 
-test('V5 mantém as quatro rotas de homologação e um H1 semântico por página',()=>{
+test('V5 mantém as quatro rotas institucionais e um H1 semântico por página',()=>{
   assert.deepEqual(routes.map(route=>route.slug),['','sobre','servicos','contato']);
   for(const route of routes){
     const html=renderPage(route);
-    assert.match(html,/<meta name="robots" content="noindex,nofollow">/,route.slug);
+    assert.match(html,/<meta name="robots" content="index,follow">/,route.slug);
     assert.equal((html.match(/<h1\b/g)||[]).length,1,route.slug);
     assert.match(html,/<a class="skip-link" href="#conteudo">/,route.slug);
     assert.doesNotMatch(html,/<h1\b[^>]*aria-hidden="true"/,route.slug);

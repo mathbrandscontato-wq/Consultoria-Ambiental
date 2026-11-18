@@ -17,7 +17,7 @@ for (const route of routes) {
   const html = await readFile(path, "utf8");
   assert.match(html, /<html lang="pt-BR">/);
   assert.match(html, /<meta name="viewport"/);
-  assert.match(html, /<meta name="robots" content="noindex,nofollow"/);
+  assert.match(html, /<meta name="robots" content="index,follow"/);
   assert.match(html, /<a class="skip-link" href="#conteudo">/);
   assert.match(html, /<main id="conteudo" tabindex="-1"(?:\s[^>]*)?>/);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);

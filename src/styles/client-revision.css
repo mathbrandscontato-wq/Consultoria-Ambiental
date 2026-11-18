@@ -96,18 +96,8 @@
   filter:saturate(.74) contrast(.96);
 }
 
-/* 4. Quebra clara entre a introdução e a lista de serviços na Home. */
+/* Introdução preserva o respiro; Home e Serviços compartilham o explorador. */
 #introducao{padding-bottom:clamp(4.5rem,8vw,8.75rem)}
-#servicos-home{
-  background:#edf0e9;
-  border-top:1px solid #c9d2c3;
-  padding-top:clamp(5rem,9vw,9rem);
-}
-#servicos-home .home-services-head{
-  border-bottom:1px solid #b5c3b2;
-  padding-bottom:clamp(2rem,4vw,3.75rem);
-  margin-bottom:clamp(2rem,4vw,3.75rem);
-}
 
 /* 5. Nove frentes: menu lateral + painel técnico fixo na coluna direita. */
 .services-explorer-section>.editorial-container>.services-section-heading{
@@ -241,6 +231,9 @@
 .home-service .service-number { margin-top:.35rem; }
 .home-services-head>p { max-width:50ch; font-size:1.02rem; line-height:1.75; }
 .segment-cloud h2 { max-width:26ch; }
+@media(min-width:900px){
+  .home-services-head h2,.segment-cloud h2 { font-size:clamp(2rem,3.7vw,3.5rem); line-height:1.15; }
+}
 .sector-option summary { line-height:1.35; min-height:78px; }
 .sector-description>p { max-width:52ch; line-height:1.75; }
 .project-section-head p { max-width:50ch; font-size:1.02rem; }
@@ -408,3 +401,13 @@
 @media(prefers-reduced-motion:reduce) {
   .home-service,.service-nav-item,.bwf-l { transition:none; }
 }
+
+/* Assinatura do rodapé alinhada à mesma largura útil das seções. */
+.bwf-inner,.bwf-word-box,.bwf-bottom {
+  width:calc(100% - 2 * var(--space-layout));
+  max-width:var(--content-max);
+  margin-inline:auto;
+  padding-inline:0;
+  box-sizing:border-box;
+}
+.bwf-word-in { font-size:clamp(2rem,22vw,20rem); }

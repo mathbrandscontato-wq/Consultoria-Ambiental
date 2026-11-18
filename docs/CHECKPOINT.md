@@ -141,3 +141,47 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - npm run qa46 testes PASS. CUA320/390/768/1024/1440/1920 sem overflow, largura do H2 igual ao container em todos; desktop1440/1920 com2 linhas em1200px. Publicação pelo mesmo Site, sem mudar indexação, SEO, conteúdo ou demais seções.
 
 - Publicado versão27 (fonte c41dfa3492de8ae8d421fbb631ab7eaf8d86e8f4), deploy appgdep_6ae11abf36f48191b6681bdf60881956 succeeded. CI112c068 SUCCESS, run40588829214. Conferência pública: cabeçalho block, H2 e container ambos1200px e2 linhas. Evidência docs/evidence/projects-context-title-published.jpg. Gate excluiu página temporária do QA antes do pacote final limpo; build/check46testes aprovados no helper de empacotamento.
+
+
+## 13/11/2026 — Sincronização GitHub → Sites autorizada
+- Fonte selecionada: PR13, branch feat/ykeizumi-revisao-cliente-20261112, commit 0410b95fd53ba2e99d3c2942878c470f0ea48167. Main é documental e não foi usada como fonte visual.
+- Site existente e audiência pública preservados. Fonte anterior recuperável no Git do Sites: fa34058d1848954acaf0cf182560f616e9f1457f; publicação anterior versão27. Sem merge de PR, alteração DNS ou exclusão de hospedagem.
+- Aplicados os arquivos rastreados da branch, sem reescrever design/conteúdo. Quatro rotas institucionais, nove frentes de atuação, contatos oficiais e fotografias revisadas. Projetos e FAQ removidos conforme revisão da cliente.
+- npm run qa aprovado: sintaxe52 módulos, build4rotas,62testes e inspeção estática. CUA em390/768/1440 nas4rotas sem overflow, umH1, imagens comsrc sem falha. Seleção do serviço09 observada, formulário inteiramente desabilitado e semaction.
+- QA responsivo executado no navegador suportado. scripts/qa-browser.mjs legado ainda pressupõe5rotas e não foi executado; não se alega CI/browser automatizado aprovado. Sem auditoria WCAG integral/CWV.
+- Sanity Studio/adaptador presentes mas leitor não está ligado à renderização; mudanças no CMS ainda não atualizam o site. Noindex preservado conforme branch revisada; indexação não alterada nesta sincronização.
+
+- Publicado no Sites como versão28, fonte817d89913125bba003b0745c9dc2d61fda60fc53, deployappgdep_6af7845c9fd48191bbc39468900db1c3 succeeded. As4rotas conferidas no domínio oficial https://ykeizumi.com.br/ viaHTTPS, novos títulos presentes, sem overflow/imagens quebradas na inspeção. Evidência docs/evidence/ykeizumi-publicado-nov13.jpg. Esta atualização documental não muda o runtime publicado.
+
+
+## 14/11/2026 — Limpeza da versão pública e preparação do contato
+- Solicitação: retirar tags de protótipo e ativar envio para Lara. Fonte de rollback ad99189530f453f71a38d9033eddcde43533bfe5 (runtime anterior versão28).
+- Removidos figcaptions/spans repetidos Imagem ilustrativa nas4rotas, data-stage de revisão e fallback de scaffold não utilizado. Sem apagar imagens, alternativas acessíveis, textos técnicos ou aviso do portfólio em construção.
+- Meta robots index,follow nas4rotas após confirmação do domínio definitivo; não se afirma que Google já indexou.
+- Aviso técnico Formulário em configuração substituído por estado honesto de indisponibilidade, com contatos diretos preservados.
+- FormSubmit: integração nativa preparada, desativada por padrão; destinatária fixa, upload multipart PDF/JPG/PNG limitado10MB, honeypot/captcha e aviso do provedor. Revisor automático rejeitou teste por ausência de autorização explícita para FormSubmit; não foi contornado. Ativação e entrega não confirmadas. Plano concreto em docs/CONTACT_DELIVERY.md.
+- QA65testes aprovados, build4rotas e inspeção estática. Navegador desktop verificou4rotas: umH1, indexfollow, nenhum marcador provisório/legenda repetida, zero overflow e zero campos de envio habilitados. QA de browser automatizado legado não executado.
+
+- Publicado versão29, fonte4d69228ed20ec4e80ee4096f63e3140507f19fcb, deployappgdep_6af8b492ec688191bba23829db49edaa succeeded. Conferidas4rotas HTTPS no domínio ykeizumi.com.br: indexfollow, zero rótulos/avisos provisórios e sem overflow; formulário permanece semaction até autorização/confirmação. Evidência docs/evidence/ykeizumi-sem-rotulos-nov14.jpg. Código espelhado em PR14 draft, commit47c3a7d8c936bb45aa2e14a9a56b39a3c4fd5ca9, sem merge/push na branch que aciona hospedagem provisória.
+
+
+## 18/11/2026 — Título dos segmentos no padrão dos títulos de seção
+- Instrução final: não criar aumento arbitrário; igualar ao tamanho dos outros títulos.
+- Acima de900px, .segment-cloud h2 compartilha com .home-services-head h2 exatamente font-size clamp(2rem,3.7vw,3.5rem) e line-height1.15. Mobile e tablet abaixo900px preservados. Cache da folha client-revision atualizado.
+- QA65testes, build e check aprovados. Navegador desktop: ambos títulos50.431px; sem overflow. Conteúdo, demais seções e formulário pendente preservados. Rollback fonte0dedf4b5953c8c40cefaee8e64ae518c6db4b397, versão29.
+
+- Título dos segmentos publicado versão30, fonte82583fcf9411ffa5130f90d8e4c262323f511e29, deployappgdep_6afd800045c88191bdccb48b21b56211 succeeded. Domínio oficial confirmou ambos títulos50.431px sem overflow; evidência inicial registrada na conversa.
+
+## 18/11/2026 — Seção03 da Home igual à página Serviços
+- Pedido do Matheus: seção03 exatamente como página Serviços. Reutilizado renderServiceExplorer nas duas páginas; sem duplicação de HTML nem conteúdo técnico. Preservadas as nove frentes completas e links de contato com prefixo correto em cada rota. Home mantém id servicos-home; Serviços mantém explorador.
+- Mesmos CSS e controlador de abas carregados na Home. Retirada a regra visual exclusiva da antiga grade. Componente usa mesmo título, apoio, menu lateral e painel verde; adaptação mobile/teclado compartilhada. Demais seções preservadas.
+- Comparação real no navegador em390/768/1440: colunas/fontes idênticas entre as duas rotas, nove abas, um painel visível, sem overflow. Nove seleções por clique, teclaHome e link contato verificados na Home.
+- Teste editorial ajustado aos novos destinos locais #s01/#s09 e contato; teste de conteúdo exige agora todos os detalhes técnicos também na Home. Página temporária do QA removida antes de construir pacote.
+
+- Explorador compartilhado publicado versão31, fonte654f36549db3581e45ec04374853aec3aa64226a, deployappgdep_6afd811a2698819187998bc64628813b succeeded.65testes/build/check aprovados, espelhoGitHub f5dc44917d4b9778bfdc6164f9f186d5d1d757d9 naPR14.
+
+## 18/11/2026 — Assinatura do footer na largura de corte
+- Pedido: Ykeizumi ocupar linha de corte do conteúdo, como composição aprovada. Retirado limite108px/42% no fit da palavra; tamanho passa a ser calculado pela largura disponível e largura real da composição tipográfica.
+- Colunas, palavra e barra inferior agora usam content-max e space-layout das demais seções. Cores, fonte, feixe, interação e fade originais preservados. Assets CSS/JS com nova versão para cache.
+- Navegador320/390/768/1440/1920 sem overflow. Em1440/1920, palavra1199.92px para corte1200px, borda esquerda idêntica à do conteúdo. Mobile320/390/768 sem overflow. Captura desktop mostrou assinatura completa e barra abaixo.
+- QA65testes PASS; removidas expectativas legadas que exigiam justamente o limite reduzido108px. Não foi criada dependência nem alterado envio do formulário. QA temporário retirado do pacote.

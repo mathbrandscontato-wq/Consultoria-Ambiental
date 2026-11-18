@@ -68,7 +68,7 @@ const contextSection=()=>section('contextos','Contextos de atuação',
   '<div class="services-context-list">'+
   contexts.map((c,i)=>'<details class="service-context"><summary><span class="service-feature-number">0'+(i+1)+'</span><h3>'+esc(c.title)+'</h3><span class="service-feature-indicator" aria-hidden="true">+</span></summary><div class="service-context-content"><p>'+esc(c.text)+'</p><div class="context-links">'+c.ids.map(serviceLink).join('')+'</div></div></details>').join('')+'</div></div>',
   'services-context-section')
-function explorer(){
+export function renderServiceExplorer({id='explorador',prefix='../'}={}){
   const navigation='<nav class="service-selector" aria-label="Selecionar frente de atuação"><div class="service-selector-list" role="tablist" aria-label="Nove frentes de atuação">'+
     serviceCards.map((s,i)=>'<a href="#'+esc(s.slug)+'" id="tab-'+esc(s.slug)+'" class="service-nav-item'+(i===0?' is-active':'')+'" role="tab" aria-selected="'+(i===0?'true':'false')+'" aria-controls="'+esc(s.slug)+'" tabindex="'+(i===0?'0':'-1')+'"><span class="service-nav-number">'+esc(s.num)+'</span><span class="service-nav-name">'+esc(s.title)+'</span><span class="service-nav-arrow" aria-hidden="true">→</span></a>').join('')+
     '</div></nav>';
@@ -78,9 +78,9 @@ function explorer(){
     '<h3>'+esc(s.title)+'</h3>'+
     '<p class="service-panel-description">'+esc(s.description)+'</p>'+
     '<ul class="service-panel-details">'+s.details.map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul>'+
-    '<a class="service-panel-cta" href="../contato/" aria-label="Solicitar proposta sobre '+esc(s.title)+'">Solicitar proposta <span aria-hidden="true">↗</span></a>'+
+    '<a class="service-panel-cta" href="'+esc(prefix)+'contato/" aria-label="Solicitar proposta sobre '+esc(s.title)+'">Solicitar proposta <span aria-hidden="true">↗</span></a>'+
     '</article>').join('')+'</div>';
-  return section('explorador','Explorador de serviços',
+  return section(id,'Explorador de serviços',
     '<div class="services-section-heading"><h2>As nove frentes de atuação</h2><p>Selecione uma frente para ver os serviços incluídos.</p></div>'+
     '<div class="service-explorer">'+navigation+panels+'</div>',
     'services-explorer-section');
@@ -88,6 +88,6 @@ function explorer(){
 export function renderServices(){
   return '<main id="conteudo" tabindex="-1" class="inner-page services-page">'+
   editorialHero({label:'Serviços',title:'Soluções ambientais para decisões mais seguras.',text:'Conheça as frentes de atuação da Ykeizumi e encontre o caminho mais adequado para apresentar sua demanda ambiental.',media:'ykeizumi-estrada-vegetacao',classes:'services-hero'})+
-  contextSection()+explorer()+
+  contextSection()+renderServiceExplorer()+
   ctaBanner({label:'Orientação técnica',title:'Não encontrou o serviço que procura?',text:'Descreva o seu caso e indicamos o caminho.',button:'Solicitar proposta'})+'</main>'
 }

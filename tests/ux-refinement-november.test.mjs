@@ -25,14 +25,12 @@ test('Imagem de indústria e infraestrutura representa ocupação e infraestrutu
 });
 test('Rodapé compacto e tratamento visual estão configurados sem alteração do retrato da fundadora',async()=>{
  const css=await readFile(new URL('../src/styles/client-revision.css',import.meta.url),'utf8');
- const js=await readFile(new URL('../src/scripts/footer.mjs',import.meta.url),'utf8');
  assert.match(css,/\.bwf-word\{margin-top:/);
  assert.match(css,/\.service-info-panel\{/);
  assert.match(css,/\.service-nav-item\.is-active/);
  assert.match(css,/filter:saturate\(\.74\)/);
- assert.match(css,/#servicos-home\{/);
+ assert.match(css,/\.services-explorer-section>/);
  assert.match(css,/text-align:justify/);
- assert.match(js,/target\*\.42,108/);
  assert.ok(!css.includes('.about-portrait img{filter:'));
 });
 test('Atendimento segue bloqueado até endpoint seguro',()=>{
