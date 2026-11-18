@@ -209,3 +209,7 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Usuário relatou carregamento infinito. POST nativo transferia a navegação ao provedor; causa externa não confirmada. Envio passa a aba separada noopener, preserva campos e CAPTCHA e libera botão após15s sem alegar sucesso. Alternativa pelo aplicativo de e-mail mantém campos e destinatária fixa; anexos manuais explicitados.69testes PASS, incluindo timeout/duplicação/mailto. Teste local simula cancelamento da saída, sem nova requisição ao FormSubmit. Ativação e entrega real continuam pendentes.
 
 - Navegador: fixture local impediu saída externa; mensagem de espera e recuperação após15s observadas, botão novamente habilitado e respostas preservadas. Nenhuma requisição de envio ao FormSubmit. Página temporária excluída pelo build antes do pacote.
+
+## 18/11/2026 — POST e anexos após ativação informada pela cliente
+- Lara ativou segundo Matheus. Novo print mostra “Form should POST”; form anterior já tinha POST/multipart, sem_next e sem barra final, então causa externa/redirecionamento não foi comprovada. Botão passa a fixar método, encoding e endpoint. Arquivos múltiplos passam a campos multipart distintos pelo eventoformdata, sem alterar bytes/nomes.
+-71testes PASS. Teste remoto de transporte Chromium/WebKit preparado com captura HTTP isolada, sem envio ao provedor. Ativação informada não é prova de entrega. Nota docs/CONTACT_POST_ATTACHMENTS_20261118.md.

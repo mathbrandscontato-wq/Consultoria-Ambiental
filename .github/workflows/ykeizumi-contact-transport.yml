@@ -1,0 +1,37 @@
+name: Contact POST and attachments (isolated transport)
+on:
+  pull_request:
+    branches: [feat/ykeizumi-publico-20261114]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  transport:
+    name: Contact transport ${{ matrix.engine }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate and build source
+        run: npm run qa
+      - name: Install isolated browser tooling
+        run: npm install --prefix audit-tools --no-package-lock --ignore-scripts playwright@1.65.1
+      - name: Install WebKit runtime
+        if: matrix.engine == 'webkit'
+        run: audit-tools/node_modules/.bin/playwright install --with-deps webkit
+      - name: Inspect POST method and exact multipart attachment bytes
+        run: node scripts/contact-transport-audit.mjs "$PWD/audit-tools" '${{ matrix.engine }}'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contact-transport-${{ matrix.engine }}
+          path: artifacts/contact-transport/

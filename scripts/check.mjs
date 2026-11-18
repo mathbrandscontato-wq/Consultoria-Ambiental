@@ -41,7 +41,7 @@ for (const route of routes) {
     assert.match(html, /<form class="contact-form"/);
     assert.match(html, /<fieldset>/);
     assert.match(html, /action="https:\/\/formsubmit.co\/lara@ykeizumi.com.br" method="POST"/);
-    assert.match(html, /Formulário em ativação/);
+    assert.match(html, /Envie sua solicitação/);
     assert.doesNotMatch(html, /enviado com sucesso|<fieldset disabled>/i, 'Não pode simular entrega confirmada durante ativação pendente');
   } else assert.doesNotMatch(html, /<form\\b/i, 'Somente a página Contato pode conter formulário');
 

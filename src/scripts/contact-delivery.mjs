@@ -3,6 +3,14 @@ export function attachmentError(files) {
   if ([...files].reduce((total,file) => total+file.size,0) > 10*1024*1024) return 'Os anexos devem somar no máximo 10 MB.';
   return '';
 }
+// Give each selected file its own multipart field, as required by the provider's
+// documented multi-input upload contract. Native file bytes and filenames stay intact.
+export function normalizeContactFiles(data) {
+  const files=data.getAll('attachment').filter(value=>typeof value==='object'&&value.name);
+  data.delete('attachment');
+  files.forEach((file,index)=>data.append(index?'attachment_'+(index+1):'attachment',file,file.name));
+  return data;
+}
 // Only confirms that a native provider tab was requested, never delivery.
 export function createDeliveryFeedback({busy,message,schedule=setTimeout,cancel=clearTimeout}) {
   let waiting=false,timer;
@@ -31,6 +39,7 @@ if (typeof document !== 'undefined') {
     const feedback=createDeliveryFeedback({busy:value=>{button.disabled=value;button.textContent=value?'Abrindo envio…':'Enviar';},message:value=>{progress.textContent=value;}});
     const validate=()=>{const message=attachmentError(input.files);input.setCustomValidity(message);error.textContent=message;return !message;};
     input.addEventListener('change',validate);
+    form.addEventListener('formdata',event=>normalizeContactFiles(event.formData));
     form.addEventListener('submit',event=>{
       if(!validate()){event.preventDefault();input.reportValidity();return;}
       if(!feedback.begin())event.preventDefault();

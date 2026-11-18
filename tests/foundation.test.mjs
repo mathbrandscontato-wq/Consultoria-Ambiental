@@ -36,7 +36,7 @@ test("build exporta quatro páginas estáticas independentes", async () => {
 });
 test("interações não representam backend ou publicação", async () => {
   const html = await readFile(join(root, "dist", "contato", "index.html"), "utf8");
-  assert.match(html, /Formulário em ativação/);
+  assert.match(html, /Envie sua solicitação/);
   assert.match(html, /<fieldset>/);
   assert.doesNotMatch(html, /enviado com sucesso|fetch\(/);
   const tokens = await readFile(join(root, "dist", "styles", "tokens.css"), "utf8");

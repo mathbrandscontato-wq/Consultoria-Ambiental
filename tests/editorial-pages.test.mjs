@@ -25,7 +25,7 @@ test("quatro páginas semanticamente completas e sem scaffold",()=>{
 });
 test("contato permite ativação humana sem sucesso falso",()=>{
  const html=renderPage(routes.find(r=>r.slug==="contato"));
- assert.match(html,/Formulário em ativação/i);
+ assert.match(html,/Envie sua solicitação/i);
  assert.match(html,/<fieldset>/);
  assert.doesNotMatch(html,/enviado com sucesso|<fieldset disabled>/i);
 });
