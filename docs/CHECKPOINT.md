@@ -231,3 +231,8 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Correção superveniente do Matheus antes de publicar: sequência deve seguir para o lado e aparecer progressivamente, inclusive mobile. Implementado deslocamento horizontal por scroll com entrada por etapa; heading permanece durante sequência. Setas/Home/End no contêiner e fallback de scroll horizontal nativo para movimento reduzido/viewport baixo. A variante estática vertical não foi publicada.
 
 - QA da versão horizontal:71testes/build/check aprovados. Browser1363/768/390 confirmou avanço até04 por teclado e scroll, opacidades completas ao entrar e ausência de overflow. Em390px deslocamento≈996px e em768px≈625px, última etapa inteira. Fallback reduzido implementado; não emulado manualmente.
+
+## 18/11/2026 — Mobile responsivo na abordagem Sobre
+- Matheus autorizou adaptação específica mobile: abaixo768px sequência vertical conectada, sem pin/scroll horizontal, conteúdo integral. Entrada suave de cada etapa ao aparecer; preferência de movimento reduzido respeitada. Desktop preserva sequência horizontal. Backup versão38.
+
+- QA71testes/build/check PASS; browser360/390:4etapas verticais, sem pin e sem overflow. Desktop1363:sequência horizontal aprimorada preservada. Fixture removida pelo build antes de empacotar.

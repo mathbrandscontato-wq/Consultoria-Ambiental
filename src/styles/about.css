@@ -110,7 +110,13 @@
 @media(max-width:767px) {
  .about-timeline-heading { grid-template-columns:1fr; gap:1.25rem; margin-bottom:2rem; }
  .about-page .about-timeline-heading h2 { font-size:clamp(1.8rem,7vw,2.4rem); }
- .about-timeline-step { flex-basis:calc(100vw - 5rem); width:calc(100vw - 5rem); }
+ .about-timeline-viewport { overflow:visible; padding:0; }
+ .about-timeline { display:block; width:auto; }
+ .about-timeline-step { width:auto; padding:0 0 2.5rem 4.75rem; }
+ .about-timeline-step::before { left:27px; right:auto; top:28px; bottom:0; width:1px; height:auto; }
+ .about-timeline-step:last-child { padding-bottom:0; }
+ .about-timeline-step:last-child::before { display:none; }
+ .about-timeline-icon { position:absolute; left:0; top:0; margin:0; }
  .about-timeline-number { font-size:2.6rem; margin-bottom:.75rem; }
  .about-timeline-step h3 { font-size:1.3rem; margin-bottom:.8rem; }
  .about-timeline-step p { max-width:none; }

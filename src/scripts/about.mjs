@@ -66,7 +66,10 @@ if(timelineSection){
   enabled=false;timelineSection.classList.remove('is-timeline-enhanced');
   track.style.removeProperty('--timeline-x');
   steps.forEach(step=>{step.style.removeProperty('--step-opacity');step.style.removeProperty('--step-x');});
-  if(reduced.matches||innerHeight<620)return;
+  const mobile=innerWidth<768;
+  viewport.setAttribute('aria-label',mobile?'Etapas de atuação':'Etapas de atuação. Role a página ou use as setas para acompanhar a sequência horizontal.');
+  if(mobile)viewport.removeAttribute('tabindex');else viewport.setAttribute('tabindex','0');
+  if(mobile||reduced.matches||innerHeight<620)return;
   positions=steps.map(step=>step.getBoundingClientRect().left-track.getBoundingClientRect().left);
   distance=Math.max(0,track.scrollWidth-viewport.clientWidth);
   // Pin only when the complete heading and stage fit in the available screen.
@@ -86,5 +89,18 @@ if(timelineSection){
  addEventListener('scroll',schedule,{passive:true});
  addEventListener('resize',measure,{passive:true});
  reduced.addEventListener('change',measure);
+ if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>{
+   for(const entry of entries){
+    if(!entry.isIntersecting||innerWidth>=768)continue;
+    observer.unobserve(entry.target);
+    if(!reduced.matches&&entry.target.animate){
+     const animation=entry.target.animate([{opacity:.3,transform:'translateY(16px)'},{opacity:1,transform:'none'}],{duration:450,easing:'ease-out'});
+     reduced.addEventListener('change',()=>{if(reduced.matches)animation.cancel();},{once:true});
+    }
+   }
+  },{threshold:.15});
+  steps.forEach(step=>observer.observe(step));
+ }
  if(document.fonts)document.fonts.ready.then(measure);else measure();
 }
