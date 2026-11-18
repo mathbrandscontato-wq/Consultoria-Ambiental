@@ -7,7 +7,7 @@ test("nove serviços, navegação interna e sem cases inventados",()=>{
  assert.equal(serviceCards.length,9);
  assert.equal(new Set(serviceCards.map(x=>x.slug)).size,9);
  const html=renderHomeSections();
- for(const path of ["./contato/","#s01","#s09"])assert.ok(html.includes(path));
+ for(const path of ["./servicos/","./servicos/#s01","./servicos/#s09"])assert.ok(html.includes(path));
  assert.match(html,/Portfólio em construção/);
  assert.ok(!html.includes('href="./projetos/"'));
  assert.doesNotMatch(html,/clientes atendidos|10\+ anos|1000\+/i);

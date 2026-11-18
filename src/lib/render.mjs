@@ -15,7 +15,7 @@ const nav = (current, prefix) => routes.map((route) =>
 export const styleFilesFor = (slug) => [
   'tokens.css','base.css','hero-a.css','sections.css','motion.css',
   'refinement.css','footer.css','unified.css',
-  ...({'':['services.css'],sobre:['about.css'],servicos:['services.css'],projetos:['atlas.css']}[slug]||[]),
+  ...({sobre:['about.css'],servicos:['services.css'],projetos:['atlas.css']}[slug]||[]),
   'v5-editorial.css','responsive-type.css','client-revision.css','services-mobile.css','ux-v2.css',
 ];
 export const renderPage = (route, {styleBundle} = {}) => {
@@ -28,7 +28,7 @@ export const renderPage = (route, {styleBundle} = {}) => {
     projetos: 'Projetos e galeria ilustrativa | Ykeizumi',
     contato: 'Contato | Ykeizumi Consultoria Ambiental',
   }[route.slug];
-  const pageScripts={sobre:['about.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['services.mjs','circular-gallery.mjs','map-pan.mjs','media.mjs']};
+  const pageScripts={sobre:['about.mjs'],servicos:['services.mjs'],contato:['contact-delivery.mjs'],'':['circular-gallery.mjs','map-pan.mjs','media.mjs']};
   const description = {
     '': 'Licenciamento ambiental, estudos ambientais, EIV, regularização fundiária, laudos técnicos e defesa administrativa para empreendimentos e para o setor público.',
     sobre: 'Conheça a Ykeizumi, sua fundadora e a experiência em licenciamento, estudos e regularização ambiental.',
@@ -55,7 +55,7 @@ export const renderPage = (route, {styleBundle} = {}) => {
   <title>${escapeHtml(pageTitle)}</title>
   ${styleBundle
     ? `<link rel="stylesheet" href="${prefix}styles/${escapeHtml(styleBundle)}">`
-    : styleFilesFor(route.slug).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}${style==='client-revision.css'?'?v=ux-20261118-home-footer-v6':['services-mobile.css','ux-v2.css'].includes(style)?'?v=ux-v2-20261118':''}">`).join("\n  ")}\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
+    : styleFilesFor(route.slug).map(style=>`<link rel="stylesheet" href="${prefix}styles/${style}${style==='client-revision.css'?'?v=ux-20261118-home-restore-v7':['services-mobile.css','ux-v2.css'].includes(style)?'?v=ux-v2-20261118':''}">`).join("\n  ")}\n  <script type="module" src="${prefix}scripts/mobile-menu.mjs"></script>
   <script type="module" src="${prefix}scripts/motion.mjs"></script>
   <script type="module" src="${prefix}scripts/unified.mjs?v=ux-v2-20261118"></script>
   ${(pageScripts[route.slug]||[]).map(script=>`<script type="module" src="${prefix}scripts/${script}${script==='services.mjs'?'?v=ux-20261113-2':script==='contact-delivery.mjs'?'?v=contact-20261118-3':''}"></script>`).join("\n  ")}

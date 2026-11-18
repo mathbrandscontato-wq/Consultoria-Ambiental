@@ -217,3 +217,8 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Transporte real de navegador aprovado no CI44400137166:12cenários Chromium/WebKit, POST multipart com0/1/3arquivos, hashes íntegros, desktop/mobile. Zero chamadas ao provedor. CI de regressão44400136704 aprovado em9jobs. Recebimento real continua não confirmado.
 
 - Publicado versão36, fonte1c97ad411b1b0a8fd4e3128fd7ba800e7d16deba, deployappgdep_6afe175a1a4881919cae5836532af3e8 succeeded. Domínio oficial /contato/ conferido em navegador: métodoPOST noform ebotão, multipart, múltiplosarquivos e campos editáveis. Não houve envio ao provedor nesta verificação.
+
+## 18/11/2026 — Retorno da seção03 da Home
+- Matheus esclareceu pedido da cliente: restaurar Home anterior à versão31. Recuperados somente markup e estilos locais de serviços da fonte82583fcf9411ffa5130f90d8e4c262323f511e29: nove cards com título, descrição e links para #s01–#s09 na páginaServiços. Desktop3colunas, tablet2, mobile1. PáginaServiços e formulário preservados. Backup recuperável versão36. Validação e publicação em andamento.
+
+- Validação:71testes, lint60módulos/build4rotas/check PASS. Browser1363/768/390 sem overflow, grade3/2/1colunas e nove cards. Link #s01 abriu painel correto emServiços. Fixture temporária removida pelo build de publicação.
