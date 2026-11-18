@@ -222,3 +222,12 @@ Validação desta revisão: npm run qa aprovado (38testes), inspeção das cinco
 - Matheus esclareceu pedido da cliente: restaurar Home anterior à versão31. Recuperados somente markup e estilos locais de serviços da fonte82583fcf9411ffa5130f90d8e4c262323f511e29: nove cards com título, descrição e links para #s01–#s09 na páginaServiços. Desktop3colunas, tablet2, mobile1. PáginaServiços e formulário preservados. Backup recuperável versão36. Validação e publicação em andamento.
 
 - Validação:71testes, lint60módulos/build4rotas/check PASS. Browser1363/768/390 sem overflow, grade3/2/1colunas e nove cards. Link #s01 abriu painel correto emServiços. Fixture temporária removida pelo build de publicação.
+
+## 18/11/2026 — Abordagem Sobre em linha do tempo
+- Referência enviada pelo Matheus: quatro etapas com ícones lineares em círculos, números e textos integrais, título/apoio lado a lado. Substituído o scrollytelling com fotografias desta seção por sequência horizontal; tablet2colunas e mobilevertical conectado. Mantidas as quatro descrições, identidade, demais seções e formulário. Controlador antigo exclusivo dessa sequência retirado. Backup versão37. QA em andamento.
+
+- QA:71testes/lint/build/check PASS. Navegador1363px:4etapas em linha;768px:2colunas;390px:vertical, sem overflow nas três larguras. Comparação visual observada com referência; textos integrais preservados. Fixture de QA removida antes do pacote.
+
+- Correção superveniente do Matheus antes de publicar: sequência deve seguir para o lado e aparecer progressivamente, inclusive mobile. Implementado deslocamento horizontal por scroll com entrada por etapa; heading permanece durante sequência. Setas/Home/End no contêiner e fallback de scroll horizontal nativo para movimento reduzido/viewport baixo. A variante estática vertical não foi publicada.
+
+- QA da versão horizontal:71testes/build/check aprovados. Browser1363/768/390 confirmou avanço até04 por teclado e scroll, opacidades completas ao entrar e ausência de overflow. Em390px deslocamento≈996px e em768px≈625px, última etapa inteira. Fallback reduzido implementado; não emulado manualmente.
